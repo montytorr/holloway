@@ -23,7 +23,7 @@ import { formatDate, formatDateTime } from '@/lib/format-date';
 import { participantDescriptor } from '@/lib/observer-mode';
 import { splitContractMessagesByVisibility } from '@/lib/contract-observers';
 import { Avatar, KV, PageFrame, EmptyState } from '@/components/atoms';
-import { ChevronRight, FolderGit2, GitBranch, Link2Off as LinkOff, CornerUpLeft, CheckCheck, MessageSquareWarning, MessageSquare } from 'lucide-react';
+import { ChevronRight, FolderGit2, GitBranch, ListTodo, Link2Off as LinkOff, CornerUpLeft, CheckCheck, MessageSquareWarning, MessageSquare } from 'lucide-react';
 import styles from './contract-detail.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -346,7 +346,7 @@ export default async function ContractDetailPage({
                 <KV label="Project">
                   {linkedTask ? (
                     <Link
-                      href={`/projects/${linkedTask.project_id}/tasks/${linkedTask.task_id}`}
+                      href={`/projects/${linkedTask.project_id}`}
                       className="row gap-1"
                       style={{ color: 'var(--peri)', textDecoration: 'none', alignItems: 'center' }}
                     >
@@ -357,6 +357,22 @@ export default async function ContractDetailPage({
                     <StatusBadge status={null} label="Not linked" tone="amber" dot="none" size="md" />
                   )}
                 </KV>
+                {linkedTask && (
+                  <KV label="Task">
+                    <div className={styles.taskFact}>
+                      <Link
+                        href={`/projects/${linkedTask.project_id}/tasks/${linkedTask.task_id}`}
+                        className={styles.taskFactLink}
+                      >
+                        <ListTodo size={14} aria-hidden="true" />
+                        <span>{linkedTask.task_title || 'Untitled task'}</span>
+                      </Link>
+                      {linkedTask.task_status && (
+                        <StatusBadge status={linkedTask.task_status} domain="task" dot="static" size="sm" />
+                      )}
+                    </div>
+                  </KV>
+                )}
                 <KV label="Turns"><span className="num mono">{contract.current_turns} · {contract.max_turns}</span></KV>
                 <KV label="Message format">
                   <span>{contract.message_schema && Object.keys(contract.message_schema).length > 0 ? 'Structured' : 'Free-form'}</span>

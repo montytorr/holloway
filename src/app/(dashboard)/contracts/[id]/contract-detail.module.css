@@ -105,6 +105,33 @@
 
 .fullFact { grid-column: 1 / -1; }
 
+.taskFact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.taskFactLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  color: var(--peri);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.taskFactLink:hover,
+.taskFactLink:focus-visible {
+  text-decoration: underline;
+}
+
+.taskFactLink svg {
+  flex: 0 0 auto;
+}
+
 .participants {
   display: flex;
   flex-wrap: wrap;
