@@ -7,6 +7,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.378] - 2026-09-27
+### Changed
+- Merge pull request #28 from montytorr/fix/contract-detail-linked-task
+- fix(ui): show linked task on contract detail
+### Fixed
+- show linked task on contract detail
+
 ## [1.0.377] - 2026-09-25
 ### Changed
 - Merge pull request #27 from montytorr/fix/members-alignment-and-audit-backlog
