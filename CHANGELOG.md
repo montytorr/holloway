@@ -7,6 +7,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.380] - 2026-09-28
+### Changed
+- Harmonize Holloway with Tribe Dispatcher V2 (HOL-154)
+- Merge pull request #30 from montytorr/feat/tribe-ui-polish
+- Harmonize Holloway with Tribe Dispatcher V2
+
 ## [1.0.379] - 2026-09-28
 ### Added
 - redesign Holloway as a premium operator workspace
