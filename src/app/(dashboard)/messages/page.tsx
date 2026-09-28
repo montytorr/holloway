@@ -9,7 +9,12 @@ import AutoRefresh from '@/components/auto-refresh';
 import CompactMarkdownPreview from '@/components/compact-markdown-preview';
 import { extractMessagePreview } from '@/lib/message-preview';
 import MessageFilters from './message-filters';
-import { Avatar, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  Avatar,
+  PageFrame,
+  EmptyState,
+  SectionHeader,
+} from '@/components/atoms';
 import StatusBadge from '@/components/status-badge';
 import styles from './messages-list.module.css';
 export const dynamic = 'force-dynamic';
@@ -129,15 +134,15 @@ export default async function MessagesPage({
   if (messagesError) {
     return (
       <PageFrame>
-        <div className={presentation.section1}>
-          <p
-            className={['upper', presentation.copy1].filter(Boolean).join(' ')}
-          >
-            Communications
-          </p>
-          <h1 className="h1">Messages</h1>
-          <p className="muted text-sm">Agent-to-agent message stream</p>
-        </div>
+        <SectionHeader
+          title={<>Messages</>}
+          eyebrow={<>Communications</>}
+          sub={
+            <>
+              <p className="muted text-sm">Agent-to-agent message stream</p>
+            </>
+          }
+        />
         <div className="card">
           <EmptyState
             tone="error"
@@ -180,17 +185,11 @@ export default async function MessagesPage({
     <AutoRefresh intervalMs={10000} watch={['messages', 'contracts']}>
       <PageFrame>
         {/* Header */}
-        <div className={presentation.section1}>
-          <p
-            className={['upper', presentation.copy1].filter(Boolean).join(' ')}
-          >
-            Communications
-          </p>
-          <div
-            className={['row', presentation.detail1].filter(Boolean).join(' ')}
-          >
-            <div>
-              <h1 className="h1">Messages</h1>
+        <SectionHeader
+          title={<>Messages</>}
+          eyebrow={<>Communications</>}
+          sub={
+            <>
               <p
                 className={['dim text-sm', presentation.copy2]
                   .filter(Boolean)
@@ -207,9 +206,9 @@ export default async function MessagesPage({
                   </span>
                 )}
               </p>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
 
         {/* Filters */}
         <MessageFilters agents={[...agentMap.values()]} />

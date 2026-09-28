@@ -1,39 +1,43 @@
 /* Route presentation: static geometry lives here so responsive rules can adapt it.
    State-dependent colors and values remain at the call site. */
 .row1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(85vh - 88px);
-  position: relative;
+  max-width: 720px;
+  padding: 24px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-4);
+  background: var(--bg-1);
 }
-
 .detail1 {
-  text-align: center;
-  max-width: 460px;
-  position: relative;
-  z-index: 1;
+  min-width: 0;
 }
-
-.section1 {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 48px;
+.statusIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 16px;
+  border: 1px solid var(--line-1);
+  border-radius: 10px;
+  background: var(--bg-2);
+  color: var(--fg-2);
+}
+.statusIcon[data-active='true'] {
+  color: var(--rose);
+  border-color: var(--rose-line);
+  background: var(--rose-bg);
 }
 
 .copy1 {
   color: var(--fg-3);
   margin-bottom: var(--space-2);
   max-width: 360px;
-  margin: 0 auto 8px;
+  margin: 0 0 8px;
   line-height: 1.6;
 }
 
 .copy2 {
   color: var(--fg-4);
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .ink1 {
@@ -43,7 +47,7 @@
 .detail2 {
   padding: 28px;
   max-width: 360px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .action1 {
@@ -54,5 +58,5 @@
 
 .detail3 {
   max-width: 360px;
-  margin: 0 auto;
+  margin: 0;
 }

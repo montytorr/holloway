@@ -57,6 +57,115 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
     );
   };
   await go('/contracts/' + fixture(1));
+  for (const width of [1440, 390]) {
+    await check(
+      `close dialog keyboard and geometry at ${width}px`,
+      async () => {
+        await page.setViewportSize({ width, height: 1000 });
+        const trigger = page.getByRole('button', {
+          name: 'Close Contract',
+          exact: true,
+        });
+        await trigger.click();
+        const dialog = page.getByRole('dialog', {
+          name: 'Close Contract',
+          exact: true,
+        });
+        await dialog.waitFor();
+        const box = await dialog.boundingBox();
+        assert.ok(box.x >= 0 && box.x + box.width <= width);
+        assert.ok(Math.abs(box.x + box.width / 2 - width / 2) < 2);
+        assert.equal(
+          await page.evaluate(() => document.body.style.overflow),
+          'hidden',
+        );
+        await dialog
+          .getByRole('button', { name: 'Cancel', exact: true })
+          .focus();
+        await page.keyboard.press('Shift+Tab');
+        assert.equal(
+          await page.evaluate(() => document.activeElement?.textContent),
+          'Confirm Close',
+        );
+        await page.keyboard.press('Tab');
+        assert.equal(
+          await page.evaluate(() => document.activeElement?.textContent),
+          'Cancel',
+        );
+        await page.keyboard.press('Escape');
+        await dialog.waitFor({ state: 'hidden' });
+        assert.equal(
+          await trigger.evaluate((node) => node === document.activeElement),
+          true,
+        );
+        assert.notEqual(
+          await page.evaluate(() => document.body.style.overflow),
+          'hidden',
+        );
+      },
+    );
+  }
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await check('page freshness follows client navigation', async () => {
+    const current = page
+      .locator('header [role=status]')
+      .filter({ hasText: /^Current$/ });
+    await current.waitFor();
+    assert.match(
+      await current.getAttribute('title'),
+      /last received.*(?:live updates|fallback)/,
+    );
+    await page.locator('a[href="/settings"]:visible').first().click();
+    await page.waitForURL('**/settings');
+    await page
+      .getByRole('heading', { name: 'Settings', exact: true })
+      .waitFor();
+    assert.equal(await current.count(), 0);
+    await page.goBack();
+    await page.waitForURL('**/contracts/' + fixture(1));
+    await current.waitFor();
+  });
+  for (const width of [1440, 390]) {
+    await check(`approval gate close dialog at ${width}px`, async () => {
+      await go('/contracts/' + fixture(3));
+      await page.setViewportSize({ width, height: 1000 });
+      const trigger = page.getByRole('button', {
+        name: 'Close Contract',
+        exact: true,
+      });
+      await trigger.click();
+      const dialog = page.getByRole('dialog', {
+        name: 'Close without approving',
+        exact: true,
+      });
+      await dialog.waitFor();
+      const reason = dialog.getByRole('textbox', {
+        name: 'Why is the work not being accepted?',
+        exact: true,
+      });
+      const confirm = dialog.getByRole('button', {
+        name: 'Close without approving',
+        exact: true,
+      });
+      assert.equal(await confirm.isDisabled(), true);
+      assert.equal(
+        await reason.evaluate((node) => node === document.activeElement),
+        true,
+      );
+      await reason.fill('Too short');
+      assert.equal(await confirm.isDisabled(), true);
+      await reason.fill('The audit needs a follow-up fix.');
+      assert.equal(await confirm.isEnabled(), true);
+      await page.keyboard.press('Escape');
+      await dialog.waitFor({ state: 'hidden' });
+      assert.equal(
+        await trigger.evaluate((node) => node === document.activeElement),
+        true,
+      );
+    });
+  }
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await go('/contracts/' + fixture(1));
   await check('opening agent visible to admin', async () => {
     await page
       .locator('[data-awaiting]:visible')
@@ -333,6 +442,26 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
         rp.waitForURL((u) => u.pathname === '/'),
         rp.click('button[type=submit]'),
       ]);
+      const activeWork = rp.locator('section').filter({
+        has: rp.getByRole('heading', { name: 'Active work', exact: true }),
+      });
+      if (role === 'external') {
+        await activeWork
+          .getByText('No active contracts', { exact: true })
+          .waitFor();
+      } else {
+        await activeWork
+          .getByText('Review fixture · waiting for the opening agent', {
+            exact: true,
+          })
+          .waitFor();
+        await activeWork
+          .getByText('0 of 100 turns used', { exact: true })
+          .first()
+          .waitFor();
+        const titles = await activeWork.locator('strong').allTextContents();
+        assert.ok(titles.length > 0 && titles.every((title) => title.trim()));
+      }
       await rp.goto(base + '/contracts/' + fixture(1));
       if (role === 'observer') {
         await rp

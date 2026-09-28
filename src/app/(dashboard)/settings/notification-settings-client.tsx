@@ -6,7 +6,7 @@ import {
   updateNotificationPreferences,
   type NotificationPreferences,
 } from './actions';
-import { PageFrame } from '@/components/atoms';
+import { PageFrame, SectionHeader } from '@/components/atoms';
 
 interface NotificationSettingsClientProps {
   initialPrefs: NotificationPreferences;
@@ -87,16 +87,20 @@ export default function NotificationSettingsClient({
 
   return (
     <PageFrame width="narrow">
-      <div className={presentation.section1}>
-        <h1 className="h1">Settings</h1>
-        <p
-          className={['muted text-sm', presentation.copy1]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          Manage your notification preferences.
-        </p>
-      </div>
+      <SectionHeader
+        title={<>Settings</>}
+        sub={
+          <>
+            <p
+              className={['muted text-sm', presentation.copy1]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Manage your notification preferences.
+            </p>
+          </>
+        }
+      />
 
       <div className={presentation.detail1}>
         <div className="card">

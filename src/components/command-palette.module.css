@@ -17,7 +17,7 @@
   background: var(--bg-1);
   border: 1px solid var(--line-2);
   border-radius: var(--radius-3);
-  box-shadow: 0 24px 80px var(--shadow-strong);
+  box-shadow: var(--shadow-pop);
   overflow: hidden;
 }
 .search {

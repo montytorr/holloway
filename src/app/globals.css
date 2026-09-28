@@ -1,93 +1,59 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
-/* next-themes sets class="dark" / class="light" on <html>. The bare :root
-   below carries the DARK values, so an unthemed document (SSR first paint,
-   JS disabled, theme cookie missing) renders the console the way it has
-   always looked rather than flashing an undesigned light page. */
 @custom-variant dark (:root:not(.light) &);
 
-/* ══════════════════════════════════════════════
-   DESIGN TOKENS — Holloway Control Plane
-
-   Two themes, one instrument, deliberately NOT inversions of each other.
-
-   DARK (primary, the bare root block below) — a warm-cool near-black operator
-   console: cool blue-black surfaces, lit from the top right by a moss wash.
-   This is the theme the product is designed in; light follows it, not the
-   reverse.
-
-   LIGHT (the `.light` class on the root element, below) — a warm paper
-   instrument deck. The ground is cream, not cool grey; cards are pure white
-   SHEETS lying on that ground, lifted by a real soft shadow rather than by
-   being merely brighter than their surroundings; and the ink is cool, which
-   keeps the dark theme's warm/cool tension rather than flipping it. Moss, a yellow-green, sits naturally on a warm ground, so the brand
-   reads as the light source in both themes: dark is the console at night,
-   light is the same console under daylight.
-
-   What that rules out, and why the light values below are not the dark ones
-   negated: light does NOT get dark's radial washes with the lightness flipped
-   (they read as grey clouds on white), does NOT get a black inset
-   `--highlight` (a grubby line on a white card — light comes from above, so
-   the highlight is white), and does NOT get pale 6%-chroma accent tints (a
-   status chip has to read as a painted chip, not a stain).
-   ══════════════════════════════════════════════ */
-
 :root {
+  --line-soft: oklch(0.24353 0.01823 266.22);
+  --sidebar-bg: oklch(0.17321 0.0109 268.05);
+  --sidebar-title: #eef0f6;
+  --sidebar-active: oklch(0.23931 0.01832 266.21);
+  --sidebar-hover: #171b22;
+  --sidebar-line: #282e3a;
+  --sidebar-fg: oklch(0.8485 0.01584 269.96);
+  --sidebar-muted: oklch(0.7138 0.02679 263.28);
+  --sidebar-accent: oklch(0.8157 0.07904 127.92);
+  --sidebar-amber: oklch(0.8 0.155 65);
+  --sidebar-mint: oklch(0.82 0.14 165);
+  --sidebar-peri: oklch(0.78 0.1 265);
+  --sidebar-rose: oklch(0.74 0.14 25);
+  --shadow-well: inset 0 1px 2px rgb(0 0 0 / 0.2);
+  --shadow-pop: 0 16px 48px -12px rgb(0 0 0 / 0.65);
+  --page-gutter: 20px;
+
   /* surfaces */
-  --bg-0: oklch(0.18 0.012 250);
-  --bg-1: oklch(0.225 0.014 250);
-  --bg-2: oklch(0.255 0.014 250);
-  --bg-3: oklch(0.29 0.014 250);
-  --bg-hover: oklch(0.28 0.014 250);
+  --bg-0: oklch(0.15873 0.00913 264.27);
+  --bg-1: oklch(0.19034 0.01122 260.65);
+  --bg-2: oklch(0.22118 0.01502 261.62);
+  --bg-3: oklch(0.26768 0.02236 262.46);
+  --bg-hover: oklch(0.2468 0.01871 262.15);
   /* the sidebar rail and .card--inset both used this literal directly */
-  --bg-inset: oklch(0.19 0.012 250);
-  /* Nav row hover and selected faces. These were --bg-1 and --bg-2, which is
-     a clear two-step lift off the --bg-inset rail here and almost nothing in
-     light, where the rail, bg-1 and bg-2 all sit within 0.04 lightness of each
-     other: the selected page was identifiable only by its brand edge. Named so
-     light can answer differently without moving anything in dark — these two
-     values ARE --bg-1 and --bg-2. */
-  --nav-hover: oklch(0.17 0.013 250);
-  --nav-active: oklch(0.2 0.014 250);
+  --bg-inset: oklch(0.15873 0.00913 264.27);
+
+  --nav-hover: oklch(0.22118 0.01502 261.62);
+  --nav-active: oklch(0.23931 0.01832 266.21);
   /* modal/drawer backdrop */
   --scrim: oklch(0.05 0.01 250 / 0.8);
 
   /* lines */
-  --line-1: oklch(0.32 0.012 250);
-  --line-2: oklch(0.37 0.014 250);
-  --line-strong: oklch(0.42 0.014 250);
+  --line-1: oklch(0.3006 0.0234 264.13);
+  --line-2: oklch(0.35508 0.02831 262.92);
+  --line-strong: oklch(0.43655 0.03449 261.31);
 
-  /* text — every tier measured against bg-1 and bg-2, the two grounds text
-     actually sits on. The previous ramp bottomed out at 1.9:1 for --fg-4 and
-     3.2:1 for --fg-3, so the timestamps, table headers, dates and ref chips
-     that make up most of this UI were below the readable line. All five now
-     clear 4.5:1 on both grounds. */
-  --fg-0: oklch(0.96 0.005 250); /* 18.0 : 1 */
-  --fg-1: oklch(0.88 0.008 250); /* 13.3 : 1 */
-  --fg-2: oklch(0.74 0.01 250); /*  8.3 : 1 */
-  --fg-3: oklch(0.7 0.012 250); /*  6.2 : 1 */
-  --fg-4: oklch(0.66 0.012 250); /*  4.9 : 1 */
+  --fg-0: oklch(0.93422 0.00836 271.32);
+  --fg-1: oklch(0.88748 0.01473 264.49);
+  --fg-2: oklch(0.7599 0.02419 266.85);
+  --fg-3: oklch(0.7138 0.02679 263.28);
+  --fg-4: oklch(0.68486 0.03163 264.34);
 
-  /* brand — moss, the product's accent: primary button, links, the selected
-     nav row and tab, checked controls, focus, selection, the brand mark.
-     Base #9ccc65 is oklch(0.789 0.143 130); the ramp sits at hue 125, five
-     degrees yellower, to keep it clear of --mint (165), which means SUCCESS.
-     Moss is never a status colour: a warning stays --amber, a pass stays
-     --mint, and nothing here should be reached for to say "healthy". */
-  --brand: oklch(0.82 0.1 125); /* 7.18 : 1 on --brand-bg, 10.6 on --bg-0 */
+  --brand: oklch(0.82 0.1 125);
   --brand-2: oklch(0.68 0.15 125);
-  --brand-bg: oklch(0.3 0.06 125 / 0.35);
-  --brand-line: oklch(0.55 0.11 125 / 0.55);
+  --brand-bg: oklch(0.25131 0.02337 144.84);
+  --brand-line: oklch(0.3754 0.04131 143.46);
   /* Ink on a solid --brand face (a checked box). Flips to white in light,
      where solid --brand is a mid-dark swatch. */
-  --on-brand-solid: oklch(0.18 0.04 125); /* 10.0 : 1 on --brand */
-  /* Ink for the brand gradient, which is deliberately identical in both themes.
-     --on-brand-solid cannot serve here: it correctly flips to white in light —
-     but .btn--primary does not use --brand, it uses a fixed bright gradient.
-     White on the old amber gradient measured 1.87:1, on the most prominent
-     control in the product, and moss is a light hue with the same trap
-     (white on #9ccc65 is ~1.9:1). Dark ink is right in both themes. */
+  --on-brand-solid: oklch(0.18 0.04 125);
+
   --on-brand: oklch(0.18 0.04 125);
 
   /* signals — only 4 hues allowed. Amber is STATUS only: warning, pending,
@@ -96,8 +62,8 @@
      green. */
   --amber: oklch(0.8 0.155 65);
   --amber-2: oklch(0.68 0.16 55);
-  --amber-bg: oklch(0.3 0.06 65 / 0.35);
-  --amber-line: oklch(0.55 0.12 60 / 0.55);
+  --amber-bg: oklch(0.25595 0.02499 82.55);
+  --amber-line: oklch(0.38564 0.04439 78.02);
   --on-amber: oklch(0.18 0.04 60);
   --on-mint: oklch(0.18 0.04 165);
   --on-peri: oklch(0.18 0.04 265);
@@ -107,17 +73,17 @@
   --rose-line-strong: oklch(0.45 0.1 25 / 0.4);
   --mint: oklch(0.82 0.14 165);
   --mint-2: oklch(0.7 0.13 165);
-  --mint-bg: oklch(0.3 0.05 165 / 0.35);
-  --mint-line: oklch(0.5 0.1 165 / 0.5);
+  --mint-bg: oklch(0.2556 0.03226 168.23);
+  --mint-line: oklch(0.36468 0.04545 164.3);
   --peri: oklch(0.78 0.1 265);
-  --peri-bg: oklch(0.3 0.04 265 / 0.4);
-  --peri-line: oklch(0.5 0.08 265 / 0.5);
+  --peri-bg: oklch(0.25673 0.03752 281.2);
+  --peri-line: oklch(0.38227 0.05477 278);
   /* Hover face for .btn--peri, the tinted-outline submit button. A hover that
      only changed the border read as nothing at all on a full-width control. */
-  --peri-bg-2: oklch(0.355 0.055 265);
+  --peri-bg-2: oklch(0.31325 0.04517 276.5);
   --rose: oklch(0.74 0.14 25);
-  --rose-bg: oklch(0.3 0.06 25 / 0.4);
-  --rose-line: oklch(0.55 0.1 25 / 0.55);
+  --rose-bg: oklch(0.24812 0.02641 349.61);
+  --rose-line: oklch(0.35812 0.05498 358.8);
 
   /* focus ring and the inset hairline that makes a raised surface read as
      raised. Both were repeated as literals across the components. */
@@ -126,10 +92,6 @@
   /* Zebra stripe for dense tables: a touch darker than --bg-1, not a new surface. */
   --bg-stripe: oklch(0.155 0.013 250 / 0.5);
 
-  /* Status-LED halos. These were literal oklch glows inside the .dot--* rules,
-     which meant a 0.70-lightness halo was still being painted in light mode,
-     where it sits on white and shows as nothing. Tokenised so each theme can
-     say how a lit indicator looks on its own ground. */
   --glow-amber: oklch(0.7 0.16 60 / 0.6);
   --glow-mint: oklch(0.7 0.13 165 / 0.6);
   /* Not an LED: the halo on the navigation progress bar, a brand object. */
@@ -142,25 +104,9 @@
      this theme. */
   --select-chevron: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238d9399' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
-  /* Elevation. In dark a card separates from its ground by its hairline —
-     a drop shadow on a near-black surface is invisible work — so the card
-     elevation is deliberately `none` here and carries a real shadow only in
-     light, where a white sheet on a cream ground needs one to be a sheet. */
   --shadow-card: none;
   --shadow-strong: oklch(0 0 0 / 0.5);
 
-  /* ── brand mark ──────────────────────────────────────────────────────────
-     A square tile for a brand glyph. The sidebar and auth pages now draw the
-     Holloway mark (components/holloway-mark.tsx), which carries its own
-     night tile, so nothing consumes this token today; it is kept in the
-     brand colour so it cannot come back amber.
-
-     A moss-lit instrument tile: a hard ink-to-moss diagonal with a specular
-     highlight off the top-left corner. The geometry and light direction are
-     identical in both themes and only the polarity changes — dark moss at
-     night, pale lichen by day — so it reads as one object across a theme
-     switch. A var(--brand) glyph clears 3:1 against every stop of the tile
-     in both themes (dark 3.7 / 7.5 / 10.3; light 4.9 / 4.0 / 5.7). */
   --brand-mark:
     radial-gradient(
       130% 130% at 16% 4%,
@@ -170,48 +116,13 @@
     linear-gradient(152deg, oklch(0.29 0.055 125), oklch(0.165 0.022 258));
 
   /* ambient wash behind the shell */
-  --wash:
-    radial-gradient(
-      1200px 600px at 80% -10%,
-      oklch(0.3 0.04 125 / 0.1),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at -10% 110%,
-      oklch(0.28 0.03 250 / 0.18),
-      transparent 60%
-    );
+  --wash: none;
 
   /* fonts */
   --sans:
     var(--font-geist), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  /* ── space & radius scale ────────────────────────────────────────────────
-     --row-h, --gap and --pad used to live here, and a [data-density] block
-     below swapped all three. Nothing anywhere consumed any of it: the app
-     carries 99 distinct padding values and 26 distinct border-radius values,
-     every one of them written as a number in an inline style, so the density
-     switch could not have worked and the tokens could not have been adopted.
-
-     These six steps replace them. They are the values the inline styles
-     should converge on, and they are reachable from an inline style —
-     `padding: 'var(--space-4)'` — which is where the 99 values actually live
-     and where a Tailwind utility cannot go. Where a utility CAN go the same
-     six steps already exist as p-1 / p-2 / p-3 / p-4 / p-6 / p-8, because
-     --spacing is 0.25rem against a 16px root.
-
-       --space-1   4px   icon↔label, chip internals, hairline insets
-       --space-2   8px   dense stacks, control gaps, table cell padding
-       --space-3  12px   compact panel padding, list row padding
-       --space-4  16px   tile padding, the default gap between blocks
-       --space-5  24px   card padding (.card--pad), gap between sections
-       --space-6  32px   page gutter, major section break
-
-     Deliberately absent: a 6px, a 10px, a 14px, a 18px and a 20px step. The
-     control paddings in this file that use those numbers (.btn, .btn--sm,
-     .cp-input, .pill) are optical — tuned against a fixed 32px/26px/22px
-     control height — and are not layout. The scale governs layout. */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -219,16 +130,6 @@
   --space-5: 24px;
   --space-6: 32px;
 
-  /* Radius, five steps, from the chip to the modal. Unlike the space scale
-     these are consumed by every rule in this file already, and are bridged
-     into Tailwind below so `rounded-md` and `var(--radius-2)` are the same
-     6px whichever side of the wall a call site is on.
-
-       --radius-1    4px   chips, checkboxes, swatches, stripes
-       --radius-2    6px   controls: buttons, inputs, selects, segmented
-       --radius-3   10px   cards and panels  (--radius, the default)
-       --radius-4   12px   modals, drawers, the auth brand mark
-       --radius-pill 999px badges, dots, anything capsule-shaped */
   --radius-1: 4px;
   --radius-2: 6px;
   --radius-3: 10px;
@@ -236,90 +137,58 @@
   --radius-pill: 999px;
   --radius: var(--radius-3);
 
-  --sidebar-w: 224px;
+  --sidebar-w: 216px;
   /* One source of truth for the header band. The sidebar's logo block and the
      topbar both derive their height from this, so their bottom borders cannot
      drift apart the way they did when each computed its own. */
-  --topbar-h: 64px;
+  --topbar-h: 56px;
   --list-row-py: 12px;
-  --section-pad: 20px;
-  --control-h: 34px;
+  --section-pad: 16px;
+  --control-h: 32px;
 }
 
-/* ── light ─────────────────────────────────────
-   A warm paper instrument deck, authored as its own theme rather than as the
-   dark set with the lightness flipped. Three decisions drive every value:
-
-   1. THE GROUND IS WARM, THE INK IS COOL. Surfaces sit at hue 85 with 0.006–
-      0.010 chroma — cream, a shade of paper rather than a shade of grey —
-      while text, lines and scrims stay at hue 250. Dark is a cool room lit
-      warm; light is a warm sheet marked in cool ink. The tension survives the
-      switch, which is what stops light reading as the "off" state of dark.
-      It also makes the accents native here: on the old cool-grey ground every
-      warm accent read as a stain on the page.
-   2. CARDS ARE SHEETS. --bg-1 is pure white and the only surface brighter
-      than the ground; it earns its separation from a real soft shadow
-      (--shadow-card) plus a crisper hairline, the way paper on a desk does.
-      Dark stacks surfaces by lightness because light travels up out of a
-      screen; light mode cannot borrow that and needs the shadow instead.
-   3. LIGHT COMES FROM ABOVE. --wash is an overhead sheet-light with one warm
-      brand flare at the top right and a cool bounce in the bottom-left
-      corner — the same geometry as the dark wash, so the shell is lit from
-      the same place in both themes. --highlight is white for the same reason.
-
-   The text ramp was re-cut rather than nudged: the previous fg-3/fg-4 pair sat
-   0.02 apart in lightness, a step nobody could see, because both had been
-   pushed up to clear 4.5:1 against a ground that was too dark for them. On the
-   lighter cream ground the ramp measures 16.8 / 12.2 / 7.5 / 5.6 / 4.8 against
-   --bg-0, within a tenth of dark's own ramp at every tier.
-
-   The signal hues are darkened substantially — the dark palette's pastels
-   measure ~2.2–2.6 against white — and their tints are darkened WITH them.
-   The tints were 0.94–0.95 lightness at 0.035–0.055 chroma, which is a wash,
-   not a chip; at 0.925–0.935 and 0.060–0.080 a status pill reads as painted
-   at a glance and still clears 4.5:1 against its own accent as text. */
 :root.light {
-  --bg-0: oklch(0.975 0.006 85);
-  --bg-1: oklch(1 0 0);
-  --bg-2: oklch(0.963 0.006 85);
-  --bg-3: oklch(0.935 0.009 85);
-  --bg-hover: oklch(0.955 0.008 85);
-  --bg-inset: oklch(0.958 0.007 85);
-  /* The selected row becomes a white tab lying on the cream rail — the same
-     figure/ground move the cards make — and hover is a half-step of the same
-     lift. Reusing bg-1/bg-2 here would have put the selected row 0.005 away
-     from the rail it sits on. */
-  --nav-hover: oklch(0.985 0.005 85);
-  --nav-active: oklch(1 0 0);
+  --line-soft: oklch(0.94873 0.00578 264.53);
+  --shadow-well: inset 0 1px 2px rgb(18 22 32 / 0.05);
+  --shadow-pop: 0 16px 48px -16px rgb(18 22 32 / 0.25);
+  --bg-0: oklch(0.96724 0.00414 271.37);
+  --bg-1: oklch(1 0 89.88);
+  --bg-2: oklch(0.98192 0.00286 264.54);
+  --bg-3: oklch(0.94479 0.00915 258.34);
+  --bg-hover: oklch(0.96377 0.00576 264.53);
+  --bg-inset: oklch(0.96724 0.00414 271.37);
+
+  --nav-hover: oklch(0.95504 0.00703 268.55);
+  --nav-active: oklch(0.94508 0.01036 261.79);
   /* Cool ink, not black: a neutral scrim over a warm page looks like a dead
      monitor. 0.40 alpha is enough with the backdrop blurs the modals use. */
   --scrim: oklch(0.26 0.02 255 / 0.4);
 
   /* Crisper than the dark set in relative terms. A hairline on white has to
      carry the whole edge of a card, since it has no lightness step to help. */
-  --line-1: oklch(0.888 0.006 250);
-  --line-2: oklch(0.83 0.008 250);
-  --line-strong: oklch(0.68 0.012 250);
+  --line-1: oklch(0.90871 0.01046 261.79);
+  --line-2: oklch(0.86199 0.01827 261.33);
+  --line-strong: oklch(0.69351 0.03062 261.44);
 
-  --fg-0: oklch(0.2 0.014 250); /* 16.8 : 1 on --bg-0 */
-  --fg-1: oklch(0.31 0.014 250); /* 12.2 : 1 */
-  --fg-2: oklch(0.43 0.014 250); /*  7.5 : 1 */
-  --fg-3: oklch(0.5 0.014 250); /*  5.6 : 1 */
-  --fg-4: oklch(0.535 0.014 250); /*  4.8 : 1 — the faintest ink offered */
+  --fg-0: oklch(0.20098 0.02108 267.58);
+  --fg-1: oklch(0.33919 0.02701 261.57);
+  --fg-2: oklch(0.43081 0.03004 265.28);
+  --fg-3: oklch(0.49431 0.03143 262.21);
+  --fg-4: oklch(0.5251 0.02806 259.79);
 
   /* Moss by day. The dark --brand is a pastel that measures ~1.9:1 on white,
      so the light swatch is a deep olive that carries text: 5.70 : 1 on white,
      and white ink on it for a solid face (a checked box) at the same 5.70. */
   --brand: oklch(0.505 0.115 125);
   --brand-2: oklch(0.465 0.115 125);
-  --brand-bg: oklch(0.925 0.075 125); /* 4.66 : 1 with --brand as text */
-  --brand-line: oklch(0.72 0.12 125);
+  --brand-bg: oklch(0.95632 0.01709 128.66);
+  --brand-line: oklch(0.86416 0.04896 127.98);
   --on-brand-solid: oklch(1 0 0);
 
   --amber: oklch(0.505 0.145 65);
   --amber-2: oklch(0.465 0.15 55);
-  --amber-bg: oklch(0.925 0.08 65); /* 4.66 : 1 with --amber as text */
-  --amber-line: oklch(0.72 0.13 60);
+  --amber-bg: oklch(0.96443 0.02488 81.13);
+  --amber-line: oklch(0.87878 0.05464 80.68);
   --on-amber: oklch(1 0 0);
   --on-mint: oklch(1 0 0);
   --on-peri: oklch(1 0 0);
@@ -329,15 +198,15 @@
   --rose-line-strong: oklch(0.64 0.15 25 / 0.55);
   --mint: oklch(0.475 0.125 165);
   --mint-2: oklch(0.43 0.125 165);
-  --mint-bg: oklch(0.925 0.075 165); /* 5.01 : 1 */
-  --mint-line: oklch(0.7 0.11 165);
+  --mint-bg: oklch(0.96726 0.01245 164.8);
+  --mint-line: oklch(0.88757 0.04168 160.82);
   --peri: oklch(0.485 0.15 265);
-  --peri-bg: oklch(0.93 0.06 265); /* 5.26 : 1 */
-  --peri-line: oklch(0.72 0.1 265);
-  --peri-bg-2: oklch(0.885 0.075 265); /* 4.58 : 1 — .btn--peri hover */
+  --peri-bg: oklch(0.96056 0.01472 281.95);
+  --peri-line: oklch(0.88247 0.03856 280.73);
+  --peri-bg-2: oklch(0.93979 0.02313 277.95);
   --rose: oklch(0.495 0.185 25);
-  --rose-bg: oklch(0.935 0.07 25); /* 5.16 : 1 */
-  --rose-line: oklch(0.72 0.13 25);
+  --rose-bg: oklch(0.96509 0.01319 5.8);
+  --rose-line: oklch(0.87474 0.03789 5.54);
 
   --focus-ring: oklch(0.505 0.115 125 / 0.25);
   /* White, not black. `inset 0 0 0 1px var(--highlight)` is a top-light
@@ -346,7 +215,7 @@
   --highlight: oklch(1 0 0 / 0.75);
   /* Zebra on a white card: warm, and only ~3% off the card so a dense table
      reads as ruled paper rather than as two alternating surfaces. */
-  --bg-stripe: oklch(0.968 0.01 85 / 0.9);
+  --bg-stripe: oklch(0.98 0.004 265 / 0.8);
 
   /* A lit indicator on a bright ground is a tight saturated halo, not a broad
      glow — a 0.70-lightness bloom simply disappears here. */
@@ -357,10 +226,6 @@
 
   --select-chevron: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235d646b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
-  /* The whole reason a white card reads as a card here. Two layers: a 1px
-     contact shadow that draws the edge, and a wide, heavily-offset ambient
-     one that lifts the sheet. Both are cool-tinted, because the shadow of a
-     warm sheet under a cool ink palette is not grey. */
   --shadow-card:
     0 1px 2px oklch(0.55 0.02 255 / 0.07),
     0 8px 24px -12px oklch(0.45 0.03 255 / 0.16);
@@ -371,35 +236,9 @@
     radial-gradient(130% 130% at 16% 4%, oklch(1 0 0 / 0.85), transparent 56%),
     linear-gradient(152deg, oklch(0.945 0.05 118), oklch(0.875 0.075 128));
 
-  /* Sheet-light from above, a moss brand flare at the top right, a cool bounce
-     off the bottom-left floor. The old light wash was the dark wash with its
-     stops lightened, which painted two grey-blue clouds across a white page;
-     the brightest layer here is white, so the page is LIT rather than shaded. */
-  --wash:
-    radial-gradient(
-      760px 420px at 86% -8%,
-      oklch(0.86 0.09 120 / 0.22),
-      transparent 58%
-    ),
-    radial-gradient(
-      1200px 640px at 50% -22%,
-      oklch(1 0 0 / 0.9),
-      transparent 64%
-    ),
-    radial-gradient(
-      980px 520px at -8% 112%,
-      oklch(0.8 0.035 258 / 0.14),
-      transparent 62%
-    );
+  --wash: none;
 }
 
-/* ══════════════════════════════════════════════
-   TAILWIND BRIDGE
-   Aliases the tokens above into Tailwind's namespace so bg-bg-1,
-   text-fg-2, border-line-1 and text-sm exist as real utilities.
-   `inline` keeps the utilities pointing at var(--token) rather than
-   snapshotting a value, which is what lets the theme swap at runtime.
-   ══════════════════════════════════════════════ */
 @theme inline {
   --color-bg-0: var(--bg-0);
   --color-bg-1: var(--bg-1);
@@ -447,15 +286,6 @@
   --font-sans: var(--sans);
   --font-mono: var(--mono);
 
-  /* Type scale. The app previously carried 19 distinct sizes between 8px and
-     30px, ~48% of them at 11px or below, with .h3 identical to body text —
-     which is why it read as both too small and too flat. Seven steps, floor
-     at 12px, and a real gap between body and the heading above it.
-
-     The floor started at 11px and was raised: at 11px the table headers,
-     timestamps and ref chips that carry most of this UI's information were
-     still uncomfortable to read, which is the density this console actually
-     needs rather than the density it had. */
   --text-2xs: 0.75rem; /* 12px — eyebrows, kbd, chips. Never prose. */
   --text-2xs--line-height: 1.45;
   --text-xs: 0.8125rem; /* 13px — dense metadata, timestamps */
@@ -464,11 +294,11 @@
   --text-sm--line-height: 1.5;
   --text-base: 1rem; /* 16px — body default */
   --text-base--line-height: 1.55;
-  --text-lg: 1.125rem; /* 18px — panel and section titles (.h3) */
+  --text-lg: 1rem; /* 16px — panel and section titles (.h3) */
   --text-lg--line-height: 1.35;
-  --text-xl: 1.5rem; /* 24px — stat numbers (.h2) */
+  --text-xl: 1.125rem; /* 18px — section titles (.h2) */
   --text-xl--line-height: 1.2;
-  --text-2xl: 1.875rem; /* 30px — page titles (.h1) */
+  --text-2xl: 1.25rem; /* 20px — page titles (.h1) */
   --text-2xl--line-height: 1.1;
 
   /* 0.25rem against a 16px root gives gap-1..6 == 4/8/12/16/24px, exactly
@@ -484,12 +314,6 @@
   --radius-full: var(--radius-pill);
 }
 
-/* [data-density="compact"] and ="spacious" used to sit here, redefining
-   --row-h/--gap/--pad. Nothing set the attribute and nothing read the tokens,
-   so the feature was three dead rules pretending to be a density control; a
-   real one has to start from the space scale above. Removed with them.
-
-   [data-sidebar] stays — sidebar.tsx sets it and --sidebar-w is read. */
 [data-sidebar='icons'] {
   --sidebar-w: 64px;
 }
@@ -522,10 +346,7 @@ body {
   background: var(--bg-0);
   color: var(--fg-1);
   font-family: var(--sans);
-  /* Was 14px, which made 1rem lie: every rem literal and every Tailwind
-     text-* utility rendered ~12.5% smaller than it read as. Body then takes
-     the reading size from the scale, so 1rem stays honest without forcing
-     unstyled text all the way up to 16px. */
+
   font-size: 16px;
   line-height: 1.5;
   font-feature-settings: 'ss01', 'cv11';
@@ -533,15 +354,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* The fixed, never-scrolling shell is right for an operator console on a
-   desktop, but on a phone it means the page cannot scroll at all. Below `md`
-   the document scrolls naturally; at `md` and up the original fixed shell
-   returns.
-
-   dvh rather than vh throughout: on iOS Safari 100vh is taller than the
-   visible viewport, so the bottom of every page sits under the URL bar. */
 body {
-  font-size: var(--text-base);
+  font-size: 14px;
   min-height: 100dvh;
 }
 
@@ -589,20 +403,6 @@ body::before {
   border: 2px solid transparent;
 }
 
-/* ══════════════════════════════════════════════
-   EVERYTHING BELOW IS @layer components
-   ══════════════════════════════════════════════
-   Tailwind v4 emits its utilities into `@layer utilities`, and unlayered CSS
-   beats every layer regardless of specificity or source order. While these
-   rules sat outside a layer they silently won against any utility touching the
-   same property, so `className="btn md:hidden"` rendered the button at every
-   width and `className="kbd hidden sm:inline-flex"` showed the ⌘K chip on a
-   phone. Naming the layer puts them back below the utilities, where a utility
-   written beside a component class does what it says.
-
-   The block is deliberately left un-indented: re-indenting 430 lines would
-   bury the one change that matters in a diff nobody could read.
-   ══════════════════════════════════════════════ */
 @layer components {
   /* ══════════════════════════════════════════════
    TYPOGRAPHY
@@ -642,13 +442,7 @@ body::before {
     letter-spacing: -0.01em;
     color: var(--fg-0);
   }
-  /* The fourth step: 30 / 24 / 18 / 16. There are 53 <h4> elements in the app
-   and every one of them was given className="h3", so a subsection heading
-   rendered at exactly the size of the section heading above it and the
-   document had no hierarchy below the panel title. 16px is the smallest
-   heading that can still be a heading — it is body size, so it leans on
-   weight and colour rather than scale, and the eyebrow (.upper) remains the
-   step below it for anything smaller. */
+
   .h4 {
     font-size: var(--text-base);
     font-weight: 600;
@@ -684,22 +478,22 @@ body::before {
     white-space: nowrap;
   }
   .pill--mint {
-    border-color: var(--mint-line);
+    border-color: transparent;
     color: var(--mint);
     background: var(--mint-bg);
   }
   .pill--amber {
-    border-color: var(--amber-line);
+    border-color: transparent;
     color: var(--amber);
     background: var(--amber-bg);
   }
   .pill--peri {
-    border-color: var(--peri-line);
+    border-color: transparent;
     color: var(--peri);
     background: var(--peri-bg);
   }
   .pill--rose {
-    border-color: var(--rose-line);
+    border-color: transparent;
     color: var(--rose);
     background: var(--rose-bg);
   }
@@ -738,15 +532,12 @@ body::before {
   }
   .dot--mint {
     background: var(--mint);
-    box-shadow: 0 0 8px var(--glow-mint);
   }
   .dot--amber {
     background: var(--amber);
-    box-shadow: 0 0 8px var(--glow-amber);
   }
   .dot--rose {
     background: var(--rose);
-    box-shadow: 0 0 8px var(--glow-rose);
   }
   .dot--peri {
     background: var(--peri);
@@ -775,11 +566,11 @@ body::before {
     height: 32px;
     padding: 0 14px;
     border-radius: var(--radius-2);
-    border: 1px solid var(--line-2);
-    background: var(--bg-2);
+    border: 1px solid var(--line-1);
+    background: var(--bg-1);
     color: var(--fg-1);
     font-family: var(--sans);
-    font-size: var(--text-sm);
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.12s ease;
@@ -790,19 +581,12 @@ body::before {
     border-color: var(--line-strong);
     color: var(--fg-0);
   }
-  /* The one rule in the file that paints colour literals instead of tokens, and
-   it has to stay that way: the brand button is deliberately the SAME bright
-   moss in both themes — it is the product's one fixed object, and a token
-   would let it drift — and color-contrast.test.ts reads these stops out of
-   this rule by regex to measure --on-brand against them. Move them into a
-   token and the test that exists to guard this exact control stops seeing it.
-   Both stops, and both hover stops, clear 7:1 against --on-brand
-   (11.9 / 8.5, hover 13.6 / 9.8). */
+
   .btn--primary {
     background: linear-gradient(
       180deg,
-      oklch(0.84 0.15 125),
-      oklch(0.74 0.15 125)
+      oklch(0.8 0.11 125),
+      oklch(0.8 0.11 125)
     );
     color: var(--on-brand);
     border-color: oklch(0.62 0.14 125);
@@ -814,8 +598,8 @@ body::before {
   .btn--primary:hover {
     background: linear-gradient(
       180deg,
-      oklch(0.88 0.15 125),
-      oklch(0.78 0.15 125)
+      oklch(0.84 0.11 125),
+      oklch(0.84 0.11 125)
     );
     color: var(--on-brand);
   }
@@ -838,26 +622,16 @@ body::before {
     padding: 0;
     justify-content: center;
   }
-  /* Peri is the "generate / register / create" action: a tinted-outline button,
-   the same construction as .btn--danger. It was used on three controls —
-   including the full-width submit on webhook registration — and had never
-   been defined, so all three rendered as a plain .btn.
 
-   Filling it solid was the wrong call even though it is a submit: two of the
-   three sites put a `2px solid var(--peri)` spinner INSIDE the button while it
-   loads, and a peri spinner on a peri face is invisible. The tinted face keeps
-   that pairing legible, and it is the pairing the contrast test already
-   guards — --peri on --peri-bg clears 4.5:1 in both themes. */
   .btn--peri {
-    background: var(--peri-bg);
-    border-color: var(--peri-line);
-    color: var(--peri);
-    font-weight: 600;
+    background: var(--bg-2);
+    border-color: var(--line-1);
+    color: var(--fg-1);
   }
   .btn--peri:hover {
-    background: var(--peri-bg-2);
-    border-color: var(--peri);
-    color: var(--peri);
+    background: var(--bg-hover);
+    border-color: var(--line-strong);
+    color: var(--fg-0);
   }
   .btn--danger {
     color: var(--rose);
@@ -889,8 +663,8 @@ body::before {
     color: var(--fg-0);
   }
   .nav-item--active {
-    background: var(--brand-bg);
-    color: var(--brand);
+    background: var(--nav-active);
+    color: var(--fg-0);
     font-weight: 500;
   }
   .nav-item--active:hover {
@@ -965,15 +739,6 @@ body::before {
     width: 100%;
   }
 
-  /* A native select cannot be styled past a point — the browser draws its own
-   chevron and metrics, which is why an otherwise-matching select still looked
-   foreign next to the inputs. appearance:none removes that chrome; the chevron
-   is redrawn as a background image so sizing, border and focus ring match.
-
-   The chevron comes from --select-chevron rather than being inlined here,
-   because a data: URI cannot read a custom property: the stroke was a literal
-   #888 that was too dim for the dark theme and too heavy for the light one,
-   and it was the last hardcoded colour in the file outside the token blocks. */
   .cp-select {
     appearance: none;
     -webkit-appearance: none;
@@ -1073,15 +838,7 @@ body::before {
      near-black card does not. */
     box-shadow: var(--shadow-card);
   }
-  /* .card deliberately declares NO padding, and cannot: 42 of its ~150 call
-   sites are full-bleed containers whose children paint to the card edge — the
-   audit table, the message list, the contracts table, every table wrapped in
-   `card` + overflow:hidden. A default here would inset all of them.
 
-   .card--pad is the opt-in the other ~108 sites want. They currently write
-   padding: 16 / 18 / 20 / 24 / 28 inline, which is most of the 99 distinct
-   padding values in the app; this is the one value a padded card should have,
-   and `p-4` remains the step below it for a dense tile. */
   .card--pad {
     padding: var(--section-pad);
   }
@@ -1096,19 +853,16 @@ body::before {
   }
 
   .auto-refresh-indicator {
-    position: absolute;
-    top: var(--space-3);
-    right: var(--space-4);
-    z-index: 10;
+    justify-content: flex-end;
+    padding: 12px var(--page-gutter) 0;
+    font-size: 12px;
   }
-
-  @media (max-width: 640px) {
-    .auto-refresh-indicator {
-      position: relative;
-      top: auto;
-      right: auto;
-      justify-content: flex-end;
-      padding: var(--space-2) var(--space-4) 0;
+  .auto-refresh-indicator[data-shell='true'] {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .auto-refresh-indicator[data-shell='true'] {
+      display: flex;
     }
   }
 
@@ -1229,14 +983,11 @@ body::before {
   /* segmented control */
   .seg {
     display: inline-flex;
-    border: 1px solid var(--line-1);
+    border: 1px solid var(--line-soft);
     border-radius: var(--radius-2);
     background: var(--bg-1);
     padding: 2px;
-    /* Seven status filters are ~478px of buttons, which pushed a 390px phone
-     into horizontal scroll — the whole PAGE slid sideways, not just the
-     control. Clamping and scrolling inside keeps the pill intact; wrapping
-     would split the rounded container down the middle. */
+
     max-width: 100%;
     overflow-x: auto;
     scrollbar-width: none;
@@ -1264,24 +1015,14 @@ body::before {
     text-decoration: none;
   }
   .seg :is(button, a).active {
-    background: var(--bg-3);
+    background: var(--bg-1);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
     color: var(--fg-0);
   }
   .seg :is(button, a):hover:not(.active) {
     color: var(--fg-1);
   }
 
-  /* utility
-   .gap-1..6 and .grow used to live here and shadowed Tailwind's own
-   utilities of the same name. They are gone: with --spacing: 0.25rem against
-   a 16px root, Tailwind's gap-1..6 resolve to exactly 4/8/12/16/24px, so the
-   deletion is pixel-identical. .grow differed for real (flex: 1 vs
-   flex-grow: 1) and its single call site now uses flex-1.
-   .row/.col/.truncate-text/.scroll collide with nothing and stay — they are
-   terser than their utility equivalents and carry 290+ uses.
-   .nowrap is gone: zero call sites, and the ~20 places that do want it write
-   whiteSpace: 'nowrap' in an inline style, where a class cannot reach them.
-   Tailwind's whitespace-nowrap already covers the className case. */
   .scroll {
     overflow: auto;
   }
@@ -1289,10 +1030,7 @@ body::before {
     display: flex;
     align-items: center;
   }
-  /* Content on the left, actions on the right — and on a narrow screen the
-   actions drop to their own line instead of pushing the page sideways. There
-   are 23 header rows hand-writing `justifyContent: 'space-between'` with no
-   wrap; each one is an overflow waiting for a long enough title. */
+
   .row--split {
     justify-content: space-between;
     flex-wrap: wrap;
@@ -1380,11 +1118,6 @@ body::before {
     animation: fadeIn 0.5s ease-out forwards;
   }
 
-  /* `spin` was referenced by five inline spinners — the agent and webhook
-   registration submits, the webhook card, the key actions dialog and the kill
-   switch — and was never defined anywhere, so every one of them rendered a
-   static three-quarter ring. A loading state that does not move reads as a
-   frozen app. */
   @keyframes spin {
     to {
       transform: rotate(360deg);
@@ -1406,12 +1139,6 @@ body::before {
     }
   }
 
-  /* Under reduced motion the decorative loops stop and the entrance fade becomes
-   an instant reveal. The dot pulse and the cursor blink are decoration — the
-   colour, not the movement, carries the status — so stilling them loses no
-   information. The spinners are NOT stilled: a spinner that stops reads as a
-   hung request, and in any case they set `animation` in an inline style, which
-   no rule here can reach without !important. */
   @media (prefers-reduced-motion: reduce) {
     .pulse,
     .blink {
@@ -1508,10 +1235,7 @@ body::before {
     background: var(--brand);
     box-shadow: 0 0 10px var(--glow-brand);
     transform-origin: left;
-    /* One pass that only moves forward. It used to loop every 1.2s, snapping
-     back to 8% each time, so any navigation slower than that read as the page
-     loading again and again. Fast at first, then creeping toward 90%: a slow
-     page still looks like progress rather than a restart. */
+
     animation: navigation-progress 10s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
   }
 
@@ -1526,19 +1250,147 @@ body::before {
     }
   }
 
+  .page-frame {
+    padding: 18px var(--page-gutter) 48px;
+  }
+  .shell-actor-row {
+    padding: 0 var(--page-gutter);
+  }
+  .page-header-title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    min-width: 0;
+  }
+  .page-header-title-row .h1 {
+    font-size: 20px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  .page-eyebrow::after {
+    content: '›';
+    color: var(--fg-4);
+    font-size: 16px;
+  }
+  .page-header .page-description > :is(p, div) + :is(p, div) {
+    margin-top: 4px;
+  }
+  .page-header-actions {
+    align-self: center;
+  }
+  .card .card--inset {
+    border-color: var(--line-soft);
+    box-shadow: var(--shadow-well);
+  }
+  .section-card-header .h4 {
+    font-size: 14px;
+  }
+  .section-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--line-1);
+    background: var(--bg-2);
+    color: var(--fg-2);
+  }
+  .section-card-heading {
+    min-width: 0;
+    flex: 1;
+  }
+  .pill {
+    height: 22px;
+    gap: 5px;
+    font-weight: 500;
+  }
+  .identity-avatar {
+    border: 1px solid var(--line-1);
+  }
+  .page-description > :is(p, div) {
+    margin: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+  .btn > svg {
+    flex-shrink: 0;
+  }
+  .seg {
+    background: var(--bg-2);
+  }
+  .seg :is(button, a) {
+    height: 28px;
+  }
+  .nav-item {
+    position: relative;
+    font-size: 13px;
+  }
+  .nav-item--active::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--brand);
+  }
+  .nav-group-heading {
+    font-size: 12px;
+    font-weight: 500;
+    padding-bottom: 6px;
+  }
+  .nav-group {
+    margin-bottom: 16px;
+  }
+  .auto-refresh-indicator {
+    font-size: 12px;
+    opacity: 1;
+  }
+  table thead th {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  table tbody td {
+    border-bottom-color: var(--line-soft);
+  }
+  table tbody tr:hover {
+    background: var(--bg-hover);
+  }
+  @media (max-width: 640px) {
+    .page-frame {
+      padding-top: 14px;
+    }
+    .page-header {
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+    .page-eyebrow {
+      display: none;
+    }
+    .page-header-actions {
+      max-width: 100%;
+    }
+  }
+
   /* Shared premium workspace patterns. Geometry changes with density; type does not. */
   .page-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: var(--space-4);
-    margin-bottom: var(--space-5);
+    gap: 12px 16px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--line-soft);
   }
   .page-header-heading {
     display: grid;
-    gap: var(--space-2);
+    gap: 5px;
     min-width: 0;
+    flex: 1 1 240px;
   }
   .page-header-actions {
     display: flex;
@@ -1547,15 +1399,18 @@ body::before {
     gap: var(--space-2);
   }
   .page-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     color: var(--fg-3);
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 400;
   }
   .page-description {
     color: var(--fg-2);
     font-size: 13px;
-    max-width: 75ch;
-    line-height: 1.6;
+    max-width: 82ch;
+    line-height: 1.55;
   }
   .h1 {
     line-height: 1.2;
@@ -1581,11 +1436,11 @@ body::before {
   .cp-input,
   .cp-select {
     height: var(--control-h);
-    background: var(--bg-inset);
+    background: var(--bg-2);
   }
   .section-card-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: var(--space-3);
@@ -1595,7 +1450,7 @@ body::before {
   .section-card-description {
     margin-top: var(--space-1);
     color: var(--fg-3);
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.5;
   }
   .section-card-body {
@@ -1604,20 +1459,19 @@ body::before {
   }
   .data-well {
     padding: var(--space-4);
-    border: 1px solid var(--line-1);
+    border: 1px solid var(--line-soft);
     border-radius: var(--radius-3);
     background: var(--bg-inset);
+    box-shadow: var(--shadow-well);
   }
   .list-toolbar {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
-    margin-bottom: var(--space-4);
-    border: 1px solid var(--line-1);
-    border-radius: var(--radius-3);
-    background: var(--bg-1);
+    padding: 0;
+    margin-bottom: var(--space-3);
+    background: transparent;
   }
   .actor-context {
     display: flex;
@@ -1645,7 +1499,7 @@ body::before {
       gap: var(--space-3);
     }
     .h1 {
-      font-size: 26px;
+      font-size: 20px;
     }
     .actor-context-select {
       flex-basis: 100%;

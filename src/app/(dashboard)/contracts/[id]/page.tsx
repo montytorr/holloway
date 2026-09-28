@@ -21,6 +21,7 @@ import {
 } from '@/lib/contract-operator-channel-server';
 import { createServerClient } from '@/lib/db/server';
 import { getAuthActorContext } from '@/lib/auth-actor-context';
+import { SectionHeader } from '@/components/atoms';
 import StatusBadge from '@/components/status-badge';
 import { type Tone } from '@/lib/status-tone';
 import type { OperatorQuestionSummary } from '@/lib/types';
@@ -429,10 +430,10 @@ export default async function ContractDetailPage({
             Contract <span className="mono num">{contractIdShort}</span>
           </span>
         </nav>
-        <header className={styles.header}>
-          <div className={styles.heading}>
-            <div className={styles.titleRow}>
-              <h1 className="h1">{contract.title}</h1>
+        <SectionHeader
+          title={contract.title}
+          badge={
+            <>
               <StatusBadge status={contract.status} size="lg" />
               {waitingOnPerson && (
                 <a
@@ -444,21 +445,24 @@ export default async function ContractDetailPage({
                   Waiting on a person
                 </a>
               )}
-            </div>
-          </div>
-          {contract.status === 'active' && !isObserverParticipant && (
-            <CloseContractButton
-              contractId={contract.id}
-              approvalPendingFrom={
-                contract.completion_requires_approval &&
-                !contract.completion_approved_at
-                  ? proposerName
-                  : null
-              }
-              reasonMin={UNAPPROVED_CLOSE_REASON_MIN}
-            />
-          )}
-        </header>
+            </>
+          }
+          right={
+            contract.status === 'active' &&
+            !isObserverParticipant && (
+              <CloseContractButton
+                contractId={contract.id}
+                approvalPendingFrom={
+                  contract.completion_requires_approval &&
+                  !contract.completion_approved_at
+                    ? proposerName
+                    : null
+                }
+                reasonMin={UNAPPROVED_CLOSE_REASON_MIN}
+              />
+            )
+          }
+        />
         <ContractWorkspace
           contractId={id}
           messageCount={threadMessages.length}
@@ -519,7 +523,7 @@ export default async function ContractDetailPage({
                       <StatusBadge
                         status={null}
                         label="Not linked"
-                        tone="amber"
+                        tone="neutral"
                         dot="none"
                         size="md"
                       />

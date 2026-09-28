@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 
 export function SectionCard({
   title,
+  icon,
   description,
   action,
   children,
@@ -10,6 +11,7 @@ export function SectionCard({
   id,
 }: {
   title: string;
+  icon?: ReactNode;
   description?: string;
   action?: ReactNode;
   children: ReactNode;
@@ -19,7 +21,12 @@ export function SectionCard({
   return (
     <section id={id} className={cn('card section-card', className)}>
       <header className="section-card-header">
-        <div>
+        {icon && (
+          <span className="section-icon" aria-hidden="true">
+            {icon}
+          </span>
+        )}
+        <div className="section-card-heading">
           <h2 className="h4">{title}</h2>
           {description && (
             <p className="section-card-description">{description}</p>

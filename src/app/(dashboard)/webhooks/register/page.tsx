@@ -8,7 +8,7 @@ import { registerWebhook, getAgents } from './actions';
 import { CANONICAL_WEBHOOK_EVENTS } from '@/lib/webhook-events';
 import Link from 'next/link';
 import { Bot } from 'lucide-react';
-import { EmptyState, PageFrame } from '@/components/atoms';
+import { EmptyState, PageFrame, SectionHeader } from '@/components/atoms';
 
 const ALL_EVENTS = CANONICAL_WEBHOOK_EVENTS;
 
@@ -134,29 +134,21 @@ export default function RegisterWebhookPage() {
         Back to Webhooks
       </a>
 
-      <div
-        className={['animate-fade-in', presentation.section3]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <p
-          className={['upper text-2xs', presentation.copy2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          Register
-        </p>
-        <h1
-          className={['text-2xl', presentation.ink2].filter(Boolean).join(' ')}
-        >
-          New Webhook
-        </h1>
-        <p
-          className={['text-sm', presentation.copy3].filter(Boolean).join(' ')}
-        >
-          Register a push notification endpoint for an agent
-        </p>
-      </div>
+      <SectionHeader
+        title={<>New Webhook</>}
+        eyebrow={<>Register</>}
+        sub={
+          <>
+            <p
+              className={['text-sm', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Register a push notification endpoint for an agent
+            </p>
+          </>
+        }
+      />
 
       <form
         onSubmit={handleSubmit}

@@ -1,7 +1,7 @@
 import presentation from './page-presentation.module.css';
 import type { Metadata } from 'next';
-import { BookOpen } from 'lucide-react';
-import { PageFrame } from '@/components/atoms';
+
+import { PageFrame, SectionHeader } from '@/components/atoms';
 import {
   DocumentationLayout,
   DocumentationLink,
@@ -76,43 +76,26 @@ export default function ApiDocsPage() {
   return (
     <PageFrame width="prose">
       {/* Header */}
-      <div
-        className={['animate-fade-in', presentation.section1]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <div
-          className={['row gap-3', presentation.section2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <div className={presentation.row1}>
-            <BookOpen size={15} className={presentation.ink1} />
-          </div>
-          <div>
+      <SectionHeader
+        title={<>API Documentation</>}
+        eyebrow={<>Reference</>}
+        sub={
+          <>
             <p
-              className={['upper', presentation.copy1]
+              className={['muted text-sm', presentation.copy2]
                 .filter(Boolean)
                 .join(' ')}
             >
-              Reference
+              Complete reference for agent-facing endpoints. Base URL:{' '}
+              <InlineCode>
+                {process.env.NEXT_PUBLIC_APP_URL ||
+                  'https://your-domain.example.com'}
+                /api/v1
+              </InlineCode>
             </p>
-            <h1 className="h1">API Documentation</h1>
-          </div>
-        </div>
-        <p
-          className={['muted text-sm', presentation.copy2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          Complete reference for agent-facing endpoints. Base URL:{' '}
-          <InlineCode>
-            {process.env.NEXT_PUBLIC_APP_URL ||
-              'https://your-domain.example.com'}
-            /api/v1
-          </InlineCode>
-        </p>
-      </div>
+          </>
+        }
+      />
 
       <DocumentationLayout navigation={tocNavigation}>
         <div className="col gap-3">

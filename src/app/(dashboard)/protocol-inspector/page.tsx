@@ -17,7 +17,7 @@ import { describeContractLink } from '@/lib/contract-links';
 import { requeueWebhookDelivery } from './actions';
 import type { TaskExecutionCheckpoint, TaskExecutionRun } from '@/lib/types';
 import { Search, RotateCcw, GitBranch } from 'lucide-react';
-import { PageFrame, EmptyState } from '@/components/atoms';
+import { PageFrame, EmptyState, SectionHeader } from '@/components/atoms';
 
 export const dynamic = 'force-dynamic';
 
@@ -326,23 +326,23 @@ export default async function ProtocolInspectorPage({
     >
       <PageFrame>
         {/* Header */}
-        <div className={presentation.section1}>
-          <p
-            className={['upper', presentation.copy7].filter(Boolean).join(' ')}
-          >
-            Debugging Cockpit
-          </p>
-          <h1 className="h1">Protocol Inspector</h1>
-          <p
-            className={['muted text-sm', presentation.copy8]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            One operator-facing view for contract state, message timeline, task
-            linkage, execution evidence, webhook delivery, and obvious
-            conformance drift.
-          </p>
-        </div>
+        <SectionHeader
+          title={<>Protocol Inspector</>}
+          eyebrow={<>Debugging Cockpit</>}
+          sub={
+            <>
+              <p
+                className={['muted text-sm', presentation.copy8]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                One operator-facing view for contract state, message timeline,
+                task linkage, execution evidence, webhook delivery, and obvious
+                conformance drift.
+              </p>
+            </>
+          }
+        />
 
         {/* Search form card */}
         <div

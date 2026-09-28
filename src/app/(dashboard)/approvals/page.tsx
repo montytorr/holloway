@@ -7,7 +7,7 @@ import ApprovalList from './approval-list';
 import AutoRefresh from '@/components/auto-refresh';
 import { getDashboardApprovalVisibility } from '@/lib/approval-trust-policy';
 import { ShieldCheck, AlertTriangle } from 'lucide-react';
-import { PageFrame, EmptyState } from '@/components/atoms';
+import { PageFrame, EmptyState, SectionHeader } from '@/components/atoms';
 export const dynamic = 'force-dynamic';
 
 export default async function ApprovalsPage({
@@ -23,17 +23,17 @@ export default async function ApprovalsPage({
   if (!visibility.canViewPage) {
     return (
       <PageFrame>
-        <div className={presentation.section1}>
-          <p
-            className={['upper', presentation.copy1].filter(Boolean).join(' ')}
-          >
-            System
-          </p>
-          <h1 className="h1">Approvals</h1>
-          <p className="muted text-sm">
-            Sensitive operations waiting for an authorized reviewer.
-          </p>
-        </div>
+        <SectionHeader
+          title={<>Approvals</>}
+          eyebrow={<>System</>}
+          sub={
+            <>
+              <p className="muted text-sm">
+                Sensitive operations waiting for an authorized reviewer.
+              </p>
+            </>
+          }
+        />
         <div className="card">
           <EmptyState
             icon={<ShieldCheck size={20} />}
@@ -78,10 +78,14 @@ export default async function ApprovalsPage({
   if (queryError) {
     return (
       <PageFrame width="prose">
-        <div className={presentation.section2}>
-          <h1 className="h1">Approvals</h1>
-          <p className="muted text-sm">Failed to load approvals</p>
-        </div>
+        <SectionHeader
+          title={<>Approvals</>}
+          sub={
+            <>
+              <p className="muted text-sm">Failed to load approvals</p>
+            </>
+          }
+        />
         <div className="card">
           <EmptyState
             tone="error"
@@ -140,45 +144,32 @@ export default async function ApprovalsPage({
     <AutoRefresh intervalMs={10000} watch={['approvals']}>
       <PageFrame width="prose">
         {/* Header */}
-        <div className={presentation.section2}>
-          <div
-            className={['row gap-3', presentation.section3]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            <div className={presentation.row1}>
-              <ShieldCheck size={16} className={presentation.ink1} />
-            </div>
-            <div>
+        <SectionHeader
+          title={<>Approvals</>}
+          eyebrow={<>System</>}
+          sub={
+            <>
               <p
-                className={['upper', presentation.copy2]
+                className={['muted text-sm', presentation.copy3]
                   .filter(Boolean)
                   .join(' ')}
               >
-                System
+                Review and approve sensitive operations. Key rotation requires
+                approval from another admin; admin-triggered kill switch
+                activations are auto-approved.
+                {(pendingCount ?? 0) > 0 && (
+                  <span
+                    className={['pill pill--amber', presentation.detail1]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    {pendingCount} pending
+                  </span>
+                )}
               </p>
-              <h1 className="h1">Approvals</h1>
-            </div>
-          </div>
-          <p
-            className={['muted text-sm', presentation.copy3]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            Review and approve sensitive operations. Key rotation requires
-            approval from another admin; admin-triggered kill switch activations
-            are auto-approved.
-            {(pendingCount ?? 0) > 0 && (
-              <span
-                className={['pill pill--amber', presentation.detail1]
-                  .filter(Boolean)
-                  .join(' ')}
-              >
-                {pendingCount} pending
-              </span>
-            )}
-          </p>
-        </div>
+            </>
+          }
+        />
 
         {/* Filter tabs using .seg */}
         <div

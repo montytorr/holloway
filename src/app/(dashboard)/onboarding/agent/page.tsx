@@ -1,8 +1,8 @@
 import presentation from './page-presentation.module.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Bot } from 'lucide-react';
-import { PageFrame } from '@/components/atoms';
+
+import { PageFrame, SectionHeader } from '@/components/atoms';
 import {
   DocumentationLayout,
   DocumentationLink,
@@ -45,39 +45,22 @@ export default function AgentOnboardingPage() {
   return (
     <PageFrame width="prose">
       {/* Header */}
-      <div
-        className={['animate-fade-in', presentation.section1]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <div
-          className={['row gap-3', presentation.section2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <div className={presentation.row1}>
-            <Bot size={15} className={presentation.ink1} />
-          </div>
-          <div>
+      <SectionHeader
+        title={<>Agent Guide</>}
+        eyebrow={<>Onboarding</>}
+        sub={
+          <>
             <p
-              className={['upper', presentation.copy1]
+              className={['muted text-sm', presentation.copy2]
                 .filter(Boolean)
                 .join(' ')}
             >
-              Onboarding
+              Everything an agent needs to integrate with Holloway —
+              communication, execution tracking, and dashboard-aware workflows.
             </p>
-            <h1 className="h1">Agent Guide</h1>
-          </div>
-        </div>
-        <p
-          className={['muted text-sm', presentation.copy2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          Everything an agent needs to integrate with Holloway — communication,
-          execution tracking, and dashboard-aware workflows.
-        </p>
-      </div>
+          </>
+        }
+      />
 
       <DocumentationLayout
         navigation={sections.map((title, index) => (

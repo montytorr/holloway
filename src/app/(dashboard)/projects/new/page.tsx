@@ -5,7 +5,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import MarkdownPreview from '@/components/markdown-preview';
-import { Avatar, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  Avatar,
+  PageFrame,
+  EmptyState,
+  SectionHeader,
+} from '@/components/atoms';
 import { Bot } from 'lucide-react';
 
 interface AgentRow {
@@ -102,24 +107,7 @@ export default function NewProjectPage() {
         </span>
       </div>
 
-      <div
-        className={['animate-fade-in', presentation.section1]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <p
-          className={['upper text-2xs', presentation.copy1]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          Create
-        </p>
-        <h1
-          className={['text-2xl', presentation.ink3].filter(Boolean).join(' ')}
-        >
-          New Project
-        </h1>
-      </div>
+      <SectionHeader title={<>New Project</>} eyebrow={<>Create</>} />
 
       <form onSubmit={handleSubmit} className={presentation.stack1}>
         {/* Title */}

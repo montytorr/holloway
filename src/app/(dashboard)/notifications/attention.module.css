@@ -1,24 +1,3 @@
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.metric {
-  padding: var(--section-pad);
-  display: grid;
-  gap: 12px;
-}
-.metric span {
-  font-size: 13px;
-  color: var(--fg-2);
-}
-.metric strong {
-  font-size: 32px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.04em;
-}
 .item {
   display: flex;
   justify-content: space-between;
@@ -28,7 +7,7 @@
   color: var(--fg-1);
 }
 .item + .item {
-  border-top: 1px solid var(--line-1);
+  border-top: 1px solid var(--line-soft);
 }
 .item:hover strong {
   color: var(--brand);
@@ -70,9 +49,6 @@
   color: var(--brand);
 }
 @media (max-width: 720px) {
-  .metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .item {
     flex-direction: column;
     gap: 8px;

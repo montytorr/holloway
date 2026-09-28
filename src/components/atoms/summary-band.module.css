@@ -1,0 +1,64 @@
+.band {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--brand) 18%, var(--line-1));
+  border-radius: var(--radius-4);
+  background: color-mix(in srgb, var(--brand) 4%, var(--bg-1));
+  margin-bottom: 16px;
+}
+.caption {
+  padding: 10px 16px;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--brand) 12%, var(--line-soft));
+  color: var(--fg-2);
+  font-size: 12px;
+  font-weight: 500;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.metric {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: var(--section-pad);
+  text-decoration: none;
+  color: inherit;
+}
+.metric + .metric {
+  border-left: 1px solid var(--line-soft);
+}
+a.metric:hover {
+  background: var(--brand-bg);
+}
+.label {
+  color: var(--fg-2);
+  font-size: 12px;
+}
+.value {
+  color: var(--fg-0);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.hint {
+  color: var(--fg-3);
+  font-size: 12px;
+  line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .metric:nth-child(3) {
+    border-left: 0;
+  }
+  .metric:nth-child(n + 3) {
+    border-top: 1px solid var(--line-soft);
+  }
+  .value {
+    font-size: 28px;
+  }
+}

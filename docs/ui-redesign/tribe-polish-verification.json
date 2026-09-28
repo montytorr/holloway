@@ -1,0 +1,94 @@
+{
+  "task": "HOL-154",
+  "verified_at_utc": "2026-09-28T11:53:44.942187+00:00",
+  "base_commit": "64c66d40d22152355db84fb82a8b1bc9382bf21b",
+  "reference_commit": "4453589626ae22cec95984467bbe95117e6faee4",
+  "browser": "Chromium",
+  "environment": "isolated PostgreSQL review database and loopback production-mode app",
+  "routes": {
+    "dashboard_routes": 30,
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "widths": [
+      390,
+      768,
+      1024,
+      1440,
+      1920
+    ],
+    "passed": 300,
+    "skipped": 0,
+    "failed": 0
+  },
+  "state_and_public_page_cases": {
+    "passed": 120,
+    "failed": 0
+  },
+  "blocking_question_cases": {
+    "passed": 10,
+    "failed": 0,
+    "tabs": [
+      "overview",
+      "conversation",
+      "artifacts"
+    ]
+  },
+  "interactions": {
+    "passed": 24,
+    "failed": 0,
+    "browser_errors": 0,
+    "roles": [
+      "super-admin",
+      "member",
+      "partner observer",
+      "restricted external"
+    ],
+    "new_cases": [
+      "close-dialog centering, focus trap, Escape, focus restoration at desktop and phone widths",
+      "page freshness follows client navigation and cached Back navigation",
+      "approval-gated close reason validation and trigger focus at desktop and phone widths"
+    ],
+    "expanded_cases": [
+      "member and observer overview titles and turn counts; external empty overview"
+    ]
+  },
+  "contrast": {
+    "browser_text_pairs": 32,
+    "minimum_ratio": 4.8993,
+    "threshold": 4.5,
+    "identity_tile_and_rail_pairs_in_unit_suite": 16
+  },
+  "deep_geometry": {
+    "theme": "dark",
+    "width": 390,
+    "routes": 30,
+    "findings": 0,
+    "checks": [
+      "horizontal overflow",
+      "text clipping",
+      "text overlap",
+      "human wheel scrolling"
+    ]
+  },
+  "automated": {
+    "unit_tests": 463,
+    "reactor_tests": 86,
+    "lint": "passed",
+    "typescript": "passed",
+    "production_build": "passed",
+    "documentation_links_and_parity": "passed"
+  },
+  "screenshots": {
+    "count": 23,
+    "records": "authored synthetic review fixtures"
+  },
+  "limits": [
+    "Chromium only; no formal accessibility certification",
+    "Browser audits and fixture mutations only target the isolated review database",
+    "720px viewport simulates the available width at 200% desktop zoom; no browser zoom certification",
+    "Existing attachment tracing and unset local build app URL warnings remain; no dependency or deployment configuration changes",
+    "Merge and deployment are verified separately after local checks"
+  ]
+}
