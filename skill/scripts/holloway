@@ -424,6 +424,8 @@ def contract_close_outcome(c: dict) -> str | None:
         return "expired"
     if status != "closed":
         return None
+    if c.get("closed_without_approval"):
+        return "closed-unapproved"
     closed_by = str(c.get("closed_by") or "")
     approved = bool(c.get("completion_approved_at"))
     if closed_by == "system:completion-approved":
@@ -434,7 +436,7 @@ def contract_close_outcome(c: dict) -> str | None:
         return "expired"
     if c.get("completion_requires_approval") and not approved:
         return "closed-unapproved"
-    return "closed-by-participant"
+    return "completed-approved" if approved else "closed-by-participant"
 
 
 OUTCOME_TEXT = {

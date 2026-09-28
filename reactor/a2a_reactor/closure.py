@@ -36,6 +36,8 @@ def read_close_outcome(data: dict) -> CloseOutcome:
             if outcome.value == declared:
                 return outcome
 
+    if data.get("closed_without_approval"):
+        return CloseOutcome.CLOSED_UNAPPROVED
     closed_by = str(data.get("closed_by") or "")
     if closed_by == "system:completion-approved":
         return CloseOutcome.COMPLETED_APPROVED
@@ -53,7 +55,8 @@ def read_close_outcome(data: dict) -> CloseOutcome:
     # have been closed with without_approval.
     if data.get("completion_requires_approval") and not data.get("completion_approved_at"):
         return CloseOutcome.CLOSED_UNAPPROVED
-    return CloseOutcome.CLOSED_BY_PARTICIPANT
+    return (CloseOutcome.COMPLETED_APPROVED if data.get("completion_approved_at")
+            else CloseOutcome.CLOSED_BY_PARTICIPANT)
 
 
 #: Outcomes after which the work may still need doing, so a follow-up contract
