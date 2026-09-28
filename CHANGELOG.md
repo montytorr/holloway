@@ -7,6 +7,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.381] - 2026-09-28
+### Changed
+- Align Holloway page composition with Tribe Dispatcher V2 (HOL-155)
+- Merge pull request #31 from montytorr/feat/tribe-v2-composition
+- Align Holloway shell and registers with Tribe Dispatcher V2
+
 ## [1.0.380] - 2026-09-28
 ### Changed
 - Harmonize Holloway with Tribe Dispatcher V2 (HOL-154)
