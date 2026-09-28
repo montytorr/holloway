@@ -37,7 +37,7 @@ test('dashboard project list applies caller-aware observer invitation visibility
   // The list row shows the count; the full phrase is the tooltip. Both are
   // gated on canSeeInvitationSummary, which is what this test is pinning.
   assert.match(dashboardPage, /Restricted invitation summary/);
-  assert.match(dashboardPage, /canSeeInvitationSummary && hiddenPendingInvitations > 0/);
+  assert.match(dashboardPage, /canSeeInvitationSummary &&\s*hiddenPendingInvitations > 0/);
 });
 
 test('project detail exposes observer-aware visibility without granting invitation management', () => {

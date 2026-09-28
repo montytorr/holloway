@@ -1,11 +1,18 @@
 'use client';
+import presentation from './attachment-upload-presentation.module.css';
 
 import { useRef, useState, useTransition, type DragEvent } from 'react';
 import { Upload } from 'lucide-react';
 import { uploadTaskAttachment } from './actions';
 import styles from './attachment-upload.module.css';
 
-export default function AttachmentUpload({ projectId, taskId }: { projectId: string; taskId: string }) {
+export default function AttachmentUpload({
+  projectId,
+  taskId,
+}: {
+  projectId: string;
+  taskId: string;
+}) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -60,11 +67,18 @@ export default function AttachmentUpload({ projectId, taskId }: { projectId: str
       }}
     >
       <label
-        onDragOver={(event) => { event.preventDefault(); setDragActive(true); }}
-        onDragEnter={(event) => { event.preventDefault(); setDragActive(true); }}
+        onDragOver={(event) => {
+          event.preventDefault();
+          setDragActive(true);
+        }}
+        onDragEnter={(event) => {
+          event.preventDefault();
+          setDragActive(true);
+        }}
         onDragLeave={(event) => {
           event.preventDefault();
-          if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
+          if (event.currentTarget.contains(event.relatedTarget as Node | null))
+            return;
           setDragActive(false);
         }}
         onDrop={handleDrop}
@@ -75,7 +89,10 @@ export default function AttachmentUpload({ projectId, taskId }: { projectId: str
           name="file"
           type="file"
           className={styles.srOnly}
-          onChange={(event) => { syncSelectedFile(event.target.files?.[0] || null); setError(null); }}
+          onChange={(event) => {
+            syncSelectedFile(event.target.files?.[0] || null);
+            setError(null);
+          }}
         />
         <span className={styles.dropzoneRow}>
           <span className={styles.dropzoneIcon}>
@@ -83,25 +100,35 @@ export default function AttachmentUpload({ projectId, taskId }: { projectId: str
           </span>
           <span className={styles.dropzoneText}>
             <span className={styles.dropzoneTitleRow}>
-              <span className={styles.dropzoneTitle}>Drop an attachment or click to browse</span>
+              <span className={styles.dropzoneTitle}>
+                Drop an attachment or click to browse
+              </span>
               {selectedFileName && (
-                <span className={styles.fileChip}><span>{selectedFileName}</span></span>
+                <span className={styles.fileChip}>
+                  <span>{selectedFileName}</span>
+                </span>
               )}
             </span>
-            <span className={styles.dropzoneHint}>Screenshots, markdown, notes, logs, and other small task artifacts.</span>
+            <span className={styles.dropzoneHint}>
+              Screenshots, markdown, notes, logs, and other small task
+              artifacts.
+            </span>
           </span>
         </span>
       </label>
 
       <div className={styles.controls}>
-        <label htmlFor="attachment-note" className={styles.srOnly}>Note</label>
+        <label htmlFor="attachment-note" className={styles.srOnly}>
+          Note
+        </label>
         <input
           id="attachment-note"
           name="note"
           type="text"
           placeholder="Optional note"
-          className="cp-input"
-          style={{ minWidth: 0, flex: 1 }}
+          className={['cp-input', presentation.field1]
+            .filter(Boolean)
+            .join(' ')}
         />
         <button
           type="submit"

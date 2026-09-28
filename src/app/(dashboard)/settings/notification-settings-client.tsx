@@ -1,7 +1,11 @@
 'use client';
+import presentation from './notification-settings-client-presentation.module.css';
 
 import { useState, useTransition } from 'react';
-import { updateNotificationPreferences, type NotificationPreferences } from './actions';
+import {
+  updateNotificationPreferences,
+  type NotificationPreferences,
+} from './actions';
 import { PageFrame } from '@/components/atoms';
 
 interface NotificationSettingsClientProps {
@@ -40,19 +44,26 @@ const toggleItems: ToggleItem[] = [
   {
     key: 'project_member_invitation',
     label: 'Project Member Invitations',
-    description: 'Get notified when one of your agents is invited to a project.',
+    description:
+      'Get notified when one of your agents is invited to a project.',
   },
   {
     key: 'stale_blocker',
     label: 'Stale Blockers',
-    description: 'Get notified when a blocked task crosses the stale escalation threshold.',
+    description:
+      'Get notified when a blocked task crosses the stale escalation threshold.',
   },
 ];
 
-export default function NotificationSettingsClient({ initialPrefs }: NotificationSettingsClientProps) {
+export default function NotificationSettingsClient({
+  initialPrefs,
+}: NotificationSettingsClientProps) {
   const [prefs, setPrefs] = useState<NotificationPreferences>(initialPrefs);
   const [isPending, startTransition] = useTransition();
-  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [feedback, setFeedback] = useState<{
+    type: 'success' | 'error';
+    message: string;
+  } | null>(null);
 
   function handleToggle(key: keyof NotificationPreferences) {
     const updated = { ...prefs, [key]: !prefs[key] };
@@ -65,7 +76,10 @@ export default function NotificationSettingsClient({ initialPrefs }: Notificatio
         setFeedback({ type: 'success', message: 'Preferences saved.' });
       } else {
         setPrefs(prefs);
-        setFeedback({ type: 'error', message: result.error || 'Failed to save preferences.' });
+        setFeedback({
+          type: 'error',
+          message: result.error || 'Failed to save preferences.',
+        });
       }
       setTimeout(() => setFeedback(null), 3000);
     });
@@ -73,27 +87,50 @@ export default function NotificationSettingsClient({ initialPrefs }: Notificatio
 
   return (
     <PageFrame width="narrow">
-      <div style={{ marginBottom: '32px' }}>
+      <div className={presentation.section1}>
         <h1 className="h1">Settings</h1>
-        <p className="muted text-sm" style={{ marginTop: '4px' }}>Manage your notification preferences.</p>
+        <p
+          className={['muted text-sm', presentation.copy1]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          Manage your notification preferences.
+        </p>
       </div>
 
-      <div style={{ maxWidth: '560px' }}>
+      <div className={presentation.detail1}>
         <div className="card">
           {/* Section header */}
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--line-1)' }}>
+          <div className={presentation.detail2}>
             <h2 className="h3">Email Notifications</h2>
-            <p className="dim text-2xs" style={{ marginTop: '2px' }}>Choose which emails you&apos;d like to receive.</p>
+            <p
+              className={['dim text-2xs', presentation.copy2]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Choose which emails you&apos;d like to receive.
+            </p>
           </div>
 
           {/* Password Reset — always on */}
           <div
-            className="row"
-            style={{ justifyContent: 'space-between', padding: '14px 20px', borderBottom: '1px solid var(--line-1)' }}
+            className={['row', presentation.detail3].filter(Boolean).join(' ')}
           >
-            <div style={{ flex: 1, minWidth: 0, paddingRight: '16px' }}>
-              <p className="muted text-sm" style={{ fontWeight: 500 }}>Password Reset</p>
-              <p className="dim text-2xs" style={{ marginTop: '2px' }}>Security emails are always sent and cannot be disabled.</p>
+            <div className={presentation.detail4}>
+              <p
+                className={['muted text-sm', presentation.copy3]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Password Reset
+              </p>
+              <p
+                className={['dim text-2xs', presentation.copy2]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Security emails are always sent and cannot be disabled.
+              </p>
             </div>
             <Toggle enabled={true} disabled={true} onChange={() => {}} />
           </div>
@@ -106,12 +143,27 @@ export default function NotificationSettingsClient({ initialPrefs }: Notificatio
               style={{
                 justifyContent: 'space-between',
                 padding: '14px 20px',
-                borderBottom: idx < toggleItems.length - 1 ? '1px solid var(--line-1)' : 'none',
+                borderBottom:
+                  idx < toggleItems.length - 1
+                    ? '1px solid var(--line-1)'
+                    : 'none',
               }}
             >
-              <div style={{ flex: 1, minWidth: 0, paddingRight: '16px' }}>
-                <p className="text-sm" style={{ fontWeight: 500, color: 'var(--fg-0)' }}>{item.label}</p>
-                <p className="dim text-2xs" style={{ marginTop: '2px' }}>{item.description}</p>
+              <div className={presentation.detail4}>
+                <p
+                  className={['text-sm', presentation.copy4]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {item.label}
+                </p>
+                <p
+                  className={['dim text-2xs', presentation.copy2]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {item.description}
+                </p>
               </div>
               <Toggle
                 enabled={prefs[item.key]}
@@ -125,15 +177,20 @@ export default function NotificationSettingsClient({ initialPrefs }: Notificatio
         {/* Feedback toast */}
         {feedback && (
           <div
-            className="text-sm" style={{
+            className="text-sm"
+            style={{
               marginTop: '12px',
               padding: '10px 14px',
               borderRadius: 'var(--radius-2)',
-              
+
               fontWeight: 500,
               transition: 'all 0.2s',
-              background: feedback.type === 'success' ? 'var(--mint-bg)' : 'var(--rose-bg)',
-              color: feedback.type === 'success' ? 'var(--mint)' : 'var(--rose)',
+              background:
+                feedback.type === 'success'
+                  ? 'var(--mint-bg)'
+                  : 'var(--rose-bg)',
+              color:
+                feedback.type === 'success' ? 'var(--mint)' : 'var(--rose)',
               border: `1px solid ${feedback.type === 'success' ? 'var(--mint-line)' : 'var(--rose-line)'}`,
             }}
           >
@@ -168,9 +225,7 @@ function Toggle({
         border: 'none',
         cursor: disabled ? (enabled ? 'not-allowed' : 'wait') : 'pointer',
         opacity: disabled && !enabled ? 0.5 : disabled ? 0.6 : 1,
-        background: enabled
-          ? 'var(--mint-line)'
-          : 'var(--bg-3)',
+        background: enabled ? 'var(--mint-line)' : 'var(--bg-3)',
         transition: 'background 0.2s',
         flexShrink: 0,
       }}

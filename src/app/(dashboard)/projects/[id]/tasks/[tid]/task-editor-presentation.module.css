@@ -1,0 +1,82 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.field1 {
+  font-weight: 600;
+  color: var(--fg-0);
+  letter-spacing: -0.02em;
+  margin-bottom: 0;
+  background: var(--bg-2);
+  border-radius: var(--radius-2);
+  padding: 4px 6px;
+  margin-left: -6px;
+  outline: none;
+  border: 1px solid var(--brand);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+  width: calc(100% + 12px);
+  font-family: inherit;
+}
+
+.stack1 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field2 {
+  width: 100%;
+  background: var(--bg-2);
+  color: var(--fg-1);
+  line-height: 1.6;
+  border-radius: var(--radius-2);
+  padding: var(--space-2);
+  outline: none;
+  border: 1px solid var(--brand);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+  resize: none;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.row1 {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.detail1 {
+  position: relative;
+}
+
+.ink1 {
+  color: var(--fg-1);
+  font-weight: 500;
+}
+
+.ink2 {
+  color: var(--fg-3);
+  margin-left: auto;
+}
+
+.row2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+}
+
+.row3 {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.field3 {
+  flex: 1;
+}
+
+.detail2 {
+  min-width: 160px;
+}
+
+.detail3 {
+  font-weight: 500;
+}

@@ -1,3 +1,4 @@
+import presentation from './page-presentation.module.css';
 import { redirect } from 'next/navigation';
 import { unstable_noStore as noStore } from 'next/cache';
 import { ListChecks, AlertTriangle } from 'lucide-react';
@@ -11,11 +12,14 @@ import TaskFilters from './filters';
 
 export const dynamic = 'force-dynamic';
 
-
 export default async function TasksPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; project?: string; assignee?: string }>;
+  searchParams: Promise<{
+    status?: string;
+    project?: string;
+    assignee?: string;
+  }>;
 }) {
   const auth = await getAuthActorContext();
   if (!auth?.user) redirect('/login');
@@ -36,22 +40,29 @@ export default async function TasksPage({
       .limit(200),
   ]);
 
-  const projects = (projectList.data ?? []) as unknown as Array<{ id: string; title: string }>;
+  const projects = (projectList.data ?? []) as unknown as Array<{
+    id: string;
+    title: string;
+  }>;
   const scopeLabel = params.assignee === 'me' ? 'Assigned to you' : 'Everyone';
   const projectLabel = params.project
-    ? projects.find((project) => project.id === params.project)?.title || 'Selected project'
+    ? projects.find((project) => project.id === params.project)?.title ||
+      'Selected project'
     : 'All projects';
-  const statusLabel = !params.status || params.status === 'open'
-    ? 'Backlog, to do & in progress'
-    : ({
-      all: 'Every status',
-      backlog: 'Backlog',
-      todo: 'To do',
-      'in-progress': 'In progress',
-      'in-review': 'In review',
-      done: 'Done',
-      cancelled: 'Cancelled',
-    } as Record<string, string>)[params.status] || params.status;
+  const statusLabel =
+    !params.status || params.status === 'open'
+      ? 'Backlog, to do & in progress'
+      : (
+          {
+            all: 'Every status',
+            backlog: 'Backlog',
+            todo: 'To do',
+            'in-progress': 'In progress',
+            'in-review': 'In review',
+            done: 'Done',
+            cancelled: 'Cancelled',
+          } as Record<string, string>
+        )[params.status] || params.status;
 
   return (
     <AutoRefresh intervalMs={30000} watch={['tasks', 'projects']}>
@@ -65,7 +76,9 @@ export default async function TasksPage({
         <TaskFilters projects={projects} />
 
         {error && (
-          <div className="card" style={{ marginTop: 16, borderColor: 'var(--rose-line)' }}>
+          <div
+            className={['card', presentation.detail1].filter(Boolean).join(' ')}
+          >
             <EmptyState
               tone="error"
               icon={<AlertTriangle size={20} />}
@@ -76,7 +89,9 @@ export default async function TasksPage({
         )}
 
         {!error && tasks.length === 0 && (
-          <div className="card" style={{ marginTop: 16 }}>
+          <div
+            className={['card', presentation.detail2].filter(Boolean).join(' ')}
+          >
             <EmptyState
               icon={<ListChecks size={20} />}
               title="No matching tasks"
@@ -86,16 +101,12 @@ export default async function TasksPage({
         )}
 
         {tasks.length > 0 && (
-          <div style={{ marginTop: 16 }}>
+          <div className={presentation.detail2}>
             {/* Same grouped list as the project page: one component, one
                 shape, and the workflow order is visible in both. */}
-            <TaskList
-              tasks={tasks as unknown as TaskListRow[]}
-              hrefFor={(row) => (row.project ? `/projects/${row.project.id}/tasks/${row.id}` : '#')}
-            />
+            <TaskList tasks={tasks as unknown as TaskListRow[]} />
           </div>
         )}
-
       </PageFrame>
     </AutoRefresh>
   );

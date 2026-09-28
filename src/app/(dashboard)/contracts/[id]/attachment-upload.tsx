@@ -1,10 +1,15 @@
 'use client';
+import presentation from './attachment-upload-presentation.module.css';
 
 import { useRef, useState, useTransition, type DragEvent } from 'react';
 import { uploadContractAttachment } from './actions';
 import { Upload } from 'lucide-react';
 
-export default function ContractAttachmentUpload({ contractId }: { contractId: string }) {
+export default function ContractAttachmentUpload({
+  contractId,
+}: {
+  contractId: string;
+}) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -49,8 +54,14 @@ export default function ContractAttachmentUpload({ contractId }: { contractId: s
       }}
     >
       <label
-        onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
-        onDragEnter={(e) => { e.preventDefault(); setDragActive(true); }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragActive(true);
+        }}
+        onDragEnter={(e) => {
+          e.preventDefault();
+          setDragActive(true);
+        }}
         onDragLeave={(e) => {
           e.preventDefault();
           if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
@@ -61,7 +72,9 @@ export default function ContractAttachmentUpload({ contractId }: { contractId: s
         style={{
           padding: 14,
           cursor: 'pointer',
-          border: dragActive ? '1px dashed var(--brand)' : '1px dashed var(--line-2)',
+          border: dragActive
+            ? '1px dashed var(--brand)'
+            : '1px dashed var(--line-2)',
           background: dragActive ? 'var(--brand-bg)' : undefined,
           textAlign: 'center',
           display: 'block',
@@ -73,18 +86,28 @@ export default function ContractAttachmentUpload({ contractId }: { contractId: s
           name="file"
           type="file"
           required
-          onChange={(event) => syncSelectedFile(event.target.files?.[0] || null)}
-          style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' }}
+          onChange={(event) =>
+            syncSelectedFile(event.target.files?.[0] || null)
+          }
+          className={presentation.field1}
         />
-        <Upload size={18} style={{ color: 'var(--fg-3)', margin: '0 auto' }} />
-        <div className="text-xs" style={{ marginTop: 6, color: 'var(--fg-1)' }}>
+        <Upload size={18} className={presentation.ink1} />
+        <div
+          className={['text-xs', presentation.ink2].filter(Boolean).join(' ')}
+        >
           {selectedFileName ? (
-            <span className="pill pill--ghost text-2xs">{selectedFileName}</span>
+            <span className="pill pill--ghost text-2xs">
+              {selectedFileName}
+            </span>
           ) : (
             'Drop an artifact or click to browse'
           )}
         </div>
-        <div className="dim text-2xs" style={{ marginTop: 4 }}>
+        <div
+          className={['dim text-2xs', presentation.detail1]
+            .filter(Boolean)
+            .join(' ')}
+        >
           Shared evidence, deliverables, and reference files for this contract.
         </div>
       </label>
@@ -94,8 +117,9 @@ export default function ContractAttachmentUpload({ contractId }: { contractId: s
           name="note"
           type="text"
           placeholder="Optional note"
-          className="cp-input"
-          style={{ flex: 1 }}
+          className={['cp-input', presentation.field2]
+            .filter(Boolean)
+            .join(' ')}
         />
         <button
           type="submit"
@@ -107,9 +131,15 @@ export default function ContractAttachmentUpload({ contractId }: { contractId: s
         </button>
       </div>
 
-      <div className="row" style={{ justifyContent: 'space-between' }}>
+      <div className={['row', presentation.detail2].filter(Boolean).join(' ')}>
         {error ? (
-          <span className="text-2xs" style={{ color: 'var(--rose)' }}>{error}</span>
+          <span
+            className={['text-2xs', presentation.ink3]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {error}
+          </span>
         ) : (
           <span className="dim text-2xs">Private, signed downloads only.</span>
         )}

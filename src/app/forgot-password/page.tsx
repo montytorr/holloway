@@ -1,4 +1,5 @@
 'use client';
+import presentation from './page-presentation.module.css';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -20,9 +21,12 @@ export default function ForgotPasswordPage() {
     try {
       const db = createBrowserClient();
       const appUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-      const { error: resetError } = await db.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: `${appUrl}/reset-password`,
-      });
+      const { error: resetError } = await db.auth.resetPasswordForEmail(
+        email.trim(),
+        {
+          redirectTo: `${appUrl}/reset-password`,
+        },
+      );
 
       if (resetError) {
         setError(resetError.message);
@@ -39,54 +43,101 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: '100dvh', position: 'relative' }}>
-      <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: 380, padding: '0 24px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <div style={{ display: 'inline-flex', marginBottom: 16 }}>
+    <div className={presentation.row1}>
+      <div className={presentation.detail1}>
+        <div className={presentation.section1}>
+          <div className={presentation.section2}>
             <HollowayMark size={44} />
           </div>
           <h1 className="h1 text-xl">Reset Password</h1>
-          <div className="upper" style={{ marginTop: 6 }}>We&apos;ll send you a reset link</div>
+          <div
+            className={['upper', presentation.detail2]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            We&apos;ll send you a reset link
+          </div>
         </div>
 
-        <div className="card" style={{ padding: 28 }}>
+        <div
+          className={['card', presentation.detail3].filter(Boolean).join(' ')}
+        >
           {sent ? (
-            <div style={{ textAlign: 'center', padding: '16px 0' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 48, height: 48, borderRadius: 999, marginBottom: 16 }} className="card card--inset">
-                <Mail size={24} style={{ color: 'var(--mint)' }} />
+            <div className={presentation.detail4}>
+              <div
+                className={['card card--inset', presentation.section3]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                <Mail size={24} className={presentation.ink1} />
               </div>
-              <div className="h3" style={{ marginBottom: 4 }}>Check your email</div>
+              <div
+                className={['h3', presentation.section4]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Check your email
+              </div>
               <div className="dim text-xs">
-                We sent a reset link to <span style={{ color: 'var(--brand)' }}>{email}</span>
+                We sent a reset link to{' '}
+                <span className={presentation.ink2}>{email}</span>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <form onSubmit={handleSubmit} className={presentation.stack1}>
               <div className="col gap-1">
-                <label htmlFor="email" className="upper text-2xs">Email</label>
+                <label htmlFor="email" className="upper text-2xs">
+                  Email
+                </label>
                 <input
-                  id="email" type="email" value={email}
+                  id="email"
+                  type="email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required autoComplete="email" autoFocus
-                  className="cp-input text-sm" style={{ height: 40 }}
+                  required
+                  autoComplete="email"
+                  autoFocus
+                  className={['cp-input text-sm', presentation.field1]
+                    .filter(Boolean)
+                    .join(' ')}
                   placeholder="you@example.com"
                 />
               </div>
 
               {error && (
-                <div className="pill pill--rose text-sm" style={{ height: 'auto', padding: '10px 14px' }}>{error}</div>
+                <div
+                  className={['pill pill--rose text-sm', presentation.detail5]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {error}
+                </div>
               )}
 
-              <button type="submit" disabled={loading} className="btn btn--primary text-sm"
-                style={{ width: '100%', height: 42, justifyContent: 'center', opacity: loading ? 0.5 : 1 }}>
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn btn--primary text-sm"
+                style={{
+                  width: '100%',
+                  height: 42,
+                  justifyContent: 'center',
+                  opacity: loading ? 0.5 : 1,
+                }}
+              >
                 {loading ? 'Sending…' : 'Send Reset Link'}
               </button>
             </form>
           )}
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: 24 }}>
-          <Link href="/login" className="text-2xs" style={{ color: 'var(--brand)', textDecoration: 'none' }}>
+        <p className={presentation.copy1}>
+          <Link
+            href="/login"
+            className={['text-2xs', presentation.link1]
+              .filter(Boolean)
+              .join(' ')}
+          >
             ← Back to login
           </Link>
         </p>

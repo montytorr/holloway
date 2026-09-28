@@ -17,13 +17,12 @@ export const ThemeToggle = () => {
     <button
       type="button"
       onClick={() => setTheme(next)}
-      className="btn btn--ghost btn--sm btn--icon"
-      style={{ width: 26, height: 26 }}
+      className="btn btn--ghost btn--icon"
       title={`Switch to ${next} theme`}
       aria-label={`Switch to ${next} theme`}
     >
-      <Sun size={13} className="hidden dark:block" aria-hidden />
-      <Moon size={13} className="block dark:hidden" aria-hidden />
+      <Sun size={18} className="hidden dark:block" aria-hidden />
+      <Moon size={18} className="block dark:hidden" aria-hidden />
     </button>
   );
 };

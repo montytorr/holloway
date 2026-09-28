@@ -1,0 +1,119 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.grid1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.stack1 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-2);
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-4);
+  background: color-mix(in oklch, var(--bg-1) 72%, transparent);
+}
+
+.copy1 {
+  padding: 4px 8px 8px;
+  letter-spacing: 0.12em;
+}
+
+.detail1 {
+  position: absolute;
+  left: -1px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+}
+
+.detail2 {
+  min-width: 0;
+}
+
+.ink1 {
+  display: block;
+  font-weight: 600;
+  color: var(--fg-0);
+  line-height: 1.2;
+}
+
+.detail3 {
+  display: block;
+  margin-top: 3px;
+  line-height: 1.25;
+}
+
+.stack2 {
+  overflow: hidden;
+  border: 1px solid var(--line-1);
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.row1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line-1);
+  background: var(--bg-1);
+}
+
+.copy2 {
+  font-weight: 600;
+}
+
+.copy3 {
+  margin-top: 2px;
+}
+
+.row2 {
+  color: var(--peri);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.detail4 {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: #fff;
+  min-height: 560px;
+}
+
+.row3 {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail5 {
+  text-align: center;
+}
+
+.row4 {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-4);
+  background: var(--bg-2);
+  border: 1px solid var(--line-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem;
+}
+
+.ink2 {
+  color: var(--fg-3);
+}

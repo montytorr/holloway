@@ -10,9 +10,18 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.breadcrumb a { color: var(--fg-2); text-decoration: none; }
-.breadcrumb a:hover, .breadcrumb a:focus-visible { color: var(--peri); }
-.breadcrumb svg { flex-shrink: 0; color: var(--fg-4); }
+.breadcrumb a {
+  color: var(--fg-2);
+  text-decoration: none;
+}
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  color: var(--peri);
+}
+.breadcrumb svg {
+  flex-shrink: 0;
+  color: var(--fg-4);
+}
 
 .header {
   display: flex;
@@ -66,7 +75,9 @@
   gap: var(--space-4);
 }
 
-.main { grid-area: conversation; }
+.main {
+  grid-area: conversation;
+}
 /* Was sticky + max-height + overflow-y: auto, nested inside the dashboard
    shell's own scroller — the identical rule HOL-140 removed from the task
    page and wrote a post-mortem about in task-detail.module.css. This rail
@@ -79,7 +90,12 @@
   grid-area: context;
   min-width: 0;
 }
-.context { display: flex; min-width: 0; flex-direction: column; gap: var(--space-4); }
+.context {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-4);
+}
 
 .main > :first-child,
 .context > :first-child {
@@ -103,7 +119,9 @@
   overflow-wrap: anywhere;
 }
 
-.fullFact { grid-column: 1 / -1; }
+.fullFact {
+  grid-column: 1 / -1;
+}
 
 .taskFact {
   display: flex;
@@ -263,7 +281,9 @@
   color: var(--outcome-accent);
 }
 
-.outcomeHeader .sideHeading { margin-bottom: 2px; }
+.outcomeHeader .sideHeading {
+  margin-bottom: 2px;
+}
 
 .outcomeTitle {
   color: var(--fg-0);
@@ -320,7 +340,9 @@
   margin-bottom: var(--space-3);
 }
 
-.panelHeading .sideHeading { margin: 0; }
+.panelHeading .sideHeading {
+  margin: 0;
+}
 
 .attention {
   padding: var(--space-4);
@@ -337,7 +359,10 @@
   font-size: var(--text-sm);
 }
 
-.attentionHeading svg { flex-shrink: 0; color: var(--amber); }
+.attentionHeading svg {
+  flex-shrink: 0;
+  color: var(--amber);
+}
 
 .attention p {
   margin: var(--space-2) 0 0;
@@ -346,7 +371,9 @@
   line-height: 1.5;
 }
 
-.attentionDetails { margin-top: var(--space-3); }
+.attentionDetails {
+  margin-top: var(--space-3);
+}
 .attentionDetails summary {
   width: fit-content;
   color: var(--amber);
@@ -391,8 +418,16 @@
     grid-template-areas: 'conversation' 'context';
   }
 
-  .sidebar { position: static; max-height: none; overflow: visible; }
-  .context { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  .context {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
 }
 
 @media (max-width: 600px) {
@@ -413,4 +448,50 @@
     flex-basis: 100%;
     margin-left: 0;
   }
+}
+
+.brief {
+  padding: var(--section-pad);
+}
+.brief > h2 {
+  margin-bottom: var(--space-4);
+}
+.brief :global(.markdown-preview) {
+  max-width: 75ch;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.messageBody {
+  max-width: 75ch;
+}
+.message {
+  padding: var(--section-pad);
+}
+.turnState {
+  background: var(--bg-1) !important;
+  border-left: 3px solid var(--amber) !important;
+  padding: var(--space-3) var(--space-4);
+  font-size: 13px;
+}
+.sideHeading {
+  font-family: var(--sans);
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+.facts {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+.facts > * {
+  border-bottom: 1px solid var(--line-1);
+  padding-bottom: var(--space-2);
+}
+
+.turnState[data-awaiting='human'] {
+  border-left-color: var(--rose) !important;
+}
+.turnState[data-awaiting='nobody'] {
+  border-left-color: var(--line-2) !important;
 }

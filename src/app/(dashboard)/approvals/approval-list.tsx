@@ -1,4 +1,5 @@
 'use client';
+import presentation from './approval-list-presentation.module.css';
 
 import { useState, useTransition } from 'react';
 import { handleApprove, handleDeny } from './actions';
@@ -87,69 +88,105 @@ export default function ApprovalList({
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div className={presentation.stack1}>
       {error && (
-        <div className="text-xs" style={{
-          padding: '10px 14px',
-          borderRadius: 'var(--radius-2)',
-          background: 'var(--rose-bg)',
-          border: '1px solid var(--rose-line)',
-          
-          color: 'var(--rose)',
-        }}>
+        <div
+          className={['text-xs', presentation.panel1].filter(Boolean).join(' ')}
+        >
           {error}
         </div>
       )}
       {approvals.map((a) => {
         const isOwnRequest = a.actor === currentUser;
-        const canReview = isSuperAdmin && !isOwnRequest && a.status === 'pending';
+        const canReview =
+          isSuperAdmin && !isOwnRequest && a.status === 'pending';
         const isActioning = isPending && actionId === a.id;
 
         return (
-          <div key={a.id} className="card animate-fade-in" style={{ padding: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div className="row gap-2" style={{ marginBottom: 8 }}>
+          <div
+            key={a.id}
+            className={['card animate-fade-in', presentation.detail1]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <div className={presentation.row1}>
+              <div className={presentation.detail2}>
+                <div
+                  className={['row gap-2', presentation.section1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   <StatusBadge domain="approval" status={a.status} size="lg" />
                   <span className="h3">{formatAction(a.action)}</span>
                 </div>
-                <div className="row gap-3 text-xs" style={{ color: 'var(--fg-3)' }}>
+                <div
+                  className={['row gap-3 text-xs', presentation.ink1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   <span>
-                    Requested by <span style={{ color: 'var(--fg-2)', fontWeight: 500 }}>{a.actor}</span>
+                    Requested by{' '}
+                    <span className={presentation.ink2}>{a.actor}</span>
                   </span>
-                  <span style={{ color: 'var(--fg-4)' }}>·</span>
+                  <span className={presentation.ink3}>·</span>
                   <span>{timeAgo(a.created_at)}</span>
                   {a.reviewed_by && (
                     <>
-                      <span style={{ color: 'var(--fg-4)' }}>·</span>
+                      <span className={presentation.ink3}>·</span>
                       <span>
-                        {a.status === 'consumed' ? 'Consumed (was approved)' : a.status === 'approved' ? 'Approved' : 'Denied'} by{' '}
-                        <span style={{ color: 'var(--fg-2)', fontWeight: 500 }}>{a.reviewed_by}</span>
+                        {a.status === 'consumed'
+                          ? 'Consumed (was approved)'
+                          : a.status === 'approved'
+                            ? 'Approved'
+                            : 'Denied'}{' '}
+                        by{' '}
+                        <span className={presentation.ink2}>
+                          {a.reviewed_by}
+                        </span>
                       </span>
                     </>
                   )}
                 </div>
                 {/* Details */}
                 {a.details && Object.keys(a.details).length > 0 && (
-                  <div className="card--inset" style={{
-                    marginTop: 12,
-                    padding: 'var(--space-3)',
-                    borderRadius: 'var(--radius-2)',
-                  }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div
+                    className={['card--inset', presentation.detail3]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    <div className={presentation.stack2}>
                       {Object.entries(a.details)
-                        .filter(([k]) => !['executed', 'executed_at', 'executed_by'].includes(k))
+                        .filter(
+                          ([k]) =>
+                            ![
+                              'executed',
+                              'executed_at',
+                              'executed_by',
+                            ].includes(k),
+                        )
                         .map(([k, v]) => (
                           <div key={k} className="row gap-2 text-xs">
-                            <span style={{ color: 'var(--fg-3)', fontWeight: 500 }}>{k.replace(/_/g, ' ')}:</span>
-                            <span className="mono" style={{ color: 'var(--fg-2)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{String(v)}</span>
+                            <span className={presentation.ink4}>
+                              {k.replace(/_/g, ' ')}:
+                            </span>
+                            <span
+                              className={['mono', presentation.ink5]
+                                .filter(Boolean)
+                                .join(' ')}
+                            >
+                              {String(v)}
+                            </span>
                           </div>
                         ))}
                     </div>
                   </div>
                 )}
                 {isOwnRequest && a.status === 'pending' && (
-                  <p className="text-2xs" style={{ marginTop: 8, color: 'var(--amber)', fontWeight: 500 }}>
+                  <p
+                    className={['text-2xs', presentation.copy1]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
                     You cannot approve your own request
                   </p>
                 )}
@@ -157,16 +194,17 @@ export default function ApprovalList({
 
               {/* Action buttons */}
               {canReview && (
-                <div className="row gap-2" style={{ flexShrink: 0 }}>
+                <div
+                  className={['row gap-2', presentation.detail4]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   <button
                     onClick={() => doApprove(a.id)}
                     disabled={isActioning}
-                    className="btn btn--sm"
-                    style={{
-                      background: 'var(--mint-bg)',
-                      borderColor: 'var(--mint-line)',
-                      color: 'var(--mint)',
-                    }}
+                    className={['btn btn--sm', presentation.action1]
+                      .filter(Boolean)
+                      .join(' ')}
                   >
                     {isActioning ? '...' : 'Approve'}
                   </button>

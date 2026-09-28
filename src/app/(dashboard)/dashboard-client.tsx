@@ -1,71 +1,25 @@
 'use client';
 
-
 import Link from 'next/link';
 import {
-  FileText,
+  ArrowRight,
   MessageSquare,
-  Activity,
+  Shield,
   Clock,
-  Users,
-  Folder,
-  Zap,
-  Link2,
-  CheckCircle2,
-  XCircle,
-  Send,
-  Lock,
-  Bot,
-  Pencil,
-  Webhook,
+  FileText,
+  AlertCircle,
 } from 'lucide-react';
-import { HashChip, Avatar, SectionHeader, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  HashChip,
+  Avatar,
+  SectionHeader,
+  SectionCard,
+  PageFrame,
+  EmptyState,
+} from '@/components/atoms';
+import type { DashboardNotificationItem } from '@/lib/dashboard-notifications';
+import { formatDateTime } from '@/lib/format-date';
 import styles from './dashboard.module.css';
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-function timeAgo(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return 'just now';
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  return `${Math.floor(hours / 24)}d ago`;
-}
-
-type PillVariant = 'mint' | 'amber' | 'peri' | 'rose';
-
-function getActionMeta(action: string): { Icon: React.ElementType; pill: PillVariant; label: string } {
-  if (action.includes('propose'))  return { Icon: FileText,      pill: 'amber', label: 'propose'  };
-  if (action.includes('accept'))   return { Icon: CheckCircle2,  pill: 'mint',  label: 'accept'   };
-  if (action.includes('reject'))   return { Icon: XCircle,       pill: 'rose',  label: 'reject'   };
-  if (action.includes('close'))    return { Icon: Lock,           pill: 'peri',  label: 'close'    };
-  if (action.includes('message') || action.includes('send'))
-                                   return { Icon: Send,           pill: 'peri',  label: 'message'  };
-  if (action.includes('kill'))     return { Icon: Zap,            pill: 'rose',  label: 'kill'     };
-  if (action.includes('project'))  return { Icon: Folder,         pill: 'peri',  label: 'project'  };
-  if (action.includes('task'))     return { Icon: Pencil,         pill: 'amber', label: 'task'     };
-  if (action.includes('webhook'))  return { Icon: Webhook,        pill: 'amber', label: 'webhook'  };
-  if (action.includes('agent') || action.includes('register'))
-                                   return { Icon: Bot,            pill: 'mint',  label: 'agent'    };
-  return { Icon: Activity, pill: 'peri', label: action };
-}
-
-function getAuditLink(entry: { resource_type?: string; resource_id?: string }): string | null {
-  if (!entry.resource_id && !entry.resource_type) return null;
-  switch (entry.resource_type) {
-    case 'contract': return entry.resource_id ? `/contracts/${entry.resource_id}` : null;
-    case 'project':  return entry.resource_id ? `/projects/${entry.resource_id}` : null;
-    case 'agent':    return entry.resource_id ? `/agents/${entry.resource_id}` : null;
-    case 'task':     return '/projects';
-    case 'message':  return '/messages';
-    case 'system':   return '/kill-switch';
-    default:         return null;
-  }
-}
-
-// ── Types ─────────────────────────────────────────────────────────────────────
 
 interface AuditEntry {
   id: string;
@@ -75,300 +29,286 @@ interface AuditEntry {
   resource_id?: string;
   created_at: string;
 }
-
+interface ActiveWork {
+  id: string;
+  title: string;
+  current_turns: number;
+  max_turns: number;
+}
 interface DashboardClientProps {
-  activeContracts:    number;
-  messagesToday:      number;
+  activeContracts: number;
+  messagesToday: number;
   pendingInvitations: number;
-  isKillSwitchActive: boolean;
-  totalAgents:        number;
-  activeProjects:     number;
-  tasksInProgress:    number;
-  webhookDeliveries:  number;
-  recentAudit:        AuditEntry[];
+  isKillSwitchActive: boolean | null;
+  totalAgents: number;
+  activeProjects: number;
+  tasksInProgress: number;
+  webhookDeliveries: number;
+  recentAudit: AuditEntry[];
   latestWebhookDeliveryAt?: string | null;
+  attentionItems: DashboardNotificationItem[];
+  activeWork: ActiveWork[];
 }
 
-// ── Stat tile ─────────────────────────────────────────────────────────────────
-
-interface StatTileProps {
-  label:     string;
-  value:     number | string;
-  hint:      string;
-  icon:      React.ElementType;
-  iconColor: string;
-  href:      string;
+function auditLink(entry: AuditEntry) {
+  if (entry.resource_type === 'contract' && entry.resource_id)
+    return `/contracts/${entry.resource_id}`;
+  if (entry.resource_type === 'project' && entry.resource_id)
+    return `/projects/${entry.resource_id}`;
+  if (entry.resource_type === 'agent' && entry.resource_id)
+    return `/agents/${entry.resource_id}`;
+  if (entry.resource_type === 'message') return '/messages';
+  return '/audit';
 }
+const attentionRank = (kind: string) =>
+  kind === 'agent-question'
+    ? 0
+    : kind.startsWith('task-blocked')
+      ? 1
+      : kind === 'approval-request'
+        ? 2
+        : 3;
 
-const StatTile = ({ label, value, hint, icon: Icon, iconColor, href }: StatTileProps) => (
-  <Link href={href} className={styles.statLink}>
-    <div className={`card ${styles.statCard}`}>
-      <div className={styles.statBar}>
-        <span>{label}</span>
-        <Icon size={16} strokeWidth={1.8} style={{ color: iconColor }} aria-hidden="true" />
-      </div>
-      <div className={styles.statBody}>
-        <div className={styles.statValue}>{value}</div>
-        <div className={styles.statHint}>{hint}</div>
-      </div>
-    </div>
-  </Link>
-);
-
-const SystemStatusTile = ({ isKillSwitchActive }: { isKillSwitchActive: boolean }) => {
-  const color = isKillSwitchActive ? 'var(--rose)' : 'var(--mint)';
-  const label = isKillSwitchActive ? 'Kill switch active' : 'Operational';
-  const hint = isKillSwitchActive ? 'All operations frozen' : 'All systems nominal';
-
-  return (
-    <Link href="/kill-switch" className={styles.statLink}>
-      <div className={`card ${styles.statCard}`} style={isKillSwitchActive ? { borderColor: 'var(--rose-line)' } : undefined}>
-        <div className={styles.statBar}>
-          <span>System status</span>
-          <Activity size={16} strokeWidth={1.8} style={{ color }} aria-hidden="true" />
-        </div>
-        <div className={styles.statBody}>
-          <div className={styles.statStatus} style={{ color }}>
-            <span className={`dot ${isKillSwitchActive ? 'dot--rose' : 'dot--mint'}`} aria-hidden="true" />
-            {label}
-          </div>
-          <div className={styles.statHint}>{hint}</div>
-        </div>
-      </div>
-    </Link>
+export function DashboardClient(props: DashboardClientProps) {
+  const items = [...props.attentionItems].sort(
+    (a, b) => attentionRank(a.kind) - attentionRank(b.kind),
   );
-};
-
-// ── Activity row ──────────────────────────────────────────────────────────────
-
-const ActivityRow = ({ entry }: { entry: AuditEntry }) => {
-  const { Icon, pill, label } = getActionMeta(entry.action);
-  const link = getAuditLink(entry);
-  const inner = (
-    <div
-      className="row gap-2"
-      style={{
-        padding: '8px 0',
-        borderBottom: '1px solid var(--line-1)',
-        alignItems: 'center',
-        minWidth: 0,
-      }}
-    >
-      {/* Avatar */}
-      <Avatar name={entry.actor} size={26} />
-
-      {/* Icon */}
-      <span style={{ color: 'var(--fg-3)', flexShrink: 0 }}>
-        <Icon size={13} strokeWidth={1.8} />
-      </span>
-
-      {/* Actor (mono) */}
-      <span
-        className="mono text-xs"
-        style={{ color: 'var(--fg-1)', flexShrink: 0, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-      >
-        {entry.actor}
-      </span>
-
-      {/* Action type (mono) */}
-      <span
-        className="mono text-2xs"
-        style={{ color: 'var(--fg-3)', flexShrink: 0, maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-      >
-        {entry.action}
-      </span>
-
-      {/* Pill */}
-      <span className={`pill pill--${pill}`} style={{ flexShrink: 0 }}>{label}</span>
-
-      {/* Resource hash */}
-      {entry.resource_id && (
-        <span style={{ flexShrink: 0 }}>
-          <HashChip value={entry.resource_id} copyable={false} />
-        </span>
-      )}
-
-      {/* Spacer */}
-      <span style={{ flex: 1 }} />
-
-      {/* Timestamp */}
-      <span
-        className="mono dim text-2xs"
-        style={{ flexShrink: 0, whiteSpace: 'nowrap' }}
-      >
-        {timeAgo(entry.created_at)}
-      </span>
-    </div>
-  );
-
-  if (link) {
-    return (
-      <Link key={entry.id} href={link} style={{ textDecoration: 'none', display: 'block' }}>
-        {inner}
-      </Link>
-    );
-  }
-  return <div key={entry.id}>{inner}</div>;
-};
-
-// ── Main component ────────────────────────────────────────────────────────────
-
-export const DashboardClient = ({
-  activeContracts,
-  messagesToday,
-  pendingInvitations,
-  isKillSwitchActive,
-  totalAgents,
-  activeProjects,
-  tasksInProgress,
-  webhookDeliveries,
-  recentAudit,
-  latestWebhookDeliveryAt,
-}: DashboardClientProps) => {
-
-  // Stat tiles definition
-  const STATS: StatTileProps[] = [
+  const metrics = [
     {
-      label:      'Active Contracts',
-      value:      activeContracts,
-      hint:       'View all contracts →',
-      icon:       FileText,
-      iconColor:  'var(--mint)',
-      href:       '/contracts?status=active',
+      label: 'Active contracts',
+      value: props.activeContracts,
+      hint: 'Scoped agent conversations',
+      href: '/contracts?status=active',
     },
     {
-      label:      'Messages Today',
-      value:      messagesToday,
-      hint:       'View messages →',
-      icon:       MessageSquare,
-      iconColor:  'var(--peri)',
-      href:       '/contracts',
+      label: 'Tasks in progress',
+      value: props.tasksInProgress,
+      hint: 'Work currently underway',
+      href: '/tasks?status=in-progress',
     },
     {
-      label:      'Pending Invitations',
-      value:      pendingInvitations,
-      hint:       'Review project + contract inboxes →',
-      icon:       Clock,
-      iconColor:  'var(--amber)',
-      href:       '/projects',
+      label: 'Pending invitations',
+      value: props.pendingInvitations,
+      hint: 'Project & contract inboxes',
+      href: '/notifications',
     },
     {
-      label:      'Total Agents',
-      value:      totalAgents,
-      hint:       'View all agents →',
-      icon:       Users,
-      iconColor:  'var(--rose)',
-      href:       '/agents',
-    },
-    {
-      label:      'Active Projects',
-      value:      activeProjects,
-      hint:       'View projects →',
-      icon:       Folder,
-      iconColor:  'var(--mint)',
-      href:       '/projects',
-    },
-    {
-      label:      'Tasks In Progress',
-      value:      tasksInProgress,
-      hint:       'View tasks →',
-      icon:       Zap,
-      iconColor:  'var(--peri)',
-      href:       '/projects',
-    },
-    {
-      label:      'Webhooks (24h)',
-      value:      webhookDeliveries,
-      hint:       'View webhooks →',
-      icon:       Link2,
-      iconColor:  'var(--amber)',
-      href:       '/webhooks',
+      label: 'Messages today',
+      value: props.messagesToday,
+      hint: 'Exchanges between agents',
+      href: '/messages',
     },
   ];
-
   return (
     <PageFrame>
-      {/* Section header */}
       <SectionHeader
-        eyebrow="Overview"
-        title="Dashboard"
-        sub="System overview and recent activity"
+        title="Workspace overview"
+        sub="Start with the decisions and work that need your attention."
+        right={
+          <Link href="/contracts" className="btn">
+            View contracts <ArrowRight size={16} />
+          </Link>
+        }
       />
-
-      <div className={styles.statsGrid}>
-        {/* Row 1: contracts, messages, system status, pending */}
-        <StatTile {...STATS[0]} />
-        <StatTile {...STATS[1]} />
-        <SystemStatusTile isKillSwitchActive={isKillSwitchActive} />
-        <StatTile {...STATS[2]} />
-
-        {/* Row 2: agents, projects, tasks, webhooks */}
-        <StatTile {...STATS[3]} />
-        <StatTile {...STATS[4]} />
-        <StatTile {...STATS[5]} />
-        <StatTile {...STATS[6]} />
-      </div>
-
-      {/* Bottom 2-col layout */}
-      <div className={styles.lowerGrid}>
-        {/* ── Recent Activity ── */}
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-          {/* Header */}
-          <div
-            className="row"
-            style={{
-              padding: '12px 16px',
-              borderBottom: '1px solid var(--line-1)',
-              justifyContent: 'space-between',
-            }}
+      <section className={styles.hero} aria-label="Workspace summary">
+        {metrics.map((metric) => (
+          <Link key={metric.label} href={metric.href} className={styles.metric}>
+            <span>{metric.label}</span>
+            <strong>{metric.value}</strong>
+            <small>{metric.hint}</small>
+          </Link>
+        ))}
+      </section>
+      <div className={styles.columns}>
+        <div className={styles.stack}>
+          <SectionCard
+            title="Needs your attention"
+            description="Questions, blocked work, invitations, and approvals"
+            action={
+              <Link href="/notifications" className="btn btn--ghost btn--sm">
+                Open inbox · {items.length} <ArrowRight size={14} />
+              </Link>
+            }
           >
-            <div className="col gap-1">
-              <span className="h3">Recent Activity</span>
-              <span className="dim text-2xs">Latest system events</span>
-            </div>
-            <Link href="/audit" className="btn btn--ghost btn--sm">
-              View all →
-            </Link>
-          </div>
-
-          {/* Rows */}
-          <div style={{ padding: '4px 16px 8px' }}>
-            {recentAudit.length === 0 ? (
+            {items.length === 0 ? (
               <EmptyState
-                icon={<Clock size={20} />}
-                title="No activity yet"
-                hint="Events appear here as they happen."
+                icon={<Shield size={20} />}
+                title="Nothing needs attention"
+                hint="No decisions or follow-ups are currently waiting on you."
               />
             ) : (
-              recentAudit.map(entry => <ActivityRow key={entry.id} entry={entry} />)
+              items.slice(0, 6).map((item) => (
+                <Link href={item.href} key={item.id} className={styles.workRow}>
+                  <span
+                    className={`${styles.workIcon} ${item.kind === 'agent-question' || item.kind.startsWith('task-blocked') ? styles.urgent : ''}`}
+                  >
+                    {item.kind === 'agent-question' ? (
+                      <MessageSquare size={18} />
+                    ) : item.kind.startsWith('task-blocked') ? (
+                      <AlertCircle size={18} />
+                    ) : (
+                      <Clock size={18} />
+                    )}
+                  </span>
+                  <div className={styles.rowText}>
+                    <strong>{item.title}</strong>
+                    <span>{item.meta || item.body}</span>
+                  </div>
+                  <ArrowRight size={16} aria-hidden />
+                </Link>
+              ))
             )}
-          </div>
-        </div>
-
-        <div>
-          <div className="card" style={{ padding: 'var(--space-4)' }}>
-            <div className="col gap-1">
-              <span className="upper text-2xs">Latest Webhook Delivery</span>
-              <div
-                className="num text-xl"
-                style={{
-                  
-                  fontFamily: 'var(--sans)',
-                  fontWeight: 700,
-                  color: 'var(--fg-0)',
-                  lineHeight: 1.15,
-                }}
+            {items.length > 6 && (
+              <Link className={styles.more} href="/notifications">
+                View all {items.length} actionable items →
+              </Link>
+            )}
+          </SectionCard>
+          <SectionCard
+            title="Active work"
+            description="Contracts currently in progress"
+            action={
+              <Link
+                href="/contracts?status=active"
+                className="btn btn--ghost btn--sm"
               >
-                {latestWebhookDeliveryAt ? timeAgo(latestWebhookDeliveryAt) : '—'}
+                View all <ArrowRight size={14} />
+              </Link>
+            }
+          >
+            {props.activeWork.length ? (
+              props.activeWork.slice(0, 6).map((contract) => (
+                <Link
+                  href={`/contracts/${contract.id}`}
+                  key={contract.id}
+                  className={styles.workRow}
+                >
+                  <span className={styles.workIcon}>
+                    <FileText size={18} />
+                  </span>
+                  <div className={styles.rowText}>
+                    <strong>{contract.title}</strong>
+                    <span>
+                      {contract.current_turns} of {contract.max_turns} turns
+                      used
+                    </span>
+                  </div>
+                  <span className="pill pill--amber">Active</span>
+                  <ArrowRight size={16} aria-hidden />
+                </Link>
+              ))
+            ) : (
+              <EmptyState
+                title="No active contracts"
+                hint="Accepted conversations will appear here."
+              />
+            )}
+          </SectionCard>
+        </div>
+        <div className={styles.stack}>
+          <SectionCard
+            title="Latest activity"
+            description="Recent changes in your workspace"
+            action={
+              <Link href="/audit" className="btn btn--ghost btn--sm">
+                Audit trail <ArrowRight size={14} />
+              </Link>
+            }
+          >
+            {props.recentAudit.length ? (
+              props.recentAudit.slice(0, 8).map((entry) => (
+                <Link
+                  href={auditLink(entry)}
+                  key={entry.id}
+                  className={styles.activityRow}
+                >
+                  <Avatar name={entry.actor} size={26} />
+                  <div className={styles.rowText}>
+                    <strong>{entry.actor}</strong>
+                    <span>{entry.action.replace(/[._]/g, ' ')}</span>
+                    <time dateTime={entry.created_at}>
+                      {formatDateTime(entry.created_at)}
+                    </time>
+                  </div>
+                  {entry.resource_id && (
+                    <span className={styles.auditReference}>
+                      <HashChip value={entry.resource_id} copyable={false} />
+                    </span>
+                  )}
+                </Link>
+              ))
+            ) : (
+              <EmptyState
+                title="No activity yet"
+                hint="The audit trail will appear as work moves."
+              />
+            )}
+          </SectionCard>
+          <SectionCard
+            title="Control plane"
+            description="Operational context, with each signal shown separately"
+          >
+            <dl className={styles.health}>
+              <div>
+                <dt>Emergency stop</dt>
+                <dd>
+                  <Link
+                    href="/kill-switch"
+                    className={
+                      props.isKillSwitchActive === null
+                        ? ''
+                        : props.isKillSwitchActive
+                          ? styles.urgent
+                          : styles.healthy
+                    }
+                  >
+                    {props.isKillSwitchActive === null
+                      ? 'Unknown'
+                      : props.isKillSwitchActive
+                        ? 'Active · operations frozen'
+                        : 'Inactive'}
+                  </Link>
+                </dd>
               </div>
-              <span className="dim text-2xs">
-                {latestWebhookDeliveryAt ? latestWebhookDeliveryAt : 'No webhook delivery timestamp recorded yet'}
-              </span>
-            </div>
-          </div>
+              <div>
+                <dt>Agents</dt>
+                <dd>
+                  <Link href="/agents">{props.totalAgents} registered</Link>
+                </dd>
+              </div>
+              <div>
+                <dt>Active projects</dt>
+                <dd>
+                  <Link href="/projects?status=active">
+                    {props.activeProjects}
+                  </Link>
+                </dd>
+              </div>
+              <div>
+                <dt>Webhook deliveries (24h)</dt>
+                <dd>
+                  <Link href="/webhooks/health">{props.webhookDeliveries}</Link>
+                </dd>
+              </div>
+              <div>
+                <dt>Latest delivery</dt>
+                <dd>
+                  {props.latestWebhookDeliveryAt ? (
+                    <time dateTime={props.latestWebhookDeliveryAt}>
+                      {formatDateTime(props.latestWebhookDeliveryAt)}
+                    </time>
+                  ) : (
+                    'None recorded'
+                  )}
+                </dd>
+              </div>
+            </dl>
+            <Link href="/webhooks/health" className={styles.more}>
+              Inspect delivery health →
+            </Link>
+          </SectionCard>
         </div>
       </div>
-
     </PageFrame>
   );
-};
+}

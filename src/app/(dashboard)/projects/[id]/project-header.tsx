@@ -1,4 +1,5 @@
 'use client';
+import presentation from './project-header-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import Link from 'next/link';
@@ -7,8 +8,17 @@ import MarkdownPreview from '@/components/markdown-preview';
 import { Avatar, EmptyState } from '@/components/atoms';
 import { formatDateTime, formatRelative } from '@/lib/format-date';
 import ProjectStatusDropdown from './project-status-dropdown';
-import { inviteProjectMember, removeProjectMember, respondToProjectInvitation, updateProject } from './actions';
-import { getInvitationStatusLabel, getInvitationStatusTone, type InvitationLike } from '../invitation-utils';
+import {
+  inviteProjectMember,
+  removeProjectMember,
+  respondToProjectInvitation,
+  updateProject,
+} from './actions';
+import {
+  getInvitationStatusLabel,
+  getInvitationStatusTone,
+  type InvitationLike,
+} from '../invitation-utils';
 import styles from './project-detail.module.css';
 
 interface ProjectHeaderProps {
@@ -26,7 +36,12 @@ interface ProjectHeaderProps {
   }>;
   invitations?: InvitationLike[];
   myPendingInvitations?: InvitationLike[];
-  availableAgents?: Array<{ id: string; name: string; display_name: string; trust_tier?: string | null }>;
+  availableAgents?: Array<{
+    id: string;
+    name: string;
+    display_name: string;
+    trust_tier?: string | null;
+  }>;
   isOwner?: boolean;
   hiddenPendingInvitationCount?: number;
   canSeeObserverInvitationSummary?: boolean;
@@ -68,15 +83,17 @@ function EditableProjectTitle({
 
   if (!editing) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
-        <h1 className="h1" style={{ flex: 1, minWidth: 0 }}>{value}</h1>
+      <div className={presentation.row1}>
+        <h1 className={['h1', presentation.detail1].filter(Boolean).join(' ')}>
+          {value}
+        </h1>
         {isOwner && (
           <button
             onClick={() => setEditing(true)}
             className="btn btn--ghost btn--icon"
             title="Edit title"
           >
-            <Pencil size={14} style={{ color: 'var(--fg-4)' }} />
+            <Pencil size={14} className={presentation.ink1} />
           </button>
         )}
       </div>
@@ -84,25 +101,23 @@ function EditableProjectTitle({
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
+    <div className={presentation.row1}>
       <input
         ref={inputRef}
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') save();
-          if (e.key === 'Escape') { setText(value); setEditing(false); }
+          if (e.key === 'Escape') {
+            setText(value);
+            setEditing(false);
+          }
         }}
         onBlur={save}
         disabled={isSaving}
-        className="cp-input text-2xl"
-        style={{
-          
-          fontWeight: 700,
-          letterSpacing: '-0.02em',
-          width: '100%',
-          maxWidth: 480,
-        }}
+        className={['cp-input text-2xl', presentation.field1]
+          .filter(Boolean)
+          .join(' ')}
       />
     </div>
   );
@@ -143,7 +158,8 @@ function EditableProjectDescription({
     if (editing && textareaRef.current) {
       textareaRef.current.focus();
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + 'px';
     }
   }, [editing]);
 
@@ -175,22 +191,25 @@ function EditableProjectDescription({
         title={isOwner ? 'Click to edit description' : undefined}
         onMouseEnter={(e) => {
           if (isOwner)
-            (e.currentTarget as HTMLDivElement).style.background = 'var(--bg-2)';
+            (e.currentTarget as HTMLDivElement).style.background =
+              'var(--bg-2)';
         }}
         onMouseLeave={(e) => {
           (e.currentTarget as HTMLDivElement).style.background = 'transparent';
         }}
       >
         {value ? (
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
+          <div className={presentation.row2}>
+            <div className={presentation.detail1}>
               <div
                 ref={descriptionRef}
                 className={[
                   styles.description,
                   expanded ? '' : styles.descriptionClamped,
                   !expanded && overflows ? styles.descriptionFaded : '',
-                ].filter(Boolean).join(' ')}
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 <MarkdownPreview content={value} />
               </div>
@@ -200,7 +219,10 @@ function EditableProjectDescription({
                 <button
                   type="button"
                   className={styles.descriptionToggle}
-                  onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpanded((v) => !v);
+                  }}
                   aria-expanded={expanded}
                 >
                   {expanded ? 'Show less' : 'Show more'}
@@ -209,17 +231,25 @@ function EditableProjectDescription({
             </div>
             {isOwner && (
               <button
-                onClick={(e) => { e.stopPropagation(); setEditing(true); }}
-                className="btn btn--ghost btn--icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setEditing(true);
+                }}
+                className={['btn btn--ghost btn--icon', presentation.action1]
+                  .filter(Boolean)
+                  .join(' ')}
                 title="Edit description"
-                style={{ flexShrink: 0, marginTop: 2 }}
               >
-                <Pencil size={12} style={{ color: 'var(--fg-4)' }} />
+                <Pencil size={12} className={presentation.ink1} />
               </button>
             )}
           </div>
         ) : (
-          <p className="text-sm" style={{ fontStyle: 'italic', color: 'var(--fg-4)' }}>
+          <p
+            className={['text-sm', presentation.copy1]
+              .filter(Boolean)
+              .join(' ')}
+          >
             {isOwner ? 'Click to add project description…' : 'No description'}
           </p>
         )}
@@ -228,7 +258,7 @@ function EditableProjectDescription({
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div className={presentation.stack1}>
       <textarea
         ref={textareaRef}
         value={text}
@@ -238,17 +268,24 @@ function EditableProjectDescription({
           e.target.style.height = e.target.scrollHeight + 'px';
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Escape') { setText(value || ''); setEditing(false); }
+          if (e.key === 'Escape') {
+            setText(value || '');
+            setEditing(false);
+          }
         }}
         disabled={isSaving}
         placeholder="Write description (markdown supported)…"
-        className="cp-textarea text-sm"
-        style={{ width: '100%', resize: 'none', minHeight: 80 }}
+        className={['cp-textarea text-sm', presentation.field2]
+          .filter(Boolean)
+          .join(' ')}
       />
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6 }}>
+      <div className={presentation.row3}>
         <button
           type="button"
-          onClick={() => { setText(value || ''); setEditing(false); }}
+          onClick={() => {
+            setText(value || '');
+            setEditing(false);
+          }}
           className="btn btn--ghost btn--sm"
         >
           Cancel
@@ -284,13 +321,17 @@ export default function ProjectHeader({
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setShowAddDropdown(false);
       }
     }
     if (showAddDropdown) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [showAddDropdown]);
 
@@ -301,7 +342,10 @@ export default function ProjectHeader({
     });
   }
 
-  function handleInvitation(invitationId: string, action: 'accept' | 'decline' | 'cancel') {
+  function handleInvitation(
+    invitationId: string,
+    action: 'accept' | 'decline' | 'cancel',
+  ) {
     startTransition(async () => {
       await respondToProjectInvitation(project.id, invitationId, action);
     });
@@ -315,34 +359,53 @@ export default function ProjectHeader({
   }
 
   return (
-    <div style={{ marginBottom: 32 }}>
+    <div className={presentation.section1}>
       {/* Breadcrumb */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+      <div className={presentation.row4}>
         <Link
           href="/projects"
-          className="text-2xs" style={{ color: 'var(--fg-4)', textDecoration: 'none' }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--peri)'; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--fg-4)'; }}
+          className={['text-2xs', presentation.link1].filter(Boolean).join(' ')}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.color = 'var(--peri)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.color = 'var(--fg-4)';
+          }}
         >
           Projects
         </Link>
-        <span className="text-2xs" style={{ color: 'var(--fg-4)' }}>›</span>
-        <span className="text-2xs" style={{ color: 'var(--fg-3)' }}>{project.title}</span>
+        <span
+          className={['text-2xs', presentation.ink1].filter(Boolean).join(' ')}
+        >
+          ›
+        </span>
+        <span
+          className={['text-2xs', presentation.ink2].filter(Boolean).join(' ')}
+        >
+          {project.title}
+        </span>
       </div>
 
       <div className={styles.headerGrid}>
-        <div style={{ minWidth: 0 }}>
+        <div className={presentation.detail2}>
           <div className={styles.headerMain}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
-                <EditableProjectTitle value={project.title} projectId={project.id} isOwner={isOwner} />
-                <ProjectStatusDropdown projectId={project.id} currentStatus={project.status} />
+            <div className={presentation.detail1}>
+              <div className={presentation.row5}>
+                <EditableProjectTitle
+                  value={project.title}
+                  projectId={project.id}
+                  isOwner={isOwner}
+                />
+                <ProjectStatusDropdown
+                  projectId={project.id}
+                  currentStatus={project.status}
+                />
               </div>
             </div>
 
             {/* Member Avatars */}
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ display: 'flex' }}>
+            <div className={presentation.row6}>
+              <div className={presentation.row7}>
                 {members.slice(0, 5).map((m) => {
                   const name = m.agent?.display_name || m.agent?.name || '?';
                   return (
@@ -351,7 +414,10 @@ export default function ProjectHeader({
                       className={styles.memberChip}
                       style={{ marginLeft: m.id === members[0]?.id ? 0 : -8 }}
                     >
-                      <span title={`${name} (${m.role})`} style={{ display: 'inline-flex', border: '2px solid var(--bg-0)', borderRadius: 'var(--radius-3)' }}>
+                      <span
+                        title={`${name} (${m.role})`}
+                        className={presentation.detail3}
+                      >
                         <Avatar name={name} size={32} />
                       </span>
                       {isOwner && m.role !== 'owner' && (
@@ -371,20 +437,9 @@ export default function ProjectHeader({
                 })}
                 {members.length > 5 && (
                   <div
-                    className="text-2xs" style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: '50%',
-                      background: 'var(--bg-2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      border: '2px solid var(--bg-0)',
-                      
-                      fontWeight: 700,
-                      color: 'var(--fg-3)',
-                      marginLeft: -8,
-                    }}
+                    className={['text-2xs', presentation.row8]
+                      .filter(Boolean)
+                      .join(' ')}
                   >
                     +{members.length - 5}
                   </div>
@@ -393,42 +448,28 @@ export default function ProjectHeader({
 
               {/* Add Member Button */}
               {isOwner && (
-                <div style={{ position: 'relative', marginLeft: 8 }} ref={dropdownRef}>
+                <div className={presentation.detail4} ref={dropdownRef}>
                   <button
                     onClick={() => setShowAddDropdown(!showAddDropdown)}
                     disabled={isPending}
-                    className="btn btn--ghost btn--icon"
+                    className={[
+                      'btn btn--ghost btn--icon',
+                      presentation.action2,
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
                     title="Add member"
-                    style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: '50%',
-                      border: '1px dashed var(--line-1)',
-                    }}
                   >
-                    <Plus size={14} style={{ color: 'var(--fg-4)' }} />
+                    <Plus size={14} className={presentation.ink1} />
                   </button>
 
                   {showAddDropdown && (
                     <div
-                      className="card"
-                      style={{
-                        position: 'absolute',
-                        top: 'calc(100% + 8px)',
-                        right: 0,
-                        zIndex: 50,
-                        minWidth: 200,
-                        maxHeight: 240,
-                        overflowY: 'auto',
-                        padding: 0,
-                      }}
+                      className={['card', presentation.detail5]
+                        .filter(Boolean)
+                        .join(' ')}
                     >
-                      <div
-                        style={{
-                          padding: '8px 12px',
-                          borderBottom: '1px solid var(--line-1)',
-                        }}
-                      >
+                      <div className={presentation.detail6}>
                         <span className="upper text-2xs">Add Member</span>
                       </div>
                       {availableAgents.length === 0 ? (
@@ -458,34 +499,29 @@ export default function ProjectHeader({
                                 opacity: isPending ? 0.5 : 1,
                               }}
                               onMouseEnter={(e) => {
-                                (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-2)';
+                                (
+                                  e.currentTarget as HTMLButtonElement
+                                ).style.background = 'var(--bg-2)';
                               }}
                               onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+                                (
+                                  e.currentTarget as HTMLButtonElement
+                                ).style.background = 'transparent';
                               }}
                             >
                               <Avatar name={name} size={24} />
-                              <div style={{ minWidth: 0 }}>
+                              <div className={presentation.detail2}>
                                 <p
-                                  className="text-2xs" style={{
-                                    
-                                    color: 'var(--fg-2)',
-                                    fontWeight: 500,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                  }}
+                                  className={['text-2xs', presentation.copy2]
+                                    .filter(Boolean)
+                                    .join(' ')}
                                 >
                                   {name}
                                 </p>
                                 <p
-                                  className="text-2xs" style={{
-                                    
-                                    color: 'var(--fg-4)',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                  }}
+                                  className={['text-2xs', presentation.copy3]
+                                    .filter(Boolean)
+                                    .join(' ')}
                                 >
                                   {agent.name}
                                 </p>
@@ -499,56 +535,66 @@ export default function ProjectHeader({
                 </div>
               )}
 
-              <span className="text-2xs" style={{ color: 'var(--fg-4)', marginLeft: 12 }}>
+              <span
+                className={['text-2xs', presentation.ink3]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {members.length} member{members.length !== 1 ? 's' : ''}
               </span>
             </div>
           </div>
         </div>
-
       </div>
 
       {/* Invitation banners */}
       {(myPendingInvitations.length > 0 ||
         (isOwner && invitations.length > 0) ||
-        (!isOwner && canSeeObserverInvitationSummary && hiddenPendingInvitationCount > 0)) && (
-        <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
+        (!isOwner &&
+          canSeeObserverInvitationSummary &&
+          hiddenPendingInvitationCount > 0)) && (
+        <div className={presentation.stack2}>
           {myPendingInvitations.map((invitation) => {
             const inviter =
-              invitation.invited_by?.display_name || invitation.invited_by?.name || 'Unknown';
+              invitation.invited_by?.display_name ||
+              invitation.invited_by?.name ||
+              'Unknown';
             const agentName =
-              invitation.agent?.display_name || invitation.agent?.name || 'Unknown';
+              invitation.agent?.display_name ||
+              invitation.agent?.name ||
+              'Unknown';
             return (
               <div
                 key={invitation.id}
-                className="card"
-                style={{
-                  padding: 'var(--space-4)',
-                  borderColor: 'var(--peri-bg)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 12,
-                }}
+                className={['card', presentation.stack3]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 <div>
-                  <p className="text-xs" style={{ fontWeight: 600, color: 'var(--peri)' }}>
+                  <p
+                    className={['text-xs', presentation.copy4]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
                     Pending invitation for {agentName}
                   </p>
-                  <p className="text-2xs" style={{ color: 'var(--fg-3)', marginTop: 4 }}>
-                    Invited by {inviter}. Accept to join this project, or decline to stay out.
+                  <p
+                    className={['text-2xs', presentation.copy5]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    Invited by {inviter}. Accept to join this project, or
+                    decline to stay out.
                   </p>
                   <div
-                    className="text-2xs" style={{
-                      marginTop: 8,
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: '4px 12px',
-                      
-                      color: 'var(--fg-4)',
-                    }}
+                    className={['text-2xs', presentation.row9]
+                      .filter(Boolean)
+                      .join(' ')}
                   >
                     {invitation.created_at && (
-                      <span>Created {formatRelative(invitation.created_at)}</span>
+                      <span>
+                        Created {formatRelative(invitation.created_at)}
+                      </span>
                     )}
                     {invitation.expires_at && (
                       <span title={formatDateTime(invitation.expires_at)}>
@@ -557,12 +603,13 @@ export default function ProjectHeader({
                     )}
                     {invitation.reminder_sent_at && (
                       <span title={formatDateTime(invitation.reminder_sent_at)}>
-                        Reminder sent {formatRelative(invitation.reminder_sent_at)}
+                        Reminder sent{' '}
+                        {formatRelative(invitation.reminder_sent_at)}
                       </span>
                     )}
                   </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div className={presentation.row10}>
                   <button
                     onClick={() => handleInvitation(invitation.id, 'decline')}
                     disabled={isPending}
@@ -582,87 +629,124 @@ export default function ProjectHeader({
             );
           })}
 
-          {!isOwner && canSeeObserverInvitationSummary && hiddenPendingInvitationCount > 0 && (
-            <div className="card" style={{ padding: 'var(--space-4)' }}>
-              <p className="upper text-2xs" style={{ marginBottom: 8 }}>Invitation summary</p>
-              <p className="text-xs" style={{ color: 'var(--fg-2)' }}>
-                {hiddenPendingInvitationCount} pending invitation
-                {hiddenPendingInvitationCount !== 1 ? 's are' : ' is'} currently hidden by trust
-                policy.
-              </p>
-              <p className="dim text-2xs" style={{ marginTop: 8 }}>
-                Observer access still lets you inspect the project, but unresolved invitee metadata
-                stays restricted until your trust tier clears the invitation visibility policy.
-              </p>
-            </div>
-          )}
+          {!isOwner &&
+            canSeeObserverInvitationSummary &&
+            hiddenPendingInvitationCount > 0 && (
+              <div
+                className={['card', presentation.detail7]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                <p
+                  className={['upper text-2xs', presentation.copy6]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  Invitation summary
+                </p>
+                <p
+                  className={['text-xs', presentation.copy7]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {hiddenPendingInvitationCount} pending invitation
+                  {hiddenPendingInvitationCount !== 1 ? 's are' : ' is'}{' '}
+                  currently hidden by trust policy.
+                </p>
+                <p
+                  className={['dim text-2xs', presentation.copy8]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  Observer access still lets you inspect the project, but
+                  unresolved invitee metadata stays restricted until your trust
+                  tier clears the invitation visibility policy.
+                </p>
+              </div>
+            )}
 
           {isOwner && invitations.length > 0 && (
-            <details className="card" open={invitations.some((invitation) => invitation.status === 'pending') || undefined}>
+            <details
+              className="card"
+              open={
+                invitations.some(
+                  (invitation) => invitation.status === 'pending',
+                ) || undefined
+              }
+            >
               <summary className={styles.invitationsSummary}>
-                Invitation timeline <span className="pill">{invitations.length}</span>
+                Invitation timeline{' '}
+                <span className="pill">{invitations.length}</span>
               </summary>
               <div className={styles.invitationsBody}>
                 {invitations.map((invitation) => {
                   const agentName =
-                    invitation.agent?.display_name || invitation.agent?.name || 'Unknown';
+                    invitation.agent?.display_name ||
+                    invitation.agent?.name ||
+                    'Unknown';
                   const inviter =
                     invitation.invited_by?.display_name ||
                     invitation.invited_by?.name ||
                     'Unknown';
-                  const tone = getInvitationStatusTone(invitation.status as never);
-                  const label = getInvitationStatusLabel(invitation.status as never);
+                  const tone = getInvitationStatusTone(
+                    invitation.status as never,
+                  );
+                  const label = getInvitationStatusLabel(
+                    invitation.status as never,
+                  );
                   const canCancel = invitation.status === 'pending';
                   return (
                     <div
                       key={invitation.id}
-                      className="card--inset"
-                      style={{
-                        padding: '10px 12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: 12,
-                      }}
+                      className={['card--inset', presentation.row11]
+                        .filter(Boolean)
+                        .join(' ')}
                     >
-                      <div style={{ minWidth: 0 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                      <div className={presentation.detail2}>
+                        <div className={presentation.row12}>
                           <p
-                            className="text-xs" style={{
-                              
-                              color: 'var(--fg-1)',
-                              fontWeight: 500,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                            }}
+                            className={['text-xs', presentation.copy9]
+                              .filter(Boolean)
+                              .join(' ')}
                           >
                             {agentName}
                           </p>
-                          <span className={tone}>
-                            {label}
-                          </span>
+                          <span className={tone}>{label}</span>
                         </div>
-                        <p className="text-2xs" style={{ color: 'var(--fg-4)', marginTop: 4 }}>
+                        <p
+                          className={['text-2xs', presentation.copy10]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
                           Invited by {inviter}
-                          {invitation.expires_at && invitation.status === 'pending'
+                          {invitation.expires_at &&
+                          invitation.status === 'pending'
                             ? ` · expires ${formatRelative(invitation.expires_at)}`
                             : ''}
-                          {invitation.responded_at && invitation.status !== 'pending'
+                          {invitation.responded_at &&
+                          invitation.status !== 'pending'
                             ? ` · resolved ${formatRelative(invitation.responded_at)}`
                             : ''}
                         </p>
                       </div>
                       {canCancel ? (
                         <button
-                          onClick={() => handleInvitation(invitation.id, 'cancel')}
+                          onClick={() =>
+                            handleInvitation(invitation.id, 'cancel')
+                          }
                           disabled={isPending}
                           className="btn btn--danger btn--sm"
                         >
                           Cancel
                         </button>
                       ) : (
-                        <span className="text-2xs" style={{ color: 'var(--fg-4)' }}>No action</span>
+                        <span
+                          className={['text-2xs', presentation.ink1]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
+                          No action
+                        </span>
                       )}
                     </div>
                   );

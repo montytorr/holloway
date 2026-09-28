@@ -1,4 +1,5 @@
 'use client';
+import presentation from './key-actions-presentation.module.css';
 
 import { useState } from 'react';
 import { rotateAgentKey, type RotateKeyResult } from './actions';
@@ -16,7 +17,9 @@ export default function KeyActions({ agentId }: { agentId: string }) {
     const res = await rotateAgentKey(agentId);
     if (res.success && res.approvalRequired) {
       setConfirming(false);
-      alert(`Key rotation requires approval from another admin. Request submitted (ID: ${res.approvalId}). Check the Approvals page.`);
+      alert(
+        `Key rotation requires approval from another admin. Request submitted (ID: ${res.approvalId}). Check the Approvals page.`,
+      );
     } else if (res.success) {
       setResult(res);
       setConfirming(false);
@@ -36,10 +39,20 @@ export default function KeyActions({ agentId }: { agentId: string }) {
     <>
       <button
         onClick={() => setConfirming(true)}
-        className="btn btn--ghost btn--sm"
-        style={{ color: 'var(--amber)', borderColor: 'var(--amber-bg)' }}
+        className={['btn btn--ghost btn--sm', presentation.action1]
+          .filter(Boolean)
+          .join(' ')}
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <polyline points="23 4 23 10 17 10" />
           <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
         </svg>
@@ -48,25 +61,56 @@ export default function KeyActions({ agentId }: { agentId: string }) {
 
       {/* New credentials card (shown after rotation) */}
       {result && (
-        <div style={{ borderRadius: 'var(--radius-4)', background: 'var(--amber-bg)', border: '1px solid var(--amber)', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.625rem', marginBottom: '0.5rem' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--amber)', flexShrink: 0, marginTop: '0.125rem' }}>
+        <div className={presentation.stack1}>
+          <div className={presentation.row1}>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={presentation.ink1}
+            >
               <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
               <line x1="12" y1="9" x2="12" y2="13" />
               <line x1="12" y1="17" x2="12.01" y2="17" />
             </svg>
             <div>
-              <p className="text-xs" style={{ color: 'var(--mint)', fontWeight: 600, marginBottom: '0.25rem' }}>Key rotated successfully</p>
-              <p className="text-2xs" style={{ color: 'var(--amber)', lineHeight: 1.6 }}>
-                Save the new credentials now. The signing secret is shown only once. Old keys expire in 1 hour.
+              <p
+                className={['text-xs', presentation.copy1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Key rotated successfully
+              </p>
+              <p
+                className={['text-2xs', presentation.copy2]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Save the new credentials now. The signing secret is shown only
+                once. Old keys expire in 1 hour.
               </p>
             </div>
           </div>
 
           <div>
-            <p className="upper dim text-2xs" style={{ marginBottom: '0.375rem' }}>Key ID</p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <code className="mono text-sm" style={{ flex: 1, color: 'var(--peri)', background: 'var(--bg-0)', border: '1px solid var(--line-1)', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <p
+              className={['upper dim text-2xs', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Key ID
+            </p>
+            <div className={presentation.row2}>
+              <code
+                className={['mono text-sm', presentation.code1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {result.keyId}
               </code>
               <button
@@ -79,9 +123,19 @@ export default function KeyActions({ agentId }: { agentId: string }) {
           </div>
 
           <div>
-            <p className="upper dim text-2xs" style={{ marginBottom: '0.375rem' }}>Signing Secret</p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <code className="mono text-sm" style={{ flex: 1, color: 'var(--mint)', background: 'var(--bg-0)', border: '1px solid var(--line-1)', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <p
+              className={['upper dim text-2xs', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Signing Secret
+            </p>
+            <div className={presentation.row2}>
+              <code
+                className={['mono text-sm', presentation.code2]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {result.signingSecret}
               </code>
               <button
@@ -97,47 +151,76 @@ export default function KeyActions({ agentId }: { agentId: string }) {
 
       {/* Confirmation Modal */}
       {confirming && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className={presentation.row3}>
           <div
-            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+            className={presentation.detail1}
             onClick={() => !loading && setConfirming(false)}
           />
-          <div className="card" style={{ position: 'relative', width: '100%', maxWidth: '28rem', margin: '0 1rem', overflow: 'hidden' }}>
-            <div style={{ padding: '1.75rem' }}>
-              <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: 'var(--radius-4)', background: 'var(--amber-bg)', border: '1px solid var(--amber)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--amber)' }}>
+          <div
+            className={['card', presentation.detail2].filter(Boolean).join(' ')}
+          >
+            <div className={presentation.detail3}>
+              <div className={presentation.row4}>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={presentation.ink2}
+                >
                   <polyline points="23 4 23 10 17 10" />
                   <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                 </svg>
               </div>
-              <h3 className="h3" style={{ textAlign: 'center', marginBottom: '0.5rem' }}>Rotate Service Key</h3>
-              <p className="muted text-sm" style={{ textAlign: 'center', lineHeight: 1.6 }}>
-                This will generate a new signing secret and expire the current key in 1 hour. The agent will need to update its credentials.
+              <h3
+                className={['h3', presentation.section1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Rotate Service Key
+              </h3>
+              <p
+                className={['muted text-sm', presentation.copy4]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                This will generate a new signing secret and expire the current
+                key in 1 hour. The agent will need to update its credentials.
               </p>
               {error && (
-                <div className="text-xs" style={{ marginTop: '1rem', borderRadius: 'var(--radius-4)', background: 'var(--rose-bg)', border: '1px solid var(--rose)', padding: '0.75rem 1rem', color: 'var(--rose)' }}>
+                <div
+                  className={['text-xs', presentation.panel1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   {error}
                 </div>
               )}
             </div>
-            <div style={{ padding: '0 1.75rem 1.75rem', display: 'flex', gap: '0.75rem' }}>
+            <div className={presentation.row5}>
               <button
                 onClick={() => setConfirming(false)}
                 disabled={loading}
-                className="btn btn--ghost"
-                style={{ flex: 1 }}
+                className={['btn btn--ghost', presentation.action2]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 Cancel
               </button>
               <button
                 onClick={handleRotate}
                 disabled={loading}
-                className="btn btn--ghost"
-                style={{ flex: 1, color: 'var(--amber)', borderColor: 'var(--amber-bg)' }}
+                className={['btn btn--ghost', presentation.action3]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 {loading ? (
-                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                    <span style={{ width: '0.875rem', height: '0.875rem', border: '2px solid var(--amber)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+                  <span className={presentation.row6}>
+                    <span className={presentation.detail4} />
                     Rotating…
                   </span>
                 ) : (

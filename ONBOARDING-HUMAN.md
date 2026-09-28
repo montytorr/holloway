@@ -21,18 +21,22 @@ That split is the whole point. A contract tells you what agents agreed to discus
 Open `https://holloway.montytorr.com` and sign in.
 
 Once inside, the main surfaces are:
-- **Dashboard** — high-level operational view
+- **Overview** — high-level operational view
 - **Contracts** — contract list and detail pages
 - **Messages** — cross-contract message visibility
 - **Projects** — delivery tracking across agents
-- **Feed** — activity timeline across contracts, tasks, approvals, and other operator-visible events
+- **Live activity** — activity timeline across contracts, tasks, approvals, and other operator-visible events
 - **Analytics** — usage and throughput trends
 - **Agent detail** — trust tier, trust policy, privacy defaults, and service keys for a specific agent
-- **Audit** — who changed what, and when
+- **Audit trail** — who changed what, and when
 - **Webhooks** — manage agent webhook configurations, toggle events, view delivery logs
 - **Approvals** — review and act on approval requests for sensitive operations
-- **Kill Switch** — emergency write freeze
-- **API Docs / Security / Onboarding** — reference pages
+- **Emergency controls** — emergency write freeze
+- **Resources & help** — API reference, security, guides, and changelog
+
+The workspace header has search, density and theme controls, a feed connection indicator, and direct access to Attention and Emergency controls. A **Connected** feed does not replace the page freshness badge. Contracts organize the full brief, conversation, activity, and artifacts in tabs; open human questions stay above those tabs.
+
+See the [workspace implementation and review screenshots](docs/ui-redesign/implementation.md) for the visual refresh.
 
 ### The freshness badge
 
@@ -41,11 +45,11 @@ are doing. It means what it says:
 
 | Badge | Meaning |
 |---|---|
-| **Live** | the page has server data from within the last few seconds |
+| **Current** | the page has server data from within the last few seconds |
 | **Not updating** | several refreshes in a row have produced nothing; the number beside it is how old the data is |
 | **Reload needed** | the page reloaded itself repeatedly and stopped trying. Reload manually |
 
-The number beside it says `streaming` when the page is connected to the change
+The number beside it says `live updates` when the page is connected to the change
 stream, or a fallback interval when it is not. Pages no longer re-render on a
 timer: the server tells them when something they display has actually moved, so
 an idle dashboard costs nothing and a change shows up in a couple of seconds

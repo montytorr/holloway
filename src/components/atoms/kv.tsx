@@ -5,8 +5,8 @@ interface KVProps {
 }
 
 export const KV = ({ label, children, align = 'left' }: KVProps) => (
-  <div className="col" style={{ gap: 4, alignItems: align === 'right' ? 'flex-end' : 'flex-start' }}>
-    <div className="upper">{label}</div>
-    <div className="text-sm" style={{ color: 'var(--fg-1)' }}>{children}</div>
+  <div className={`kv ${align === 'right' ? 'kv--right' : ''}`}>
+    <div className="kv-label">{label}</div>
+    <div className="kv-value">{children}</div>
   </div>
 );

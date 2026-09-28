@@ -5,7 +5,11 @@ import { useState } from 'react';
 import type { TaskStatus } from '@/lib/types';
 import { Avatar } from '@/components/atoms';
 import { formatDate } from '@/lib/format-date';
-import { colorVarForTone, statusTone, taskPriorityTone } from '@/lib/status-tone';
+import {
+  colorVarForTone,
+  statusTone,
+  taskPriorityTone,
+} from '@/lib/status-tone';
 import styles from './task-list.module.css';
 
 export interface TaskListRow {
@@ -34,7 +38,12 @@ const GROUPS: { id: TaskStatus; label: string }[] = [
   { id: 'cancelled', label: 'Cancelled' },
 ];
 
-const PRIORITY_BARS: Record<string, number> = { urgent: 3, high: 3, medium: 2, low: 1 };
+const PRIORITY_BARS: Record<string, number> = {
+  urgent: 3,
+  high: 3,
+  medium: 2,
+  low: 1,
+};
 
 function timestamp(value?: string) {
   if (!value) return 0;
@@ -46,7 +55,8 @@ function timestamp(value?: string) {
    what "what moved" means once a task is in flight. */
 function sortGroup(rows: TaskListRow[], status: string) {
   const sorted = [...rows];
-  const key = status === 'backlog' || status === 'todo' ? 'created_at' : 'updated_at';
+  const key =
+    status === 'backlog' || status === 'todo' ? 'created_at' : 'updated_at';
   sorted.sort((a, b) => timestamp(b[key]) - timestamp(a[key]));
   return sorted;
 }
@@ -55,7 +65,11 @@ function PriorityGlyph({ priority }: { priority: string }) {
   const bars = PRIORITY_BARS[priority] ?? 1;
   const tone = taskPriorityTone(priority);
   return (
-    <span className={styles.priority} style={{ color: colorVarForTone(tone) }} title={`${priority} priority`}>
+    <span
+      className={styles.priority}
+      style={{ color: colorVarForTone(tone) }}
+      title={`${priority} priority`}
+    >
       {[1, 2, 3].map((n) => (
         <i key={n} className={n > bars ? styles.priorityDim : undefined} />
       ))}
@@ -65,7 +79,11 @@ function PriorityGlyph({ priority }: { priority: string }) {
 
 function TaskRow({ row, href }: { row: TaskListRow; href: string }) {
   const tone = statusTone('task', row.status);
-  const isOverdue = !!row.due_date && new Date(row.due_date) < new Date() && row.status !== 'done' && row.status !== 'cancelled';
+  const isOverdue =
+    !!row.due_date &&
+    new Date(row.due_date) < new Date() &&
+    row.status !== 'done' &&
+    row.status !== 'cancelled';
   const assigneeName = row.assignee?.display_name || row.assignee?.name;
 
   return (
@@ -73,7 +91,11 @@ function TaskRow({ row, href }: { row: TaskListRow; href: string }) {
       <PriorityGlyph priority={row.priority} />
       <span className={styles.ref}>#{row.id.slice(0, 6)}</span>
       <span className={styles.titleCell}>
-        <span className={styles.statusDot} style={{ background: colorVarForTone(tone) }} aria-hidden="true" />
+        <span
+          className={styles.statusDot}
+          style={{ background: colorVarForTone(tone) }}
+          aria-hidden="true"
+        />
         <span className={styles.title}>{row.title}</span>
       </span>
       <span className={styles.meta}>
@@ -81,15 +103,27 @@ function TaskRow({ row, href }: { row: TaskListRow; href: string }) {
         {row.labels && row.labels.length > 0 && (
           <span className={`${styles.labels} text-2xs`}>
             {row.labels.slice(0, 2).map((label) => (
-              <span key={label} className="pill text-2xs">{label}</span>
+              <span key={label} className="pill text-2xs">
+                {label}
+              </span>
             ))}
           </span>
         )}
         {row.due_date && (
-          <span className={`${styles.metaText} ${isOverdue ? styles.overdue : ''}`}>{formatDate(row.due_date)}</span>
+          <span
+            className={`${styles.metaText} ${isOverdue ? styles.overdue : ''}`}
+          >
+            {formatDate(row.due_date)}
+          </span>
         )}
-        {row.project && <span className={styles.metaText}>{row.project.title}</span>}
-        {assigneeName ? <Avatar name={assigneeName} size={18} /> : <span className={styles.metaText}>—</span>}
+        {row.project && (
+          <span className={styles.metaText}>{row.project.title}</span>
+        )}
+        {assigneeName ? (
+          <Avatar name={assigneeName} size={18} />
+        ) : (
+          <span className={styles.metaText}>—</span>
+        )}
       </span>
     </Link>
   );
@@ -97,12 +131,12 @@ function TaskRow({ row, href }: { row: TaskListRow; href: string }) {
 
 export default function TaskList({
   tasks,
-  hrefFor,
+  projectId,
   renderComposer,
   emptyHint = 'No tasks',
 }: {
   tasks: TaskListRow[];
-  hrefFor: (row: TaskListRow) => string;
+  projectId?: string;
   /** Rendered inside a group when the caller can create tasks there. The
    *  second argument closes the group's composer again. */
   renderComposer?: (status: TaskStatus, close: () => void) => React.ReactNode;
@@ -115,11 +149,18 @@ export default function TaskList({
      caller's composer, not an empty group kept alive to host a button. */
   const grouped = GROUPS.map((group) => ({
     ...group,
-    rows: sortGroup(tasks.filter((t) => t.status === group.id), group.id),
+    rows: sortGroup(
+      tasks.filter((t) => t.status === group.id),
+      group.id,
+    ),
   })).filter((group) => group.rows.length > 0 || openComposer === group.id);
 
   if (grouped.length === 0) {
-    return <div className={`card ${styles.list}`}><p className={styles.empty}>{emptyHint}</p></div>;
+    return (
+      <div className={`card ${styles.list}`}>
+        <p className={styles.empty}>{emptyHint}</p>
+      </div>
+    );
   }
 
   return (
@@ -127,25 +168,47 @@ export default function TaskList({
       {grouped.map((group) => {
         const tone = statusTone('task', group.id);
         return (
-          <section key={group.id} className={styles.group} aria-label={group.label}>
+          <section
+            key={group.id}
+            className={styles.group}
+            aria-label={group.label}
+          >
             <div className={styles.groupHead}>
-              <span className={styles.statusDot} style={{ background: colorVarForTone(tone) }} aria-hidden="true" />
+              <span
+                className={styles.statusDot}
+                style={{ background: colorVarForTone(tone) }}
+                aria-hidden="true"
+              />
               <span className={styles.groupLabel}>{group.label}</span>
               <span className={styles.groupCount}>{group.rows.length}</span>
               {renderComposer && (
                 <button
                   type="button"
                   className={styles.groupAdd}
-                  onClick={() => setOpenComposer((c) => (c === group.id ? null : group.id))}
+                  onClick={() =>
+                    setOpenComposer((c) => (c === group.id ? null : group.id))
+                  }
                   aria-expanded={openComposer === group.id}
                 >
                   + Add
                 </button>
               )}
             </div>
-            {group.rows.map((row) => <TaskRow key={row.id} row={row} href={hrefFor(row)} />)}
+            {group.rows.map((row) => (
+              <TaskRow
+                key={row.id}
+                row={row}
+                href={
+                  projectId || row.project?.id
+                    ? `/projects/${projectId || row.project?.id}/tasks/${row.id}`
+                    : '/tasks'
+                }
+              />
+            ))}
             {renderComposer && openComposer === group.id && (
-              <div className={styles.composer}>{renderComposer(group.id, () => setOpenComposer(null))}</div>
+              <div className={styles.composer}>
+                {renderComposer(group.id, () => setOpenComposer(null))}
+              </div>
             )}
           </section>
         );

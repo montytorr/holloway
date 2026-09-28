@@ -1,4 +1,5 @@
 'use client';
+import presentation from './contract-row-presentation.module.css';
 
 import Link, { useLinkStatus } from 'next/link';
 import type { ReactNode } from 'react';
@@ -27,13 +28,7 @@ export default function ContractRow({
     <Link
       href={`/contracts/${id}`}
       aria-label={`Open contract: ${title}`}
-      style={{
-        display: 'block',
-        position: 'relative',
-        color: 'inherit',
-        textDecoration: 'none',
-        cursor: 'pointer',
-      }}
+      className={presentation.link1}
     >
       {children}
       <ContractRowStatus />

@@ -1,4 +1,5 @@
 'use client';
+import presentation from './task-editor-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import type { TaskPriority } from '@/lib/types';
@@ -8,12 +9,13 @@ import { Avatar } from '@/components/atoms';
 import { updateTask, deleteTask } from './actions';
 import { useRouter } from 'next/navigation';
 
-const priorityOptions: { id: TaskPriority; label: string; varColor: string }[] = [
-  { id: 'urgent', label: 'Urgent', varColor: 'var(--rose)' },
-  { id: 'high',   label: 'High',   varColor: 'var(--amber)' },
-  { id: 'medium', label: 'Medium', varColor: 'var(--peri)' },
-  { id: 'low',    label: 'Low',    varColor: 'var(--fg-3)' },
-];
+const priorityOptions: { id: TaskPriority; label: string; varColor: string }[] =
+  [
+    { id: 'urgent', label: 'Urgent', varColor: 'var(--rose)' },
+    { id: 'high', label: 'High', varColor: 'var(--amber)' },
+    { id: 'medium', label: 'Medium', varColor: 'var(--peri)' },
+    { id: 'low', label: 'Low', varColor: 'var(--fg-3)' },
+  ];
 
 // ----- Inline Editable Title -----
 function EditableTitle({
@@ -55,7 +57,10 @@ function EditableTitle({
         tabIndex={0}
         onClick={() => setEditing(true)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setEditing(true); }
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setEditing(true);
+          }
         }}
         aria-label={`Edit task title: ${value}`}
         title="Click to edit"
@@ -73,25 +78,13 @@ function EditableTitle({
       onBlur={save}
       onKeyDown={(e) => {
         if (e.key === 'Enter') save();
-        if (e.key === 'Escape') { setText(value); setEditing(false); }
+        if (e.key === 'Escape') {
+          setText(value);
+          setEditing(false);
+        }
       }}
       disabled={isPending}
-      className="text-2xl" style={{
-        
-        fontWeight: 600,
-        color: 'var(--fg-0)',
-        letterSpacing: '-0.02em',
-        marginBottom: 0,
-        background: 'var(--bg-2)',
-        borderRadius: 'var(--radius-2)',
-        padding: '4px 6px',
-        marginLeft: -6,
-        outline: 'none',
-        border: '1px solid var(--brand)',
-        boxShadow: '0 0 0 3px var(--focus-ring)',
-        width: 'calc(100% + 12px)',
-        fontFamily: 'inherit',
-      }}
+      className={['text-2xl', presentation.field1].filter(Boolean).join(' ')}
     />
   );
 }
@@ -115,7 +108,8 @@ function EditableDescription({
     if (editing && textareaRef.current) {
       textareaRef.current.focus();
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + 'px';
     }
   }, [editing]);
 
@@ -139,7 +133,10 @@ function EditableDescription({
         tabIndex={0}
         onClick={() => setEditing(true)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setEditing(true); }
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setEditing(true);
+          }
         }}
         aria-label={value ? 'Edit description' : 'Add a description'}
         title="Click to edit description"
@@ -154,7 +151,7 @@ function EditableDescription({
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div className={presentation.stack1}>
       <textarea
         ref={textareaRef}
         value={text}
@@ -164,30 +161,24 @@ function EditableDescription({
           e.target.style.height = e.target.scrollHeight + 'px';
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Escape') { setText(value || ''); setEditing(false); }
+          if (e.key === 'Escape') {
+            setText(value || '');
+            setEditing(false);
+          }
         }}
         disabled={isPending}
         placeholder="Write description (markdown supported)…"
-        className="cp-textarea text-sm" style={{
-          width: '100%',
-          background: 'var(--bg-2)',
-          
-          color: 'var(--fg-1)',
-          lineHeight: 1.6,
-          borderRadius: 'var(--radius-2)',
-          padding: 'var(--space-2)',
-          outline: 'none',
-          border: '1px solid var(--brand)',
-          boxShadow: '0 0 0 3px var(--focus-ring)',
-          resize: 'none',
-          minHeight: 80,
-          fontFamily: 'inherit',
-        }}
+        className={['cp-textarea text-sm', presentation.field2]
+          .filter(Boolean)
+          .join(' ')}
       />
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6 }}>
+      <div className={presentation.row1}>
         <button
           type="button"
-          onClick={() => { setText(value || ''); setEditing(false); }}
+          onClick={() => {
+            setText(value || '');
+            setEditing(false);
+          }}
           className="btn btn--ghost btn--sm"
         >
           Cancel
@@ -214,7 +205,9 @@ function AssigneePicker({
   taskId,
 }: {
   currentId: string | null;
-  members: Array<{ agent: { id: string; name: string; display_name: string } | null }>;
+  members: Array<{
+    agent: { id: string; name: string; display_name: string } | null;
+  }>;
   projectId: string;
   taskId: string;
 }) {
@@ -224,11 +217,13 @@ function AssigneePicker({
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     }
     if (open) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [open]);
 
@@ -239,10 +234,10 @@ function AssigneePicker({
     });
   }
 
-  const current = members.find(m => m.agent?.id === currentId)?.agent;
+  const current = members.find((m) => m.agent?.id === currentId)?.agent;
 
   return (
-    <div style={{ position: 'relative' }} ref={ref}>
+    <div className={presentation.detail1} ref={ref}>
       <button
         onClick={() => setOpen(!open)}
         disabled={isPending}
@@ -253,12 +248,28 @@ function AssigneePicker({
         {current ? (
           <>
             <Avatar name={current.display_name || current.name} size={24} />
-            <span className="text-sm" style={{ color: 'var(--fg-1)', fontWeight: 500 }}>{current.display_name || current.name}</span>
+            <span
+              className={['text-sm', presentation.ink1]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {current.display_name || current.name}
+            </span>
           </>
         ) : (
-          <span className={styles.fieldPlaceholder}>Unassigned — click to assign</span>
+          <span className={styles.fieldPlaceholder}>
+            Unassigned — click to assign
+          </span>
         )}
-        {isPending && <span className="text-2xs" style={{ color: 'var(--fg-3)', marginLeft: 'auto' }}>…</span>}
+        {isPending && (
+          <span
+            className={['text-2xs', presentation.ink2]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            …
+          </span>
+        )}
       </button>
 
       {open && (
@@ -270,7 +281,9 @@ function AssigneePicker({
             onClick={() => handleSelect(null)}
             className={styles.menuItem}
           >
-            <span className={styles.menuAvatarNone} aria-hidden="true">—</span>
+            <span className={styles.menuAvatarNone} aria-hidden="true">
+              —
+            </span>
             Unassigned
           </button>
           {members.map((m) => {
@@ -289,7 +302,16 @@ function AssigneePicker({
                 <Avatar name={name} size={24} />
                 {name}
                 {isSelected && (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={styles.menuItemCheck} aria-hidden="true">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    className={styles.menuItemCheck}
+                    aria-hidden="true"
+                  >
                     <path d="M20 6L9 17l-5-5" />
                   </svg>
                 )}
@@ -323,7 +345,10 @@ function LabelsEditor({
 
   function addLabel() {
     const trimmed = input.trim().toLowerCase();
-    if (!trimmed || labels.includes(trimmed)) { setInput(''); return; }
+    if (!trimmed || labels.includes(trimmed)) {
+      setInput('');
+      return;
+    }
     startTransition(async () => {
       await updateTask(projectId, taskId, { labels: [...labels, trimmed] });
       setInput('');
@@ -332,14 +357,16 @@ function LabelsEditor({
 
   function removeLabel(label: string) {
     startTransition(async () => {
-      await updateTask(projectId, taskId, { labels: labels.filter(l => l !== label) });
+      await updateTask(projectId, taskId, {
+        labels: labels.filter((l) => l !== label),
+      });
     });
   }
 
   return (
     <div>
       {labels.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-1)', marginBottom: 'var(--space-2)' }}>
+        <div className={presentation.row2}>
           {labels.map((label) => (
             <span key={label} className={`pill pill--peri ${styles.labelPill}`}>
               {label}
@@ -357,19 +384,26 @@ function LabelsEditor({
         </div>
       )}
       {editing ? (
-        <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+        <div className={presentation.row3}>
           <input
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') { e.preventDefault(); addLabel(); }
-              if (e.key === 'Escape') { setInput(''); setEditing(false); }
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                addLabel();
+              }
+              if (e.key === 'Escape') {
+                setInput('');
+                setEditing(false);
+              }
             }}
             placeholder="Label name…"
             disabled={isPending}
-            className="cp-input"
-            style={{ flex: 1 }}
+            className={['cp-input', presentation.field3]
+              .filter(Boolean)
+              .join(' ')}
           />
           <button
             onClick={addLabel}
@@ -381,14 +415,17 @@ function LabelsEditor({
           </button>
         </div>
       ) : (
-        <button type="button" onClick={() => setEditing(true)} className="btn btn--ghost btn--sm">
+        <button
+          type="button"
+          onClick={() => setEditing(true)}
+          className="btn btn--ghost btn--sm"
+        >
           + Add label
         </button>
       )}
     </div>
   );
 }
-
 
 // ----- Priority Picker -----
 function PriorityPicker({
@@ -406,18 +443,21 @@ function PriorityPicker({
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     }
     if (open) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [open]);
 
-  const current = priorityOptions.find(p => p.id === value) || priorityOptions[2];
+  const current =
+    priorityOptions.find((p) => p.id === value) || priorityOptions[2];
 
   return (
-    <div style={{ position: 'relative' }} ref={ref}>
+    <div className={presentation.detail1} ref={ref}>
       <button
         onClick={() => setOpen(!open)}
         disabled={isPending}
@@ -432,7 +472,12 @@ function PriorityPicker({
       </button>
 
       {open && (
-        <div className={`animate-fade-in ${styles.menu}`} role="menu" style={{ minWidth: 160 }}>
+        <div
+          className={[`animate-fade-in ${styles.menu}`, presentation.detail2]
+            .filter(Boolean)
+            .join(' ')}
+          role="menu"
+        >
           {priorityOptions.map((p) => (
             <button
               key={p.id}
@@ -453,9 +498,18 @@ function PriorityPicker({
               style={p.id === value ? { color: p.varColor } : undefined}
             >
               <span className="dot" style={{ background: p.varColor }} />
-              <span style={{ fontWeight: 500 }}>{p.label}</span>
+              <span className={presentation.detail3}>{p.label}</span>
               {p.id === value && (
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={styles.menuItemCheck} aria-hidden="true">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  className={styles.menuItemCheck}
+                  aria-hidden="true"
+                >
                   <path d="M20 6L9 17l-5-5" />
                 </svg>
               )}
@@ -467,9 +521,14 @@ function PriorityPicker({
   );
 }
 
-
 // ----- Delete Task Button -----
-function DeleteTaskButton({ projectId, taskId }: { projectId: string; taskId: string }) {
+function DeleteTaskButton({
+  projectId,
+  taskId,
+}: {
+  projectId: string;
+  taskId: string;
+}) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 

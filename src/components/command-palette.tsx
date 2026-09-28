@@ -1,49 +1,16 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { usePathname, useRouter } from 'next/navigation';
-import { useNavigationFeedback } from './navigation-feedback';
+import { Search, ArrowUpRight } from 'lucide-react';
 import {
-  LayoutGrid, Activity, FolderKanban, Bot, ScrollText, FileText,
-  Search, ArrowRight, Zap, CheckCircle, Settings, Bell, BarChart3,
-  Webhook, Heart, BookOpen, Tag, Users, Mail, Shield,
-  Power, MessageSquare, Radio, ListChecks,
-} from 'lucide-react';
-import { EmptyState } from '@/components/atoms';
-
-interface PaletteItem {
-  id: string;
-  label: string;
-  href: string;
-  kind: string;
-  icon: React.ReactNode;
-}
-
-const items: PaletteItem[] = [
-  { id: 'dashboard', label: 'Dashboard', href: '/', kind: 'Navigate', icon: <LayoutGrid size={14} /> },
-  { id: 'live', label: 'Live Feed', href: '/feed', kind: 'Navigate', icon: <Activity size={14} /> },
-  { id: 'analytics', label: 'Analytics', href: '/analytics', kind: 'Navigate', icon: <BarChart3 size={14} /> },
-  { id: 'projects', label: 'Projects', href: '/projects', kind: 'Navigate', icon: <FolderKanban size={14} /> },
-  { id: 'tasks', label: 'Tasks', href: '/tasks', kind: 'Navigate', icon: <ListChecks size={14} /> },
-  { id: 'agents', label: 'Agents', href: '/agents', kind: 'Navigate', icon: <Bot size={14} /> },
-  { id: 'contracts', label: 'Contracts', href: '/contracts', kind: 'Navigate', icon: <FileText size={14} /> },
-  { id: 'messages', label: 'Messages', href: '/messages', kind: 'Navigate', icon: <MessageSquare size={14} /> },
-  { id: 'audit', label: 'Audit Log', href: '/audit', kind: 'Navigate', icon: <ScrollText size={14} /> },
-  { id: 'webhooks', label: 'Webhooks', href: '/webhooks', kind: 'Navigate', icon: <Webhook size={14} /> },
-  { id: 'health', label: 'Health', href: '/webhooks/health', kind: 'Navigate', icon: <Heart size={14} /> },
-  { id: 'approvals', label: 'Approvals', href: '/approvals', kind: 'Navigate', icon: <CheckCircle size={14} /> },
-  { id: 'protocol', label: 'Protocol Inspector', href: '/protocol-inspector', kind: 'Navigate', icon: <Radio size={14} /> },
-  { id: 'kill', label: 'Kill Switch', href: '/kill-switch', kind: 'Navigate', icon: <Power size={14} /> },
-  { id: 'settings', label: 'Settings', href: '/settings', kind: 'Navigate', icon: <Settings size={14} /> },
-  { id: 'notifications', label: 'Notifications', href: '/notifications', kind: 'Navigate', icon: <Bell size={14} /> },
-  { id: 'api', label: 'API Reference', href: '/api-docs', kind: 'Navigate', icon: <Zap size={14} /> },
-  { id: 'security', label: 'Security', href: '/security', kind: 'Navigate', icon: <Shield size={14} /> },
-  { id: 'human', label: 'Human Guide', href: '/onboarding/human', kind: 'Navigate', icon: <BookOpen size={14} /> },
-  { id: 'agent-guide', label: 'Agent Guide', href: '/onboarding/agent', kind: 'Navigate', icon: <BookOpen size={14} /> },
-  { id: 'changelog', label: 'Changelog', href: '/changelog', kind: 'Navigate', icon: <Tag size={14} /> },
-  { id: 'users', label: 'Users', href: '/users', kind: 'Admin', icon: <Users size={14} /> },
-  { id: 'emails', label: 'Email Templates', href: '/admin/emails', kind: 'Admin', icon: <Mail size={14} /> },
-];
+  ADMIN_NAVIGATION,
+  DASHBOARD_NAVIGATION,
+} from '@/lib/dashboard-navigation';
+import { useNavigationFeedback } from './navigation-feedback';
+import { useModalFocus } from './use-modal-focus';
+import styles from './command-palette.module.css';
 
 interface CommandPaletteProps {
   open: boolean;
@@ -51,140 +18,152 @@ interface CommandPaletteProps {
   isAdmin?: boolean;
 }
 
-export const CommandPalette = ({ open, onClose, isAdmin = false }: CommandPaletteProps) => {
-  const [q, setQ] = useState('');
-  const [activeIdx, setActiveIdx] = useState(0);
-  const inputRef = useRef<HTMLInputElement>(null);
+export const CommandPalette = ({
+  open,
+  onClose,
+  isAdmin = false,
+}: CommandPaletteProps) => {
+  const [query, setQuery] = useState('');
+  const [active, setActive] = useState(0);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
   const { begin } = useNavigationFeedback();
-
+  useModalFocus(open, dialogRef);
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
         onClose(!open);
-      }
-      if (e.key === 'Escape') onClose(false);
+      } else if (open && event.key === 'Escape') onClose(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
-
-  useEffect(() => {
-    if (!open) return;
-    const timer = setTimeout(() => {
-      setQ('');
-      setActiveIdx(0);
-      inputRef.current?.focus();
-    }, 50);
-    return () => clearTimeout(timer);
-  }, [open]);
-
-  if (!open) return null;
-
-  const filtered = items.filter(i => {
-    if (i.kind === 'Admin' && !isAdmin) return false;
-    return !q || i.label.toLowerCase().includes(q.toLowerCase());
-  });
-
+  const destinations = DASHBOARD_NAVIGATION.flatMap((group) =>
+    group.items.map((item) => ({ ...item, group: group.label })),
+  );
+  if (isAdmin)
+    destinations.push(
+      ...ADMIN_NAVIGATION.map((item) => ({ ...item, group: 'Administration' })),
+    );
+  const results = destinations.filter((item) =>
+    `${item.label} ${item.group}`
+      .toLowerCase()
+      .includes(query.trim().toLowerCase()),
+  );
   const navigate = (href: string) => {
     if (href !== pathname) begin();
     router.push(href);
     onClose(false);
+    setQuery('');
+    setActive(0);
   };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActiveIdx(i => Math.min(i + 1, filtered.length - 1));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveIdx(i => Math.max(i - 1, 0));
-    } else if (e.key === 'Enter' && filtered[activeIdx]) {
-      navigate(filtered[activeIdx].href);
-    }
-  };
-
-  return (
-    <div
-      onClick={() => onClose(false)}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'var(--scrim)',
-        backdropFilter: 'blur(6px)',
-        zIndex: 200,
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        paddingTop: 100,
-      }}
-    >
+  useEffect(() => {
+    if (open)
+      dialogRef.current
+        ?.querySelector(`#command-result-${active}`)
+        ?.scrollIntoView({ block: 'nearest' });
+  }, [active, open]);
+  if (!open) return null;
+  return createPortal(
+    <div className={styles.scrim} onClick={() => onClose(false)}>
       <div
-        onClick={e => e.stopPropagation()}
-        style={{
-          width: 560,
-          background: 'var(--bg-1)',
-          border: '1px solid var(--line-2)',
-          borderRadius: 10,
-          overflow: 'hidden',
-          boxShadow: '0 24px 80px var(--shadow-strong)',
-        }}
+        className={styles.dialog}
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="command-title"
+        tabIndex={-1}
+        onClick={(event) => event.stopPropagation()}
       >
-        <div className="row gap-2" style={{ padding: '12px 14px', borderBottom: '1px solid var(--line-1)', alignItems: 'center' }}>
-          <Search size={14} style={{ color: 'var(--fg-3)' }} />
+        <h2 id="command-title" className="sr-only">
+          Navigate Holloway
+        </h2>
+        <div className={styles.search}>
+          <Search size={20} aria-hidden />
           <input
-            ref={inputRef}
-            autoFocus
-            value={q}
-            onChange={e => { setQ(e.target.value); setActiveIdx(0); }}
-            onKeyDown={handleKeyDown}
-            placeholder="Search or jump to…"
-            className="text-sm" style={{
-              flex: 1,
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-              color: 'var(--fg-0)',
-              
-              fontFamily: 'var(--sans)',
+            role="combobox"
+            aria-label="Search destinations"
+            aria-autocomplete="list"
+            aria-expanded="true"
+            aria-controls="command-results"
+            aria-activedescendant={
+              results[active] ? `command-result-${active}` : undefined
+            }
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setActive(0);
+            }}
+            placeholder="Where do you want to go?"
+            onKeyDown={(event) => {
+              if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                event.preventDefault();
+                setActive((index) =>
+                  Math.max(
+                    0,
+                    Math.min(
+                      results.length - 1,
+                      index + (event.key === 'ArrowDown' ? 1 : -1),
+                    ),
+                  ),
+                );
+              } else if (event.key === 'Enter' && results[active]) {
+                event.preventDefault();
+                navigate(results[active].href);
+              }
             }}
           />
-          <span className="kbd">esc</span>
+          <button
+            type="button"
+            className="kbd"
+            onClick={() => onClose(false)}
+            aria-label="Close search"
+          >
+            Esc
+          </button>
         </div>
-        <div style={{ maxHeight: 400, overflow: 'auto', padding: 6 }}>
-          {filtered.map((item, idx) => (
-            <button
-              key={item.id}
-              onClick={() => navigate(item.href)}
-              style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: '8px 10px',
-                background: idx === activeIdx ? 'var(--bg-2)' : 'transparent',
-                border: 'none',
-                color: 'var(--fg-1)',
-                borderRadius: 'var(--radius-2)',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontFamily: 'var(--sans)',
-              }}
-              onMouseEnter={() => setActiveIdx(idx)}
+        <div
+          id="command-results"
+          role="listbox"
+          aria-label="Destinations"
+          className={styles.results}
+        >
+          {results.map((item, index) => (
+            <div
+              role="option"
+              aria-selected={index === active}
+              key={item.href}
+              id={`command-result-${index}`}
             >
-              <span style={{ color: 'var(--fg-3)' }}>{item.icon}</span>
-              <span className="text-sm" style={{ flex: 1 }}>{item.label}</span>
-              <span className="upper text-2xs">{item.kind}</span>
-              <ArrowRight size={11} style={{ color: 'var(--fg-3)' }} />
-            </button>
+              <button
+                type="button"
+                tabIndex={-1}
+                className={styles.result}
+                data-active={index === active}
+                onMouseEnter={() => setActive(index)}
+                onClick={() => navigate(item.href)}
+              >
+                <span>
+                  {item.label}
+                  <small>{item.group}</small>
+                </span>
+                <ArrowUpRight size={16} aria-hidden />
+              </button>
+            </div>
           ))}
-          {filtered.length === 0 && (
-            <EmptyState title={`No results for \u201C${q}\u201D`} />
+          {results.length === 0 && (
+            <p className={styles.empty}>No destinations match “{query}”.</p>
           )}
         </div>
+        <div className={styles.footer}>
+          <span>↑ ↓ to move</span>
+          <span>Enter to open</span>
+          <span>Esc to close</span>
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };

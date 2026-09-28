@@ -4,241 +4,198 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { createBrowserClient } from '@/lib/auth/browser';
 import { Avatar } from '@/components/atoms';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { HollowayMark } from '@/components/holloway-mark';
 import {
-  LayoutGrid, Activity, BarChart3, Bell, Settings,
-  FileText, MessageSquare, Bot, FolderKanban, Radio, ListChecks,
-  Webhook, Heart, Power, CheckCircle, ScrollText,
-  BookOpen, Shield, Tag, Users, Mail, Code, LogOut,
+  LayoutGrid,
+  Activity,
+  BarChart3,
+  Bell,
+  Settings,
+  FileText,
+  MessageSquare,
+  Bot,
+  FolderKanban,
+  Radio,
+  ListChecks,
+  Webhook,
+  Heart,
+  Power,
+  CheckCircle,
+  ScrollText,
+  BookOpen,
+  Shield,
+  Tag,
+  Users,
+  Mail,
+  Code,
+  LogOut,
+  ChevronDown,
 } from 'lucide-react';
 import type { DashboardNotificationCounts } from '@/lib/dashboard-notifications';
+import {
+  ADMIN_NAVIGATION,
+  DASHBOARD_NAVIGATION,
+  dashboardDestination,
+  type DashboardDestination,
+} from '@/lib/dashboard-navigation';
 import { useNavigationFeedback } from './navigation-feedback';
+import styles from './sidebar.module.css';
 
 interface SidebarProps {
   isSuperAdmin?: boolean;
   displayName?: string;
   notificationCounts?: DashboardNotificationCounts;
-  /**
-   * Icon-rail mode. Desktop only — the mobile drawer always shows labels,
-   * because a 64px rail of unlabelled icons is not navigation on a phone.
-   */
   collapsed?: boolean;
-  /** Closes the drawer after a tap. Absent on the desktop rail. */
   onNavigate?: () => void;
 }
 
-interface NavItemDef {
-  href: string;
-  label: string;
-  iconName: string;
-  adminOnly?: boolean;
-  danger?: boolean;
-  badge?: 'live' | 'admin';
-  badgeKey?: keyof DashboardNotificationCounts;
-}
-
-interface NavGroupDef {
-  label: string;
-  items: NavItemDef[];
-}
-
-const iconMap: Record<string, React.ReactNode> = {
-  grid: <LayoutGrid size={15} />,
-  activity: <Activity size={15} />,
-  chart: <BarChart3 size={15} />,
-  bell: <Bell size={15} />,
-  gear: <Settings size={15} />,
-  doc: <FileText size={15} />,
-  msg: <MessageSquare size={15} />,
-  agent: <Bot size={15} />,
-  folder: <FolderKanban size={15} />,
-  checks: <ListChecks size={15} />,
-  wave: <Radio size={15} />,
-  plug: <Webhook size={15} />,
-  pulse: <Heart size={15} />,
-  power: <Power size={15} />,
-  check: <CheckCircle size={15} />,
-  list: <ScrollText size={15} />,
-  code: <Code size={15} />,
-  shield: <Shield size={15} />,
-  book: <BookOpen size={15} />,
-  tag: <Tag size={15} />,
-  users: <Users size={15} />,
-  mail: <Mail size={15} />,
+const icons = {
+  grid: LayoutGrid,
+  activity: Activity,
+  chart: BarChart3,
+  bell: Bell,
+  gear: Settings,
+  doc: FileText,
+  msg: MessageSquare,
+  agent: Bot,
+  folder: FolderKanban,
+  checks: ListChecks,
+  wave: Radio,
+  plug: Webhook,
+  pulse: Heart,
+  power: Power,
+  check: CheckCircle,
+  list: ScrollText,
+  code: Code,
+  shield: Shield,
+  book: BookOpen,
+  tag: Tag,
+  users: Users,
+  mail: Mail,
 };
 
-const navGroups: NavGroupDef[] = [
-  {
-    label: 'Overview',
-    items: [
-      { href: '/', label: 'Dashboard', iconName: 'grid' },
-      { href: '/feed', label: 'Live Feed', iconName: 'activity', badge: 'live' },
-      { href: '/analytics', label: 'Analytics', iconName: 'chart' },
-      { href: '/notifications', label: 'Notifications', iconName: 'bell', badgeKey: 'total' },
-      { href: '/settings', label: 'Settings', iconName: 'gear' },
-    ],
-  },
-  {
-    label: 'Communication',
-    items: [
-      { href: '/contracts', label: 'Contracts', iconName: 'doc', badgeKey: 'contracts' },
-      { href: '/messages', label: 'Messages', iconName: 'msg' },
-      { href: '/agents', label: 'Agents', iconName: 'agent' },
-      { href: '/projects', label: 'Projects', iconName: 'folder', badgeKey: 'projects' },
-      { href: '/tasks', label: 'Tasks', iconName: 'checks' },
-      { href: '/protocol-inspector', label: 'Protocol Inspector', iconName: 'wave' },
-    ],
-  },
-  {
-    label: 'Infrastructure',
-    items: [
-      { href: '/webhooks', label: 'Webhooks', iconName: 'plug' },
-      { href: '/webhooks/health', label: 'Health', iconName: 'pulse' },
-      { href: '/kill-switch', label: 'Kill Switch', iconName: 'power', danger: true },
-      { href: '/approvals', label: 'Approvals', iconName: 'check', badgeKey: 'approvals' },
-      { href: '/audit', label: 'Audit Log', iconName: 'list' },
-    ],
-  },
-  {
-    label: 'Documentation',
-    items: [
-      { href: '/api-docs', label: 'API Reference', iconName: 'code' },
-      { href: '/security', label: 'Security', iconName: 'shield' },
-      { href: '/onboarding/human', label: 'Human Guide', iconName: 'book' },
-      { href: '/onboarding/agent', label: 'Agent Guide', iconName: 'book' },
-      { href: '/changelog', label: 'Changelog', iconName: 'tag' },
-    ],
-  },
-];
-
-const adminItems: NavItemDef[] = [
-  { href: '/users', label: 'Users', iconName: 'users', adminOnly: true, badge: 'admin' },
-  { href: '/admin/emails', label: 'Email Templates', iconName: 'mail', adminOnly: true, badge: 'admin' },
-];
-
-const Logo = ({ collapsed }: { collapsed?: boolean }) => (
-  <div className="row gap-2" style={{ alignItems: 'center', minWidth: 0 }}>
-    <HollowayMark size={28} />
-    {!collapsed && (
-      <div className="col" style={{ lineHeight: 1.1, gap: 2, minWidth: 0 }}>
-        <div style={{ fontWeight: 600, color: 'var(--fg-0)', letterSpacing: '-0.01em' }} className="text-sm truncate-text">Holloway</div>
-        <div className="upper truncate-text">Control Plane</div>
-      </div>
-    )}
-  </div>
-);
-
-/**
- * The sidebar's contents, with no outer frame of its own.
- *
- * It has two homes — the fixed rail on a wide screen and the drawer on a
- * narrow one — and lives here so the two cannot drift apart. A phone showing
- * a different set of destinations from the desktop is worse than no phone
- * navigation at all.
- */
-export function SidebarContent({ isSuperAdmin, displayName, notificationCounts, collapsed, onNavigate }: SidebarProps) {
+export function SidebarContent({
+  isSuperAdmin,
+  displayName,
+  notificationCounts,
+  collapsed,
+  onNavigate,
+}: SidebarProps) {
   const pathname = usePathname();
   const { begin } = useNavigationFeedback();
-
-  const handleLogout = async () => {
-    const db = createBrowserClient();
-    await db.auth.signOut();
-    window.location.href = '/login';
-  };
-
-  const isActive = (href: string) => {
-    if (href === '/') return pathname === '/';
-    return pathname === href || pathname.startsWith(href + '/');
-  };
-
-  const renderNavItem = (item: NavItemDef) => {
-    const active = isActive(item.href);
-    const badgeCount = item.badgeKey ? (notificationCounts?.[item.badgeKey] ?? 0) : 0;
-
+  const destination = dashboardDestination(pathname);
+  const renderItem = (item: DashboardDestination) => {
+    const active = destination?.href === item.href;
+    const count = item.badgeKey
+      ? (notificationCounts?.[item.badgeKey] ?? 0)
+      : 0;
+    const Icon = icons[item.icon as keyof typeof icons];
     return (
       <Link
         key={item.href}
         href={item.href}
-        onNavigate={() => { onNavigate?.(); if (item.href !== pathname) begin(); }}
         className={`nav-item ${active ? 'nav-item--active' : ''}`}
-        // In rail mode the label is hidden, so the icon needs to say what the
-        // destination is on hover.
+        aria-current={active ? 'page' : undefined}
+        aria-label={collapsed ? item.label : undefined}
         title={collapsed ? item.label : undefined}
+        onNavigate={() => {
+          onNavigate?.();
+          if (item.href !== pathname) begin();
+        }}
       >
-        <span className="nav-icon">{iconMap[item.iconName]}</span>
-        <span className="nav-label truncate-text" style={{ flex: 1, color: item.danger ? 'var(--rose)' : 'inherit' }}>{item.label}</span>
-        {item.badge === 'live' && <span className="dot dot--mint pulse nav-trailing" style={{ marginRight: 2 }} />}
-        {item.badge === 'admin' && (
-          <span className="pill pill--amber nav-trailing" style={{ height: 16, padding: '0 5px' }}>admin</span>
-        )}
-        {badgeCount > 0 && (
-          <span className="pill pill--amber nav-trailing" style={{ height: 16, padding: '0 5px' }}>
-            {badgeCount > 99 ? '99+' : badgeCount}
+        <span className="nav-icon">
+          <Icon size={18} strokeWidth={1.7} aria-hidden />
+        </span>
+        <span className="nav-label">{item.label}</span>
+        {count > 0 && (
+          <span className="nav-count nav-trailing">
+            {count > 99 ? '99+' : count}
           </span>
         )}
       </Link>
     );
   };
-
-  const renderGroup = (label: string, items: NavItemDef[]) => (
-    <div key={label} className={`nav-group nav-group--${label.toLowerCase()}`}>
-      {/* In rail mode the group heading becomes a rule: the label would not
-          fit in 64px, but the grouping it conveys still should. */}
-      {collapsed
-        ? <div className="nav-group-rule" role="presentation" />
-        : <div className="nav-group-heading">{label}</div>}
-      <div>{items.map(renderNavItem)}</div>
-    </div>
-  );
-
   return (
     <>
-      {/* Height is taken from --topbar-h rather than from padding plus the
-          logo's own metrics, which is what left this block ~15px taller than
-          the topbar so their bottom borders never lined up. */}
-      <div style={{
-        height: 'var(--topbar-h)',
-        flexShrink: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: collapsed ? 'center' : 'flex-start',
-        padding: collapsed ? 0 : '0 14px',
-        borderBottom: '1px solid var(--line-1)',
-      }}>
-        <Logo collapsed={collapsed} />
-      </div>
-
-      <nav className="scroll" style={{ flex: 1, padding: '8px 0', minHeight: 0 }}>
-        {navGroups.map((group) => renderGroup(group.label, group.items))}
-        {isSuperAdmin && renderGroup('Admin', adminItems)}
+      <Link
+        href="/"
+        className={styles.logo}
+        aria-label="Holloway overview"
+        onNavigate={onNavigate}
+      >
+        <HollowayMark size={32} />
+        {!collapsed && (
+          <div>
+            <strong>Holloway</strong>
+            <span>Agent control plane</span>
+          </div>
+        )}
+      </Link>
+      <nav className={styles.navigation} aria-label="Main navigation">
+        {DASHBOARD_NAVIGATION.map((group) =>
+          group.label === 'Resources' && !collapsed ? (
+            <details
+              key={group.label}
+              className={styles.resources}
+              open={
+                group.items.some((item) => item.href === destination?.href) ||
+                undefined
+              }
+            >
+              <summary>
+                <BookOpen size={16} aria-hidden /> Resources & help{' '}
+                <ChevronDown size={14} aria-hidden />
+              </summary>
+              <div>{group.items.map(renderItem)}</div>
+            </details>
+          ) : (
+            <div className="nav-group" key={group.label}>
+              {collapsed ? (
+                <div className="nav-group-rule" />
+              ) : (
+                <div className="nav-group-heading">{group.label}</div>
+              )}
+              {group.items.map(renderItem)}
+            </div>
+          ),
+        )}
+        {isSuperAdmin && (
+          <div className="nav-group">
+            {!collapsed && (
+              <div className="nav-group-heading">Administration</div>
+            )}
+            {ADMIN_NAVIGATION.map(renderItem)}
+          </div>
+        )}
       </nav>
-
-      <div style={{
-        padding: collapsed ? '10px 0' : 12,
-        borderTop: '1px solid var(--line-1)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: collapsed ? 'center' : 'flex-start',
-        gap: 10,
-        flexShrink: 0,
-      }}>
-        <Avatar name={displayName || '?'} size={28} />
+      <div className={styles.footer}>
+        <Avatar name={displayName || '?'} size={32} />
         {!collapsed && (
           <>
-            <div className="col" style={{ flex: 1, gap: 2, minWidth: 0 }}>
-              <div className="text-xs truncate-text" style={{ color: 'var(--fg-1)', fontWeight: 500 }}>{displayName || 'User'}</div>
-              {isSuperAdmin && <div className="mono dim text-2xs">SUPER ADMIN</div>}
+            <div className={styles.identity}>
+              <strong>{displayName || 'Operator'}</strong>
+              <span>
+                {isSuperAdmin ? 'Operator · super admin' : 'Operator'}
+              </span>
             </div>
-            <ThemeToggle />
-            <button
-              onClick={handleLogout}
-              className="btn btn--ghost btn--sm btn--icon"
-              title="Sign out"
-              aria-label="Sign out"
-              style={{ width: 26, height: 26 }}
+            <Link
+              href="/settings"
+              className="btn btn--ghost btn--icon"
+              aria-label="Settings"
+              onNavigate={onNavigate}
             >
-              <LogOut size={13} />
+              <Settings size={16} aria-hidden />
+            </Link>
+            <button
+              type="button"
+              className="btn btn--ghost btn--icon"
+              aria-label="Sign out"
+              onClick={async () => {
+                await createBrowserClient().auth.signOut();
+                window.location.href = '/login';
+              }}
+            >
+              <LogOut size={16} aria-hidden />
             </button>
           </>
         )}
@@ -247,26 +204,11 @@ export function SidebarContent({ isSuperAdmin, displayName, notificationCounts, 
   );
 }
 
-/** The desktop rail. Hidden below `md`, where MobileNav takes over. */
 export default function Sidebar(props: SidebarProps) {
   return (
     <aside
-      // Redefines --sidebar-w for this subtree via the [data-sidebar] hooks
-      // that already existed in globals.css but were never written by anything.
       data-sidebar={props.collapsed ? 'icons' : undefined}
-      className="hidden md:flex"
-      style={{
-        width: 'var(--sidebar-w)',
-        flexShrink: 0,
-        background: 'var(--bg-inset)',
-        borderRight: '1px solid var(--line-1)',
-        flexDirection: 'column',
-        height: '100%',
-        transition: 'width 0.2s',
-        position: 'relative',
-        zIndex: 50,
-        overflow: 'hidden',
-      }}
+      className={`${styles.sidebar} hidden md:flex`}
     >
       <SidebarContent {...props} />
     </aside>

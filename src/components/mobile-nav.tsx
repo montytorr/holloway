@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
+import { useModalFocus } from './use-modal-focus';
 import { SidebarContent } from '@/components/sidebar';
 import type { DashboardNotificationCounts } from '@/lib/dashboard-notifications';
 
@@ -26,13 +27,17 @@ const DESKTOP_QUERY = '(min-width: 48rem)';
 export const MobileNav = (props: MobileNavProps) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const drawerRef = useRef<HTMLElement>(null);
+  useModalFocus(open, drawerRef);
 
   // Escape closes it, and the page behind must not scroll while it is open.
   // The previous overflow value is restored rather than cleared, so this
   // cannot stomp on the fixed-shell rule the desktop layout relies on.
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
     document.addEventListener('keydown', onKey);
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -48,7 +53,9 @@ export const MobileNav = (props: MobileNavProps) => {
   useEffect(() => {
     if (!open) return;
     const mq = window.matchMedia(DESKTOP_QUERY);
-    const onChange = () => { if (mq.matches) setOpen(false); };
+    const onChange = () => {
+      if (mq.matches) setOpen(false);
+    };
     onChange();
     mq.addEventListener('change', onChange);
     return () => mq.removeEventListener('change', onChange);
@@ -63,6 +70,11 @@ export const MobileNav = (props: MobileNavProps) => {
         role="presentation"
       />
       <aside
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Main navigation"
+        tabIndex={-1}
         // Keyed on the path so navigating rebuilds the drawer closed,
         // rather than leaving it open over the page just navigated to.
         key={pathname}
@@ -79,7 +91,14 @@ export const MobileNav = (props: MobileNavProps) => {
           onClick={() => setOpen(false)}
           aria-label="Close navigation"
           className="btn btn--ghost btn--sm btn--icon"
-          style={{ position: 'absolute', top: 9, right: 10, width: 26, height: 26, zIndex: 1 }}
+          style={{
+            position: 'absolute',
+            top: 16,
+            right: 10,
+            width: 32,
+            height: 32,
+            zIndex: 1,
+          }}
         >
           <X size={14} aria-hidden />
         </button>

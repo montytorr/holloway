@@ -1,0 +1,332 @@
+{
+  "scope": "Tracked src/**/*.tsx excluding email templates; same literal-value matcher as geometry-ratchet.test.ts. Includes tests and non-dashboard source. Counts describe implementation variation, not defects.",
+  "commit": "c42ba7e361fdc41ff3f89c5fbdee642b6727d88d",
+  "version": "1.0.377",
+  "files": 113,
+  "inline_style_objects": 2183,
+  "padding": {
+    "distinct": 70,
+    "values": [
+      "0",
+      "0 1.75rem 1.75rem",
+      "0 10px",
+      "0 16px",
+      "0 24px",
+      "0 28px 28px",
+      "0 40px",
+      "0 5px",
+      "0 8px",
+      "0 8px 8px",
+      "0.125rem 0.5rem",
+      "0.12rem 0.36rem",
+      "0.375rem 0.75rem",
+      "0.5rem 0.75rem",
+      "0.625rem 0.75rem",
+      "0.65rem 0.9rem",
+      "0.75rem 1.5rem",
+      "0.75rem 1rem",
+      "0.875rem 1.5rem",
+      "0.95rem 1rem",
+      "1.25rem",
+      "1.25rem 1.75rem",
+      "1.75rem",
+      "10px 12px",
+      "10px 14px",
+      "10px 16px",
+      "12px 14px",
+      "12px 16px",
+      "14",
+      "14px 16px",
+      "14px 18px",
+      "14px 20px",
+      "14px 22px",
+      "16px 0",
+      "16px 18px",
+      "16px 20px",
+      "18px 20px",
+      "1px 5px",
+      "1px 6px",
+      "20",
+      "22",
+      "28",
+      "2px 6px",
+      "2px 7px",
+      "2px 8px",
+      "32px 0",
+      "3px 8px",
+      "40px 0",
+      "40px 24px",
+      "48px 0",
+      "4px 10px",
+      "4px 12px",
+      "4px 16px 8px",
+      "4px 6px",
+      "4px 8px 8px",
+      "6",
+      "7px 14px",
+      "8px 0",
+      "8px 10px",
+      "8px 12px",
+      "8px 14px",
+      "8px 16px 12px",
+      "9px 10px",
+      "var(--space-2)",
+      "var(--space-2) var(--space-3)",
+      "var(--space-3)",
+      "var(--space-4)",
+      "var(--space-5)",
+      "var(--space-6)",
+      "var(--space-6) var(--space-4)"
+    ]
+  },
+  "gap": {
+    "distinct": 29,
+    "values": [
+      "0.25rem",
+      "0.375rem",
+      "0.5rem",
+      "0.625rem",
+      "0.75rem",
+      "1.25rem",
+      "1.5rem",
+      "10",
+      "10px",
+      "12",
+      "12px",
+      "16",
+      "16px",
+      "1rem",
+      "2",
+      "20",
+      "24",
+      "28",
+      "2px",
+      "32",
+      "4",
+      "4px",
+      "4px 12px",
+      "5",
+      "6",
+      "8",
+      "8px",
+      "var(--space-1)",
+      "var(--space-2)"
+    ]
+  },
+  "borderRadius": {
+    "distinct": 18,
+    "values": [
+      "0 8px 8px 0",
+      "0.375rem",
+      "0.5rem",
+      "10",
+      "10px",
+      "1rem",
+      "2",
+      "2px",
+      "2px 2px 0 0",
+      "3px",
+      "5",
+      "50%",
+      "9",
+      "999",
+      "var(--radius-1)",
+      "var(--radius-2)",
+      "var(--radius-3)",
+      "var(--radius-4)"
+    ]
+  },
+  "fontWeight": {
+    "distinct": 4,
+    "values": [
+      "400",
+      "500",
+      "600",
+      "700"
+    ]
+  },
+  "routes": [
+    {
+      "file": "src/app/(dashboard)/admin/emails/page.tsx",
+      "lines": 34
+    },
+    {
+      "file": "src/app/(dashboard)/agents/[id]/page.tsx",
+      "lines": 250
+    },
+    {
+      "file": "src/app/(dashboard)/agents/page.tsx",
+      "lines": 147
+    },
+    {
+      "file": "src/app/(dashboard)/agents/register/page.tsx",
+      "lines": 303
+    },
+    {
+      "file": "src/app/(dashboard)/analytics/page.tsx",
+      "lines": 279
+    },
+    {
+      "file": "src/app/(dashboard)/api-docs/page.tsx",
+      "lines": 1302
+    },
+    {
+      "file": "src/app/(dashboard)/approvals/page.tsx",
+      "lines": 174
+    },
+    {
+      "file": "src/app/(dashboard)/audit/page.tsx",
+      "lines": 214
+    },
+    {
+      "file": "src/app/(dashboard)/changelog/page.tsx",
+      "lines": 268
+    },
+    {
+      "file": "src/app/(dashboard)/contracts/(list)/page.tsx",
+      "lines": 247
+    },
+    {
+      "file": "src/app/(dashboard)/contracts/[id]/page.tsx",
+      "lines": 673
+    },
+    {
+      "file": "src/app/(dashboard)/feed/page.tsx",
+      "lines": 38
+    },
+    {
+      "file": "src/app/(dashboard)/kill-switch/page.tsx",
+      "lines": 13
+    },
+    {
+      "file": "src/app/(dashboard)/messages/page.tsx",
+      "lines": 228
+    },
+    {
+      "file": "src/app/(dashboard)/notifications/page.tsx",
+      "lines": 150
+    },
+    {
+      "file": "src/app/(dashboard)/onboarding/agent/page.tsx",
+      "lines": 1218
+    },
+    {
+      "file": "src/app/(dashboard)/onboarding/human/page.tsx",
+      "lines": 667
+    },
+    {
+      "file": "src/app/(dashboard)/page.tsx",
+      "lines": 196
+    },
+    {
+      "file": "src/app/(dashboard)/projects/[id]/page.tsx",
+      "lines": 415
+    },
+    {
+      "file": "src/app/(dashboard)/projects/[id]/tasks/[tid]/page.tsx",
+      "lines": 539
+    },
+    {
+      "file": "src/app/(dashboard)/projects/new/page.tsx",
+      "lines": 236
+    },
+    {
+      "file": "src/app/(dashboard)/projects/page.tsx",
+      "lines": 353
+    },
+    {
+      "file": "src/app/(dashboard)/protocol-inspector/page.tsx",
+      "lines": 625
+    },
+    {
+      "file": "src/app/(dashboard)/security/page.tsx",
+      "lines": 1098
+    },
+    {
+      "file": "src/app/(dashboard)/settings/page.tsx",
+      "lines": 29
+    },
+    {
+      "file": "src/app/(dashboard)/tasks/page.tsx",
+      "lines": 102
+    },
+    {
+      "file": "src/app/(dashboard)/users/page.tsx",
+      "lines": 66
+    },
+    {
+      "file": "src/app/(dashboard)/webhooks/health/page.tsx",
+      "lines": 479
+    },
+    {
+      "file": "src/app/(dashboard)/webhooks/page.tsx",
+      "lines": 148
+    },
+    {
+      "file": "src/app/(dashboard)/webhooks/register/page.tsx",
+      "lines": 266
+    }
+  ],
+  "top_inline_files": [
+    {
+      "file": "src/app/(dashboard)/api-docs/page.tsx",
+      "count": 270
+    },
+    {
+      "file": "src/app/(dashboard)/security/page.tsx",
+      "count": 237
+    },
+    {
+      "file": "src/app/(dashboard)/onboarding/agent/page.tsx",
+      "count": 227
+    },
+    {
+      "file": "src/app/(dashboard)/onboarding/human/page.tsx",
+      "count": 170
+    },
+    {
+      "file": "src/app/(dashboard)/protocol-inspector/page.tsx",
+      "count": 130
+    },
+    {
+      "file": "src/app/(dashboard)/analytics/charts.tsx",
+      "count": 86
+    },
+    {
+      "file": "src/app/(dashboard)/webhooks/health/page.tsx",
+      "count": 63
+    },
+    {
+      "file": "src/components/attachment-list-client.tsx",
+      "count": 59
+    },
+    {
+      "file": "src/app/(dashboard)/agents/register/page.tsx",
+      "count": 56
+    },
+    {
+      "file": "src/app/(dashboard)/contracts/[id]/page.tsx",
+      "count": 53
+    },
+    {
+      "file": "src/app/(dashboard)/projects/[id]/project-header.tsx",
+      "count": 53
+    },
+    {
+      "file": "src/app/(dashboard)/webhooks/webhook-card.tsx",
+      "count": 50
+    },
+    {
+      "file": "src/app/(dashboard)/users/users-client.tsx",
+      "count": 47
+    },
+    {
+      "file": "src/app/(dashboard)/agents/[id]/page.tsx",
+      "count": 40
+    },
+    {
+      "file": "src/app/(dashboard)/contracts/[id]/message-card.tsx",
+      "count": 38
+    }
+  ]
+}

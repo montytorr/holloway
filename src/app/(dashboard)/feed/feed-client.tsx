@@ -1,9 +1,15 @@
 'use client';
+import presentation from './feed-client-presentation.module.css';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Pause, Play, Radio } from 'lucide-react';
 import { formatDateTime } from '@/lib/format-date';
-import { HashChip, SectionHeader, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  HashChip,
+  SectionHeader,
+  PageFrame,
+  EmptyState,
+} from '@/components/atoms';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -28,19 +34,19 @@ interface FeedClientProps {
 // ─── Config ────────────────────────────────────────────────────────────────────
 
 const TYPE_DOT: Record<EventType, string> = {
-  message:  'dot dot--mint',
-  audit:    'dot dot--peri',
+  message: 'dot dot--mint',
+  audit: 'dot dot--peri',
   contract: 'dot dot--amber',
-  task:     'dot dot--mint',
-  webhook:  'dot dot--rose',
+  task: 'dot dot--mint',
+  webhook: 'dot dot--rose',
 };
 
 const TYPE_COLOR: Record<EventType, string> = {
-  message:  'var(--mint)',
-  audit:    'var(--peri)',
+  message: 'var(--mint)',
+  audit: 'var(--peri)',
   contract: 'var(--amber)',
-  task:     'var(--mint)',
-  webhook:  'var(--rose)',
+  task: 'var(--mint)',
+  webhook: 'var(--rose)',
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -67,7 +73,11 @@ const truncate = (str: string, max: number): string => {
 const formatTime = (dateStr: string): string => {
   try {
     const d = new Date(dateStr);
-    return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    return d.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
   } catch {
     return formatDateTime(dateStr);
   }
@@ -85,7 +95,8 @@ const auditToEvent = (row: Record<string, unknown>): FeedEvent => ({
     const details = toRecord(row.details);
     const rt = String(row.resource_type || '').toLowerCase();
     const rid = toId(row.resource_id);
-    const contractId = toId(details?.contract_id) || (rt === 'contract' ? rid : null);
+    const contractId =
+      toId(details?.contract_id) || (rt === 'contract' ? rid : null);
     if (contractId) return `/contracts/${contractId}`;
     if (rt === 'project' && rid) return `/projects/${rid}`;
     return '/audit';
@@ -95,12 +106,14 @@ const auditToEvent = (row: Record<string, unknown>): FeedEvent => ({
 const messageToEvent = (row: Record<string, unknown>): FeedEvent => {
   const content = row.content;
   const sender = row.sender as Record<string, unknown> | null;
-  const contentStr = typeof content === 'object' && content !== null
-    ? ((content as Record<string, unknown>).summary as string || JSON.stringify(content))
-    : String(content || '');
+  const contentStr =
+    typeof content === 'object' && content !== null
+      ? ((content as Record<string, unknown>).summary as string) ||
+        JSON.stringify(content)
+      : String(content || '');
   const senderName =
-    sender?.display_name as string ||
-    sender?.name as string ||
+    (sender?.display_name as string) ||
+    (sender?.name as string) ||
     String(row.sender_id || '').slice(0, 8) ||
     'unknown';
   const contractId = toId(row.contract_id);
@@ -114,7 +127,10 @@ const messageToEvent = (row: Record<string, unknown>): FeedEvent => {
   };
 };
 
-const contractToEvent = (row: Record<string, unknown>, eventType: string): FeedEvent => {
+const contractToEvent = (
+  row: Record<string, unknown>,
+  eventType: string,
+): FeedEvent => {
   const proposer = row.proposer as Record<string, unknown> | null;
   const id = toId(row.id);
   const timestamp = (row.updated_at || row.created_at) as string;
@@ -122,7 +138,10 @@ const contractToEvent = (row: Record<string, unknown>, eventType: string): FeedE
     id: `contract-${row.id}-${timestamp}`,
     type: 'contract',
     timestamp,
-    actor: (proposer?.display_name as string) || (proposer?.name as string) || 'system',
+    actor:
+      (proposer?.display_name as string) ||
+      (proposer?.name as string) ||
+      'system',
     summary: `Contract "${row.title}" ${eventType === 'INSERT' ? 'created' : 'updated'} — ${row.status}`,
     link: id ? `/contracts/${id}` : undefined,
   };
@@ -130,7 +149,10 @@ const contractToEvent = (row: Record<string, unknown>, eventType: string): FeedE
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function FeedClient({ isSuperAdmin, contractIds }: FeedClientProps) {
+export default function FeedClient({
+  isSuperAdmin,
+  contractIds,
+}: FeedClientProps) {
   const [events, setEvents] = useState<FeedEvent[]>([]);
   const [connected, setConnected] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -140,25 +162,36 @@ export default function FeedClient({ isSuperAdmin, contractIds }: FeedClientProp
 
   const hasAccess = isSuperAdmin || contractIds.length > 0;
 
-  const loadHistory = useCallback(async (pageNum: number) => {
-    if (!hasAccess) return [];
+  const loadHistory = useCallback(
+    async (pageNum: number) => {
+      if (!hasAccess) return [];
 
-    const response = await fetch(`/api/internal/feed-history?page=${pageNum}`, { cache: 'no-store' });
-    if (!response.ok) {
-      setConnected(false);
-      return [];
-    }
-    const payload = await response.json();
-    setConnected(true);
+      const response = await fetch(
+        `/api/internal/feed-history?page=${pageNum}`,
+        { cache: 'no-store' },
+      );
+      if (!response.ok) {
+        setConnected(false);
+        return [];
+      }
+      const payload = await response.json();
+      setConnected(true);
 
-    const newEvents: FeedEvent[] = [];
-    for (const row of payload.audit || []) newEvents.push(auditToEvent(row));
-    for (const row of payload.messages || []) newEvents.push(messageToEvent(row));
-    for (const row of payload.contracts || []) newEvents.push(contractToEvent(row, 'UPDATE'));
+      const newEvents: FeedEvent[] = [];
+      for (const row of payload.audit || []) newEvents.push(auditToEvent(row));
+      for (const row of payload.messages || [])
+        newEvents.push(messageToEvent(row));
+      for (const row of payload.contracts || [])
+        newEvents.push(contractToEvent(row, 'UPDATE'));
 
-    newEvents.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    return newEvents;
-  }, [hasAccess]);
+      newEvents.sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      );
+      return newEvents;
+    },
+    [hasAccess],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -170,20 +203,22 @@ export default function FeedClient({ isSuperAdmin, contractIds }: FeedClientProp
         setLoading(false);
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [loadHistory]);
 
   const mergeHistory = useCallback((history: FeedEvent[]) => {
     if (pausedRef.current || history.length === 0) return;
-    setEvents(prev => {
-      const existingIds = new Set(prev.map(e => e.id));
-      const unseen = history.filter(e => !existingIds.has(e.id));
+    setEvents((prev) => {
+      const existingIds = new Set(prev.map((e) => e.id));
+      const unseen = history.filter((e) => !existingIds.has(e.id));
       if (unseen.length === 0) return prev;
-      const merged = [
-        ...unseen.map(e => ({ ...e, isNew: true })),
-        ...prev,
-      ];
-      merged.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      const merged = [...unseen.map((e) => ({ ...e, isNew: true })), ...prev];
+      merged.sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      );
       return merged.slice(0, PAGE_SIZE * 3);
     });
   }, []);
@@ -204,18 +239,26 @@ export default function FeedClient({ isSuperAdmin, contractIds }: FeedClientProp
     return () => window.clearInterval(interval);
   }, [hasAccess, loadHistory, mergeHistory]);
 
-  const togglePause = useCallback(() => setPaused(p => !p), []);
+  const togglePause = useCallback(() => setPaused((p) => !p), []);
 
   // ─── Render ───────────────────────────────────────────────────────────────
 
-  const eventTypeCounts = events.reduce<Record<EventType, number>>((acc, event) => {
-    acc[event.type] += 1;
-    return acc;
-  }, { message: 0, contract: 0, audit: 0, task: 0, webhook: 0 });
-  const topEventTypes = (Object.entries(eventTypeCounts) as Array<[EventType, number]>)
+  const eventTypeCounts = events.reduce<Record<EventType, number>>(
+    (acc, event) => {
+      acc[event.type] += 1;
+      return acc;
+    },
+    { message: 0, contract: 0, audit: 0, task: 0, webhook: 0 },
+  );
+  const topEventTypes = (
+    Object.entries(eventTypeCounts) as Array<[EventType, number]>
+  )
     .filter(([, count]) => count > 0)
     .sort((a, b) => b[1] - a[1]);
-  const maxTopEventCount = Math.max(1, ...topEventTypes.map(([, count]) => count));
+  const maxTopEventCount = Math.max(
+    1,
+    ...topEventTypes.map(([, count]) => count),
+  );
 
   const headerRight = (
     <div className="row gap-3">
@@ -242,20 +285,22 @@ export default function FeedClient({ isSuperAdmin, contractIds }: FeedClientProp
       {/* auto-fit with exactly two children resolves to two equal tracks, so
           the five-bar legend was as wide as the event stream at any viewport
           over 576px. Named tracks instead. */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 280px)', gap: 16, alignItems: 'start' }}>
-
+      <div className={presentation.grid1}>
         {/* ── Left: event stream ─────────────────────────────────────────── */}
         <div className="card">
           {/* Card header */}
-          <div className="row gap-3" style={{
-            padding: '10px 16px',
-            background: 'var(--bg-2)',
-            borderBottom: '1px solid var(--line-1)',
-          }}>
+          <div
+            className={['row gap-3', presentation.detail1]
+              .filter(Boolean)
+              .join(' ')}
+          >
             <span className="upper flex-1">Event Stream</span>
             <span className="mono dim text-2xs">{events.length} loaded</span>
             {!loading && (
-              <span className={`dot ${connected ? 'dot--mint' : 'dot--rose'}`} title={connected ? 'Connected' : 'Disconnected'} />
+              <span
+                className={`dot ${connected ? 'dot--mint' : 'dot--rose'}`}
+                title={connected ? 'Connected' : 'Disconnected'}
+              />
             )}
           </div>
 
@@ -265,7 +310,7 @@ export default function FeedClient({ isSuperAdmin, contractIds }: FeedClientProp
               short one, while the card header above sat outside it. */}
           <div>
             {loading ? (
-              <div style={{ padding: '48px 0', textAlign: 'center' }}>
+              <div className={presentation.detail2}>
                 <span className="dim text-sm">Loading events…</span>
               </div>
             ) : events.length === 0 ? (
@@ -284,29 +329,50 @@ export default function FeedClient({ isSuperAdmin, contractIds }: FeedClientProp
 
         {/* ── Right column ───────────────────────────────────────────────── */}
         <div className="col gap-3">
-
           {/* Event counts card */}
-          <div className="card" style={{ padding: 'var(--space-4)' }}>
-            <div className="upper" style={{ marginBottom: 12 }}>Event Types</div>
+          <div
+            className={['card', presentation.detail3].filter(Boolean).join(' ')}
+          >
+            <div
+              className={['upper', presentation.section1]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Event Types
+            </div>
             {topEventTypes.length === 0 ? (
               <EmptyState title="No events loaded yet" />
             ) : (
               <div className="col gap-3">
                 {topEventTypes.map(([type, count]) => (
                   <div key={type}>
-                    <div className="row gap-2" style={{ marginBottom: 5 }}>
-                      <span className="mono text-xs" style={{ flex: 1, color: TYPE_COLOR[type] }}>{type}</span>
+                    <div
+                      className={['row gap-2', presentation.section2]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      <span
+                        className="mono text-xs"
+                        style={{ flex: 1, color: TYPE_COLOR[type] }}
+                      >
+                        {type}
+                      </span>
                       <span className="mono num dim text-xs">{count}</span>
                     </div>
-                    <div style={{ height: 3, borderRadius: 999, background: 'var(--bg-3)', overflow: 'hidden' }}>
-                      <div style={{ width: `${Math.max(6, (count / maxTopEventCount) * 100)}%`, height: '100%', background: TYPE_COLOR[type] }} />
+                    <div className={presentation.detail4}>
+                      <div
+                        style={{
+                          width: `${Math.max(6, (count / maxTopEventCount) * 100)}%`,
+                          height: '100%',
+                          background: TYPE_COLOR[type],
+                        }}
+                      />
                     </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
-
         </div>
       </div>
     </PageFrame>
@@ -318,7 +384,9 @@ export default function FeedClient({ isSuperAdmin, contractIds }: FeedClientProp
 function EventRow({ event, isNew }: { event: FeedEvent; isNew: boolean }) {
   const ts = formatTime(event.timestamp);
   const Wrapper = event.link ? 'a' : 'div';
-  const wrapperProps = event.link ? { href: event.link, style: { textDecoration: 'none', color: 'inherit' } } : {};
+  const wrapperProps = event.link
+    ? { href: event.link, style: { textDecoration: 'none', color: 'inherit' } }
+    : {};
 
   return (
     <Wrapper
@@ -330,26 +398,36 @@ function EventRow({ event, isNew }: { event: FeedEvent; isNew: boolean }) {
         gap: 10,
         padding: '7px 14px',
         borderBottom: '1px solid var(--line-1)',
-        background: isNew ? 'color-mix(in oklch, var(--mint) 8%, transparent)' : undefined,
+        background: isNew
+          ? 'color-mix(in oklch, var(--mint) 8%, transparent)'
+          : undefined,
         transition: 'background 0.3s',
-        ...(event.link ? { textDecoration: 'none', color: 'inherit', cursor: 'pointer' } : {}),
+        ...(event.link
+          ? { textDecoration: 'none', color: 'inherit', cursor: 'pointer' }
+          : {}),
       }}
     >
       {/* Timestamp */}
       <span
-        className="mono num text-2xs"
-        style={{ color: 'var(--fg-4)', width: 70, flexShrink: 0, userSelect: 'none' }}
+        className={['mono num text-2xs', presentation.ink1]
+          .filter(Boolean)
+          .join(' ')}
       >
         {ts}
       </span>
 
       {/* Type dot */}
-      <span className={TYPE_DOT[event.type]} style={{ flexShrink: 0 }} />
+      <span
+        className={[TYPE_DOT[event.type], presentation.detail5]
+          .filter(Boolean)
+          .join(' ')}
+      />
 
       {/* Actor */}
       <span
-        className="mono truncate-text text-2xs"
-        style={{ color: 'var(--fg-3)', width: 90, flexShrink: 0 }}
+        className={['mono truncate-text text-2xs', presentation.ink2]
+          .filter(Boolean)
+          .join(' ')}
         title={event.actor}
       >
         {event.actor}
@@ -357,8 +435,9 @@ function EventRow({ event, isNew }: { event: FeedEvent; isNew: boolean }) {
 
       {/* Summary */}
       <span
-        className="truncate-text text-xs"
-        style={{ flex: 1, color: 'var(--fg-2)' }}
+        className={['truncate-text text-xs', presentation.ink3]
+          .filter(Boolean)
+          .join(' ')}
         title={event.summary}
       >
         {event.summary}

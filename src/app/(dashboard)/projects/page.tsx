@@ -1,3 +1,4 @@
+import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import Link from 'next/link';
 import { createServerClient } from '@/lib/db/server';
@@ -9,7 +10,10 @@ import { formatRelative } from '@/lib/format-date';
 import ProjectFilters from './filters';
 import InvitationInbox from './invitation-inbox';
 import { hydrateProjectInvitations } from '@/app/api/v1/projects/_helpers';
-import { categorizeProjectInvitations, type InvitationLike } from './invitation-utils';
+import {
+  categorizeProjectInvitations,
+  type InvitationLike,
+} from './invitation-utils';
 import { applyProjectInvitationVisibility } from '@/lib/project-invitation-visibility';
 import { buildProjectCardAccessMap } from '@/lib/project-card-access';
 import { normalizeProjectPrivacyMetadata } from '@/lib/privacy-policy';
@@ -51,9 +55,16 @@ export default async function ProjectsPage({
   const agentScope = auth.agentScope;
 
   let scopedProjectIds: string[] | null = null;
-  let projectAccessById: Record<string, ReturnType<typeof buildProjectCardAccessMap>[string]> = {};
+  let projectAccessById: Record<
+    string,
+    ReturnType<typeof buildProjectCardAccessMap>[string]
+  > = {};
   if (!user.isSuperAdmin) {
-    const [{ data: memberRows }, { data: observerRows }, { data: inviteRowsRaw }] = await Promise.all([
+    const [
+      { data: memberRows },
+      { data: observerRows },
+      { data: inviteRowsRaw },
+    ] = await Promise.all([
       db
         .from('project_members')
         .select('project_id, role')
@@ -64,16 +75,28 @@ export default async function ProjectsPage({
         .in('agent_id', agentScope),
       db
         .from('project_member_invitations')
-        .select('*, project:projects(id, title), agent:agents!project_member_invitations_agent_id_fkey(id, name, display_name), invited_by:agents!project_member_invitations_invited_by_agent_id_fkey(id, name, display_name)')
+        .select(
+          '*, project:projects(id, title), agent:agents!project_member_invitations_agent_id_fkey(id, name, display_name), invited_by:agents!project_member_invitations_invited_by_agent_id_fkey(id, name, display_name)',
+        )
         .in('agent_id', agentScope)
         .order('created_at', { ascending: false }),
     ]);
 
     const inviteRows = await hydrateProjectInvitations(inviteRowsRaw || []);
-    const memberProjectIds = new Set((memberRows || []).map((row) => row.project_id));
-    const ownerProjectIds = new Set((memberRows || []).filter((row) => row.role === 'owner').map((row) => row.project_id));
-    const observerProjectIds = new Set((observerRows || []).map((row) => row.project_id));
-    const inviteProjectIds = new Set(inviteRows.map((inv) => inv.project_id).filter(Boolean));
+    const memberProjectIds = new Set(
+      (memberRows || []).map((row) => row.project_id),
+    );
+    const ownerProjectIds = new Set(
+      (memberRows || [])
+        .filter((row) => row.role === 'owner')
+        .map((row) => row.project_id),
+    );
+    const observerProjectIds = new Set(
+      (observerRows || []).map((row) => row.project_id),
+    );
+    const inviteProjectIds = new Set(
+      inviteRows.map((inv) => inv.project_id).filter(Boolean),
+    );
     const scopedSet = new Set<string>(memberProjectIds);
     observerProjectIds.forEach((projectId) => scopedSet.add(projectId));
     inviteProjectIds.forEach((projectId) => scopedSet.add(projectId));
@@ -89,16 +112,25 @@ export default async function ProjectsPage({
 
     const visibleInviteRows = inviteRows.filter((inv) => {
       const access = projectAccessById[inv.project_id || ''];
-      return applyProjectInvitationVisibility([inv], {
-        trust_tier: auth.trustTier,
-        trust_policy: auth.trustPolicy,
-      }, {
-        treatAsObserver: access?.treatInvitationsAsObserverSummary ?? false,
-        includeObserverSummary: true,
-      }).visibleInvitations.length > 0;
+      return (
+        applyProjectInvitationVisibility(
+          [inv],
+          {
+            trust_tier: auth.trustTier,
+            trust_policy: auth.trustPolicy,
+          },
+          {
+            treatAsObserver: access?.treatInvitationsAsObserverSummary ?? false,
+            includeObserverSummary: true,
+          },
+        ).visibleInvitations.length > 0
+      );
     });
 
-    const { pendingMine, historyMine } = categorizeProjectInvitations(visibleInviteRows, auth.agentScope);
+    const { pendingMine, historyMine } = categorizeProjectInvitations(
+      visibleInviteRows,
+      auth.agentScope,
+    );
 
     return renderProjectsPage({
       userIsSuperAdmin: user.isSuperAdmin,
@@ -146,9 +178,21 @@ async function renderProjectsPage({
   inboxFilter: string;
   pendingMine: InvitationLike[];
   historyMine: InvitationLike[];
-  projectAccessById: Record<string, ReturnType<typeof buildProjectCardAccessMap>[string]>;
-  user: { id: string; displayName: string; isSuperAdmin: boolean; trustTier?: string; trustPolicy?: unknown };
-  auth?: { trustTier: 'internal' | 'partner' | 'external'; trustPolicy: unknown };
+  projectAccessById: Record<
+    string,
+    ReturnType<typeof buildProjectCardAccessMap>[string]
+  >;
+  user: {
+    id: string;
+    displayName: string;
+    isSuperAdmin: boolean;
+    trustTier?: string;
+    trustPolicy?: unknown;
+  };
+  auth?: {
+    trustTier: 'internal' | 'partner' | 'external';
+    trustPolicy: unknown;
+  };
 }) {
   let query = db.from('projects').select('*');
 
@@ -172,14 +216,18 @@ async function renderProjectsPage({
   let rows = projects || [];
 
   if (inboxFilter === 'needs-response') {
-    const pendingProjectIds = new Set(pendingMine.map((inv) => inv.project_id).filter(Boolean));
+    const pendingProjectIds = new Set(
+      pendingMine.map((inv) => inv.project_id).filter(Boolean),
+    );
     rows = rows.filter((project) => pendingProjectIds.has(project.id));
   } else if (inboxFilter === 'history') {
-    const historyProjectIds = new Set(historyMine.map((inv) => inv.project_id).filter(Boolean));
+    const historyProjectIds = new Set(
+      historyMine.map((inv) => inv.project_id).filter(Boolean),
+    );
     rows = rows.filter((project) => historyProjectIds.has(project.id));
   }
 
-  const projectIds = rows.map(p => p.id);
+  const projectIds = rows.map((p) => p.id);
 
   const activeUser = user!;
   const memberCounts: Record<string, number> = {};
@@ -190,28 +238,46 @@ async function renderProjectsPage({
   const canSeeInvitationSummaries: Record<string, boolean> = {};
 
   if (projectIds.length > 0) {
-    const [membersRes, observersRes, tasksRes, sprintsRes, invitationRes] = await Promise.all([
-      db.from('project_members').select('project_id').in('project_id', projectIds),
-      db.from('project_observers').select('project_id').in('project_id', projectIds),
-      db.from('tasks').select('project_id, status').in('project_id', projectIds),
-      db.from('sprints').select('project_id, title, status').in('project_id', projectIds).eq('status', 'active'),
-      db
-        .from('project_member_invitations')
-        .select('project_id, status, agent_id, invited_by_agent_id, created_at')
-        .in('project_id', projectIds),
-    ]);
+    const [membersRes, observersRes, tasksRes, sprintsRes, invitationRes] =
+      await Promise.all([
+        db
+          .from('project_members')
+          .select('project_id')
+          .in('project_id', projectIds),
+        db
+          .from('project_observers')
+          .select('project_id')
+          .in('project_id', projectIds),
+        db
+          .from('tasks')
+          .select('project_id, status')
+          .in('project_id', projectIds),
+        db
+          .from('sprints')
+          .select('project_id, title, status')
+          .in('project_id', projectIds)
+          .eq('status', 'active'),
+        db
+          .from('project_member_invitations')
+          .select(
+            'project_id, status, agent_id, invited_by_agent_id, created_at',
+          )
+          .in('project_id', projectIds),
+      ]);
 
     for (const m of membersRes.data || []) {
       memberCounts[m.project_id] = (memberCounts[m.project_id] || 0) + 1;
     }
 
     for (const observer of observersRes.data || []) {
-      observerCounts[observer.project_id] = (observerCounts[observer.project_id] || 0) + 1;
+      observerCounts[observer.project_id] =
+        (observerCounts[observer.project_id] || 0) + 1;
     }
 
     for (const t of tasksRes.data || []) {
       if (t.status === 'cancelled') continue;
-      if (!taskStats[t.project_id]) taskStats[t.project_id] = { total: 0, done: 0 };
+      if (!taskStats[t.project_id])
+        taskStats[t.project_id] = { total: 0, done: 0 };
       taskStats[t.project_id].total++;
       if (t.status === 'done') taskStats[t.project_id].done++;
     }
@@ -220,7 +286,16 @@ async function renderProjectsPage({
       sprintNames[s.project_id] = s.title;
     }
 
-    const invitationBuckets = new Map<string, Array<{ project_id: string; status: ProjectInvitationStatus; agent_id: string; invited_by_agent_id: string; created_at: string }>>();
+    const invitationBuckets = new Map<
+      string,
+      Array<{
+        project_id: string;
+        status: ProjectInvitationStatus;
+        agent_id: string;
+        invited_by_agent_id: string;
+        created_at: string;
+      }>
+    >();
     for (const invitation of invitationRes.data || []) {
       const bucket = invitationBuckets.get(invitation.project_id) || [];
       bucket.push(invitation);
@@ -229,13 +304,20 @@ async function renderProjectsPage({
 
     for (const projectId of projectIds) {
       const access = projectAccessById[projectId];
-      const visibility = applyProjectInvitationVisibility(invitationBuckets.get(projectId) || [], {
-        trust_tier: auth?.trustTier || (activeUser.trustTier as 'internal' | 'partner' | 'external') || 'external',
-        trust_policy: auth?.trustPolicy || activeUser.trustPolicy || null,
-      }, {
-        treatAsObserver: access?.treatInvitationsAsObserverSummary ?? false,
-        includeObserverSummary: true,
-      });
+      const visibility = applyProjectInvitationVisibility(
+        invitationBuckets.get(projectId) || [],
+        {
+          trust_tier:
+            auth?.trustTier ||
+            (activeUser.trustTier as 'internal' | 'partner' | 'external') ||
+            'external',
+          trust_policy: auth?.trustPolicy || activeUser.trustPolicy || null,
+        },
+        {
+          treatAsObserver: access?.treatInvitationsAsObserverSummary ?? false,
+          includeObserverSummary: true,
+        },
+      );
       hiddenPendingInvitationCounts[projectId] = visibility.hiddenPendingCount;
       canSeeInvitationSummaries[projectId] = visibility.canSeeSummary;
     }
@@ -245,24 +327,33 @@ async function renderProjectsPage({
     <AutoRefresh intervalMs={15000} watch={['projects', 'tasks']}>
       <PageFrame>
         {/* Header */}
-        <div className="row" style={{ alignItems: 'flex-end', justifyContent: 'space-between', gap: 16, marginBottom: 18 }}>
+        <div
+          className={['row', presentation.section1].filter(Boolean).join(' ')}
+        >
           <div className="col gap-1">
             <div className="upper">Management</div>
-            <div className="h1">Projects</div>
+            <h1 className="h1">Projects</h1>
             <div className="muted text-sm">
-              <span className="num">{rows.length}</span> project{rows.length !== 1 ? 's' : ''}
+              <span className="num">{rows.length}</span> project
+              {rows.length !== 1 ? 's' : ''}
             </div>
           </div>
           <div className="row gap-2">
-            <Link href="/projects/new" className="btn btn--primary" style={{ textDecoration: 'none' }}>
-              <Plus size={13} />New Project
+            <Link
+              href="/projects/new"
+              className={['btn btn--primary', presentation.link1]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <Plus size={13} />
+              New Project
             </Link>
           </div>
         </div>
 
         {/* Invitations */}
         {(pendingMine.length > 0 || historyMine.length > 0) && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 24 }}>
+          <div className={presentation.grid1}>
             <InvitationInbox
               title="My project invitations"
               invitations={pendingMine}
@@ -281,12 +372,23 @@ async function renderProjectsPage({
         {/* Project cards */}
         <div className={`card ${styles.list}`}>
           {rows.length === 0 ? (
-            <div className="card" style={{ gridColumn: '1 / -1' }}>
+            <div
+              className={['card', presentation.detail1]
+                .filter(Boolean)
+                .join(' ')}
+            >
               <EmptyState
                 icon={<FolderKanban size={20} />}
                 title="No projects found"
                 hint="No project matches the current filter. Create one to start organising tasks."
-                action={<Link className="btn btn--primary btn--sm" href="/projects/new">New Project</Link>}
+                action={
+                  <Link
+                    className="btn btn--primary btn--sm"
+                    href="/projects/new"
+                  >
+                    New Project
+                  </Link>
+                }
               />
             </div>
           ) : (
@@ -296,51 +398,88 @@ async function renderProjectsPage({
               const members = memberCounts[project.id] || 0;
               const observers = observerCounts[project.id] || 0;
               const activeSprint = sprintNames[project.id] || null;
-              const hiddenPendingInvitations = hiddenPendingInvitationCounts[project.id] || 0;
-              const privacyMetadata = normalizeProjectPrivacyMetadata(project.privacy_metadata);
-              const canSeeInvitationSummary = !!canSeeInvitationSummaries[project.id];
+              const hiddenPendingInvitations =
+                hiddenPendingInvitationCounts[project.id] || 0;
+              const privacyMetadata = normalizeProjectPrivacyMetadata(
+                project.privacy_metadata,
+              );
+              const canSeeInvitationSummary =
+                !!canSeeInvitationSummaries[project.id];
               const isComplete = project.status === 'completed';
 
               return (
-                <Link key={project.id} href={`/projects/${project.id}`} className={styles.row}>
+                <Link
+                  key={project.id}
+                  href={`/projects/${project.id}`}
+                  className={styles.row}
+                >
                   <span className={styles.rowMain}>
                     <span className={styles.rowTitleLine}>
-                      <StatusBadge domain="project" status={project.status} dot="static" size="sm" />
+                      <StatusBadge
+                        domain="project"
+                        status={project.status}
+                        dot="static"
+                        size="sm"
+                      />
                       <span className={styles.rowTitle}>{project.title}</span>
                     </span>
                     {project.description && (
-                      <span className={styles.rowDesc}>{plainSummary(project.description)}</span>
+                      <span className={styles.rowDesc}>
+                        {plainSummary(project.description)}
+                      </span>
                     )}
                   </span>
 
-                  <span className={styles.rowProgress} title={`${stats.done} of ${stats.total} tasks done`}>
+                  <span
+                    className={styles.rowProgress}
+                    title={`${stats.done} of ${stats.total} tasks done`}
+                  >
                     <ProgressBar
                       value={stats.done}
                       max={Math.max(stats.total, 1)}
                       color={colorVarForTone(isComplete ? 'mint' : 'amber')}
                       height={3}
                     />
-                    <span className={styles.rowProgressText}>{stats.done}/{stats.total}</span>
+                    <span className={styles.rowProgressText}>
+                      {stats.done}/{stats.total}
+                    </span>
                   </span>
 
                   <span className={styles.rowMeta}>
-                    {activeSprint && <span className={`${pillClassForTone('neutral')} text-2xs`}>{activeSprint}</span>}
-                    {privacyMetadata.allow_observer_access === false && (
-                      <span className={`${pillClassForTone('amber')} text-2xs`}>observers restricted</span>
-                    )}
-                    {canSeeInvitationSummary && hiddenPendingInvitations > 0 && (
+                    {activeSprint && (
                       <span
-                        className={`${pillClassForTone('peri')} text-2xs`}
-                        title="Restricted invitation summary: pending invitations hidden by trust policy"
+                        className={`${pillClassForTone('neutral')} text-2xs`}
                       >
-                        {hiddenPendingInvitations} invitation{hiddenPendingInvitations === 1 ? '' : 's'} hidden
+                        {activeSprint}
                       </span>
                     )}
-                    {access?.canSeeParticipantCounts !== false && (
-                      <span className={styles.rowStat}><Users size={11} /> {members}{observers > 0 ? ` +${observers}` : ''}</span>
+                    {privacyMetadata.allow_observer_access === false && (
+                      <span className={`${pillClassForTone('amber')} text-2xs`}>
+                        observers restricted
+                      </span>
                     )}
-                    <span className={styles.rowStat}><Layers size={11} /> {stats.total}</span>
-                    <span className={styles.rowUpdated}>{formatRelative(project.updated_at || project.created_at)}</span>
+                    {canSeeInvitationSummary &&
+                      hiddenPendingInvitations > 0 && (
+                        <span
+                          className={`${pillClassForTone('peri')} text-2xs`}
+                          title="Restricted invitation summary: pending invitations hidden by trust policy"
+                        >
+                          {hiddenPendingInvitations} invitation
+                          {hiddenPendingInvitations === 1 ? '' : 's'} hidden
+                        </span>
+                      )}
+                    {access?.canSeeParticipantCounts !== false && (
+                      <span className={styles.rowStat}>
+                        <Users size={11} /> {members}
+                        {observers > 0 ? ` +${observers}` : ''}
+                      </span>
+                    )}
+                    <span className={styles.rowStat}>
+                      <Layers size={11} /> {stats.total}
+                    </span>
+                    <span className={styles.rowUpdated}>
+                      {formatRelative(project.updated_at || project.created_at)}
+                    </span>
                   </span>
                 </Link>
               );

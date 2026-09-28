@@ -43,44 +43,16 @@ export const EmptyState = ({
   tone = 'default',
   className,
 }: EmptyStateProps) => {
-  const ink = tone === 'error' ? 'var(--rose)' : 'var(--fg-1)';
-
   return (
-    <div
-      className={cn('col', className)}
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        gap: 'var(--space-2)',
-        padding: 'var(--space-6) var(--space-4)',
-      }}
-    >
+    <div className={cn('empty-state', className)} data-tone={tone}>
       {icon != null && (
-        <span
-          aria-hidden
-          className="row"
-          style={{
-            color: tone === 'error' ? 'var(--rose)' : 'var(--fg-3)',
-            marginBottom: 'var(--space-1)',
-          }}
-        >
+        <span aria-hidden className="empty-state-icon">
           {icon}
         </span>
       )}
-      <div className="text-sm" style={{ fontWeight: 600, color: ink }}>
-        {title}
-      </div>
-      {hint != null && (
-        <p className="text-xs" style={{ margin: 0, color: 'var(--fg-3)', maxWidth: '44ch', lineHeight: 1.55 }}>
-          {hint}
-        </p>
-      )}
-      {action != null && (
-        <div className="row gap-2" style={{ marginTop: 'var(--space-3)' }}>
-          {action}
-        </div>
-      )}
+      <div className="empty-state-title">{title}</div>
+      {hint != null && <p className="empty-state-hint">{hint}</p>}
+      {action != null && <div className="empty-state-action">{action}</div>}
     </div>
   );
 };

@@ -1,0 +1,35 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.field1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.ink1 {
+  color: var(--fg-3);
+  margin: 0 auto;
+}
+
+.ink2 {
+  margin-top: 6px;
+  color: var(--fg-1);
+}
+
+.detail1 {
+  margin-top: var(--space-1);
+}
+
+.field2 {
+  flex: 1;
+}
+
+.detail2 {
+  justify-content: space-between;
+}
+
+.ink3 {
+  color: var(--rose);
+}

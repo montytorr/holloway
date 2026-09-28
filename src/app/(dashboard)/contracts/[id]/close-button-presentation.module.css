@@ -1,0 +1,68 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.row1 {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail1 {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+  backdrop-filter: blur(6px);
+}
+
+.detail2 {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 16px;
+  background: var(--bg-1);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  box-shadow: 0 24px 80px var(--shadow-strong);
+}
+
+.detail3 {
+  padding: 28px;
+}
+
+.row2 {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-4);
+  background: var(--rose-bg);
+  border: 1px solid var(--rose-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.ink1 {
+  color: var(--rose);
+}
+
+.section1 {
+  text-align: center;
+  margin-bottom: var(--space-2);
+}
+
+.detail4 {
+  text-align: center;
+  line-height: 1.5;
+}
+
+.label1 {
+  gap: 6px;
+  margin-top: var(--space-4);
+}
+
+.detail5 {
+  padding: 0 28px 28px;
+}

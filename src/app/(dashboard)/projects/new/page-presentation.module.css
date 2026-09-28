@@ -1,0 +1,158 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.row1 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.link1 {
+  color: var(--fg-3);
+  text-decoration: none;
+}
+
+.ink1 {
+  color: var(--fg-3);
+}
+
+.ink2 {
+  color: var(--fg-2);
+}
+
+.section1 {
+  margin-bottom: var(--space-6);
+}
+
+.copy1 {
+  font-weight: 600;
+  color: var(--peri);
+  margin-bottom: var(--space-2);
+}
+
+.ink3 {
+  font-weight: 700;
+  color: var(--fg-0);
+  letter-spacing: -0.02em;
+}
+
+.stack1 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.detail1 {
+  padding: var(--space-5);
+  animation-delay: 0.05s;
+}
+
+.label1 {
+  display: block;
+  font-weight: 600;
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-2);
+}
+
+.ink4 {
+  color: var(--rose);
+}
+
+.field1 {
+  width: 100%;
+}
+
+.detail2 {
+  padding: var(--space-5);
+  animation-delay: 0.1s;
+}
+
+.field2 {
+  width: 100%;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.detail3 {
+  margin-top: var(--space-3);
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line-1);
+}
+
+.copy2 {
+  font-weight: 600;
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-2);
+}
+
+.detail4 {
+  padding: var(--space-5);
+  animation-delay: 0.15s;
+}
+
+.label2 {
+  display: block;
+  font-weight: 600;
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-3);
+}
+
+.copy3 {
+  color: var(--fg-3);
+  margin-bottom: var(--space-4);
+}
+
+.grid1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--space-2);
+}
+
+.detail5 {
+  flex: 1;
+  min-width: 0;
+}
+
+.copy4 {
+  color: var(--fg-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ink5 {
+  color: var(--peri);
+  flex-shrink: 0;
+}
+
+.panel1 {
+  border-radius: var(--radius-4);
+  background: var(--rose-bg);
+  border: 1px solid var(--rose);
+  padding: 0.75rem 1rem;
+}
+
+.row2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  animation-delay: 0.2s;
+}
+
+.link2 {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: var(--radius-4);
+  border: 1px solid var(--line-1);
+  color: var(--fg-2);
+  text-decoration: none;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}

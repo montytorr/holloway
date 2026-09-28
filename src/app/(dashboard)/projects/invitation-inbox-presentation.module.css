@@ -1,0 +1,53 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.detail1 {
+  padding: var(--space-4);
+}
+
+.section1 {
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.link1 {
+  padding: 10px 12px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: border-color 0.12s;
+}
+
+.detail2 {
+  justify-content: space-between;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.detail3 {
+  min-width: 0;
+  flex: 1;
+}
+
+.ink1 {
+  font-weight: 500;
+  color: var(--fg-0);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail4 {
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail5 {
+  flex-shrink: 0;
+}
+
+.detail6 {
+  margin-top: 6px;
+  flex-wrap: wrap;
+}

@@ -1,10 +1,16 @@
+import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import { createServerClient } from '@/lib/db/server';
 import { getAuthActorContext } from '@/lib/auth-actor-context';
 import { buildDashboardVisibilityScope } from '@/lib/dashboard-scope';
 import { redirect } from 'next/navigation';
 import type { AuditLogEntry } from '@/lib/types';
-import { Download, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
+import {
+  Download,
+  ChevronLeft,
+  ChevronRight,
+  AlertTriangle,
+} from 'lucide-react';
 import { PageFrame, SectionHeader, EmptyState } from '@/components/atoms';
 import AuditTable from './audit-table';
 import AutoRefresh from '@/components/auto-refresh';
@@ -15,10 +21,16 @@ export const dynamic = 'force-dynamic';
 const PAGE_SIZE = 25;
 
 const SECURITY_EVENTS = [
-  'auth.success', 'auth.failure', 'authz.denied',
-  'webhook.delivery.success', 'webhook.delivery.failure', 'webhook.disabled',
-  'suspicious.replay_detected', 'suspicious.invalid_signature',
-  'policy.kill_switch.activated', 'policy.kill_switch.deactivated',
+  'auth.success',
+  'auth.failure',
+  'authz.denied',
+  'webhook.delivery.success',
+  'webhook.delivery.failure',
+  'webhook.disabled',
+  'suspicious.replay_detected',
+  'suspicious.invalid_signature',
+  'policy.kill_switch.activated',
+  'policy.kill_switch.deactivated',
 ];
 
 function buildPageUrl(
@@ -30,15 +42,22 @@ function buildPageUrl(
   const parts: string[] = [];
   if (p > 1) parts.push(`page=${p}`);
   if (actorFilter) parts.push(`actor=${encodeURIComponent(actorFilter)}`);
-  if (actionFilter !== 'all') parts.push(`action=${encodeURIComponent(actionFilter)}`);
-  if (rangeFilter !== 'all') parts.push(`range=${encodeURIComponent(rangeFilter)}`);
+  if (actionFilter !== 'all')
+    parts.push(`action=${encodeURIComponent(actionFilter)}`);
+  if (rangeFilter !== 'all')
+    parts.push(`range=${encodeURIComponent(rangeFilter)}`);
   return `/audit${parts.length ? `?${parts.join('&')}` : ''}`;
 }
 
 export default async function AuditPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string; actor?: string; action?: string; range?: string }>;
+  searchParams: Promise<{
+    page?: string;
+    actor?: string;
+    action?: string;
+    range?: string;
+  }>;
 }) {
   const auth = await getAuthActorContext();
   const user = auth?.user ?? null;
@@ -53,8 +72,12 @@ export default async function AuditPage({
   const db = createServerClient();
   noStore();
 
-  const scope = user.isSuperAdmin ? null : await buildDashboardVisibilityScope(auth);
-  const scopedActorNames = user.isSuperAdmin ? null : scope?.contractActorNames || [];
+  const scope = user.isSuperAdmin
+    ? null
+    : await buildDashboardVisibilityScope(auth);
+  const scopedActorNames = user.isSuperAdmin
+    ? null
+    : scope?.contractActorNames || [];
 
   // ── count query ──────────────────────────────────────────────────────────────
 
@@ -137,7 +160,11 @@ export default async function AuditPage({
   if (dataError) {
     return (
       <PageFrame>
-        <SectionHeader eyebrow="Monitoring" title="Audit Log" sub="Failed to load audit entries" />
+        <SectionHeader
+          eyebrow="Monitoring"
+          title="Audit Log"
+          sub="Failed to load audit entries"
+        />
         <div className="card">
           <EmptyState
             tone="error"
@@ -173,36 +200,64 @@ export default async function AuditPage({
         <AuditTable entries={rows} />
 
         {/* Pagination */}
-        <div className="row gap-2" style={{ justifyContent: 'center', marginTop: 8 }}>
+        <div
+          className={['row gap-2', presentation.detail1]
+            .filter(Boolean)
+            .join(' ')}
+        >
           {page > 1 ? (
             <a
-              href={buildPageUrl(page - 1, actorFilter, actionFilter, rangeFilter)}
+              href={buildPageUrl(
+                page - 1,
+                actorFilter,
+                actionFilter,
+                rangeFilter,
+              )}
               className="btn btn--sm row gap-1"
             >
               <ChevronLeft size={13} />
               Prev
             </a>
           ) : (
-            <button className="btn btn--sm row gap-1" disabled style={{ opacity: 0.35, cursor: 'not-allowed' }}>
+            <button
+              className={['btn btn--sm row gap-1', presentation.action1]
+                .filter(Boolean)
+                .join(' ')}
+              disabled
+            >
               <ChevronLeft size={13} />
               Prev
             </button>
           )}
 
-          <span className="mono num text-xs" style={{ color: 'var(--fg-2)', padding: '0 8px' }}>
+          <span
+            className={['mono num text-xs', presentation.ink1]
+              .filter(Boolean)
+              .join(' ')}
+          >
             {page} / {totalPages}
           </span>
 
           {page < totalPages ? (
             <a
-              href={buildPageUrl(page + 1, actorFilter, actionFilter, rangeFilter)}
+              href={buildPageUrl(
+                page + 1,
+                actorFilter,
+                actionFilter,
+                rangeFilter,
+              )}
               className="btn btn--sm row gap-1"
             >
               Next
               <ChevronRight size={13} />
             </a>
           ) : (
-            <button className="btn btn--sm row gap-1" disabled style={{ opacity: 0.35, cursor: 'not-allowed' }}>
+            <button
+              className={['btn btn--sm row gap-1', presentation.action1]
+                .filter(Boolean)
+                .join(' ')}
+              disabled
+            >
               Next
               <ChevronRight size={13} />
             </button>

@@ -1,3 +1,4 @@
+import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import Link from 'next/link';
 import { MessageSquare, ChevronRight, AlertTriangle } from 'lucide-react';
@@ -27,7 +28,12 @@ function timeAgo(dateStr: string): string {
 export default async function MessagesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ agent?: string; type?: string; search?: string; page?: string }>;
+  searchParams: Promise<{
+    agent?: string;
+    type?: string;
+    search?: string;
+    page?: string;
+  }>;
 }) {
   const auth = await getAuthActorContext();
   const user = auth?.user ?? null;
@@ -38,7 +44,12 @@ export default async function MessagesPage({
   const typeFilter = params.type || 'all';
   const searchFilter = params.search || '';
   const requestedPage = Number(params.page);
-  const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 && requestedPage <= 1000 ? requestedPage : 1;
+  const page =
+    Number.isSafeInteger(requestedPage) &&
+    requestedPage > 0 &&
+    requestedPage <= 1000
+      ? requestedPage
+      : 1;
   const pageUrl = (target: number) => {
     const query = new URLSearchParams();
     if (agentFilter !== 'all') query.set('agent', agentFilter);
@@ -60,15 +71,22 @@ export default async function MessagesPage({
     agentsQuery,
     user.isSuperAdmin
       ? Promise.resolve({ data: [] as Array<{ contract_id: string }> })
-      : db.from('contract_participants').select('contract_id').in('agent_id', auth.agentScope),
+      : db
+          .from('contract_participants')
+          .select('contract_id')
+          .in('agent_id', auth.agentScope),
   ]);
-  const agentList = (agents || []) as Array<{ id: string; name: string; display_name: string }>;
-  const agentMap = new Map(agentList.map(a => [a.id, a]));
+  const agentList = (agents || []) as Array<{
+    id: string;
+    name: string;
+    display_name: string;
+  }>;
+  const agentMap = new Map(agentList.map((a) => [a.id, a]));
 
   // For non-admin, get scoped contract IDs
   const scopedContractIds: string[] | null = user.isSuperAdmin
     ? null
-    : (participantContracts || []).map(p => p.contract_id);
+    : (participantContracts || []).map((p) => p.contract_id);
 
   // Build filtered messages query
   let query = db
@@ -76,7 +94,9 @@ export default async function MessagesPage({
     // requires_action / consumes_turn are persisted per message and were not
     // even fetched here, so the cross-contract inbox could not say which of
     // these were asking for anything.
-    .select('id, contract_id, sender_id, message_type, content, created_at, requires_action, consumes_turn')
+    .select(
+      'id, contract_id, sender_id, message_type, content, created_at, requires_action, consumes_turn',
+    )
     .order('created_at', { ascending: false })
     // Fetch one extra row to show Next without an expensive total-count query.
     .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -99,7 +119,9 @@ export default async function MessagesPage({
   if (searchFilter) {
     const sanitized = searchFilter.replace(/[,().%*\\]/g, '');
     if (sanitized) {
-      query = query.or(`content->>summary.ilike.%${sanitized}%,content->>message.ilike.%${sanitized}%,content->>text.ilike.%${sanitized}%`);
+      query = query.or(
+        `content->>summary.ilike.%${sanitized}%,content->>message.ilike.%${sanitized}%,content->>text.ilike.%${sanitized}%`,
+      );
     }
   }
 
@@ -107,8 +129,12 @@ export default async function MessagesPage({
   if (messagesError) {
     return (
       <PageFrame>
-        <div style={{ marginBottom: '28px' }}>
-          <p className="upper" style={{ marginBottom: '6px' }}>Communications</p>
+        <div className={presentation.section1}>
+          <p
+            className={['upper', presentation.copy1].filter(Boolean).join(' ')}
+          >
+            Communications
+          </p>
           <h1 className="h1">Messages</h1>
           <p className="muted text-sm">Agent-to-agent message stream</p>
         </div>
@@ -124,18 +150,25 @@ export default async function MessagesPage({
     );
   }
 
-  const contractIds = [...new Set((messages || []).map(m => m.contract_id))];
+  const contractIds = [...new Set((messages || []).map((m) => m.contract_id))];
   // Resolve ALL sender names (not just owned agents) so counterparties don't show as "Unknown"
-  const missingSenderIds = [...new Set((messages || []).map(m => m.sender_id))].filter(id => !agentMap.has(id));
+  const missingSenderIds = [
+    ...new Set((messages || []).map((m) => m.sender_id)),
+  ].filter((id) => !agentMap.has(id));
   const [{ data: contracts }, { data: extraAgents }] = await Promise.all([
     contractIds.length > 0
       ? db.from('contracts').select('id, title').in('id', contractIds)
       : Promise.resolve({ data: [] as Array<{ id: string; title: string }> }),
     missingSenderIds.length > 0
-      ? db.from('agents').select('id, name, display_name').in('id', missingSenderIds)
-      : Promise.resolve({ data: [] as Array<{ id: string; name: string; display_name: string }> }),
+      ? db
+          .from('agents')
+          .select('id, name, display_name')
+          .in('id', missingSenderIds)
+      : Promise.resolve({
+          data: [] as Array<{ id: string; name: string; display_name: string }>,
+        }),
   ]);
-  const contractMap = new Map((contracts || []).map(c => [c.id, c]));
+  const contractMap = new Map((contracts || []).map((c) => [c.id, c]));
   for (const agent of extraAgents || []) {
     agentMap.set(agent.id, agent);
   }
@@ -147,15 +180,31 @@ export default async function MessagesPage({
     <AutoRefresh intervalMs={10000} watch={['messages', 'contracts']}>
       <PageFrame>
         {/* Header */}
-        <div style={{ marginBottom: '28px' }}>
-          <p className="upper" style={{ marginBottom: '6px' }}>Communications</p>
-          <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        <div className={presentation.section1}>
+          <p
+            className={['upper', presentation.copy1].filter(Boolean).join(' ')}
+          >
+            Communications
+          </p>
+          <div
+            className={['row', presentation.detail1].filter(Boolean).join(' ')}
+          >
             <div>
               <h1 className="h1">Messages</h1>
-              <p className="dim text-sm" style={{ marginTop: '4px' }}>
+              <p
+                className={['dim text-sm', presentation.copy2]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 All messages across contracts
                 {allMessages.length > 0 && (
-                  <span className="mono num" style={{ marginLeft: '6px', color: 'var(--fg-3)' }}>· {allMessages.length} shown</span>
+                  <span
+                    className={['mono num', presentation.ink1]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    · {allMessages.length} shown
+                  </span>
                 )}
               </p>
             </div>
@@ -171,7 +220,11 @@ export default async function MessagesPage({
             <EmptyState
               icon={<MessageSquare size={20} />}
               title={page > 1 ? 'No more messages' : 'No messages found'}
-              hint={page > 1 ? 'Go back to a newer page of the stream.' : 'No message matches the current filters. Widen them to see more of the stream.'}
+              hint={
+                page > 1
+                  ? 'Go back to a newer page of the stream.'
+                  : 'No message matches the current filters. Widen them to see more of the stream.'
+              }
             />
           ) : (
             <div>
@@ -192,21 +245,51 @@ export default async function MessagesPage({
                     <div className={styles.content}>
                       <div className={styles.meta}>
                         <strong className={styles.sender}>{senderName}</strong>
-                        <StatusBadge domain="message-type" status={msg.message_type} dot="none" size="sm" />
+                        <StatusBadge
+                          domain="message-type"
+                          status={msg.message_type}
+                          dot="none"
+                          size="sm"
+                        />
                         {msg.consumes_turn === false ? (
-                          <StatusBadge status={null} label="no reply needed" tone="neutral" dot="none" size="sm" />
+                          <StatusBadge
+                            status={null}
+                            label="no reply needed"
+                            tone="neutral"
+                            dot="none"
+                            size="sm"
+                          />
                         ) : msg.requires_action === false ? (
-                          <StatusBadge status={null} label="informational" tone="neutral" dot="none" size="sm" />
+                          <StatusBadge
+                            status={null}
+                            label="informational"
+                            tone="neutral"
+                            dot="none"
+                            size="sm"
+                          />
                         ) : (
-                          <StatusBadge status={null} label="reply expected" tone="peri" dot="none" size="sm" />
+                          <StatusBadge
+                            status={null}
+                            label="reply expected"
+                            tone="peri"
+                            dot="none"
+                            size="sm"
+                          />
                         )}
                       </div>
-                      <div className={styles.preview}><CompactMarkdownPreview content={preview} /></div>
-                      <div className={styles.context}>{contract?.title || `Contract ${msg.contract_id.slice(0, 8)}`}</div>
+                      <div className={styles.preview}>
+                        <CompactMarkdownPreview content={preview} />
+                      </div>
+                      <div className={styles.context}>
+                        {contract?.title ||
+                          `Contract ${msg.contract_id.slice(0, 8)}`}
+                      </div>
                     </div>
 
                     <div className={styles.end}>
-                      <time dateTime={msg.created_at} title={msg.created_at}>{timeAgo(msg.created_at)}</time>
+                      <time dateTime={msg.created_at} title={msg.created_at}>
+                        {timeAgo(msg.created_at)}
+                      </time>
                       <ChevronRight size={15} aria-hidden="true" />
                     </div>
                   </Link>
@@ -216,10 +299,23 @@ export default async function MessagesPage({
           )}
         </div>
         {(page > 1 || hasMore) && (
-          <nav aria-label="Message pages" className="row gap-3" style={{ justifyContent: 'center', alignItems: 'center', marginTop: 'var(--space-5)' }}>
-            {page > 1 && <Link className="btn btn--sm" href={pageUrl(page - 1)}>Newer messages</Link>}
+          <nav
+            aria-label="Message pages"
+            className={['row gap-3', presentation.detail2]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {page > 1 && (
+              <Link className="btn btn--sm" href={pageUrl(page - 1)}>
+                Newer messages
+              </Link>
+            )}
             <span className="dim mono text-xs">Page {page}</span>
-            {hasMore && <Link className="btn btn--sm" href={pageUrl(page + 1)}>Older messages</Link>}
+            {hasMore && (
+              <Link className="btn btn--sm" href={pageUrl(page + 1)}>
+                Older messages
+              </Link>
+            )}
           </nav>
         )}
       </PageFrame>
