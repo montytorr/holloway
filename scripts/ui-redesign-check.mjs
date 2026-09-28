@@ -113,11 +113,21 @@ try {
       // Wait for the persistent shell to hydrate before interaction or measurement.
       await page.waitForFunction(
         () =>
-          document.querySelector('header [role=status]')?.textContent !==
-          'Connecting',
+          document
+            .querySelector('header [role=status]')
+            ?.getAttribute('aria-label') &&
+          document
+            .querySelector('header [role=status]')
+            ?.getAttribute('aria-label') !== 'Connecting',
       );
       for (const width of widths) {
         await page.setViewportSize({ width, height: 1000 });
+        await page.evaluate(
+          () =>
+            new Promise((resolve) =>
+              requestAnimationFrame(() => requestAnimationFrame(resolve)),
+            ),
+        );
         const metrics = await page.evaluate(() => {
           const root = document.documentElement,
             clipped = [];
@@ -155,6 +165,9 @@ try {
           }
           return {
             overflow: root.scrollWidth - root.clientWidth,
+            shellTitle: [...document.querySelectorAll('main > header h1')]
+              .filter((element) => element.checkVisibility())
+              .map((element) => element.textContent.trim()),
             errorPage:
               document.body.innerText.includes('This page couldn’t load') ||
               document.body.innerText.includes('Application error'),
@@ -174,6 +187,8 @@ try {
           record.status >= 400 ||
           record.overflow > 1 ||
           record.errorPage ||
+          (record.width &&
+            (record.shellTitle?.length !== 1 || !record.shellTitle?.[0])) ||
           record.clipped.length ||
           record.errors.length;
         console.log(`${failed ? 'FAIL' : 'PASS'} ${name} ${theme} ${width}`);
@@ -201,6 +216,8 @@ const failed = results.filter(
     record.status >= 400 ||
     record.overflow > 1 ||
     record.errorPage ||
+    (record.width &&
+      (record.shellTitle?.length !== 1 || !record.shellTitle?.[0])) ||
     record.clipped?.length ||
     record.errors?.length,
 );

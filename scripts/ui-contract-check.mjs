@@ -33,10 +33,12 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
   const go = async (path) => {
     await page.goto(base + path);
     await page.waitForFunction(() => {
-      const status = document.querySelector(
-        'header [role="status"]',
-      )?.textContent;
-      return status?.includes('Connected') || status?.includes('Feed stale');
+      const status = document
+        .querySelector('header [role="status"]')
+        ?.getAttribute('aria-label');
+      return ['Current', 'Not updating', 'Connected', 'Feed stale'].includes(
+        status,
+      );
     });
   };
   const outcomes = [];
@@ -107,13 +109,11 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
   await check('page freshness follows client navigation', async () => {
-    const current = page
-      .locator('header [role=status]')
-      .filter({ hasText: /^Current$/ });
+    const current = page.locator('header [role=status][aria-label=Current]');
     await current.waitFor();
     assert.match(
       await current.getAttribute('title'),
-      /last received.*(?:live updates|fallback)/,
+      /received.*(?:live updates|fallback)/,
     );
     await page.locator('a[href="/settings"]:visible').first().click();
     await page.waitForURL('**/settings');
@@ -409,6 +409,21 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
     );
     await page.reload();
     await page.getByText('Feed stale', { exact: true }).waitFor();
+    for (const width of [390, 768, 1024, 1440, 1920]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.getByText('Feed stale', { exact: true }).waitFor();
+      await page.locator('header [role=status][aria-label=Current]').waitFor();
+      assert.equal(
+        await page.evaluate(
+          () =>
+            document.documentElement.scrollWidth -
+            document.documentElement.clientWidth,
+        ),
+        0,
+      );
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 });
+
     await page.unroute('**/api/internal/live-feed');
   });
   await check(

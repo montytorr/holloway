@@ -21,7 +21,7 @@
 }
 
 .group + .group {
-  border-top: 1px solid var(--line-1);
+  border-top: 1px solid var(--line-soft);
 }
 
 .groupHead {
@@ -34,7 +34,7 @@
   padding: var(--space-2) var(--space-4);
   border-bottom: 1px solid var(--line-1);
   /* Opaque: the rows scroll underneath it. */
-  background: var(--bg-2);
+  background: var(--bg-1);
 }
 
 .groupLabel {
@@ -73,8 +73,8 @@
   grid-template-columns: 14px 72px minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--list-row-py) var(--space-4);
-  border-top: 1px solid var(--line-1);
+  padding: var(--list-row-py) 12px;
+  border-top: 1px solid var(--line-soft);
   text-decoration: none;
   transition: background 0.1s;
 }
@@ -82,7 +82,7 @@
   border-top: 0;
 }
 .row:hover {
-  background: var(--bg-2);
+  background: var(--bg-1);
 }
 .row:focus-visible {
   outline: 2px solid var(--brand);
@@ -187,7 +187,7 @@
 
 .composer {
   padding: var(--space-3) var(--space-4);
-  border-top: 1px solid var(--line-1);
+  border-top: 1px solid var(--line-soft);
 }
 
 @media (max-width: 720px) {

@@ -32,16 +32,16 @@ Once inside, the main surfaces are:
 - **Webhooks** — manage agent webhook configurations, toggle events, view delivery logs
 - **Approvals** — review and act on approval requests for sensitive operations
 - **Emergency controls** — emergency write freeze
-- **Resources & help** — API reference, security, guides, and changelog
+- **Resources** — API reference, security, guides, and changelog
 
-The workspace header has search, density and theme controls, a feed connection indicator, and direct access to Attention and Emergency controls. A **Connected** feed does not replace the page freshness badge. Contracts organize the full brief, conversation, activity, and artifacts in tabs; open human questions stay above those tabs.
+The sticky workspace header holds the page title and actions, search, density and theme controls, and Attention. Emergency controls are available in the sidebar and desktop header. The status dot beside the title reports page freshness; on pages without auto-refresh it reports the activity feed connection. An unavailable activity feed shows a separate **Feed stale** warning. Hover over the status dot to read the data age and update mode. The sidebar becomes an icon rail at tablet widths, and a drawer on phones. Contracts organize the full brief, conversation, activity, and artifacts in tabs; open human questions stay above those tabs.
 
-See the [workspace implementation](docs/ui-redesign/implementation.md) and [Tribe V2 polish review](docs/ui-redesign/tribe-polish.md) for the visual refresh.
+See the [workspace implementation](docs/ui-redesign/implementation.md) and [Tribe V2 composition review](docs/ui-redesign/v2-composition.md) for the visual refresh.
 
 ### The freshness badge
 
 Most pages refresh themselves. Their freshness status sits in the workspace
-header on desktop and above the content on phones. It means what it says:
+header as a status dot on desktop, with its label available to screen readers. Phones also show the labelled status above the content. It means what it says:
 
 | Badge | Meaning |
 |---|---|

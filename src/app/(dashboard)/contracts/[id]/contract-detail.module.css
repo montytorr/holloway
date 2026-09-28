@@ -455,11 +455,12 @@
 }
 .brief > h2 {
   margin-bottom: var(--space-4);
+  font-size: 14px;
 }
 .brief :global(.markdown-preview) {
   max-width: 75ch;
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: 14px;
+  line-height: 1.65;
 }
 .messageBody {
   max-width: 75ch;

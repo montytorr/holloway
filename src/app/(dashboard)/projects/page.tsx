@@ -380,6 +380,11 @@ async function renderProjectsPage({
 
         {/* Project cards */}
         <div className={`card ${styles.list}`}>
+          <div className={styles.columns} aria-hidden="true">
+            <span>Project</span>
+            <span>Task progress</span>
+            <span>Workspace / Updated</span>
+          </div>
           {rows.length === 0 ? (
             <div
               className={['card', presentation.detail1]

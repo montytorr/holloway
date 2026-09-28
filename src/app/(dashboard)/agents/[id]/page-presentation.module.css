@@ -10,17 +10,17 @@
 }
 
 .section1 {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
 }
 
 .detail1 {
-  padding: 1.75rem;
+  padding: var(--section-pad);
 }
 
 .row1 {
   display: flex;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: var(--space-4);
   margin-bottom: var(--space-5);
 }
 

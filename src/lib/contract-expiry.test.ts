@@ -32,7 +32,7 @@ test('the countdown escalates, and only the last day counts as soon', () => {
 });
 
 test('an agent waiting on a person is visible without opening the contract', () => {
-  assert.match(page, /open_questions\s*\?\?\s*0\) > 0/,
+  assert.match(page, /open_questions\s*\?\?\s*0\)\s*>\s*0/,
     'the list must surface an open question — it is the most actionable state a row can be in');
   assert.match(page, /getOperatorChannelForContracts/);
 });
