@@ -31,7 +31,8 @@ export function resolveCloseOutcome(input: {
     return input.completionApprovedAt ? 'completed-approved' : 'turns-exhausted';
   }
   if (closedBy === 'system:expiry') return 'expired';
-  return 'closed-by-participant';
+  // A participant can close normally after the proposer has accepted the work.
+  return input.completionApprovedAt ? 'completed-approved' : 'closed-by-participant';
 }
 
 /** Does this outcome assert that the work was accepted? */

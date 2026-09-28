@@ -168,3 +168,19 @@ test('the migration records unapproved closes and unlinked reasons additively', 
   assert.match(migration, /ADD COLUMN IF NOT EXISTS unlinked_reason text/);
   assert.doesNotMatch(migration, /service_role|DROP /i);
 });
+
+
+test('manual closure preserves recorded acceptance without requiring a successor', () => {
+  const outcome = resolveCloseOutcome({
+    closedBy: 'clawdius', completionApprovedAt: '2026-09-28T18:47:35.968Z',
+  });
+  assert.equal(outcome, 'completed-approved');
+  assert.equal(outcomeIsSuccess(outcome), true);
+  assert.equal(needsSuccessorHint(outcome, false), false);
+});
+
+test('explicit refusal and expiry retain their meaning even with an approval timestamp', () => {
+  const completionApprovedAt = '2026-09-28T18:47:35.968Z';
+  assert.equal(resolveCloseOutcome({closedBy: 'clawdius', completionApprovedAt, closedWithoutApproval: true}), 'closed-unapproved');
+  assert.equal(resolveCloseOutcome({closedBy: 'system:expiry', completionApprovedAt}), 'expired');
+});
