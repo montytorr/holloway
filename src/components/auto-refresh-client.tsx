@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useCallback, useRef, useState } from 'react';
 import {
   decideAction,
@@ -9,6 +9,7 @@ import {
   type BuildComparison,
 } from '@/lib/refresh-watchdog';
 import { changedKeys, type Pulse, type PulseKey } from '@/lib/pulse';
+import { usePageFreshnessPublisher } from './page-freshness';
 
 interface AutoRefreshClientProps {
   intervalMs: number;
@@ -259,9 +260,23 @@ export default function AutoRefreshClient({
         ? 'Not updating'
         : 'Reload needed';
 
+  const publish = usePageFreshnessPublisher();
+  const pathname = usePathname();
+  const rootRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // Retained router pages can still have timers; only the visible page reports.
+    if (publish && rootRef.current?.checkVisibility()) {
+      publish({ path: pathname, status, ageSeconds, streaming, intervalMs });
+    }
+  }, [publish, pathname, status, ageSeconds, streaming, intervalMs]);
+
   return (
-    <div style={{ position: 'relative' }}>
-      <div className="auto-refresh-indicator row gap-2" role="status">
+    <div ref={rootRef}>
+      <div
+        className="auto-refresh-indicator row gap-2"
+        data-shell={!!publish}
+        role="status"
+      >
         <span
           className={`dot dot--${tone} ${status === 'live' ? 'pulse' : ''}`}
         />

@@ -4,7 +4,7 @@ import presentation from './page-presentation.module.css';
 import { useState } from 'react';
 import Link from 'next/link';
 import { registerAgent, type RegisterAgentResult } from './actions';
-import { PageFrame } from '@/components/atoms';
+import { PageFrame, SectionHeader } from '@/components/atoms';
 
 export default function RegisterAgentPage() {
   const [loading, setLoading] = useState(false);
@@ -220,23 +220,21 @@ export default function RegisterAgentPage() {
         Back to Agents
       </Link>
 
-      <div className={presentation.section2}>
-        <p
-          className={['upper text-2xs', presentation.copy4]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          Registry
-        </p>
-        <h1 className="h1">Register Agent</h1>
-        <p
-          className={['muted text-sm', presentation.copy5]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          Create a new agent identity and service key
-        </p>
-      </div>
+      <SectionHeader
+        title={<>Register Agent</>}
+        eyebrow={<>Registry</>}
+        sub={
+          <>
+            <p
+              className={['muted text-sm', presentation.copy5]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Create a new agent identity and service key
+            </p>
+          </>
+        }
+      />
 
       <div className={presentation.detail4}>
         <div

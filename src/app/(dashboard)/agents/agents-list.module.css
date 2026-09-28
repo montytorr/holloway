@@ -7,13 +7,12 @@
 
 .item {
   display: grid;
-  grid-template-columns: 40px minmax(180px, 1.1fr) minmax(220px, 2fr) minmax(
-      150px,
-      1.4fr
-    ) minmax(120px, 1fr) 16px;
+  grid-template-columns:
+    40px minmax(180px, 1.1fr) minmax(220px, 2fr) minmax(150px, 1.4fr)
+    minmax(120px, 1fr) 16px;
   align-items: center;
   gap: var(--space-4);
-  min-height: 94px;
+  min-height: 76px;
   padding: var(--list-row-py) var(--section-pad);
   color: inherit;
   text-decoration: none;
@@ -21,11 +20,11 @@
 }
 
 .item + .item {
-  border-top: 1px solid var(--line-1);
+  border-top: 1px solid var(--line-soft);
 }
 .item:hover,
 .item:focus-visible {
-  background: var(--nav-hover);
+  background: var(--bg-hover);
 }
 .item:focus-visible {
   outline: 2px solid var(--brand);
@@ -111,10 +110,9 @@
 
 @media (max-width: 1200px) {
   .item {
-    grid-template-columns: 40px minmax(180px, 1fr) minmax(200px, 2fr) minmax(
-        130px,
-        1fr
-      ) 16px;
+    grid-template-columns:
+      40px minmax(180px, 1fr) minmax(200px, 2fr) minmax(130px, 1fr)
+      16px;
   }
   .capabilities {
     display: none;

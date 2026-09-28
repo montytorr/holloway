@@ -45,14 +45,12 @@ export const PageFrame = ({
   className,
   maxW,
 }: PageFrameProps) => (
-  <div
-    className={cn(
-      'page-frame flex-1 px-4 pt-6 pb-16 sm:px-6 lg:px-8',
-      className,
-    )}
-  >
+  <div className={cn('page-frame flex-1', className)}>
     <div
-      className={cn('mx-auto w-full', maxW ? undefined : widths[width])}
+      className={cn(
+        'page-content mx-auto w-full',
+        maxW ? undefined : widths[width],
+      )}
       style={maxW ? { maxWidth: maxW } : undefined}
     >
       {children}

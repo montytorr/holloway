@@ -7,10 +7,10 @@ interface AvatarProps {
 }
 
 export const toneColors: Record<AvatarTone, [string, string]> = {
-  amber: ['var(--amber)', 'var(--on-amber)'],
-  mint:  ['var(--mint)', 'var(--on-mint)'],
-  peri:  ['var(--peri)', 'var(--on-peri)'],
-  rose:  ['var(--rose)', 'var(--on-rose)'],
+  amber: ['var(--bg-2)', 'var(--amber)'],
+  mint: ['var(--bg-2)', 'var(--mint)'],
+  peri: ['var(--bg-2)', 'var(--peri)'],
+  rose: ['var(--bg-2)', 'var(--rose)'],
 };
 
 export const avatarTones: AvatarTone[] = ['amber', 'mint', 'peri', 'rose'];
@@ -28,22 +28,7 @@ export function toneForName(name: string): AvatarTone {
   return avatarTones[hashString(name || '?') % avatarTones.length];
 }
 
-/**
- * A pill coloured by a hash of a name — identity, not state.
- *
- * It draws from the SAME four classes the status palette uses, so anywhere it
- * appears beside a status chip the colour reads as a status and lies: a
- * participant called "Zed" came out mint (the "finished well" tone) whether
- * the participant had accepted or been rejected. Both call sites it had —
- * contract participants and the "You" chip on /users — sat next to status
- * chips, and both now use a tone that means something.
- *
- * Kept because per-name colour is a real idea, but it needs a visual language
- * of its own before it is used again. `Avatar` is that language today: it
- * paints the tone as a solid glyph, which no status chip ever does, so it can
- * never be mistaken for one. Prefer an `Avatar`; if you need a chip, give it a
- * tone from `@/lib/status-tone` and let the Avatar inside carry the identity.
- */
+/** Stable identity initials on a neutral tile; capsules carry actual status. */
 
 export const Avatar = ({ name, tone, size = 28 }: AvatarProps) => {
   const resolvedTone = tone || toneForName(name);
@@ -51,24 +36,28 @@ export const Avatar = ({ name, tone, size = 28 }: AvatarProps) => {
   const initial = ((name || '?').trim() || '?').slice(0, 1).toUpperCase();
 
   return (
-    <span style={{
-      width: size,
-      height: size,
-      borderRadius: 'var(--radius-2)',
-      background: bg,
-      color: fg,
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: 'var(--mono)',
-      fontWeight: 600,
-      // Proportional to the `size` prop, so it cannot be a fixed step from the
-      // type scale. The avatar is a glyph, not prose, and has no breakpoint
-      // behaviour to lose — the one case the ratchet cannot express.
-      // eslint-disable-next-line no-restricted-syntax
-      fontSize: size * 0.42,
-      flexShrink: 0,
-    }}>
+    <span
+      className="identity-avatar"
+      title={name}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: 'var(--radius-2)',
+        background: bg,
+        color: fg,
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'var(--sans)',
+        fontWeight: 600,
+        // Proportional to the `size` prop, so it cannot be a fixed step from the
+        // type scale. The avatar is a glyph, not prose, and has no breakpoint
+        // behaviour to lose — the one case the ratchet cannot express.
+        // eslint-disable-next-line no-restricted-syntax
+        fontSize: size * 0.42,
+        flexShrink: 0,
+      }}
+    >
       {initial}
     </span>
   );

@@ -15,9 +15,10 @@ const css = readFileSync(join(process.cwd(), 'src/app/globals.css'), 'utf8');
 function token(name: string, theme: 'dark' | 'light'): string {
   const base = css.slice(css.indexOf(':root {'), css.indexOf(':root.light'));
   const override = css.slice(css.indexOf(':root.light'));
-  const read = (block: string) => block.match(new RegExp(`${name}\\s*:\\s*([^;]+);`))?.[1]?.trim();
+  const read = (block: string) =>
+    block.match(new RegExp(`${name}\\s*:\\s*([^;]+);`))?.[1]?.trim();
 
-  const value = (theme === 'light' ? read(override) ?? read(base) : read(base));
+  const value = theme === 'light' ? (read(override) ?? read(base)) : read(base);
   assert.ok(value, `${name} is not defined for ${theme}`);
   return value;
 }
@@ -33,7 +34,10 @@ test('the conversion agrees with known sRGB anchors', () => {
   // White and black are the two values a wrong matrix gets wrong first.
   assert.deepEqual(oklchToRgb(1, 0, 0), { r: 255, g: 255, b: 255 });
   assert.deepEqual(oklchToRgb(0, 0, 0), { r: 0, g: 0, b: 0 });
-  assert.equal(contrastRatio({ r: 255, g: 255, b: 255 }, { r: 0, g: 0, b: 0 }).toFixed(0), '21');
+  assert.equal(
+    contrastRatio({ r: 255, g: 255, b: 255 }, { r: 0, g: 0, b: 0 }).toFixed(0),
+    '21',
+  );
 });
 
 test('the primary button is legible in BOTH themes', () => {
@@ -49,7 +53,11 @@ test('the primary button is legible in BOTH themes', () => {
   const inkToken = rule[1]!.match(/color:\s*var\((--[a-z0-9-]+)\)/)?.[1];
   assert.ok(inkToken, '.btn--primary must take its colour from a token');
 
-  const stops = [...css.matchAll(/\.btn--primary(?::hover)?\s*\{[^}]*?linear-gradient\(\s*180deg,\s*(oklch\([^)]*\)),\s*(oklch\([^)]*\))/g)];
+  const stops = [
+    ...css.matchAll(
+      /\.btn--primary(?::hover)?\s*\{[^}]*?linear-gradient\(\s*180deg,\s*(oklch\([^)]*\)),\s*(oklch\([^)]*\))/g,
+    ),
+  ];
   assert.ok(stops.length >= 1, 'could not find the .btn--primary gradient');
 
   for (const theme of ['dark', 'light'] as const) {
@@ -72,9 +80,18 @@ test('body text clears AA against its own background, in both themes', () => {
   for (const theme of ['dark', 'light'] as const) {
     const bg = rgbOf('--bg-0', theme);
     // --fg-4 is the faintest text the palette offers; if it passes, all do.
-    for (const fg of ['--fg-0', '--fg-1', '--fg-2', '--fg-3', '--fg-4'] as const) {
+    for (const fg of [
+      '--fg-0',
+      '--fg-1',
+      '--fg-2',
+      '--fg-3',
+      '--fg-4',
+    ] as const) {
       const ratio = contrastRatio(rgbOf(fg, theme), bg);
-      assert.ok(ratio >= 4.5, `${fg} on --bg-0 in ${theme} is ${ratio.toFixed(2)}:1`);
+      assert.ok(
+        ratio >= 4.5,
+        `${fg} on --bg-0 in ${theme} is ${ratio.toFixed(2)}:1`,
+      );
     }
   }
 });
@@ -83,11 +100,31 @@ test('every accent reads against the surface it is painted on', () => {
   // --brand/--amber/--mint/--peri/--rose are used as TEXT on their own tinted --*-bg.
   for (const theme of ['dark', 'light'] as const) {
     for (const hue of ['brand', 'amber', 'mint', 'peri', 'rose'] as const) {
-      const ratio = contrastRatio(rgbOf(`--${hue}`, theme), rgbOf(`--${hue}-bg`, theme));
+      const ratio = contrastRatio(
+        rgbOf(`--${hue}`, theme),
+        rgbOf(`--${hue}-bg`, theme),
+      );
       assert.ok(
         ratio >= 4.5,
         `--${hue} on --${hue}-bg in ${theme} is ${ratio.toFixed(2)}:1, below the 4.5:1 minimum`,
       );
+    }
+  }
+});
+
+test('identity initials read on neutral tiles and the dark rail in both themes', () => {
+  for (const theme of ['dark', 'light'] as const) {
+    for (const hue of ['amber', 'mint', 'peri', 'rose'] as const) {
+      for (const [ink, face] of [
+        [`--${hue}`, '--bg-2'],
+        [`--sidebar-${hue}`, '--sidebar-active'],
+      ]) {
+        const ratio = contrastRatio(rgbOf(ink, theme), rgbOf(face, theme));
+        assert.ok(
+          ratio >= 4.5,
+          `${ink} on ${face} in ${theme}: ${ratio.toFixed(2)}:1`,
+        );
+      }
     }
   }
 });
@@ -103,7 +140,10 @@ test('brand text and the ink on a solid brand face read in both themes', () => {
       ['--on-brand-solid', rgbOf('--on-brand-solid', theme)],
     ] as const) {
       const ratio = contrastRatio(brand, other);
-      assert.ok(ratio >= 4.5, `--brand against ${label} in ${theme} is ${ratio.toFixed(2)}:1`);
+      assert.ok(
+        ratio >= 4.5,
+        `--brand against ${label} in ${theme} is ${ratio.toFixed(2)}:1`,
+      );
     }
   }
 });

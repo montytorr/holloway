@@ -10,8 +10,8 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--line-1);
-  background: var(--bg-1);
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg-2);
 }
 .header > button {
   grid-column: 2;
@@ -30,18 +30,18 @@
   flex: 0 0 30px;
   height: 30px;
   place-items: center;
-  border: 1px solid var(--line-2);
+  border: 1px solid var(--line-soft);
   border-radius: var(--radius-2);
   background: var(--bg-1);
-  color: var(--peri);
+  color: var(--fg-2);
 }
 .kicker {
-  color: var(--peri);
-  font-family: var(--mono);
+  color: var(--fg-2);
+  font-family: var(--sans);
   font-size: var(--text-2xs);
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .title {
   margin: 1px 0 0;
@@ -59,7 +59,7 @@
 }
 .summary span {
   padding: 3px 7px;
-  border: 1px solid var(--line-2);
+  border: 1px solid var(--line-soft);
   border-radius: 999px;
   background: var(--bg-1);
 }
@@ -81,9 +81,9 @@
   gap: var(--space-2);
   min-width: 0;
   padding: var(--space-3);
-  border: 1px solid var(--line-2);
+  border: 1px solid var(--line-soft);
   border-radius: var(--radius-2);
-  background: color-mix(in srgb, var(--mint-bg) 45%, var(--bg-1));
+  background: var(--bg-inset);
 }
 .noteMeta {
   display: flex;
@@ -108,10 +108,10 @@
 }
 .empty svg {
   flex-shrink: 0;
-  color: var(--peri);
+  color: var(--fg-2);
 }
 .resolvedQuestions {
-  border: 1px solid var(--line-2);
+  border: 1px solid var(--line-soft);
   border-radius: var(--radius-2);
   background: var(--bg-2);
 }
@@ -132,7 +132,7 @@
 .resolvedCount {
   margin-left: auto;
   color: var(--fg-3);
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: var(--text-2xs);
 }
 .resolvedList {
@@ -177,9 +177,9 @@
 }
 .resolutionLabel {
   color: var(--mint);
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: var(--text-2xs);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.04em;
-  text-transform: uppercase;
+  text-transform: none;
 }

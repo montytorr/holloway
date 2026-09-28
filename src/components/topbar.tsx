@@ -18,6 +18,7 @@ import { dashboardDestination } from '@/lib/dashboard-navigation';
 import { usePersistedToggle } from '@/lib/persisted-toggle';
 import { useNavigationFeedback } from './navigation-feedback';
 import { ThemeToggle } from './theme-toggle';
+import { usePageFreshness } from './page-freshness';
 import styles from './topbar.module.css';
 
 interface TopbarProps {
@@ -47,6 +48,9 @@ export const Topbar = ({
   const [lastUpdated, setLastUpdated] = useState<string>();
   const actionable = notificationCounts?.total;
   const destination = dashboardDestination(pathname);
+  const reportedFreshness = usePageFreshness();
+  const freshness =
+    reportedFreshness?.path === pathname ? reportedFreshness : null;
   useEffect(() => {
     document.documentElement.dataset.density = comfortable
       ? 'comfortable'
@@ -129,6 +133,22 @@ export const Topbar = ({
               ? 'Feed stale'
               : 'Connecting'}
         </span>
+        {freshness && (
+          <span
+            className={styles.freshness}
+            role="status"
+            title={`Page data last received ${freshness.ageSeconds}s ago · ${freshness.streaming ? 'live updates' : `${Math.round(freshness.intervalMs / 1000)}s fallback`}${freshness.status === 'stuck' ? '. Reload manually.' : ''}`}
+          >
+            <span
+              className={`dot ${freshness.status === 'live' ? 'dot--mint' : freshness.status === 'stale' ? 'dot--amber' : 'dot--rose'}`}
+            />
+            {freshness.status === 'live'
+              ? 'Current'
+              : freshness.status === 'stale'
+                ? 'Not updating'
+                : 'Reload needed'}
+          </span>
+        )}
         <button
           type="button"
           className="btn btn--ghost btn--icon hidden sm:inline-flex"

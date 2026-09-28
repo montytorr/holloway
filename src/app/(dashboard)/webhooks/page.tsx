@@ -8,7 +8,12 @@ import type { Webhook, Agent } from '@/lib/types';
 import WebhookCard from './webhook-card';
 import AutoRefresh from '@/components/auto-refresh';
 import { Activity, Plus, BellRing } from 'lucide-react';
-import { Avatar, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  Avatar,
+  PageFrame,
+  EmptyState,
+  SectionHeader,
+} from '@/components/atoms';
 
 export const dynamic = 'force-dynamic';
 
@@ -71,39 +76,35 @@ export default async function WebhooksPage() {
     <AutoRefresh intervalMs={30000} watch={['webhooks']}>
       <PageFrame>
         {/* Header */}
-        <div
-          className={['row row--split', presentation.section1]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <div>
-            <p
-              className={['upper', presentation.copy1]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              Push Notifications
-            </p>
-            <h1 className="h1">Webhooks</h1>
-            <p
-              className={['muted text-sm', presentation.copy2]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              Push notification endpoints
-            </p>
-          </div>
-          <div className="row gap-2">
-            <Link href="/webhooks/health" className="btn">
-              <Activity size={14} />
-              Health
-            </Link>
-            <Link href="/webhooks/register" className="btn btn--primary">
-              <Plus size={14} />
-              Register Webhook
-            </Link>
-          </div>
-        </div>
+        <SectionHeader
+          title={<>Webhooks</>}
+          eyebrow={<>Push Notifications</>}
+          sub={
+            <>
+              <p
+                className={['muted text-sm', presentation.copy2]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Push notification endpoints
+              </p>
+            </>
+          }
+          right={
+            <>
+              <div className="row gap-2">
+                <Link href="/webhooks/health" className="btn">
+                  <Activity size={14} />
+                  Health
+                </Link>
+                <Link href="/webhooks/register" className="btn btn--primary">
+                  <Plus size={14} />
+                  Register Webhook
+                </Link>
+              </div>
+            </>
+          }
+        />
 
         {/* Content */}
         {rows.length === 0 ? (

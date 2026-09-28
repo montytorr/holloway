@@ -11,6 +11,7 @@ import {
   EmptyState,
   SectionHeader,
   SectionCard,
+  SummaryBand,
 } from '@/components/atoms';
 import styles from './attention.module.css';
 import { NotificationCountsSync } from './notification-counts-sync';
@@ -68,16 +69,10 @@ export default async function NotificationsPage() {
           title="Attention"
           sub="Questions, blockers, invitations, and approvals across your visible work."
         />
-        <div className={styles.metrics}>
-          {metrics.map((metric) => (
-            <div className={`card ${styles.metric}`} key={metric.label}>
-              <span>{metric.label}</span>
-              <strong>{metric.value}</strong>
-            </div>
-          ))}
-        </div>
+        <SummaryBand title="Attention overview" items={metrics} />
         <SectionCard
           title="Needs your attention"
+          icon={<Bell size={16} />}
           description="Blocking questions and work appear first. Updated every 10 seconds."
           action={
             <span className="pill pill--ghost">{items.length} items</span>

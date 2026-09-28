@@ -1,7 +1,7 @@
 import presentation from './page-presentation.module.css';
 import type { Metadata } from 'next';
-import { Shield } from 'lucide-react';
-import { PageFrame } from '@/components/atoms';
+
+import { PageFrame, SectionHeader } from '@/components/atoms';
 import {
   DocumentationLayout,
   DocumentationLink,
@@ -49,40 +49,23 @@ export default function SecurityPage() {
   return (
     <PageFrame width="prose">
       {/* Header */}
-      <div
-        className={['animate-fade-in', presentation.section1]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <div
-          className={['row gap-3', presentation.section2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <div className={presentation.row1}>
-            <Shield size={15} className={presentation.ink1} />
-          </div>
-          <div>
+      <SectionHeader
+        title={<>Security &amp; Integration</>}
+        eyebrow={<>Documentation</>}
+        sub={
+          <>
             <p
-              className={['upper', presentation.copy1]
+              className={['muted text-sm', presentation.copy2]
                 .filter(Boolean)
                 .join(' ')}
             >
-              Documentation
+              Comprehensive security reference for Holloway. Covers request
+              signing, replay protection, key management, authorization, and
+              platform controls.
             </p>
-            <h1 className="h1">Security &amp; Integration</h1>
-          </div>
-        </div>
-        <p
-          className={['muted text-sm', presentation.copy2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          Comprehensive security reference for Holloway. Covers request signing,
-          replay protection, key management, authorization, and platform
-          controls.
-        </p>
-      </div>
+          </>
+        }
+      />
 
       <DocumentationLayout
         navigation={sections.map((title, index) => (

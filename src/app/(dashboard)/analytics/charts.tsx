@@ -9,7 +9,7 @@ import {
   chartFillMap,
   colorVarForTone,
 } from '@/lib/status-tone';
-import { PageFrame, EmptyState } from '@/components/atoms';
+import { PageFrame, EmptyState, SectionHeader } from '@/components/atoms';
 import { BarChart3 } from 'lucide-react';
 
 interface AnalyticsChartsProps {
@@ -130,15 +130,11 @@ export default function AnalyticsCharts({
   return (
     <PageFrame>
       {/* Header */}
-      <div className={presentation.section1}>
-        <p className={['upper', presentation.copy1].filter(Boolean).join(' ')}>
-          Insights
-        </p>
-        <div
-          className={['row', presentation.detail1].filter(Boolean).join(' ')}
-        >
-          <div>
-            <h1 className="h1">Analytics</h1>
+      <SectionHeader
+        title={<>Analytics</>}
+        eyebrow={<>Insights</>}
+        sub={
+          <>
             <p
               className={['dim text-sm', presentation.copy2]
                 .filter(Boolean)
@@ -146,23 +142,25 @@ export default function AnalyticsCharts({
             >
               Platform activity overview
             </p>
-          </div>
-
-          {/* Day tabs — segmented control */}
-          <div className="seg">
-            {dayTabs.map((d) => (
-              <Link
-                key={d}
-                href={`/analytics?days=${d}`}
-                className={days === d ? 'active' : ''}
-                aria-current={days === d ? 'page' : undefined}
-              >
-                {d}d
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
+          </>
+        }
+        right={
+          <>
+            <div className="seg">
+              {dayTabs.map((d) => (
+                <Link
+                  key={d}
+                  href={`/analytics?days=${d}`}
+                  className={days === d ? 'active' : ''}
+                  aria-current={days === d ? 'page' : undefined}
+                >
+                  {d}d
+                </Link>
+              ))}
+            </div>
+          </>
+        }
+      />
 
       {/* Summary Cards — Row 1 */}
       <div className={presentation.grid1}>

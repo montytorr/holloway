@@ -17,7 +17,12 @@ import {
 import { applyProjectInvitationVisibility } from '@/lib/project-invitation-visibility';
 import { buildProjectCardAccessMap } from '@/lib/project-card-access';
 import { normalizeProjectPrivacyMetadata } from '@/lib/privacy-policy';
-import { ProgressBar, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  ProgressBar,
+  PageFrame,
+  EmptyState,
+  SectionHeader,
+} from '@/components/atoms';
 import StatusBadge from '@/components/status-badge';
 import { colorVarForTone, pillClassForTone } from '@/lib/status-tone';
 import { Users, Layers, Plus, FolderKanban } from 'lucide-react';
@@ -327,29 +332,33 @@ async function renderProjectsPage({
     <AutoRefresh intervalMs={15000} watch={['projects', 'tasks']}>
       <PageFrame>
         {/* Header */}
-        <div
-          className={['row', presentation.section1].filter(Boolean).join(' ')}
-        >
-          <div className="col gap-1">
-            <div className="upper">Management</div>
-            <h1 className="h1">Projects</h1>
-            <div className="muted text-sm">
-              <span className="num">{rows.length}</span> project
-              {rows.length !== 1 ? 's' : ''}
-            </div>
-          </div>
-          <div className="row gap-2">
-            <Link
-              href="/projects/new"
-              className={['btn btn--primary', presentation.link1]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              <Plus size={13} />
-              New Project
-            </Link>
-          </div>
-        </div>
+        <SectionHeader
+          title={<>Projects</>}
+          eyebrow={<>Management</>}
+          sub={
+            <>
+              <div className="muted text-sm">
+                <span className="num">{rows.length}</span> project
+                {rows.length !== 1 ? 's' : ''}
+              </div>
+            </>
+          }
+          right={
+            <>
+              <div className="row gap-2">
+                <Link
+                  href="/projects/new"
+                  className={['btn btn--primary', presentation.link1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  <Plus size={13} />
+                  New Project
+                </Link>
+              </div>
+            </>
+          }
+        />
 
         {/* Invitations */}
         {(pendingMine.length > 0 || historyMine.length > 0) && (

@@ -14,6 +14,7 @@ import {
   Avatar,
   SectionHeader,
   SectionCard,
+  SummaryBand,
   PageFrame,
   EmptyState,
 } from '@/components/atoms';
@@ -110,19 +111,12 @@ export function DashboardClient(props: DashboardClientProps) {
           </Link>
         }
       />
-      <section className={styles.hero} aria-label="Workspace summary">
-        {metrics.map((metric) => (
-          <Link key={metric.label} href={metric.href} className={styles.metric}>
-            <span>{metric.label}</span>
-            <strong>{metric.value}</strong>
-            <small>{metric.hint}</small>
-          </Link>
-        ))}
-      </section>
+      <SummaryBand title="Workspace summary" items={metrics} />
       <div className={styles.columns}>
         <div className={styles.stack}>
           <SectionCard
             title="Needs your attention"
+            icon={<AlertCircle size={16} />}
             description="Questions, blocked work, invitations, and approvals"
             action={
               <Link href="/notifications" className="btn btn--ghost btn--sm">
@@ -166,6 +160,7 @@ export function DashboardClient(props: DashboardClientProps) {
           </SectionCard>
           <SectionCard
             title="Active work"
+            icon={<FileText size={16} />}
             description="Contracts currently in progress"
             action={
               <Link
@@ -208,6 +203,7 @@ export function DashboardClient(props: DashboardClientProps) {
         <div className={styles.stack}>
           <SectionCard
             title="Latest activity"
+            icon={<Clock size={16} />}
             description="Recent changes in your workspace"
             action={
               <Link href="/audit" className="btn btn--ghost btn--sm">
@@ -246,6 +242,7 @@ export function DashboardClient(props: DashboardClientProps) {
           </SectionCard>
           <SectionCard
             title="Control plane"
+            icon={<Shield size={16} />}
             description="Operational context, with each signal shown separately"
           >
             <dl className={styles.health}>

@@ -10,10 +10,7 @@
    ────────────────────────────────────────────── */
 .header {
   display: grid;
-  gap: var(--space-4);
-  margin-bottom: var(--space-5);
-  padding-bottom: var(--space-5);
-  border-bottom: 1px solid var(--line-1);
+  gap: 10px;
 }
 
 .breadcrumb {

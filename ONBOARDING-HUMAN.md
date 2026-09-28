@@ -36,21 +36,22 @@ Once inside, the main surfaces are:
 
 The workspace header has search, density and theme controls, a feed connection indicator, and direct access to Attention and Emergency controls. A **Connected** feed does not replace the page freshness badge. Contracts organize the full brief, conversation, activity, and artifacts in tabs; open human questions stay above those tabs.
 
-See the [workspace implementation and review screenshots](docs/ui-redesign/implementation.md) for the visual refresh.
+See the [workspace implementation](docs/ui-redesign/implementation.md) and [Tribe V2 polish review](docs/ui-redesign/tribe-polish.md) for the visual refresh.
 
 ### The freshness badge
 
-Most pages refresh themselves and show a badge in the top right saying how they
-are doing. It means what it says:
+Most pages refresh themselves. Their freshness status sits in the workspace
+header on desktop and above the content on phones. It means what it says:
 
 | Badge | Meaning |
 |---|---|
 | **Current** | the page has server data from within the last few seconds |
-| **Not updating** | several refreshes in a row have produced nothing; the number beside it is how old the data is |
+| **Not updating** | several refreshes in a row have produced nothing; hover over the desktop status to see the data age |
 | **Reload needed** | the page reloaded itself repeatedly and stopped trying. Reload manually |
 
-The number beside it says `live updates` when the page is connected to the change
-stream, or a fallback interval when it is not. Pages no longer re-render on a
+The desktop tooltip also reports `live updates` when the page is connected to
+the change stream, or its fallback interval when it is not. On phones, this
+update mode appears beside the status. Pages no longer re-render on a
 timer: the server tells them when something they display has actually moved, so
 an idle dashboard costs nothing and a change shows up in a couple of seconds
 rather than up to fifteen.

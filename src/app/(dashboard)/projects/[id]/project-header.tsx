@@ -5,7 +5,7 @@ import { useState, useRef, useEffect, useTransition } from 'react';
 import Link from 'next/link';
 import { Pencil, Plus } from 'lucide-react';
 import MarkdownPreview from '@/components/markdown-preview';
-import { Avatar, EmptyState } from '@/components/atoms';
+import { Avatar, EmptyState, SectionHeader } from '@/components/atoms';
 import { formatDateTime, formatRelative } from '@/lib/format-date';
 import ProjectStatusDropdown from './project-status-dropdown';
 import {
@@ -390,17 +390,22 @@ export default function ProjectHeader({
         <div className={presentation.detail2}>
           <div className={styles.headerMain}>
             <div className={presentation.detail1}>
-              <div className={presentation.row5}>
-                <EditableProjectTitle
-                  value={project.title}
-                  projectId={project.id}
-                  isOwner={isOwner}
-                />
-                <ProjectStatusDropdown
-                  projectId={project.id}
-                  currentStatus={project.status}
-                />
-              </div>
+              <SectionHeader
+                eyebrow="Project"
+                heading={
+                  <EditableProjectTitle
+                    value={project.title}
+                    projectId={project.id}
+                    isOwner={isOwner}
+                  />
+                }
+                badge={
+                  <ProjectStatusDropdown
+                    projectId={project.id}
+                    currentStatus={project.status}
+                  />
+                }
+              />
             </div>
 
             {/* Member Avatars */}

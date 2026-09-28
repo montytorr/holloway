@@ -9,8 +9,8 @@ import {
   getKillSwitchStatus,
 } from './actions';
 import { formatDateTime } from '@/lib/format-date';
-import { EmptyState, PageFrame } from '@/components/atoms';
-import { Lock } from 'lucide-react';
+import { EmptyState, PageFrame, SectionHeader } from '@/components/atoms';
+import { Lock, ShieldAlert } from 'lucide-react';
 
 interface KillSwitchClientProps {
   isSuperAdmin: boolean;
@@ -90,139 +90,24 @@ export default function KillSwitchClient({
 
   return (
     <PageFrame>
+      <SectionHeader
+        title="Emergency controls"
+        eyebrow="Operations"
+        sub="Manage the system-wide write freeze."
+      />
       <div className={presentation.row1}>
-        {/* Background radial glow */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-            transition: 'opacity 1s',
-            background: isActive
-              ? 'radial-gradient(ellipse at center, var(--rose-bg) 0%, transparent 60%)'
-              : 'radial-gradient(ellipse at center, var(--mint-bg) 0%, transparent 60%)',
-          }}
-        />
-
         <div className={presentation.detail1}>
-          {/* Status orb visualization */}
-          <div className={presentation.section1}>
-            {/* Outer glow layers */}
-            <div
-              style={{
-                position: 'absolute',
-                width: 192,
-                height: 192,
-                borderRadius: '50%',
-                border: `1px solid ${isActive ? 'var(--rose-line)' : 'var(--mint-line)'}`,
-                animation: isActive ? 'pulse 2s ease-in-out infinite' : 'none',
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                width: 192,
-                height: 192,
-                borderRadius: '50%',
-                border: `1px solid ${isActive ? 'var(--rose-line)' : 'var(--mint-line)'}`,
-                animation: isActive ? 'pulse 2s ease-in-out infinite' : 'none',
-                animationDelay: '0.5s',
-              }}
-            />
-
-            <div
-              style={{
-                position: 'absolute',
-                width: 160,
-                height: 160,
-                borderRadius: '50%',
-                transition: 'all 1s',
-                background: isActive
-                  ? 'radial-gradient(circle, var(--rose-bg), transparent)'
-                  : 'radial-gradient(circle, var(--mint-bg), transparent)',
-              }}
-            />
-
-            <div
-              style={{
-                position: 'absolute',
-                width: 128,
-                height: 128,
-                borderRadius: '50%',
-                border: `1px solid ${isActive ? 'var(--rose-line)' : 'var(--mint-line)'}`,
-                transition: 'all 0.7s',
-                animation: isActive ? 'pulse 2s ease-in-out infinite' : 'none',
-              }}
-            />
-
-            {/* Core orb */}
-            <div
-              style={{
-                position: 'relative',
-                width: 96,
-                height: 96,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.7s',
-                background: isActive
-                  ? 'radial-gradient(135deg, var(--rose-bg), var(--rose-deep))'
-                  : 'radial-gradient(135deg, var(--mint-bg), var(--mint-deep))',
-                border: `2px solid ${isActive ? 'var(--rose-line-strong)' : 'var(--mint-line)'}`,
-              }}
-            >
-              <div
-                style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.7s',
-                  background: isActive ? 'var(--rose)' : 'var(--mint)',
-                  boxShadow: isActive
-                    ? '0 0 40px 12px var(--rose-bg)'
-                    : '0 0 32px 8px var(--mint-bg)',
-                }}
-              >
-                {isActive ? (
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
-                  </svg>
-                ) : (
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                )}
-              </div>
-            </div>
+          <div
+            className={presentation.statusIcon}
+            data-active={isActive}
+            aria-hidden="true"
+          >
+            <ShieldAlert size={20} />
           </div>
 
           {/* Status text */}
-          <h1
-            className="text-2xl"
+          <h2
+            className="h2"
             style={{
               fontWeight: 700,
               letterSpacing: '-0.02em',
@@ -231,8 +116,8 @@ export default function KillSwitchClient({
               color: isActive ? 'var(--rose)' : 'var(--mint)',
             }}
           >
-            {isActive ? 'KILL SWITCH ACTIVE' : 'SYSTEM OPERATIONAL'}
-          </h1>
+            {isActive ? 'Write freeze active' : 'Write freeze off'}
+          </h2>
           <p
             className={['text-sm', presentation.copy1]
               .filter(Boolean)
@@ -240,7 +125,7 @@ export default function KillSwitchClient({
           >
             {isActive
               ? 'All contracts are frozen. API write operations are blocked.'
-              : 'System is accepting requests normally. All channels open.'}
+              : 'API write requests follow normal permissions.'}
           </p>
           {lastUpdated && (
             <p

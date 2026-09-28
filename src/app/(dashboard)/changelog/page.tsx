@@ -5,7 +5,7 @@ import { join } from 'path';
 import { formatDate } from '@/lib/format-date';
 import { FileText } from 'lucide-react';
 import Link from 'next/link';
-import { PageFrame, EmptyState } from '@/components/atoms';
+import { PageFrame, EmptyState, SectionHeader } from '@/components/atoms';
 
 export const dynamic = 'force-dynamic';
 
@@ -133,47 +133,30 @@ export default async function ChangelogPage({
   return (
     <PageFrame width="prose">
       {/* Header */}
-      <div
-        className={['animate-fade-in', presentation.section1]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <div
-          className={['row gap-3', presentation.section2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <div className={presentation.row1}>
-            <FileText size={15} className={presentation.ink1} />
-          </div>
-          <div>
+      <SectionHeader
+        title={<>Changelog</>}
+        eyebrow={<>Documentation</>}
+        sub={
+          <>
             <p
-              className={['upper', presentation.copy1]
+              className={['muted text-sm', presentation.copy2]
                 .filter(Boolean)
                 .join(' ')}
             >
-              Documentation
+              All notable changes to Holloway. Format follows{' '}
+              <a
+                href="https://keepachangelog.com/en/1.1.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={presentation.link1}
+              >
+                Keep a Changelog
+              </a>
+              .
             </p>
-            <h1 className="h1">Changelog</h1>
-          </div>
-        </div>
-        <p
-          className={['muted text-sm', presentation.copy2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          All notable changes to Holloway. Format follows{' '}
-          <a
-            href="https://keepachangelog.com/en/1.1.0/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={presentation.link1}
-          >
-            Keep a Changelog
-          </a>
-          .
-        </p>
-      </div>
+          </>
+        }
+      />
 
       {/* Version timeline */}
       <div className={presentation.detail1}>

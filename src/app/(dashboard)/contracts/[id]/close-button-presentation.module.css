@@ -25,11 +25,11 @@
   border: 1px solid var(--line-2);
   border-radius: var(--radius-3);
   overflow: hidden;
-  box-shadow: 0 24px 80px var(--shadow-strong);
+  box-shadow: var(--shadow-pop);
 }
 
 .detail3 {
-  padding: 28px;
+  padding: 20px;
 }
 
 .row2 {
@@ -64,5 +64,5 @@
 }
 
 .detail5 {
-  padding: 0 28px 28px;
+  padding: 0 20px 20px;
 }

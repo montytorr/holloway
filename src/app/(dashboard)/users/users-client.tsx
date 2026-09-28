@@ -11,7 +11,12 @@ import {
 } from './actions';
 import { formatDate } from '@/lib/format-date';
 import { Plus, X, Shield, User, Bot, Link2, Unlink } from 'lucide-react';
-import { Avatar, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  Avatar,
+  PageFrame,
+  EmptyState,
+  SectionHeader,
+} from '@/components/atoms';
 import { pillClassForTone } from '@/lib/status-tone';
 
 interface UserProfile {
@@ -137,29 +142,11 @@ export default function UsersClient({
   return (
     <PageFrame>
       {/* Header */}
-      <div
-        className={['animate-fade-in', presentation.section1]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <div
-          className={['row', presentation.detail1].filter(Boolean).join(' ')}
-        >
-          <div>
-            <p
-              className={['upper', presentation.copy1]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              Administration
-            </p>
-            <h1
-              className={['h1', presentation.section2]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              Users
-            </h1>
+      <SectionHeader
+        title={<>Users</>}
+        eyebrow={<>Administration</>}
+        sub={
+          <>
             <p
               className={['text-sm', presentation.copy2]
                 .filter(Boolean)
@@ -176,25 +163,29 @@ export default function UsersClient({
                   : 'selected agent'}
               . Admin controls remain global.
             </p>
-          </div>
-          <button
-            className={['btn btn--sm', presentation.action1]
-              .filter(Boolean)
-              .join(' ')}
-            onClick={() => setShowAddUser(!showAddUser)}
-          >
-            {showAddUser ? (
-              <>
-                <X size={13} /> Cancel
-              </>
-            ) : (
-              <>
-                <Plus size={13} /> Add User
-              </>
-            )}
-          </button>
-        </div>
-      </div>
+          </>
+        }
+        right={
+          <>
+            <button
+              className={['btn btn--sm', presentation.action1]
+                .filter(Boolean)
+                .join(' ')}
+              onClick={() => setShowAddUser(!showAddUser)}
+            >
+              {showAddUser ? (
+                <>
+                  <X size={13} /> Cancel
+                </>
+              ) : (
+                <>
+                  <Plus size={13} /> Add User
+                </>
+              )}
+            </button>
+          </>
+        }
+      />
 
       {/* Add User Form */}
       {showAddUser && (

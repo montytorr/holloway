@@ -18,6 +18,7 @@ import {
   useNavigationFeedback,
 } from './navigation-feedback';
 import RouteSkeleton from './route-skeleton';
+import { PageFreshnessProvider } from './page-freshness';
 import type { DashboardNotificationCounts } from '@/lib/dashboard-notifications';
 
 interface DashboardShellProps extends DashboardContextValue {
@@ -122,48 +123,50 @@ export default function DashboardShell({
 
   return (
     <NavigationFeedbackProvider>
-      <DashboardProvider value={dashboardContext}>
-        <Sidebar
-          isSuperAdmin={isSuperAdmin}
-          displayName={displayName}
-          notificationCounts={counts}
-          collapsed={collapsed}
-        />
-        <main className="flex min-w-0 flex-1 flex-col md:h-full">
-          <Topbar
-            initialTickerItems={initialTickerItems}
-            onOpenPalette={() => setPaletteOpen(true)}
+      <PageFreshnessProvider>
+        <DashboardProvider value={dashboardContext}>
+          <Sidebar
+            isSuperAdmin={isSuperAdmin}
+            displayName={displayName}
+            notificationCounts={counts}
             collapsed={collapsed}
-            onToggleCollapsed={toggleCollapsed}
-            leading={
-              <MobileNav
-                isSuperAdmin={isSuperAdmin}
-                displayName={displayName}
-                notificationCounts={counts}
-              />
-            }
           />
-          {/* Only this element scrolls on desktop; below `md` the document does,
+          <main className="flex min-w-0 flex-1 flex-col md:h-full">
+            <Topbar
+              initialTickerItems={initialTickerItems}
+              onOpenPalette={() => setPaletteOpen(true)}
+              collapsed={collapsed}
+              onToggleCollapsed={toggleCollapsed}
+              leading={
+                <MobileNav
+                  isSuperAdmin={isSuperAdmin}
+                  displayName={displayName}
+                  notificationCounts={counts}
+                />
+              }
+            />
+            {/* Only this element scrolls on desktop; below `md` the document does,
             so the inner scroller is released or the page ends up with a
             scroll container inside a scrolling document. */}
-          <div className="min-h-0 flex-1 md:overflow-auto">
-            {/* children used to be a sibling of the padded acting-agent row, so
+            <div className="min-h-0 flex-1 md:overflow-auto">
+              {/* children used to be a sibling of the padded acting-agent row, so
               the two were inset by different amounts — a permanent 16px step
               down the left edge of every page. One wrapper now pads both. */}
-            <div className="w-full">
-              <div className="px-4 pt-1 sm:px-6 lg:px-8">
-                <ActingAgentSelector />
+              <div className="w-full">
+                <div className="shell-actor-row">
+                  <ActingAgentSelector />
+                </div>
+                <DashboardPageContent>{children}</DashboardPageContent>
               </div>
-              <DashboardPageContent>{children}</DashboardPageContent>
             </div>
-          </div>
-        </main>
-        <CommandPalette
-          open={paletteOpen}
-          onClose={setPaletteOpen}
-          isAdmin={isSuperAdmin}
-        />
-      </DashboardProvider>
+          </main>
+          <CommandPalette
+            open={paletteOpen}
+            onClose={setPaletteOpen}
+            isAdmin={isSuperAdmin}
+          />
+        </DashboardProvider>
+      </PageFreshnessProvider>
     </NavigationFeedbackProvider>
   );
 }

@@ -15,7 +15,7 @@ import {
   pillClassForTone,
 } from '@/lib/status-tone';
 import type { WebhookDeliveryStatus } from '@/lib/types';
-import { PageFrame, EmptyState } from '@/components/atoms';
+import { PageFrame, EmptyState, SectionHeader } from '@/components/atoms';
 
 export const dynamic = 'force-dynamic';
 
@@ -244,40 +244,29 @@ export default async function WebhookHealthPage({
     <AutoRefresh intervalMs={30000} watch={['webhooks']}>
       <PageFrame>
         {/* Header */}
-        <div
-          className={['row', presentation.section1].filter(Boolean).join(' ')}
-        >
-          <div>
-            <div
-              className={['row gap-2', presentation.section2]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              <Link
-                href="/webhooks"
-                className={['upper', presentation.link1]
+        <SectionHeader
+          title={<>Webhook Health</>}
+          eyebrow={<Link href="/webhooks">Webhooks</Link>}
+          sub={
+            <>
+              <p
+                className={['muted text-sm', presentation.copy1]
                   .filter(Boolean)
                   .join(' ')}
               >
+                Delivery status monitoring &amp; diagnostics
+              </p>
+            </>
+          }
+          right={
+            <>
+              <Link href="/webhooks" className="btn">
+                <ArrowLeft size={14} />
                 Webhooks
               </Link>
-              <span className={presentation.ink1}>/</span>
-              <p className="upper">Delivery Health</p>
-            </div>
-            <h1 className="h1">Webhook Health</h1>
-            <p
-              className={['muted text-sm', presentation.copy1]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              Delivery status monitoring &amp; diagnostics
-            </p>
-          </div>
-          <Link href="/webhooks" className="btn">
-            <ArrowLeft size={14} />
-            Webhooks
-          </Link>
-        </div>
+            </>
+          }
+        />
 
         {/* Scope banner */}
         {isSuperAdmin ? (

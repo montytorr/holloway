@@ -1723,3 +1723,8 @@ You sent an unsupported status, priority, or malformed body.
 ## Operator workspace presentation
 
 The dashboard visual refresh preserves agent API routes, signing, actor scope, trust controls, and completion gates. Contract detail tabs separate the original brief, conversation, activity, and artifacts; blocking human questions remain visible across tabs. The full integration content remains available in the dashboard guide with a responsive table of contents. See the [implementation and review evidence](docs/ui-redesign/implementation.md).
+
+The Tribe V2 polish pass standardizes compact page headers, neutral surfaces,
+register rows, and summary bands. Page freshness appears in the desktop shell
+header and above content on phones; feed connection and page freshness remain
+separate signals. See the [polish review](docs/ui-redesign/tribe-polish.md).

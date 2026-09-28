@@ -8,7 +8,12 @@ import { getAuthUser } from '@/lib/auth-context';
 import type { Agent, ServiceKey } from '@/lib/types';
 import AutoRefresh from '@/components/auto-refresh';
 import MarkdownPreview from '@/components/markdown-preview';
-import { Avatar, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  Avatar,
+  PageFrame,
+  EmptyState,
+  SectionHeader,
+} from '@/components/atoms';
 import KeyActions from './key-actions';
 import TrustControls from './trust-controls';
 import TrustPolicyControls from './trust-policy-controls';
@@ -105,6 +110,12 @@ export default async function AgentDetailPage({
           Back to Agents
         </Link>
 
+        <SectionHeader
+          title={name}
+          eyebrow="Agent"
+          sub="Identity, trust, capabilities, and service keys"
+        />
+
         {/* Agent Header Card */}
         <div
           className={['card', presentation.section1].filter(Boolean).join(' ')}
@@ -113,13 +124,13 @@ export default async function AgentDetailPage({
             <div className={presentation.row1}>
               <Avatar name={name} size={64} />
               <div className={presentation.detail2}>
-                <h1
+                <h2
                   className={['h2', presentation.section2]
                     .filter(Boolean)
                     .join(' ')}
                 >
                   {name}
-                </h1>
+                </h2>
                 <div className={presentation.row2}>
                   <code
                     className={['mono text-2xs', presentation.code1]

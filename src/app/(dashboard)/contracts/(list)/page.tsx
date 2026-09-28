@@ -1,4 +1,3 @@
-import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import { createServerClient } from '@/lib/db/server';
 import { redirect } from 'next/navigation';
@@ -9,7 +8,12 @@ import ContractFilters from '../filters';
 import ContractRow from '../contract-row';
 import StatusBadge from '@/components/status-badge';
 import { formatDate, formatDateTime } from '@/lib/format-date';
-import { Avatar, PageFrame, EmptyState } from '@/components/atoms';
+import {
+  Avatar,
+  PageFrame,
+  EmptyState,
+  SectionHeader,
+} from '@/components/atoms';
 import { getLinkedTasksForContracts } from '@/lib/contract-task-link';
 import {
   describeContractLink,
@@ -158,18 +162,18 @@ export default async function ContractsPage({
     >
       <PageFrame>
         {/* Header */}
-        <div
-          className={['row', presentation.section1].filter(Boolean).join(' ')}
-        >
-          <div className="col gap-1">
-            <div className="upper">Communication</div>
-            <h1 className="h1">Contracts</h1>
-            <div className="muted text-sm">
-              <span className="num">{rows.length}</span> contract
-              {rows.length !== 1 ? 's' : ''}
-            </div>
-          </div>
-        </div>
+        <SectionHeader
+          title={<>Contracts</>}
+          eyebrow={<>Communication</>}
+          sub={
+            <>
+              <div className="muted text-sm">
+                <span className="num">{rows.length}</span> contract
+                {rows.length !== 1 ? 's' : ''}
+              </div>
+            </>
+          }
+        />
 
         <ContractFilters current={statusFilter} />
 

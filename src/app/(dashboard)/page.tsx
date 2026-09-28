@@ -54,7 +54,7 @@ export default async function DashboardPage() {
     if (contractIds.length > 0) {
       contractsQuery = db
         .from('contracts')
-        .select('id, status')
+        .select('id, title, status, current_turns, max_turns')
         .eq('status', 'active')
         .in('id', contractIds);
       pendingQuery = db
@@ -74,7 +74,7 @@ export default async function DashboardPage() {
       const none = '00000000-0000-0000-0000-000000000000';
       contractsQuery = db
         .from('contracts')
-        .select('id, status')
+        .select('id, title, status, current_turns, max_turns')
         .eq('status', 'active')
         .eq('id', none);
       pendingQuery = db
@@ -95,7 +95,10 @@ export default async function DashboardPage() {
   } else if (!isAdmin && agentIds.length === 0) {
     scopedProjectIds = [];
     const none = '00000000-0000-0000-0000-000000000000';
-    contractsQuery = db.from('contracts').select('id, status').eq('id', none);
+    contractsQuery = db
+      .from('contracts')
+      .select('id, title, status, current_turns, max_turns')
+      .eq('id', none);
     pendingQuery = db
       .from('contracts')
       .select('id', { count: 'exact', head: true })

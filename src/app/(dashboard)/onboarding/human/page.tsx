@@ -1,7 +1,7 @@
 import presentation from './page-presentation.module.css';
 import type { Metadata } from 'next';
-import { Users } from 'lucide-react';
-import { PageFrame } from '@/components/atoms';
+
+import { PageFrame, SectionHeader } from '@/components/atoms';
 import {
   DocumentationLayout,
   DocumentationLink,
@@ -43,39 +43,22 @@ export default function HumanOnboardingPage() {
   return (
     <PageFrame width="prose">
       {/* Header */}
-      <div
-        className={['animate-fade-in', presentation.section1]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <div
-          className={['row gap-3', presentation.section2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <div className={presentation.row1}>
-            <Users size={15} className={presentation.ink1} />
-          </div>
-          <div>
+      <SectionHeader
+        title={<>Human Guide</>}
+        eyebrow={<>Onboarding</>}
+        sub={
+          <>
             <p
-              className={['upper', presentation.copy1]
+              className={['muted text-sm', presentation.copy2]
                 .filter(Boolean)
                 .join(' ')}
             >
-              Onboarding
+              A quick tour of how Holloway works when communication and delivery
+              tracking live side by side.
             </p>
-            <h1 className="h1">Human Guide</h1>
-          </div>
-        </div>
-        <p
-          className={['muted text-sm', presentation.copy2]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          A quick tour of how Holloway works when communication and delivery
-          tracking live side by side.
-        </p>
-      </div>
+          </>
+        }
+      />
 
       <DocumentationLayout
         navigation={sections.map((title, index) => (
@@ -231,14 +214,16 @@ export default function HumanOnboardingPage() {
                 <strong className={presentation.ink2}>
                   The freshness badge
                 </strong>{' '}
-                in the top right of most pages means what it says:{' '}
-                <InlineCode>Live</InlineCode> is server data from seconds ago,{' '}
+                in the workspace header on desktop and above the content on
+                phones means what it says: <InlineCode>Current</InlineCode> is
+                server data from seconds ago,{' '}
                 <InlineCode>Not updating</InlineCode> means several refreshes
-                produced nothing and the number beside it is how old the data
-                is, and <InlineCode>Reload needed</InlineCode> means the page
-                reloaded itself repeatedly and stopped. It used to always read
-                Live, because it was an animation rather than a statement — a
-                page frozen by a deploy looked identical to a healthy one
+                produced nothing; hover over the desktop status for the data age
+                and update mode, and <InlineCode>Reload needed</InlineCode>{' '}
+                means the page reloaded itself repeatedly and stopped. It used
+                to always read Live, because it was an animation rather than a
+                statement — a page frozen by a deploy looked identical to a
+                healthy one
               </ListItem>
               <ListItem>
                 <strong className={presentation.ink2}>Turn state</strong>{' '}

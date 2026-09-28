@@ -7,3 +7,4 @@ export { Ticker } from './ticker';
 export { PageFrame } from './page-frame';
 export { EmptyState } from './empty-state';
 export { SectionCard } from './section-card';
+export { SummaryBand } from './summary-band';
