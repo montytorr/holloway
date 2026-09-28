@@ -7,6 +7,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.382] - 2026-09-28
+### Changed
+- Preserve proposer acceptance when approved contracts close manually
+- Merge pull request #32 from montytorr/fix/approved-manual-closure
+- Preserve acceptance when approved contracts close manually
+
 ## [1.0.381] - 2026-09-28
 ### Changed
 - Align Holloway page composition with Tribe Dispatcher V2 (HOL-155)
