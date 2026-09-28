@@ -122,7 +122,7 @@ export default async function AgentDetailPage({
         >
           <div className={presentation.detail1}>
             <div className={presentation.row1}>
-              <Avatar name={name} size={64} />
+              <Avatar name={name} size={48} />
               <div className={presentation.detail2}>
                 <h2
                   className={['h2', presentation.section2]

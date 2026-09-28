@@ -1,0 +1,4899 @@
+{
+  "reference": {
+    "application": "Tribe Dispatcher frontendV2",
+    "commit": "4453589626ae22cec95984467bbe95117e6faee4",
+    "comparison": "Source inspection and local rendered Holloway"
+  },
+  "environment": {
+    "mode": "Production build on loopback",
+    "data": "Authored local review fixtures",
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "widths": [
+      390,
+      768,
+      1024,
+      1440,
+      1920
+    ]
+  },
+  "checks": {
+    "applicationTests": {
+      "passed": 463,
+      "failed": 0
+    },
+    "reactorTests": {
+      "passed": 86,
+      "failed": 0
+    },
+    "lint": "passed",
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "targetedTests": {
+      "passed": 16,
+      "failed": 0
+    }
+  },
+  "routeMatrix": [
+    {
+      "route": "overview",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "dark",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "dark",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "dark",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "dark",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "dark",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "overview",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contracts",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "contract",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "messages",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agents",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-register",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "projects",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "task",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "project-new",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "tasks",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "protocol",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "feed",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "analytics",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "attention",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "approvals",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "audit",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhooks",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "delivery-health",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "webhook-register",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "security",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "api",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "changelog",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "settings",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "users",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emergency",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "agent-guide",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "human-guide",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "light",
+      "width": 390,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "light",
+      "width": 768,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "light",
+      "width": 1024,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "light",
+      "width": 1440,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "route": "emails",
+      "theme": "light",
+      "width": 1920,
+      "status": 200,
+      "overflow": 0,
+      "visibleHeading": true,
+      "errorPage": false,
+      "clippedCount": 0,
+      "browserErrorCount": 0
+    }
+  ],
+  "stateMatrix": [
+    {
+      "theme": "dark",
+      "state": 1,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 1,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 1,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 1,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 1,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 2,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 2,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 2,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 2,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 2,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 3,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 3,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 3,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 3,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 3,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 4,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 4,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 4,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 4,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 4,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 5,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 5,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 5,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 5,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 5,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 6,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 6,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 6,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 6,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 6,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 7,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 7,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 7,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 7,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 7,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 8,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 8,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 8,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 8,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "state": 8,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/login",
+      "width": 390,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/login",
+      "width": 768,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/login",
+      "width": 1024,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/login",
+      "width": 1440,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/login",
+      "width": 1920,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/forgot-password",
+      "width": 390,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/forgot-password",
+      "width": 768,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/forgot-password",
+      "width": 1024,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/forgot-password",
+      "width": 1440,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/forgot-password",
+      "width": 1920,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/reset-password",
+      "width": 390,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/reset-password",
+      "width": 768,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/reset-password",
+      "width": 1024,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/reset-password",
+      "width": 1440,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/reset-password",
+      "width": 1920,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 390,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 768,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 1024,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 1440,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "dark",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 1920,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 1,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 1,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 1,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 1,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 1,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 2,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 2,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 2,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 2,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 2,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 3,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 3,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 3,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 3,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 3,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 4,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 4,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 4,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 4,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 4,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 5,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 5,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 5,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 5,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 5,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 6,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 6,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 6,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 6,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 6,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 7,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 0,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 7,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 0,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 7,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 7,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 7,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 8,
+      "width": 390,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 8,
+      "width": 768,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 8,
+      "width": 1024,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 8,
+      "width": 1440,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "state": 8,
+      "width": 1920,
+      "overflow": 0,
+      "titleVisible": 1,
+      "visibleTabs": 1,
+      "error": false,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/login",
+      "width": 390,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/login",
+      "width": 768,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/login",
+      "width": 1024,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/login",
+      "width": 1440,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/login",
+      "width": 1920,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/forgot-password",
+      "width": 390,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/forgot-password",
+      "width": 768,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/forgot-password",
+      "width": 1024,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/forgot-password",
+      "width": 1440,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/forgot-password",
+      "width": 1920,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/reset-password",
+      "width": 390,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/reset-password",
+      "width": 768,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/reset-password",
+      "width": 1024,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/reset-password",
+      "width": 1440,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/reset-password",
+      "width": 1920,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 390,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 768,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 1024,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 1440,
+      "overflow": 0,
+      "browserErrorCount": 0
+    },
+    {
+      "theme": "light",
+      "path": "/ui-review-page-that-does-not-exist",
+      "width": 1920,
+      "overflow": 0,
+      "browserErrorCount": 0
+    }
+  ],
+  "shellInteractions": [
+    {
+      "theme": "dark",
+      "width": 390,
+      "titleActionsHistoryEditorAndRail": true
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "titleActionsHistoryEditorAndRail": true
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "titleActionsHistoryEditorAndRail": true
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "titleActionsHistoryEditorAndRail": true
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "titleActionsHistoryEditorAndRail": true
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "titleActionsHistoryEditorAndRail": true
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "titleActionsHistoryEditorAndRail": true
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "titleActionsHistoryEditorAndRail": true
+    }
+  ],
+  "blockingQuestionMatrix": [
+    {
+      "theme": "dark",
+      "width": 390,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "visibleAcrossTabs": true,
+      "overflow": 0
+    }
+  ],
+  "feedFailureMatrix": [
+    {
+      "theme": "dark",
+      "width": 390,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "independentFeedWarningAndCurrentData": true,
+      "overflow": 0
+    }
+  ],
+  "operatorInteractions": [
+    {
+      "name": "close dialog keyboard and geometry at 1440px",
+      "pass": true
+    },
+    {
+      "name": "close dialog keyboard and geometry at 390px",
+      "pass": true
+    },
+    {
+      "name": "page freshness follows client navigation",
+      "pass": true
+    },
+    {
+      "name": "approval gate close dialog at 1440px",
+      "pass": true
+    },
+    {
+      "name": "approval gate close dialog at 390px",
+      "pass": true
+    },
+    {
+      "name": "opening agent visible to admin",
+      "pass": true
+    },
+    {
+      "name": "contract tabs keyboard and hash",
+      "pass": true
+    },
+    {
+      "name": "note draft survives tabs and hash links",
+      "pass": true
+    },
+    {
+      "name": "note saves and is rendered",
+      "pass": true
+    },
+    {
+      "name": "question remains visible across contract tabs",
+      "pass": true
+    },
+    {
+      "name": "question answer updates attention and resolved history",
+      "pass": true
+    },
+    {
+      "name": "closed without approval differs from accepted completion",
+      "pass": true
+    },
+    {
+      "name": "message deep link reveals conversation and target",
+      "pass": true
+    },
+    {
+      "name": "density changes geometry and persists",
+      "pass": true
+    },
+    {
+      "name": "palette traps focus and restores trigger",
+      "pass": true
+    },
+    {
+      "name": "palette search navigates through shared destinations",
+      "pass": true
+    },
+    {
+      "name": "status filters retain URLs and browser Back",
+      "pass": true
+    },
+    {
+      "name": "mobile navigation traps focus, closes on Escape and navigates",
+      "pass": true
+    },
+    {
+      "name": "stale feed has truthful status",
+      "pass": true
+    },
+    {
+      "name": "wide contract at 200 percent zoom keeps work readable",
+      "pass": true
+    },
+    {
+      "name": "member permissions and scoped navigation",
+      "pass": true
+    },
+    {
+      "name": "observer permissions and scoped navigation",
+      "pass": true
+    },
+    {
+      "name": "external permissions and scoped navigation",
+      "pass": true
+    },
+    {
+      "name": "failed operator save keeps draft and shows feedback",
+      "pass": true
+    }
+  ],
+  "operatorInteractionBrowserErrors": 0,
+  "deepPhoneGeometry": {
+    "routes": 30,
+    "theme": "dark",
+    "width": 390,
+    "findings": 0
+  },
+  "contrast": [
+    {
+      "theme": "dark",
+      "ratios": [
+        {
+          "fg": "--fg-1",
+          "bg": "--bg-0",
+          "ratio": 13.86995994556374
+        },
+        {
+          "fg": "--fg-1",
+          "bg": "--bg-1",
+          "ratio": 13.162517965219347
+        },
+        {
+          "fg": "--fg-1",
+          "bg": "--bg-2",
+          "ratio": 12.314422763723336
+        },
+        {
+          "fg": "--fg-1",
+          "bg": "--bg-inset",
+          "ratio": 13.86995994556374
+        },
+        {
+          "fg": "--fg-2",
+          "bg": "--bg-0",
+          "ratio": 9.045447078701148
+        },
+        {
+          "fg": "--fg-2",
+          "bg": "--bg-1",
+          "ratio": 8.58408100269431
+        },
+        {
+          "fg": "--fg-2",
+          "bg": "--bg-2",
+          "ratio": 8.030986380003188
+        },
+        {
+          "fg": "--fg-2",
+          "bg": "--bg-inset",
+          "ratio": 9.045447078701148
+        },
+        {
+          "fg": "--fg-3",
+          "bg": "--bg-0",
+          "ratio": 7.659960735258608
+        },
+        {
+          "fg": "--fg-3",
+          "bg": "--bg-1",
+          "ratio": 7.26926185702249
+        },
+        {
+          "fg": "--fg-3",
+          "bg": "--bg-2",
+          "ratio": 6.8008844450676325
+        },
+        {
+          "fg": "--fg-3",
+          "bg": "--bg-inset",
+          "ratio": 7.659960735258608
+        },
+        {
+          "fg": "--fg-4",
+          "bg": "--bg-0",
+          "ratio": 6.870399159180246
+        },
+        {
+          "fg": "--fg-4",
+          "bg": "--bg-1",
+          "ratio": 6.519972135165551
+        },
+        {
+          "fg": "--fg-4",
+          "bg": "--bg-2",
+          "ratio": 6.099873405094837
+        },
+        {
+          "fg": "--fg-4",
+          "bg": "--bg-inset",
+          "ratio": 6.870399159180246
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "ratios": [
+        {
+          "fg": "--fg-1",
+          "bg": "--bg-0",
+          "ratio": 10.72842966566108
+        },
+        {
+          "fg": "--fg-1",
+          "bg": "--bg-1",
+          "ratio": 11.799182553468087
+        },
+        {
+          "fg": "--fg-1",
+          "bg": "--bg-2",
+          "ratio": 11.200554600530854
+        },
+        {
+          "fg": "--fg-1",
+          "bg": "--bg-inset",
+          "ratio": 10.72842966566108
+        },
+        {
+          "fg": "--fg-2",
+          "bg": "--bg-0",
+          "ratio": 7.356346969327321
+        },
+        {
+          "fg": "--fg-2",
+          "bg": "--bg-1",
+          "ratio": 8.09054852599402
+        },
+        {
+          "fg": "--fg-2",
+          "bg": "--bg-2",
+          "ratio": 7.6800769971141145
+        },
+        {
+          "fg": "--fg-2",
+          "bg": "--bg-inset",
+          "ratio": 7.356346969327321
+        },
+        {
+          "fg": "--fg-3",
+          "bg": "--bg-0",
+          "ratio": 5.592601913635698
+        },
+        {
+          "fg": "--fg-3",
+          "bg": "--bg-1",
+          "ratio": 6.150772571970477
+        },
+        {
+          "fg": "--fg-3",
+          "bg": "--bg-2",
+          "ratio": 5.838714988569589
+        },
+        {
+          "fg": "--fg-3",
+          "bg": "--bg-inset",
+          "ratio": 5.592601913635698
+        },
+        {
+          "fg": "--fg-4",
+          "bg": "--bg-0",
+          "ratio": 4.899278998888929
+        },
+        {
+          "fg": "--fg-4",
+          "bg": "--bg-1",
+          "ratio": 5.38825243672796
+        },
+        {
+          "fg": "--fg-4",
+          "bg": "--bg-2",
+          "ratio": 5.114881081425093
+        },
+        {
+          "fg": "--fg-4",
+          "bg": "--bg-inset",
+          "ratio": 4.899278998888929
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    "agent-dark-1440.png",
+    "agent-dark-390.png",
+    "agent-light-1440.png",
+    "agent-light-390.png",
+    "contract-1-dark-1440.png",
+    "contract-1-dark-390.png",
+    "contract-1-light-1440.png",
+    "contract-2-dark-1440.png",
+    "contract-2-dark-390.png",
+    "contract-4-dark-1440.png",
+    "contract-4-dark-390.png",
+    "contract-5-dark-1440.png",
+    "contract-5-dark-390.png",
+    "contract-7-dark-1440.png",
+    "contract-7-dark-390.png",
+    "feed-stale-dark-1440.png",
+    "feed-stale-dark-390.png",
+    "feed-stale-light-1440.png",
+    "feed-stale-light-390.png",
+    "overview-dark-1440.png",
+    "overview-dark-390.png",
+    "overview-light-1440.png",
+    "overview-light-390.png",
+    "project-dark-1440.png",
+    "project-dark-390.png",
+    "project-light-1440.png",
+    "project-light-390.png",
+    "register-dark-1440.png",
+    "register-dark-390.png",
+    "register-light-1440.png",
+    "register-light-390.png"
+  ]
+}

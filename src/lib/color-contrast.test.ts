@@ -41,37 +41,24 @@ test('the conversion agrees with known sRGB anchors', () => {
 });
 
 test('the primary button is legible in BOTH themes', () => {
-  // It was not: the gradient is fixed in both themes while the solid-face ink
-  // (then --on-amber, now --on-brand-solid) flips to white in light, which
-  // measured 1.87:1. The ink is read out of the RULE rather than assumed, so
-  // putting a flipping ink back fails this test instead of
-  // passing it — the first version of this check tested the token it hoped the
-  // button used, which would not have caught the bug it was written for.
-  const rule = css.match(/\.btn--primary\s*\{([^}]*)\}/);
-  assert.ok(rule, 'could not find the .btn--primary rule');
-
-  const inkToken = rule[1]!.match(/color:\s*var\((--[a-z0-9-]+)\)/)?.[1];
-  assert.ok(inkToken, '.btn--primary must take its colour from a token');
-
-  const stops = [
-    ...css.matchAll(
-      /\.btn--primary(?::hover)?\s*\{[^}]*?linear-gradient\(\s*180deg,\s*(oklch\([^)]*\)),\s*(oklch\([^)]*\))/g,
-    ),
-  ];
-  assert.ok(stops.length >= 1, 'could not find the .btn--primary gradient');
-
-  for (const theme of ['dark', 'light'] as const) {
-    const ink = rgbOf(inkToken, theme);
-    for (const match of stops) {
-      for (const stop of [match[1]!, match[2]!]) {
-        const bg = parseOklch(stop);
-        assert.ok(bg, `unparsed gradient stop: ${stop}`);
-        const ratio = contrastRatio(ink, bg);
-        assert.ok(
-          ratio >= 4.5,
-          `.btn--primary ${inkToken} on ${stop} in ${theme} is ${ratio.toFixed(2)}:1, below 4.5:1`,
-        );
-      }
+  for (const selector of ['.btn--primary', '.btn--primary:hover']) {
+    const rule = css.match(
+      new RegExp(selector.replaceAll('.', '\\.') + '\\s*\\{([^}]*)\\}'),
+    );
+    assert.ok(rule, `missing ${selector}`);
+    const inkToken = rule[1]!.match(
+      /(?:^|[;\n])\s*color:\s*var\((--[a-z0-9-]+)\)/,
+    )?.[1];
+    const faceToken = rule[1]!.match(
+      /background:\s*var\((--[a-z0-9-]+)\)/,
+    )?.[1];
+    assert.ok(inkToken && faceToken, `${selector} must use colour tokens`);
+    for (const theme of ['dark', 'light'] as const) {
+      const ratio = contrastRatio(
+        rgbOf(inkToken, theme),
+        rgbOf(faceToken, theme),
+      );
+      assert.ok(ratio >= 4.5, `${selector} in ${theme}: ${ratio.toFixed(2)}:1`);
     }
   }
 });

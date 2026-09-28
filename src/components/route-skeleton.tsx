@@ -16,8 +16,6 @@ export default function RouteSkeleton({
       aria-label={`Loading ${label}`}
       role="status"
     >
-      <div className={styles.eyebrow} />
-      <div className={styles.title} />
       <div className={styles.subtitle} />
       {shape === 'analytics' || shape === 'overview' ? (
         <>

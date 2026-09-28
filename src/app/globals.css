@@ -12,7 +12,7 @@
   --sidebar-line: #282e3a;
   --sidebar-fg: oklch(0.8485 0.01584 269.96);
   --sidebar-muted: oklch(0.7138 0.02679 263.28);
-  --sidebar-accent: oklch(0.8157 0.07904 127.92);
+  --sidebar-accent: oklch(0.72177 0.14552 276.5);
   --sidebar-amber: oklch(0.8 0.155 65);
   --sidebar-mint: oklch(0.82 0.14 165);
   --sidebar-peri: oklch(0.78 0.1 265);
@@ -46,15 +46,15 @@
   --fg-3: oklch(0.7138 0.02679 263.28);
   --fg-4: oklch(0.68486 0.03163 264.34);
 
-  --brand: oklch(0.82 0.1 125);
-  --brand-2: oklch(0.68 0.15 125);
-  --brand-bg: oklch(0.25131 0.02337 144.84);
-  --brand-line: oklch(0.3754 0.04131 143.46);
+  --brand: oklch(0.72177 0.14552 276.5);
+  --brand-2: oklch(0.77753 0.11447 278.45);
+  --brand-bg: oklch(0.26917 0.0341 274.25);
+  --brand-line: oklch(0.38944 0.06188 274.77);
   /* Ink on a solid --brand face (a checked box). Flips to white in light,
      where solid --brand is a mid-dark swatch. */
-  --on-brand-solid: oklch(0.18 0.04 125);
+  --on-brand-solid: oklch(0.15873 0.00913 264.27);
 
-  --on-brand: oklch(0.18 0.04 125);
+  --on-brand: oklch(0.15873 0.00913 264.27);
 
   /* signals — only 4 hues allowed. Amber is STATUS only: warning, pending,
      stale, needs-attention, waiting. It was also the brand accent until the
@@ -87,7 +87,7 @@
 
   /* focus ring and the inset hairline that makes a raised surface read as
      raised. Both were repeated as literals across the components. */
-  --focus-ring: oklch(0.72 0.14 125 / 0.15);
+  --focus-ring: oklch(0.72 0.14 275 / 0.2);
   --highlight: oklch(1 0 0 / 0.05);
   /* Zebra stripe for dense tables: a touch darker than --bg-1, not a new surface. */
   --bg-stripe: oklch(0.155 0.013 250 / 0.5);
@@ -95,7 +95,7 @@
   --glow-amber: oklch(0.7 0.16 60 / 0.6);
   --glow-mint: oklch(0.7 0.13 165 / 0.6);
   /* Not an LED: the halo on the navigation progress bar, a brand object. */
-  --glow-brand: oklch(0.7 0.14 125 / 0.6);
+  --glow-brand: oklch(0.7 0.14 275 / 0.6);
   --glow-rose: oklch(0.65 0.15 25 / 0.6);
 
   /* A background-image in a data: URI cannot read a custom property, so the
@@ -131,7 +131,7 @@
   --space-6: 32px;
 
   --radius-1: 4px;
-  --radius-2: 6px;
+  --radius-2: 8px;
   --radius-3: 10px;
   --radius-4: 12px;
   --radius-pill: 999px;
@@ -142,7 +142,7 @@
      topbar both derive their height from this, so their bottom borders cannot
      drift apart the way they did when each computed its own. */
   --topbar-h: 56px;
-  --list-row-py: 12px;
+  --list-row-py: 10px;
   --section-pad: 16px;
   --control-h: 32px;
 }
@@ -176,14 +176,12 @@
   --fg-3: oklch(0.49431 0.03143 262.21);
   --fg-4: oklch(0.5251 0.02806 259.79);
 
-  /* Moss by day. The dark --brand is a pastel that measures ~1.9:1 on white,
-     so the light swatch is a deep olive that carries text: 5.70 : 1 on white,
-     and white ink on it for a solid face (a checked box) at the same 5.70. */
-  --brand: oklch(0.505 0.115 125);
-  --brand-2: oklch(0.465 0.115 125);
-  --brand-bg: oklch(0.95632 0.01709 128.66);
-  --brand-line: oklch(0.86416 0.04896 127.98);
-  --on-brand-solid: oklch(1 0 0);
+  /* V2 interaction accent: pastel by night, saturated with white ink by day. */
+  --brand: oklch(0.49675 0.25551 267.2);
+  --brand-2: oklch(0.44793 0.2338 267.16);
+  --brand-bg: oklch(0.9574 0.01753 279.06);
+  --brand-line: oklch(0.85741 0.06162 277.92);
+  --on-brand-solid: oklch(1 0 89.88);
 
   --amber: oklch(0.505 0.145 65);
   --amber-2: oklch(0.465 0.15 55);
@@ -208,7 +206,7 @@
   --rose-bg: oklch(0.96509 0.01319 5.8);
   --rose-line: oklch(0.87474 0.03789 5.54);
 
-  --focus-ring: oklch(0.505 0.115 125 / 0.25);
+  --focus-ring: oklch(0.505 0.2 275 / 0.2);
   /* White, not black. `inset 0 0 0 1px var(--highlight)` is a top-light
      highlight; inverting it to black drew a grubby line inside every raised
      surface, which is the single tell that a light theme was made by negation. */
@@ -221,7 +219,7 @@
      glow — a 0.70-lightness bloom simply disappears here. */
   --glow-amber: oklch(0.62 0.16 65 / 0.35);
   --glow-mint: oklch(0.58 0.14 165 / 0.32);
-  --glow-brand: oklch(0.62 0.14 125 / 0.35);
+  --glow-brand: oklch(0.62 0.14 275 / 0.35);
   --glow-rose: oklch(0.58 0.19 25 / 0.35);
 
   --select-chevron: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235d646b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
@@ -237,6 +235,7 @@
     linear-gradient(152deg, oklch(0.945 0.05 118), oklch(0.875 0.075 128));
 
   --wash: none;
+  --on-brand: oklch(1 0 89.88);
 }
 
 @theme inline {
@@ -583,24 +582,14 @@ body::before {
   }
 
   .btn--primary {
-    background: linear-gradient(
-      180deg,
-      oklch(0.8 0.11 125),
-      oklch(0.8 0.11 125)
-    );
+    background: var(--brand);
     color: var(--on-brand);
-    border-color: oklch(0.62 0.14 125);
+    border-color: var(--brand);
     font-weight: 600;
-    box-shadow:
-      0 1px 0 oklch(0.95 0.08 125 / 0.4) inset,
-      0 4px 12px oklch(0.4 0.09 125 / 0.25);
   }
   .btn--primary:hover {
-    background: linear-gradient(
-      180deg,
-      oklch(0.84 0.11 125),
-      oklch(0.84 0.11 125)
-    );
+    background: var(--brand-2);
+    border-color: var(--brand-2);
     color: var(--on-brand);
   }
   .btn--ghost {
@@ -1251,7 +1240,7 @@ body::before {
   }
 
   .page-frame {
-    padding: 18px var(--page-gutter) 48px;
+    padding: 18px var(--page-gutter) 40px;
   }
   .shell-actor-row {
     padding: 0 var(--page-gutter);
@@ -1292,9 +1281,9 @@ body::before {
     flex: 0 0 32px;
     height: 32px;
     border-radius: 8px;
-    border: 1px solid var(--line-1);
-    background: var(--bg-2);
-    color: var(--fg-2);
+    border: 1px solid var(--brand-line);
+    background: var(--brand-bg);
+    color: var(--brand);
   }
   .section-card-heading {
     min-width: 0;
@@ -1329,7 +1318,7 @@ body::before {
   .nav-item--active::before {
     content: '';
     position: absolute;
-    left: -12px;
+    left: -10px;
     top: 8px;
     bottom: 8px;
     width: 3px;
@@ -1337,8 +1326,10 @@ body::before {
     background: var(--brand);
   }
   .nav-group-heading {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
     padding-bottom: 6px;
   }
   .nav-group {
@@ -1350,8 +1341,10 @@ body::before {
   }
   table thead th {
     font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
   table tbody td {
     border-bottom-color: var(--line-soft);
@@ -1474,21 +1467,24 @@ body::before {
     background: transparent;
   }
   .actor-context {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
-    border: 1px solid var(--line-1);
-    border-radius: var(--radius-3);
-    background: var(--bg-1);
-    margin-top: var(--space-4);
+    padding: 12px 0 0;
+    color: var(--fg-2);
   }
   .actor-context-description {
-    flex: 1;
-    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .actor-context-description > div {
+    max-width: 66ch;
     font-size: 12px;
-    color: var(--fg-3);
+  }
+  .page-intro:empty {
+    height: 1px;
+  }
+  .page-intro:not(:empty) {
+    margin-bottom: 14px;
   }
   .actor-context-select {
     flex: 0 1 350px;
@@ -1571,11 +1567,13 @@ body::before {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 8px 16px;
   }
   .actor-context-control {
-    flex: 0 1 350px;
+    flex: 1 1 260px;
+    max-width: 350px;
     min-width: 0;
+    margin-left: auto;
   }
   .form-error {
     color: var(--rose);
@@ -1635,6 +1633,11 @@ body::before {
   @media (max-width: 640px) {
     .actor-context-control {
       flex-basis: 100%;
+      max-width: none;
+    }
+    .actor-context-description {
+      flex-wrap: wrap;
+      gap: 2px 8px;
     }
     form :is(.cp-input, .cp-select, .cp-textarea) {
       font-size: 16px;

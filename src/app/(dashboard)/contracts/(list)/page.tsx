@@ -178,15 +178,12 @@ export default async function ContractsPage({
         <ContractFilters current={statusFilter} />
 
         <section className={styles.register} aria-label="Contract register">
-          <div className={styles.registerHead}>
-            <span>Contract register</span>
-            <span className={styles.registerCount}>
-              {rows.length} shown
-              <span className={styles.registerHint}>
-                {' '}
-                · open a contract for its conversation
-              </span>
-            </span>
+          <div className={styles.columns} aria-hidden="true">
+            <span>Contract</span>
+            <span>Status</span>
+            <span>Participants</span>
+            <span>Turns</span>
+            <span>Timeline</span>
           </div>
           {rows.length === 0 ? (
             <EmptyState
@@ -328,63 +325,55 @@ export default async function ContractsPage({
                         )}
                       </div>
                     </div>
-                    <div className={styles.secondary}>
-                      <div className={styles.state}>
-                        <StatusBadge
-                          domain="contract"
-                          status={contract.status}
-                          dot="static"
-                        />
-                        {(channels.get(contract.id)?.counts.open_questions ??
-                          0) > 0 && (
-                          <span
-                            className="pill pill--rose"
-                            title="An agent is waiting for a person to answer"
-                          >
-                            asking
-                          </span>
-                        )}
+                    <div className={styles.state}>
+                      <StatusBadge
+                        domain="contract"
+                        status={contract.status}
+                        dot="static"
+                      />
+                      {(channels.get(contract.id)?.counts.open_questions ?? 0) >
+                        0 && (
                         <span
-                          className={`${styles.date} ${expiry?.soon ? styles.urgent : ''}`}
-                          title={
-                            expiry
-                              ? `Expires ${formatDateTime(expiry.at)}`
-                              : `Created ${formatDateTime(contract.created_at)}`
-                          }
+                          className="pill pill--rose"
+                          title="An agent is waiting for a person to answer"
                         >
-                          {expiry
-                            ? expiry.label
-                            : formatDate(contract.created_at)}
+                          asking
                         </span>
-                      </div>
-                      <div className={styles.people}>
-                        <span className={styles.peopleName}>
-                          {proposerName}
-                        </span>
-                        <span
-                          className={styles.avatars}
-                          aria-label={`${participants.length} participants`}
-                        >
-                          {participants
-                            .slice(0, 3)
-                            .map((participant, index) => (
-                              <span
-                                key={`${participant.name}-${index}`}
-                                title={`${participant.name} · ${participant.role} · ${participant.status}`}
-                              >
-                                <Avatar name={participant.name} size={20} />
-                              </span>
-                            ))}
-                          {participants.length > 3 && (
-                            <span>+{participants.length - 3}</span>
-                          )}
-                        </span>
-                        <span className={styles.turns}>
-                          <strong>{contract.current_turns}</strong> /{' '}
-                          {contract.max_turns} turns
-                        </span>
-                      </div>
+                      )}
                     </div>
+                    <div className={styles.people}>
+                      <span className={styles.peopleName}>{proposerName}</span>
+                      <span
+                        className={styles.avatars}
+                        aria-label={`${participants.length} participants`}
+                      >
+                        {participants.slice(0, 3).map((participant, index) => (
+                          <span
+                            key={`${participant.name}-${index}`}
+                            title={`${participant.name} · ${participant.role} · ${participant.status}`}
+                          >
+                            <Avatar name={participant.name} size={20} />
+                          </span>
+                        ))}
+                        {participants.length > 3 && (
+                          <span>+{participants.length - 3}</span>
+                        )}
+                      </span>
+                    </div>
+                    <span className={styles.turns}>
+                      <strong>{contract.current_turns}</strong> /{' '}
+                      {contract.max_turns}
+                    </span>
+                    <span
+                      className={`${styles.date} ${expiry?.soon ? styles.urgent : ''}`}
+                      title={
+                        expiry
+                          ? `Expires ${formatDateTime(expiry.at)}`
+                          : `Created ${formatDateTime(contract.created_at)}`
+                      }
+                    >
+                      {expiry ? expiry.label : formatDate(contract.created_at)}
+                    </span>
                   </article>
                 </ContractRow>
               );

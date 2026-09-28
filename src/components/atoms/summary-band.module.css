@@ -1,17 +1,17 @@
 .band {
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--brand) 18%, var(--line-1));
+  border: 1px solid color-mix(in srgb, var(--brand) 22%, var(--line-1));
   border-radius: var(--radius-4);
-  background: color-mix(in srgb, var(--brand) 4%, var(--bg-1));
+  background: color-mix(in srgb, var(--brand) 7%, var(--bg-1));
   margin-bottom: 16px;
 }
 .caption {
-  padding: 10px 16px;
-  border-bottom: 1px solid
-    color-mix(in srgb, var(--brand) 12%, var(--line-soft));
-  color: var(--fg-2);
-  font-size: 12px;
-  font-weight: 500;
+  padding: 12px 16px 0;
+  color: var(--fg-3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 .metrics {
   display: grid;
@@ -33,11 +33,14 @@ a.metric:hover {
 }
 .label {
   color: var(--fg-2);
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
 }
 .value {
   color: var(--fg-0);
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.03em;

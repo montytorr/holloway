@@ -133,6 +133,14 @@ export default async function AgentsPage({
         </div>
       ) : (
         <div className={styles.list}>
+          <div className={styles.columns} aria-hidden="true">
+            <span />
+            <span>Agent / Trust</span>
+            <span>Description</span>
+            <span>Capabilities</span>
+            <span>Owner / Created</span>
+            <span />
+          </div>
           {agents.map((agent) => (
             <AgentItem key={agent.id} agent={agent} />
           ))}
@@ -148,7 +156,7 @@ function AgentItem({ agent }: { agent: AgentRow }) {
   const capabilities = agent.capabilities || [];
   return (
     <Link href={`/agents/${agent.id}`} className={styles.item}>
-      <Avatar name={name} size={40} />
+      <Avatar name={name} size={32} />
       <div className={styles.identity}>
         <div className={styles.nameLine}>
           <strong>{name}</strong>

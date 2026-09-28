@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSyncExternalStore } from 'react';
 import { createBrowserClient } from '@/lib/auth/browser';
 import { Avatar } from '@/components/atoms';
 import { HollowayMark } from '@/components/holloway-mark';
@@ -29,7 +30,6 @@ import {
   Mail,
   Code,
   LogOut,
-  ChevronDown,
 } from 'lucide-react';
 import type { DashboardNotificationCounts } from '@/lib/dashboard-notifications';
 import {
@@ -104,7 +104,7 @@ export function SidebarContent({
         }}
       >
         <span className="nav-icon">
-          <Icon size={18} strokeWidth={1.7} aria-hidden />
+          <Icon size={16} strokeWidth={1.75} aria-hidden />
         </span>
         <span className="nav-label">{item.label}</span>
         {count > 0 && (
@@ -132,33 +132,16 @@ export function SidebarContent({
         )}
       </Link>
       <nav className={styles.navigation} aria-label="Main navigation">
-        {DASHBOARD_NAVIGATION.map((group) =>
-          group.label === 'Resources' && !collapsed ? (
-            <details
-              key={group.label}
-              className={styles.resources}
-              open={
-                group.items.some((item) => item.href === destination?.href) ||
-                undefined
-              }
-            >
-              <summary>
-                <BookOpen size={16} aria-hidden /> Resources & help{' '}
-                <ChevronDown size={14} aria-hidden />
-              </summary>
-              <div>{group.items.map(renderItem)}</div>
-            </details>
-          ) : (
-            <div className="nav-group" key={group.label}>
-              {collapsed ? (
-                <div className="nav-group-rule" />
-              ) : (
-                <div className="nav-group-heading">{group.label}</div>
-              )}
-              {group.items.map(renderItem)}
-            </div>
-          ),
-        )}
+        {DASHBOARD_NAVIGATION.map((group) => (
+          <div className="nav-group" key={group.label}>
+            {collapsed ? (
+              <div className="nav-group-rule" />
+            ) : (
+              <div className="nav-group-heading">{group.label}</div>
+            )}
+            {group.items.map(renderItem)}
+          </div>
+        ))}
         {isSuperAdmin && (
           <div className="nav-group">
             {!collapsed && (
@@ -204,13 +187,25 @@ export function SidebarContent({
   );
 }
 
+const subscribeWide = (listener: () => void) => {
+  const query = window.matchMedia('(min-width: 1280px)');
+  query.addEventListener('change', listener);
+  return () => query.removeEventListener('change', listener);
+};
+
 export default function Sidebar(props: SidebarProps) {
+  const wide = useSyncExternalStore(
+    subscribeWide,
+    () => window.matchMedia('(min-width: 1280px)').matches,
+    () => true,
+  );
+  const collapsed = props.collapsed || !wide;
   return (
     <aside
-      data-sidebar={props.collapsed ? 'icons' : undefined}
+      data-sidebar={collapsed ? 'icons' : undefined}
       className={`${styles.sidebar} hidden md:flex`}
     >
-      <SidebarContent {...props} />
+      <SidebarContent {...props} collapsed={collapsed} />
     </aside>
   );
 }

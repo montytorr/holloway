@@ -2,7 +2,7 @@
   display: grid;
   gap: var(--space-3);
   min-width: 0;
-  padding: var(--space-6) var(--space-4);
+  padding: 18px var(--page-gutter) 40px;
 }
 .shell > div {
   background: var(--bg-2);

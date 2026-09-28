@@ -1,35 +1,97 @@
 .header {
-  height: var(--topbar-h);
   display: flex;
   flex-shrink: 0;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  padding: 0 var(--page-gutter);
+  gap: 8px;
+  min-height: 57px;
+  padding: 12px var(--page-gutter);
   border-bottom: 1px solid var(--line-1);
-  background: var(--bg-1);
+  background: color-mix(in srgb, var(--bg-1) 94%, transparent);
+  backdrop-filter: blur(12px);
   z-index: 40;
 }
 .location {
   display: flex;
+  flex: 1 1 240px;
+  flex-wrap: wrap;
   align-items: center;
   min-width: 0;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--fg-3);
-}
-.location strong {
+  gap: 8px;
   color: var(--fg-2);
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 13px;
 }
-.tools {
-  margin-left: auto;
+.breadcrumb {
+  flex-shrink: 0;
+}
+.title {
   display: flex;
   align-items: center;
+  gap: 8px;
+  min-width: min(120px, 100%);
+  flex: 1 1 120px;
+}
+.title > :first-child {
+  flex: 0 1 auto;
+  min-width: 0;
+  width: auto;
+}
+.title > div:has(input) {
+  flex: 1;
+}
+.title h1,
+.title :global(.h1) {
+  margin: 0;
+  color: var(--fg-0);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.5;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.badges {
+  display: flex;
+  flex-wrap: wrap;
   gap: 6px;
+  min-width: 0;
+}
+.liveDot {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
+}
+.tools,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+.tools {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.tools :global(.btn) {
+  border: 1px solid var(--line-1);
+  background: var(--bg-2);
+  border-radius: 8px;
+  height: 32px;
+  width: 32px;
+}
+.tools :global(.btn):hover {
+  background: var(--bg-hover);
+}
+.actions {
+  margin-left: auto;
+  padding-left: 10px;
+  border-left: 1px solid var(--line-1);
+  max-width: 100%;
 }
 .search {
   display: flex;
@@ -37,30 +99,32 @@
   gap: 8px;
   padding: 0 10px;
   height: 32px;
-  width: 230px;
-  color: var(--fg-3);
+  width: 220px;
+  color: var(--fg-2);
   background: var(--bg-2);
   border: 1px solid var(--line-1);
-  border-radius: var(--radius-2);
+  border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
 }
 .search kbd {
   margin-left: auto;
-  font: 12px var(--mono);
+  padding: 1px 4px;
+  border: 1px solid var(--line-1);
+  border-radius: 4px;
+  font: 11px var(--mono);
 }
 .search:hover {
   border-color: var(--line-strong);
-}
-.connection {
-  align-items: center;
-  gap: 8px;
-  color: var(--fg-2);
-  padding: 0 8px;
-  font-size: 12px;
+  color: var(--fg-0);
 }
 .attention {
   position: relative;
+}
+@media (min-width: 1280px) {
+  .search {
+    width: 260px;
+  }
 }
 @media (max-width: 1100px) {
   .search {
@@ -73,39 +137,32 @@
     display: none;
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .header {
     position: sticky;
     top: 0;
-    padding: 0 12px;
-    gap: 6px;
+    padding: 10px 16px;
   }
   .location {
-    font-size: 12px;
-    gap: 0;
+    flex-basis: 100px;
   }
-  .location > span {
+  .breadcrumb {
     display: none;
   }
   .tools {
-    gap: 2px;
+    gap: 4px;
   }
-  .tools :global(.btn) {
-    width: 30px;
-  }
-}
-
-.freshness {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0 8px;
-  font-size: 12px;
-  color: var(--fg-2);
-  white-space: nowrap;
-}
-@media (max-width: 767px) {
-  .freshness {
+  .tools a[aria-label='Emergency controls'] {
     display: none;
+  }
+  .actions {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .location {
+    flex-wrap: wrap;
+  }
+  .badges {
+    flex-basis: 100%;
   }
 }

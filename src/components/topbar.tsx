@@ -11,14 +11,19 @@ import {
   PanelLeftOpen,
   Rows3,
   Shield,
+  ChevronRight,
 } from 'lucide-react';
 import { useDashboardContext } from '@/app/(dashboard)/dashboard-context';
 import type { TickerItem } from '@/lib/live-feed';
-import { dashboardDestination } from '@/lib/dashboard-navigation';
+import {
+  dashboardDestination,
+  DASHBOARD_NAVIGATION,
+} from '@/lib/dashboard-navigation';
 import { usePersistedToggle } from '@/lib/persisted-toggle';
 import { useNavigationFeedback } from './navigation-feedback';
 import { ThemeToggle } from './theme-toggle';
 import { usePageFreshness } from './page-freshness';
+import { usePageHeading } from './page-heading';
 import styles from './topbar.module.css';
 
 interface TopbarProps {
@@ -48,6 +53,12 @@ export const Topbar = ({
   const [lastUpdated, setLastUpdated] = useState<string>();
   const actionable = notificationCounts?.total;
   const destination = dashboardDestination(pathname);
+  const reportedHeading = usePageHeading();
+  const heading = reportedHeading?.path === pathname ? reportedHeading : null;
+  const group =
+    DASHBOARD_NAVIGATION.find((entry) =>
+      entry.items.some((item) => item.href === destination?.href),
+    )?.label ?? 'Administration';
   const reportedFreshness = usePageFreshness();
   const freshness =
     reportedFreshness?.path === pathname ? reportedFreshness : null;
@@ -88,7 +99,7 @@ export const Topbar = ({
         <button
           type="button"
           onClick={onToggleCollapsed}
-          className="btn btn--ghost btn--icon hidden md:inline-flex"
+          className="btn btn--ghost btn--icon hidden xl:inline-flex"
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           aria-pressed={collapsed}
         >
@@ -100,9 +111,55 @@ export const Topbar = ({
         </button>
       )}
       <div className={styles.location}>
-        <span>Workspace</span>
-        <span aria-hidden>/</span>
-        <strong>{destination?.label || 'Holloway'}</strong>
+        <span className={styles.breadcrumb}>{heading?.eyebrow ?? group}</span>
+        <ChevronRight size={14} className={styles.breadcrumb} aria-hidden />
+        <div
+          className={styles.title}
+          key={heading ? `${heading.path}:${heading.id}` : pathname}
+          title={typeof heading?.title === 'string' ? heading.title : undefined}
+        >
+          {heading?.heading ?? (
+            <h1>{heading?.title ?? destination?.label ?? 'Holloway'}</h1>
+          )}
+          <span
+            className={styles.liveDot}
+            role="status"
+            aria-label={
+              freshness
+                ? freshness.status === 'live'
+                  ? 'Current'
+                  : freshness.status === 'stale'
+                    ? 'Not updating'
+                    : 'Reload needed'
+                : connection === 'connected'
+                  ? 'Connected'
+                  : connection === 'stale'
+                    ? 'Feed stale'
+                    : 'Connecting'
+            }
+            title={
+              freshness
+                ? `Page data received ${freshness.ageSeconds}s ago · ${freshness.streaming ? 'live updates' : `${Math.round(freshness.intervalMs / 1000)}s fallback`}${freshness.status === 'stuck' ? '. Reload manually.' : ''}`
+                : lastUpdated
+                  ? `Activity feed checked at ${lastUpdated}`
+                  : 'Checking activity feed'
+            }
+          >
+            <span
+              className={`dot ${freshness?.status === 'stuck' || (!freshness && connection === 'stale') ? 'dot--rose' : freshness?.status === 'stale' ? 'dot--amber' : freshness?.status === 'live' || connection === 'connected' ? 'dot--mint' : ''}`}
+            />
+          </span>
+        </div>
+        {connection === 'stale' && (
+          <span
+            className="pill pill--amber"
+            role="status"
+            title="Activity feed unavailable. Page freshness is reported separately."
+          >
+            Feed stale
+          </span>
+        )}
+        {heading?.badge && <div className={styles.badges}>{heading.badge}</div>}
       </div>
       <div className={styles.tools}>
         <button
@@ -115,40 +172,6 @@ export const Topbar = ({
           <span>Search workspace…</span>
           <kbd>⌘ K</kbd>
         </button>
-        <span
-          className={`${styles.connection} hidden lg:inline-flex`}
-          title={
-            lastUpdated
-              ? `Activity feed last checked at ${lastUpdated}`
-              : 'Checking the activity feed'
-          }
-          role="status"
-        >
-          <span
-            className={`dot ${connection === 'connected' ? 'dot--mint' : connection === 'stale' ? 'dot--rose' : ''}`}
-          />
-          {connection === 'connected'
-            ? 'Connected'
-            : connection === 'stale'
-              ? 'Feed stale'
-              : 'Connecting'}
-        </span>
-        {freshness && (
-          <span
-            className={styles.freshness}
-            role="status"
-            title={`Page data last received ${freshness.ageSeconds}s ago · ${freshness.streaming ? 'live updates' : `${Math.round(freshness.intervalMs / 1000)}s fallback`}${freshness.status === 'stuck' ? '. Reload manually.' : ''}`}
-          >
-            <span
-              className={`dot ${freshness.status === 'live' ? 'dot--mint' : freshness.status === 'stale' ? 'dot--amber' : 'dot--rose'}`}
-            />
-            {freshness.status === 'live'
-              ? 'Current'
-              : freshness.status === 'stale'
-                ? 'Not updating'
-                : 'Reload needed'}
-          </span>
-        )}
         <button
           type="button"
           className="btn btn--ghost btn--icon hidden sm:inline-flex"
@@ -206,6 +229,9 @@ export const Topbar = ({
           )}
         </Link>
       </div>
+      {heading?.actions != null && (
+        <div className={styles.actions}>{heading.actions}</div>
+      )}
     </header>
   );
 };

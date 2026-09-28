@@ -27,7 +27,7 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   height: var(--topbar-h);
   padding: 0 16px;
   text-decoration: none;
@@ -43,13 +43,13 @@
 .logo span {
   display: block;
   color: var(--fg-3);
-  font-size: 12px;
+  font-size: 11px;
 }
 .navigation {
   flex: 1;
   min-height: 0;
   overflow: auto;
-  padding: 12px;
+  padding: 10px;
 }
 .resources {
   margin: 16px 0;
@@ -120,4 +120,9 @@
   .resources summary svg {
     transition: none;
   }
+}
+
+.sidebar[data-sidebar='icons'] :global(.nav-icon svg) {
+  width: 18px;
+  height: 18px;
 }
