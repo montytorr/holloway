@@ -1,0 +1,110 @@
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  height: 100%;
+  flex-direction: column;
+  background: var(--bg-inset);
+  border-right: 1px solid var(--line-1);
+  transition: width 0.18s;
+  position: relative;
+  z-index: 50;
+  overflow: hidden;
+}
+.logo {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  height: var(--topbar-h);
+  padding: 0 20px;
+  text-decoration: none;
+}
+.logo strong {
+  display: block;
+  color: var(--fg-0);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+.logo span {
+  display: block;
+  color: var(--fg-3);
+  font-size: 12px;
+}
+.navigation {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 20px 12px;
+}
+.resources {
+  margin: 16px 0;
+}
+.resources summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--fg-2);
+  font-size: 13px;
+  list-style: none;
+}
+.resources summary::-webkit-details-marker {
+  display: none;
+}
+.resources summary svg:last-child {
+  margin-left: auto;
+  transition: transform 0.15s;
+}
+.resources[open] summary svg:last-child {
+  transform: rotate(180deg);
+}
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin: 0 12px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line-1);
+}
+.identity {
+  flex: 1;
+  min-width: 0;
+}
+.identity strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg-1);
+  font-size: 13px;
+  font-weight: 500;
+}
+.identity span {
+  display: block;
+  color: var(--fg-3);
+  font-size: 12px;
+}
+.footer :global(.btn) {
+  width: 28px;
+  height: 32px;
+}
+.sidebar[data-sidebar='icons'] .logo {
+  padding: 0;
+  justify-content: center;
+}
+.sidebar[data-sidebar='icons'] .navigation {
+  padding-inline: 8px;
+}
+.sidebar[data-sidebar='icons'] .footer {
+  justify-content: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .resources summary svg {
+    transition: none;
+  }
+}

@@ -1,0 +1,14 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.field1 {
+  width: 100%;
+}
+
+.detail1 {
+  grid-column: span 2;
+}
+
+.field2 {
+  width: 100%;
+  resize: vertical;
+}

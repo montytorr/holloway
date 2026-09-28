@@ -4,7 +4,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import type { ProjectStatus } from '@/lib/types';
 
-const statuses: Array<ProjectStatus | 'all'> = ['all', 'planning', 'active', 'completed', 'archived'];
+const statuses: Array<ProjectStatus | 'all'> = [
+  'all',
+  'planning',
+  'active',
+  'completed',
+  'archived',
+];
 const inboxOptions = ['all', 'needs-response', 'history'] as const;
 
 export default function ProjectFilters({ current }: { current: string }) {
@@ -29,15 +35,19 @@ export default function ProjectFilters({ current }: { current: string }) {
   );
 
   return (
-    <div className="col gap-3" style={{ marginBottom: 16 }}>
+    <div className="list-toolbar">
       <div className="seg">
         {statuses.map((status) => (
           <button
             key={status}
+            type="button"
+            aria-pressed={current === status}
             className={current === status ? 'active' : ''}
             onClick={() => updateParams({ status })}
           >
-            {status === 'all' ? 'All' : status[0].toUpperCase() + status.slice(1)}
+            {status === 'all'
+              ? 'All'
+              : status[0].toUpperCase() + status.slice(1)}
           </button>
         ))}
       </div>
@@ -45,10 +55,16 @@ export default function ProjectFilters({ current }: { current: string }) {
         {inboxOptions.map((option) => (
           <button
             key={option}
+            type="button"
+            aria-pressed={currentInbox === option}
             className={currentInbox === option ? 'active' : ''}
             onClick={() => updateParams({ inbox: option })}
           >
-            {option === 'needs-response' ? 'Needs Response' : option === 'all' ? 'Open Workflow' : 'History'}
+            {option === 'needs-response'
+              ? 'Needs Response'
+              : option === 'all'
+                ? 'Open Workflow'
+                : 'History'}
           </button>
         ))}
       </div>

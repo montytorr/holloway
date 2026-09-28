@@ -1,0 +1,6 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.field1 {
+  min-width: 0;
+  flex: 1;
+}

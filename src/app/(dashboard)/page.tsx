@@ -6,6 +6,7 @@ import { buildDashboardVisibilityScope } from '@/lib/dashboard-scope';
 import type { Contract, SystemConfig } from '@/lib/types';
 import AutoRefresh from '@/components/auto-refresh';
 import { DashboardClient } from './dashboard-client';
+import { getDashboardNotificationSummary } from '@/lib/dashboard-notifications';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +15,7 @@ export default async function DashboardPage() {
   const user = auth?.user ?? null;
   if (!user || !auth) redirect('/login');
 
+  const attentionPromise = getDashboardNotificationSummary(auth);
   const db = createServerClient();
   noStore();
 
@@ -23,7 +25,7 @@ export default async function DashboardPage() {
 
   let contractsQuery = db
     .from('contracts')
-    .select('id, status')
+    .select('id, title, status, current_turns, max_turns')
     .eq('status', 'active');
 
   let pendingQuery = db
@@ -39,6 +41,7 @@ export default async function DashboardPage() {
   let auditQuery = db
     .from('audit_log')
     .select('*')
+    .neq('action', 'auth.success')
     .order('created_at', { ascending: false })
     .limit(12);
 
@@ -62,13 +65,27 @@ export default async function DashboardPage() {
       messagesQuery = db
         .from('messages')
         .select('id', { count: 'exact', head: true })
-        .gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString())
+        .gte(
+          'created_at',
+          new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
+        )
         .in('contract_id', contractIds);
     } else {
       const none = '00000000-0000-0000-0000-000000000000';
-      contractsQuery = db.from('contracts').select('id, status').eq('status', 'active').eq('id', none);
-      pendingQuery = db.from('contracts').select('id', { count: 'exact', head: true }).eq('status', 'proposed').eq('id', none);
-      messagesQuery = db.from('messages').select('id', { count: 'exact', head: true }).eq('contract_id', none);
+      contractsQuery = db
+        .from('contracts')
+        .select('id, status')
+        .eq('status', 'active')
+        .eq('id', none);
+      pendingQuery = db
+        .from('contracts')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'proposed')
+        .eq('id', none);
+      messagesQuery = db
+        .from('messages')
+        .select('id', { count: 'exact', head: true })
+        .eq('contract_id', none);
     }
 
     const names = scope.contractActorNames;
@@ -79,12 +96,24 @@ export default async function DashboardPage() {
     scopedProjectIds = [];
     const none = '00000000-0000-0000-0000-000000000000';
     contractsQuery = db.from('contracts').select('id, status').eq('id', none);
-    pendingQuery = db.from('contracts').select('id', { count: 'exact', head: true }).eq('id', none);
-    messagesQuery = db.from('messages').select('id', { count: 'exact', head: true }).eq('contract_id', none);
-    auditQuery = db.from('audit_log').select('*').eq('actor', '__none__').limit(12);
+    pendingQuery = db
+      .from('contracts')
+      .select('id', { count: 'exact', head: true })
+      .eq('id', none);
+    messagesQuery = db
+      .from('messages')
+      .select('id', { count: 'exact', head: true })
+      .eq('contract_id', none);
+    auditQuery = db
+      .from('audit_log')
+      .select('*')
+      .eq('actor', '__none__')
+      .limit(12);
   }
 
-  const agentsCountQuery = db.from('agents').select('id', { count: 'exact', head: true });
+  const agentsCountQuery = db
+    .from('agents')
+    .select('id', { count: 'exact', head: true });
 
   let activeProjectsQuery = db
     .from('projects')
@@ -94,7 +123,10 @@ export default async function DashboardPage() {
     if (scopedProjectIds.length > 0) {
       activeProjectsQuery = activeProjectsQuery.in('id', scopedProjectIds);
     } else {
-      activeProjectsQuery = activeProjectsQuery.eq('id', '00000000-0000-0000-0000-000000000000');
+      activeProjectsQuery = activeProjectsQuery.eq(
+        'id',
+        '00000000-0000-0000-0000-000000000000',
+      );
     }
   }
 
@@ -104,13 +136,21 @@ export default async function DashboardPage() {
     .eq('status', 'in-progress');
   if (scopedProjectIds !== null) {
     if (scopedProjectIds.length > 0) {
-      tasksInProgressQuery = tasksInProgressQuery.in('project_id', scopedProjectIds);
+      tasksInProgressQuery = tasksInProgressQuery.in(
+        'project_id',
+        scopedProjectIds,
+      );
     } else {
-      tasksInProgressQuery = tasksInProgressQuery.eq('project_id', '00000000-0000-0000-0000-000000000000');
+      tasksInProgressQuery = tasksInProgressQuery.eq(
+        'project_id',
+        '00000000-0000-0000-0000-000000000000',
+      );
     }
   }
 
-  const twentyFourHoursAgo = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString();
+  const twentyFourHoursAgo = new Date(
+    new Date().getTime() - 24 * 60 * 60 * 1000,
+  ).toISOString();
   let webhookDeliveriesQuery = db
     .from('webhooks')
     .select('id', { count: 'exact', head: true })
@@ -123,10 +163,19 @@ export default async function DashboardPage() {
     .limit(1);
   if (!isAdmin && scope.webhookIds.length > 0) {
     webhookDeliveriesQuery = webhookDeliveriesQuery.in('id', scope.webhookIds);
-    latestWebhookDeliveryQuery = latestWebhookDeliveryQuery.in('id', scope.webhookIds);
+    latestWebhookDeliveryQuery = latestWebhookDeliveryQuery.in(
+      'id',
+      scope.webhookIds,
+    );
   } else if (!isAdmin) {
-    webhookDeliveriesQuery = webhookDeliveriesQuery.eq('agent_id', '00000000-0000-0000-0000-000000000000');
-    latestWebhookDeliveryQuery = latestWebhookDeliveryQuery.eq('agent_id', '00000000-0000-0000-0000-000000000000');
+    webhookDeliveriesQuery = webhookDeliveriesQuery.eq(
+      'agent_id',
+      '00000000-0000-0000-0000-000000000000',
+    );
+    latestWebhookDeliveryQuery = latestWebhookDeliveryQuery.eq(
+      'agent_id',
+      '00000000-0000-0000-0000-000000000000',
+    );
   }
 
   let pendingProjectInvitationsQuery = db
@@ -134,9 +183,15 @@ export default async function DashboardPage() {
     .select('id', { count: 'exact', head: true })
     .eq('status', 'pending');
   if (!isAdmin && agentIds.length > 0) {
-    pendingProjectInvitationsQuery = pendingProjectInvitationsQuery.in('agent_id', agentIds);
+    pendingProjectInvitationsQuery = pendingProjectInvitationsQuery.in(
+      'agent_id',
+      agentIds,
+    );
   } else if (!isAdmin) {
-    pendingProjectInvitationsQuery = pendingProjectInvitationsQuery.eq('agent_id', '00000000-0000-0000-0000-000000000000');
+    pendingProjectInvitationsQuery = pendingProjectInvitationsQuery.eq(
+      'agent_id',
+      '00000000-0000-0000-0000-000000000000',
+    );
   }
 
   const [
@@ -165,21 +220,41 @@ export default async function DashboardPage() {
     pendingProjectInvitationsQuery,
   ]);
 
-  const activeContracts = ((contractsRes.data as Contract[] | null) || []).length;
+  const activeContracts = ((contractsRes.data as Contract[] | null) || [])
+    .length;
   const messagesToday = messagesRes.count || 0;
-  const pendingInvitations = (pendingRes.count || 0) + (pendingProjectInvitationsRes.count || 0);
+  const pendingInvitations =
+    (pendingRes.count || 0) + (pendingProjectInvitationsRes.count || 0);
   const killSwitch = configRes.data as SystemConfig | null;
-  const isKillSwitchActive = (killSwitch?.value as Record<string, unknown>)?.active === true;
+  const isKillSwitchActive =
+    configRes.error || !killSwitch
+      ? null
+      : (killSwitch.value as Record<string, unknown>)?.active === true;
   const recentAudit = auditRes.data || [];
   const totalAgents = agentsCountRes.count || 0;
   const activeProjects = activeProjectsRes.count || 0;
   const tasksInProgress = tasksInProgressRes.count || 0;
   const webhookDeliveries = webhookDeliveriesRes.count || 0;
-  const latestWebhookDeliveryAt = latestWebhookDeliveryRes.data?.[0]?.last_delivery_at ?? null;
+  const latestWebhookDeliveryAt =
+    latestWebhookDeliveryRes.data?.[0]?.last_delivery_at ?? null;
+
+  const attention = await attentionPromise;
 
   return (
-    <AutoRefresh intervalMs={15000} watch={['contracts', 'participants', 'messages', 'tasks', 'projects', 'approvals']}>
+    <AutoRefresh
+      intervalMs={15000}
+      watch={[
+        'contracts',
+        'participants',
+        'messages',
+        'tasks',
+        'projects',
+        'approvals',
+      ]}
+    >
       <DashboardClient
+        attentionItems={attention.items}
+        activeWork={contractsRes.data || []}
         activeContracts={activeContracts}
         messagesToday={messagesToday}
         pendingInvitations={pendingInvitations}

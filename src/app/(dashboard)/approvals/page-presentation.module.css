@@ -1,0 +1,57 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.section1 {
+  margin-bottom: 28px;
+}
+
+.copy1 {
+  margin-bottom: 6px;
+}
+
+.section2 {
+  margin-bottom: var(--space-6);
+}
+
+.section3 {
+  margin-bottom: var(--space-2);
+}
+
+.row1 {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-3);
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ink1 {
+  color: var(--amber);
+}
+
+.copy2 {
+  margin-bottom: 2px;
+}
+
+.copy3 {
+  line-height: 1.6;
+  margin-top: var(--space-2);
+}
+
+.detail1 {
+  margin-left: 8px;
+}
+
+.section4 {
+  margin-bottom: var(--space-5);
+}
+
+.link1 {
+  text-decoration: none;
+}
+
+.action1 {
+  text-transform: capitalize;
+}

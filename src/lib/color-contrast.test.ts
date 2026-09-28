@@ -49,7 +49,7 @@ test('the primary button is legible in BOTH themes', () => {
   const inkToken = rule[1]!.match(/color:\s*var\((--[a-z0-9-]+)\)/)?.[1];
   assert.ok(inkToken, '.btn--primary must take its colour from a token');
 
-  const stops = [...css.matchAll(/\.btn--primary(?::hover)?\s*\{[^}]*?linear-gradient\(180deg,\s*(oklch\([^)]*\)),\s*(oklch\([^)]*\))/g)];
+  const stops = [...css.matchAll(/\.btn--primary(?::hover)?\s*\{[^}]*?linear-gradient\(\s*180deg,\s*(oklch\([^)]*\)),\s*(oklch\([^)]*\))/g)];
   assert.ok(stops.length >= 1, 'could not find the .btn--primary gradient');
 
   for (const theme of ['dark', 'light'] as const) {

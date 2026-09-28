@@ -1,0 +1,187 @@
+{
+  "artifact": "Standalone concept only; no authenticated application runtime audit",
+  "checked_at": "2026-09-28T08:57:38.156Z",
+  "layouts": [
+    {
+      "theme": "dark",
+      "width": 390,
+      "route": "overview",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "route": "contracts",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "route": "contract",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "route": "overview",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "route": "contracts",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "route": "contract",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1280,
+      "route": "overview",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1280,
+      "route": "contracts",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1280,
+      "route": "contract",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "route": "overview",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "route": "contracts",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "route": "contract",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "route": "overview",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "route": "contracts",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "route": "contract",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "route": "overview",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "route": "contracts",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "route": "contract",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1280,
+      "route": "overview",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1280,
+      "route": "contracts",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1280,
+      "route": "contract",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "route": "overview",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "route": "contracts",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "route": "contract",
+      "overflow": 0
+    },
+    {
+      "route": "contract",
+      "state": "waiting",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "route": "contract",
+      "state": "conversation",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "route": "contract",
+      "state": "human",
+      "width": 1440,
+      "overflow": 0
+    },
+    {
+      "route": "contract",
+      "state": "closed",
+      "width": 1440,
+      "overflow": 0
+    }
+  ],
+  "interactions": [
+    "keyboard contract tabs",
+    "local note modal and save",
+    "local question answer",
+    "contract title search",
+    "contract status filter",
+    "attention drilldown",
+    "theme toggle",
+    "compact density",
+    "command palette shortcut and Escape",
+    "mobile navigation open and close"
+  ],
+  "browser_errors": []
+}

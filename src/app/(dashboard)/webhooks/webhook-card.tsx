@@ -1,10 +1,27 @@
 'use client';
+import presentation from './webhook-card-presentation.module.css';
 
 import { useState, useTransition } from 'react';
-import { testWebhook, updateWebhook, deleteWebhook, getDeliveries, type WebhookTestResult, type WebhookDelivery } from './actions';
+import {
+  testWebhook,
+  updateWebhook,
+  deleteWebhook,
+  getDeliveries,
+  type WebhookTestResult,
+  type WebhookDelivery,
+} from './actions';
 import { formatDate } from '@/lib/format-date';
 import { CANONICAL_WEBHOOK_EVENTS } from '@/lib/webhook-events';
-import { Send, Edit2, Pause, Play, Trash2, ChevronRight, Check, X } from 'lucide-react';
+import {
+  Send,
+  Edit2,
+  Pause,
+  Play,
+  Trash2,
+  ChevronRight,
+  Check,
+  X,
+} from 'lucide-react';
 import {
   colorVarForTone,
   httpStatusTone,
@@ -19,7 +36,6 @@ import { EmptyState } from '@/components/atoms';
  *  drift from the health page's table or from a status pill. */
 const deliveryColor = (status: WebhookDeliveryStatus) =>
   colorVarForTone(statusTone('webhook-delivery', status));
-
 
 const ALL_EVENTS = CANONICAL_WEBHOOK_EVENTS;
 
@@ -56,7 +72,10 @@ function timeAgo(dateStr: string): string {
   return formatDate(dateStr);
 }
 
-export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCardProps) {
+export default function WebhookCard({
+  webhook: wh,
+  animationDelay,
+}: WebhookCardProps) {
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<WebhookTestResult | null>(null);
   const [editing, setEditing] = useState(false);
@@ -78,8 +97,8 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
   }
 
   function toggleEvent(ev: string) {
-    setEditEvents(prev =>
-      prev.includes(ev) ? prev.filter(e => e !== ev) : [...prev, ev]
+    setEditEvents((prev) =>
+      prev.includes(ev) ? prev.filter((e) => e !== ev) : [...prev, ev],
     );
   }
 
@@ -92,7 +111,10 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
     startTransition(async () => {
       const result = await updateWebhook(wh.id, {
         url: editUrl !== wh.url ? editUrl : undefined,
-        events: JSON.stringify(editEvents) !== JSON.stringify(wh.events) ? editEvents : undefined,
+        events:
+          JSON.stringify(editEvents) !== JSON.stringify(wh.events)
+            ? editEvents
+            : undefined,
       });
       if (result.error) {
         setError(result.error);
@@ -120,96 +142,97 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
   return (
     <div className="card animate-fade-in" style={{ animationDelay }}>
       {/* Active state top accent line */}
-      <div style={{
-        height: 2,
-        background: wh.is_active
-          ? 'linear-gradient(90deg, transparent, var(--mint-bg), transparent)'
-          : 'linear-gradient(90deg, transparent, var(--line-1), transparent)',
-      }} />
+      <div
+        style={{
+          height: 2,
+          background: wh.is_active
+            ? 'linear-gradient(90deg, transparent, var(--mint-bg), transparent)'
+            : 'linear-gradient(90deg, transparent, var(--line-1), transparent)',
+        }}
+      />
 
-      <div style={{ padding: '16px 20px' }}>
+      <div className={presentation.detail1}>
         {error && (
-          <div className="text-xs" style={{
-            marginBottom: 12,
-            padding: '8px 12px',
-            borderRadius: 'var(--radius-2)',
-            background: 'var(--rose-bg)',
-            border: '1px solid var(--rose-line)',
-            
-            color: 'var(--rose)',
-          }}>
+          <div
+            className={['text-xs', presentation.panel1]
+              .filter(Boolean)
+              .join(' ')}
+          >
             {error}
           </div>
         )}
 
         {/* URL + Status row */}
-        <div className="row gap-3" style={{ marginBottom: 16, alignItems: 'flex-start' }}>
-          <div style={{ marginTop: 4, flexShrink: 0, position: 'relative' }}>
-            <div style={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              background: wh.is_active ? 'var(--mint)' : 'var(--rose)',
-            }} />
-            {wh.is_active && (
-              <div style={{
-                position: 'absolute',
-                inset: 0,
+        <div
+          className={['row gap-3', presentation.section1]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <div className={presentation.detail2}>
+            <div
+              style={{
                 width: 8,
                 height: 8,
                 borderRadius: '50%',
-                background: 'var(--mint)',
-                animation: 'pulse 2s ease-in-out infinite',
-                opacity: 0.3,
-              }} />
-            )}
+                background: wh.is_active ? 'var(--mint)' : 'var(--rose)',
+              }}
+            />
+            {wh.is_active && <div className={presentation.detail3} />}
           </div>
 
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div className={presentation.detail4}>
             {editing ? (
               <input
                 type="url"
                 value={editUrl}
                 onChange={(e) => setEditUrl(e.target.value)}
-                className="cp-input mono"
-                style={{ height: 32 }}
+                className={['cp-input mono', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
             ) : (
-              <p className="mono text-sm" style={{ color: 'var(--fg-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={wh.url}>
+              <p
+                className={['mono text-sm', presentation.copy1]
+                  .filter(Boolean)
+                  .join(' ')}
+                title={wh.url}
+              >
                 {truncateUrl(wh.url, 60)}
               </p>
             )}
-            <p className="text-2xs" style={{ color: 'var(--fg-4)', marginTop: 2 }}>
+            <p
+              className={['text-2xs', presentation.copy2]
+                .filter(Boolean)
+                .join(' ')}
+            >
               {wh.is_active ? 'Active' : 'Inactive'}
               {wh.failure_count > 0 && (
-                <span style={{ color: 'var(--amber)', marginLeft: 8 }}>
-                  · {wh.failure_count} consecutive failure{wh.failure_count !== 1 ? 's' : ''}
+                <span className={presentation.ink1}>
+                  · {wh.failure_count} consecutive failure
+                  {wh.failure_count !== 1 ? 's' : ''}
                 </span>
               )}
             </p>
           </div>
 
           {/* Action buttons */}
-          <div className="row gap-1" style={{ flexShrink: 0 }}>
+          <div
+            className={['row gap-1', presentation.detail5]
+              .filter(Boolean)
+              .join(' ')}
+          >
             {!editing && (
               <>
                 <button
                   onClick={handleTest}
                   disabled={testing || isPending}
-                  className="btn btn--sm"
-                  style={{ gap: 6 }}
+                  className={['btn btn--sm', presentation.action1]
+                    .filter(Boolean)
+                    .join(' ')}
                 >
                   {testing ? (
                     <>
-                      <span style={{
-                        width: 12,
-                        height: 12,
-                        border: '2px solid var(--line-2)',
-                        borderTopColor: 'var(--peri)',
-                        borderRadius: '50%',
-                        animation: 'spin 0.6s linear infinite',
-                        display: 'inline-block',
-                      }} />
+                      <span className={presentation.detail6} />
                       Testing…
                     </>
                   ) : (
@@ -220,7 +243,11 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
                   )}
                 </button>
                 <button
-                  onClick={() => { setEditing(true); setEditUrl(wh.url); setEditEvents([...wh.events]); }}
+                  onClick={() => {
+                    setEditing(true);
+                    setEditUrl(wh.url);
+                    setEditEvents([...wh.events]);
+                  }}
                   className="btn btn--sm btn--icon"
                   title="Edit"
                 >
@@ -253,7 +280,10 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
                   {isPending ? '…' : 'Save'}
                 </button>
                 <button
-                  onClick={() => { setEditing(false); setError(null); }}
+                  onClick={() => {
+                    setEditing(false);
+                    setError(null);
+                  }}
                   className="btn btn--sm btn--ghost"
                 >
                   Cancel
@@ -265,17 +295,14 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
 
         {/* Delete confirmation */}
         {confirmDelete && (
-          <div style={{
-            marginBottom: 16,
-            padding: '10px 14px',
-            borderRadius: 'var(--radius-2)',
-            background: 'var(--rose-bg)',
-            border: '1px solid var(--rose-line)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-            <span className="text-xs" style={{ color: 'var(--rose)', fontWeight: 500 }}>Delete this webhook?</span>
+          <div className={presentation.row1}>
+            <span
+              className={['text-xs', presentation.ink2]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Delete this webhook?
+            </span>
             <div className="row gap-2">
               <button
                 onClick={handleDelete}
@@ -296,21 +323,26 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
 
         {/* Test result */}
         {testResult && (
-          <div className="text-xs" style={{
-            marginBottom: 16,
-            borderRadius: 'var(--radius-2)',
-            padding: '8px 12px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            
-            fontWeight: 500,
-            background: testResult.success ? 'var(--mint-bg)' : 'var(--rose-bg)',
-            border: testResult.success
-              ? '1px solid var(--mint-line)'
-              : '1px solid var(--rose-line)',
-            color: testResult.success ? 'var(--mint)' : 'var(--rose)',
-          }}>
+          <div
+            className="text-xs"
+            style={{
+              marginBottom: 16,
+              borderRadius: 'var(--radius-2)',
+              padding: '8px 12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+
+              fontWeight: 500,
+              background: testResult.success
+                ? 'var(--mint-bg)'
+                : 'var(--rose-bg)',
+              border: testResult.success
+                ? '1px solid var(--mint-line)'
+                : '1px solid var(--rose-line)',
+              color: testResult.success ? 'var(--mint)' : 'var(--rose)',
+            }}
+          >
             {testResult.success ? <Check size={13} /> : <X size={13} />}
             <span>
               {testResult.success
@@ -320,70 +352,136 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
                   : `Failed — ${testResult.status} ${testResult.statusText}`}
             </span>
             {testResult.responseTime !== undefined && (
-              <span className="mono num text-2xs" style={{ color: 'var(--fg-4)', marginLeft: 'auto' }}>{testResult.responseTime}ms</span>
+              <span
+                className={['mono num text-2xs', presentation.ink3]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                {testResult.responseTime}ms
+              </span>
             )}
           </div>
         )}
 
         {/* Event badges (editable when editing) */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
-          {editing ? (
-            ALL_EVENTS.map((ev) => (
-              <button
-                key={ev}
-                type="button"
-                onClick={() => toggleEvent(ev)}
-                className="pill mono"
-                style={editEvents.includes(ev)
-                  ? { color: 'var(--peri)', background: 'var(--peri-bg)', borderColor: 'var(--peri-line)', cursor: 'pointer' }
-                  : { color: 'var(--fg-4)', background: 'transparent', borderColor: 'var(--line-1)', cursor: 'pointer' }
-                }
-              >
-                {editEvents.includes(ev) && <Check size={10} />}{ev}
-              </button>
-            ))
-          ) : (
-            wh.events.map((event) => (
-              <span key={event} className="pill pill--peri mono">
-                {event}
-              </span>
-            ))
-          )}
+        <div className={presentation.row2}>
+          {editing
+            ? ALL_EVENTS.map((ev) => (
+                <button
+                  key={ev}
+                  type="button"
+                  onClick={() => toggleEvent(ev)}
+                  className="pill mono"
+                  style={
+                    editEvents.includes(ev)
+                      ? {
+                          color: 'var(--peri)',
+                          background: 'var(--peri-bg)',
+                          borderColor: 'var(--peri-line)',
+                          cursor: 'pointer',
+                        }
+                      : {
+                          color: 'var(--fg-4)',
+                          background: 'transparent',
+                          borderColor: 'var(--line-1)',
+                          cursor: 'pointer',
+                        }
+                  }
+                >
+                  {editEvents.includes(ev) && <Check size={10} />}
+                  {ev}
+                </button>
+              ))
+            : wh.events.map((event) => (
+                <span key={event} className="pill pill--peri mono">
+                  {event}
+                </span>
+              ))}
         </div>
 
         {/* Stats row */}
-        <div className="row gap-6" style={{ paddingTop: 12, borderTop: '1px solid var(--line-1)' }}>
+        <div
+          className={['row gap-6', presentation.detail7]
+            .filter(Boolean)
+            .join(' ')}
+        >
           <div>
-            <p className="upper" style={{ marginBottom: 4 }}>Last Delivery</p>
-            <span className="mono num text-xs" style={{ color: 'var(--fg-2)' }}>
+            <p
+              className={['upper', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Last Delivery
+            </p>
+            <span
+              className={['mono num text-xs', presentation.ink4]
+                .filter(Boolean)
+                .join(' ')}
+            >
               {wh.last_delivery_at ? timeAgo(wh.last_delivery_at) : 'Never'}
             </span>
           </div>
           <div>
-            <p className="upper" style={{ marginBottom: 4 }}>Created</p>
-            <span className="mono num text-xs" style={{ color: 'var(--fg-2)' }}>
+            <p
+              className={['upper', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Created
+            </p>
+            <span
+              className={['mono num text-xs', presentation.ink4]
+                .filter(Boolean)
+                .join(' ')}
+            >
               {formatDate(wh.created_at)}
             </span>
           </div>
           <div>
-            <p className="upper" style={{ marginBottom: 4 }}>Updated</p>
-            <span className="mono num text-xs" style={{ color: 'var(--fg-2)' }}>
+            <p
+              className={['upper', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Updated
+            </p>
+            <span
+              className={['mono num text-xs', presentation.ink4]
+                .filter(Boolean)
+                .join(' ')}
+            >
               {formatDate(wh.updated_at)}
             </span>
           </div>
           {wh.failure_count > 0 && (
             <div>
-              <p className="upper" style={{ marginBottom: 4 }}>Consecutive Fails</p>
-              <span className="mono num text-xs" style={{ color: 'var(--amber)', fontWeight: 600 }}>
+              <p
+                className={['upper', presentation.copy3]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Consecutive Fails
+              </p>
+              <span
+                className={['mono num text-xs', presentation.ink5]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {wh.failure_count}
-                <span className="text-2xs" style={{ color: 'var(--fg-4)', fontWeight: 400, marginLeft: 4 }}>/ 10 to auto-disable</span>
+                <span
+                  className={['text-2xs', presentation.ink6]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  / 10 to auto-disable
+                </span>
               </span>
             </div>
           )}
         </div>
 
         {/* Recent Deliveries */}
-        <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid var(--line-1)' }}>
+        <div className={presentation.detail8}>
           <button
             onClick={async () => {
               if (!showDeliveries && deliveries.length === 0) {
@@ -394,8 +492,9 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
               }
               setShowDeliveries(!showDeliveries);
             }}
-            className="btn btn--ghost btn--sm"
-            style={{ gap: 6, paddingLeft: 0 }}
+            className={['btn btn--ghost btn--sm', presentation.action2]
+              .filter(Boolean)
+              .join(' ')}
           >
             <ChevronRight
               size={12}
@@ -405,92 +504,212 @@ export default function WebhookCard({ webhook: wh, animationDelay }: WebhookCard
               }}
             />
             <span className="upper text-2xs">
-              {deliveriesLoading ? 'Loading…' : `Recent Deliveries${deliveries.length > 0 ? ` (${deliveries.length})` : ''}`}
+              {deliveriesLoading
+                ? 'Loading…'
+                : `Recent Deliveries${deliveries.length > 0 ? ` (${deliveries.length})` : ''}`}
             </span>
           </button>
 
-          {showDeliveries && deliveries.length > 0 && (() => {
-            const successCount = deliveries.filter(d => d.status === 'success').length;
-            const failedCount = deliveries.filter(d => d.status === 'failed').length;
-            return (
-              <div className="animate-fade-in" style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 4 }}>
-                {/* Summary bar */}
-                <div className="row gap-4" style={{
-                  padding: '8px 12px',
-                  marginBottom: 4,
-                  borderRadius: 'var(--radius-2)',
-                  background: 'var(--bg-2)',
-                  border: '1px solid var(--line-1)',
-                }}>
-                  <span className="text-2xs" style={{ color: 'var(--fg-3)' }}>Last {deliveries.length} deliveries:</span>
-                  <span className="text-2xs" style={{ fontWeight: 600, color: deliveryColor('success') }}>{successCount} OK</span>
-                  {failedCount > 0 && <span className="text-2xs" style={{ fontWeight: 600, color: deliveryColor('failed') }}>{failedCount} failed</span>}
-                  {deliveries.filter(d => d.status === 'retrying' || d.status === 'pending_retry').length > 0 && (
-                    <span className="text-2xs" style={{ fontWeight: 600, color: deliveryColor('retrying') }}>{deliveries.filter(d => d.status === 'retrying' || d.status === 'pending_retry').length} retrying</span>
-                  )}
-                  {deliveries.filter(d => d.status === 'pending').length > 0 && (
-                    <span className="text-2xs" style={{ fontWeight: 600, color: deliveryColor('pending') }}>{deliveries.filter(d => d.status === 'pending').length} pending</span>
-                  )}
-                  <span className="mono num text-2xs" style={{ color: 'var(--fg-4)', marginLeft: 'auto' }}>
-                    {Math.round((successCount / deliveries.length) * 100)}% success rate
-                  </span>
-                </div>
-
-                {/* Header */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 80px 90px 80px 100px', gap: 8, padding: '4px 12px' }}>
-                  <span className="upper text-2xs">Event</span>
-                  <span className="upper text-2xs">Status</span>
-                  <span className="upper text-2xs">HTTP</span>
-                  <span className="upper text-2xs">Attempts</span>
-                  <span className="upper text-2xs" style={{ textAlign: 'right' }}>When</span>
-                </div>
-                {deliveries.map((d) => {
-                  const maxRetries = d.max_retries ?? 1;
-                  const isFailed = d.status === 'failed';
-                  const isSuccess = d.status === 'success';
-                  const rowTone = statusTone('webhook-delivery', d.status);
-                  // A successful row is the quiet one: the tint is there to find
-                  // the deliveries that are not fine.
-                  const rowBg = isSuccess ? 'var(--bg-2)' : surfaceVarForTone(rowTone);
-                  const rowBorder = isSuccess ? 'var(--line-1)' : lineVarForTone(rowTone);
-                  return (
-                    <div
-                      key={d.id}
+          {showDeliveries &&
+            deliveries.length > 0 &&
+            (() => {
+              const successCount = deliveries.filter(
+                (d) => d.status === 'success',
+              ).length;
+              const failedCount = deliveries.filter(
+                (d) => d.status === 'failed',
+              ).length;
+              return (
+                <div
+                  className={['animate-fade-in', presentation.stack1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {/* Summary bar */}
+                  <div
+                    className={['row gap-4', presentation.panel2]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    <span
+                      className={['text-2xs', presentation.ink7]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      Last {deliveries.length} deliveries:
+                    </span>
+                    <span
+                      className="text-2xs"
                       style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 80px 90px 80px 100px',
-                        gap: 8,
-                        padding: '8px 12px',
-                        borderRadius: 'var(--radius-2)',
-                        background: rowBg,
-                        border: `1px solid ${rowBorder}`,
+                        fontWeight: 600,
+                        color: deliveryColor('success'),
                       }}
                     >
-                      <span className="mono text-xs" style={{ color: 'var(--fg-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.event}</span>
-                      <span className="text-xs" style={{ fontWeight: 600, color: colorVarForTone(rowTone) }}>
-                        {isSuccess
-                          ? d.attempts > 1 ? `Attempt ${d.attempts}` : 'OK'
-                          : isFailed
-                            ? d.attempts > 1 ? `${d.attempts} tries` : 'Failed'
-                            : d.status === 'retrying' || d.status === 'pending_retry'
-                              ? `Retry ${d.attempts}/${maxRetries}`
-                              : 'Pending'}
+                      {successCount} OK
+                    </span>
+                    {failedCount > 0 && (
+                      <span
+                        className="text-2xs"
+                        style={{
+                          fontWeight: 600,
+                          color: deliveryColor('failed'),
+                        }}
+                      >
+                        {failedCount} failed
                       </span>
-                      <span className="mono num text-xs" style={{ color: colorVarForTone(httpStatusTone(d.response_status)) }}>
-                        {d.response_status ? d.response_status : d.status === 'failed' ? 'Network' : '—'}
+                    )}
+                    {deliveries.filter(
+                      (d) =>
+                        d.status === 'retrying' || d.status === 'pending_retry',
+                    ).length > 0 && (
+                      <span
+                        className="text-2xs"
+                        style={{
+                          fontWeight: 600,
+                          color: deliveryColor('retrying'),
+                        }}
+                      >
+                        {
+                          deliveries.filter(
+                            (d) =>
+                              d.status === 'retrying' ||
+                              d.status === 'pending_retry',
+                          ).length
+                        }{' '}
+                        retrying
                       </span>
-                      <span className="mono num text-xs" style={{ color: 'var(--fg-3)' }}>
-                        {d.attempts}/{maxRetries}
+                    )}
+                    {deliveries.filter((d) => d.status === 'pending').length >
+                      0 && (
+                      <span
+                        className="text-2xs"
+                        style={{
+                          fontWeight: 600,
+                          color: deliveryColor('pending'),
+                        }}
+                      >
+                        {
+                          deliveries.filter((d) => d.status === 'pending')
+                            .length
+                        }{' '}
+                        pending
                       </span>
-                      <span className="mono num text-2xs" style={{ color: 'var(--fg-4)', textAlign: 'right' }}>
-                        {d.delivered_at ? timeAgo(d.delivered_at) : d.created_at ? timeAgo(d.created_at) : '—'}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })()}
+                    )}
+                    <span
+                      className={['mono num text-2xs', presentation.ink3]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {Math.round((successCount / deliveries.length) * 100)}%
+                      success rate
+                    </span>
+                  </div>
+
+                  {/* Header */}
+                  <div className={presentation.grid1}>
+                    <span className="upper text-2xs">Event</span>
+                    <span className="upper text-2xs">Status</span>
+                    <span className="upper text-2xs">HTTP</span>
+                    <span className="upper text-2xs">Attempts</span>
+                    <span
+                      className={['upper text-2xs', presentation.detail9]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      When
+                    </span>
+                  </div>
+                  {deliveries.map((d) => {
+                    const maxRetries = d.max_retries ?? 1;
+                    const isFailed = d.status === 'failed';
+                    const isSuccess = d.status === 'success';
+                    const rowTone = statusTone('webhook-delivery', d.status);
+                    // A successful row is the quiet one: the tint is there to find
+                    // the deliveries that are not fine.
+                    const rowBg = isSuccess
+                      ? 'var(--bg-2)'
+                      : surfaceVarForTone(rowTone);
+                    const rowBorder = isSuccess
+                      ? 'var(--line-1)'
+                      : lineVarForTone(rowTone);
+                    return (
+                      <div
+                        key={d.id}
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: '1fr 80px 90px 80px 100px',
+                          gap: 8,
+                          padding: '8px 12px',
+                          borderRadius: 'var(--radius-2)',
+                          background: rowBg,
+                          border: `1px solid ${rowBorder}`,
+                        }}
+                      >
+                        <span
+                          className={['mono text-xs', presentation.copy1]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
+                          {d.event}
+                        </span>
+                        <span
+                          className="text-xs"
+                          style={{
+                            fontWeight: 600,
+                            color: colorVarForTone(rowTone),
+                          }}
+                        >
+                          {isSuccess
+                            ? d.attempts > 1
+                              ? `Attempt ${d.attempts}`
+                              : 'OK'
+                            : isFailed
+                              ? d.attempts > 1
+                                ? `${d.attempts} tries`
+                                : 'Failed'
+                              : d.status === 'retrying' ||
+                                  d.status === 'pending_retry'
+                                ? `Retry ${d.attempts}/${maxRetries}`
+                                : 'Pending'}
+                        </span>
+                        <span
+                          className="mono num text-xs"
+                          style={{
+                            color: colorVarForTone(
+                              httpStatusTone(d.response_status),
+                            ),
+                          }}
+                        >
+                          {d.response_status
+                            ? d.response_status
+                            : d.status === 'failed'
+                              ? 'Network'
+                              : '—'}
+                        </span>
+                        <span
+                          className={['mono num text-xs', presentation.ink7]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
+                          {d.attempts}/{maxRetries}
+                        </span>
+                        <span
+                          className={['mono num text-2xs', presentation.ink8]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
+                          {d.delivered_at
+                            ? timeAgo(d.delivered_at)
+                            : d.created_at
+                              ? timeAgo(d.created_at)
+                              : '—'}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
 
           {showDeliveries && !deliveriesLoading && deliveries.length === 0 && (
             <EmptyState title="No deliveries recorded yet" />

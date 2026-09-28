@@ -1,4 +1,5 @@
 'use client';
+import presentation from './close-button-presentation.module.css';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -32,7 +33,7 @@ export default function CloseContractButton({
     try {
       const result = await closeContract(
         contractId,
-        withoutApproval ? { withoutApproval: true, reason: reason.trim() } : {}
+        withoutApproval ? { withoutApproval: true, reason: reason.trim() } : {},
       );
       if (!result.ok) {
         setError(result.error);
@@ -42,7 +43,9 @@ export default function CloseContractButton({
       router.refresh();
     } catch (err) {
       console.error('Failed to close contract:', err);
-      setError('The contract could not be closed. Check your connection and try again.');
+      setError(
+        'The contract could not be closed. Check your connection and try again.',
+      );
       setLoading(false);
       return;
     }
@@ -52,45 +55,53 @@ export default function CloseContractButton({
 
   return (
     <>
-      <button onClick={() => { setError(null); setConfirming(true); }} className="btn btn--danger">
-        <X size={13} />Close Contract
+      <button
+        onClick={() => {
+          setError(null);
+          setConfirming(true);
+        }}
+        className="btn btn--danger"
+      >
+        <X size={13} />
+        Close Contract
       </button>
 
       {confirming && (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 50,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
+        <div className={presentation.row1}>
           <div
-            style={{ position: 'absolute', inset: 0, background: 'var(--scrim)', backdropFilter: 'blur(6px)' }}
+            className={presentation.detail1}
             onClick={() => !loading && setConfirming(false)}
           />
-          <div style={{
-            position: 'relative', width: '100%', maxWidth: 420, margin: '0 16px',
-            background: 'var(--bg-1)', border: '1px solid var(--line-2)',
-            borderRadius: 10, overflow: 'hidden',
-            boxShadow: '0 24px 80px var(--shadow-strong)',
-          }}>
-            <div style={{ padding: 28 }}>
-              <div style={{
-                width: 48, height: 48, borderRadius: 'var(--radius-4)',
-                background: 'var(--rose-bg)', border: '1px solid var(--rose-line)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                margin: '0 auto 20px',
-              }}>
-                <AlertTriangle size={24} style={{ color: 'var(--rose)' }} />
+          <div className={presentation.detail2}>
+            <div className={presentation.detail3}>
+              <div className={presentation.row2}>
+                <AlertTriangle size={24} className={presentation.ink1} />
               </div>
-              <div className="h2" style={{ textAlign: 'center', marginBottom: 8 }}>
+              <div
+                className={['h2', presentation.section1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {withoutApproval ? 'Close without approving' : 'Close Contract'}
               </div>
-              <div className="muted text-sm" style={{ textAlign: 'center', lineHeight: 1.5 }}>
+              <div
+                className={['muted text-sm', presentation.detail4]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {withoutApproval
                   ? `This contract is waiting for ${approvalPendingFrom} to approve completion (holloway approve-completion ${contractId}). Closing it now records the work as NOT accepted (closed-unapproved). This cannot be undone.`
                   : 'This will permanently close the contract. No more messages can be exchanged. This action cannot be undone.'}
               </div>
               {withoutApproval && (
-                <label className="col" style={{ gap: 6, marginTop: 16 }}>
-                  <span className="text-sm">Why is the work not being accepted?</span>
+                <label
+                  className={['col', presentation.label1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  <span className="text-sm">
+                    Why is the work not being accepted?
+                  </span>
                   <textarea
                     className="cp-textarea"
                     rows={3}
@@ -108,12 +119,20 @@ export default function CloseContractButton({
                 </div>
               )}
             </div>
-            <div className="row gap-3" style={{ padding: '0 28px 28px' }}>
+            <div
+              className={['row gap-3', presentation.detail5]
+                .filter(Boolean)
+                .join(' ')}
+            >
               <button
                 onClick={() => setConfirming(false)}
                 disabled={loading}
                 className="btn"
-                style={{ flex: 1, justifyContent: 'center', opacity: loading ? 0.5 : 1 }}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  opacity: loading ? 0.5 : 1,
+                }}
               >
                 Cancel
               </button>
@@ -121,9 +140,18 @@ export default function CloseContractButton({
                 onClick={handleClose}
                 disabled={loading || (withoutApproval && !reasonReady)}
                 className="btn btn--danger"
-                style={{ flex: 1, justifyContent: 'center', opacity: loading || (withoutApproval && !reasonReady) ? 0.5 : 1 }}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  opacity:
+                    loading || (withoutApproval && !reasonReady) ? 0.5 : 1,
+                }}
               >
-                {loading ? 'Closing…' : withoutApproval ? 'Close without approving' : 'Confirm Close'}
+                {loading
+                  ? 'Closing…'
+                  : withoutApproval
+                    ? 'Close without approving'
+                    : 'Confirm Close'}
               </button>
             </div>
           </div>

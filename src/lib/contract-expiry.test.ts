@@ -25,14 +25,14 @@ test('only a contract that can still expire gets a countdown', () => {
 test('the countdown escalates, and only the last day counts as soon', () => {
   const fn = page.slice(page.indexOf('function describeExpiry'), page.indexOf('export default async function'));
   // Under an hour, under a day, then days — each with the right urgency.
-  assert.match(fn, /hours < 1[\s\S]*?m left`, soon: true/);
-  assert.match(fn, /hours < 24[\s\S]*?h left`, soon: true/);
-  assert.match(fn, /d left`, soon: false/);
+  assert.match(fn, /hours < 1[\s\S]*?m left`,\s*soon: true/);
+  assert.match(fn, /hours < 24[\s\S]*?h left`,\s*soon: true/);
+  assert.match(fn, /d left`,\s*soon: false/);
   assert.match(fn, /msLeft <= 0[\s\S]*?overdue/);
 });
 
 test('an agent waiting on a person is visible without opening the contract', () => {
-  assert.match(page, /open_questions \?\? 0\) > 0/,
+  assert.match(page, /open_questions\s*\?\?\s*0\) > 0/,
     'the list must surface an open question — it is the most actionable state a row can be in');
   assert.match(page, /getOperatorChannelForContracts/);
 });

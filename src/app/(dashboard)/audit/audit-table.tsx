@@ -1,4 +1,5 @@
 'use client';
+import presentation from './audit-table-presentation.module.css';
 
 import { useState } from 'react';
 import { Check, X, ScrollText } from 'lucide-react';
@@ -38,7 +39,8 @@ const ACTION_TONE: Record<string, ActionTone> = {
   'policy.kill_switch.activated': 'rose',
 };
 
-const getActionTone = (action: string): ActionTone => ACTION_TONE[action] ?? 'ghost';
+const getActionTone = (action: string): ActionTone =>
+  ACTION_TONE[action] ?? 'ghost';
 
 const isSuccessRow = (action: string) => {
   const tone = getActionTone(action);
@@ -52,36 +54,13 @@ const isFailRow = (action: string) => {
 
 function ActionIcon({ action }: { action: string }) {
   if (isSuccessRow(action)) {
-    return (
-      <Check
-        size={12}
-        strokeWidth={2.5}
-        style={{ color: 'var(--mint)', flexShrink: 0 }}
-      />
-    );
+    return <Check size={12} strokeWidth={2.5} className={presentation.ink1} />;
   }
   if (isFailRow(action)) {
-    return (
-      <X
-        size={12}
-        strokeWidth={2.5}
-        style={{ color: 'var(--rose)', flexShrink: 0 }}
-      />
-    );
+    return <X size={12} strokeWidth={2.5} className={presentation.ink2} />;
   }
   // neutral / amber
-  return (
-    <span
-      style={{
-        width: 6,
-        height: 6,
-        borderRadius: '50%',
-        background: 'var(--fg-4)',
-        flexShrink: 0,
-        display: 'inline-block',
-      }}
-    />
-  );
+  return <span className={presentation.detail1} />;
 }
 
 function toId(value: unknown): string | null {
@@ -91,7 +70,12 @@ function toId(value: unknown): string | null {
 }
 
 function toDetails(entry: AuditLogEntry): Record<string, unknown> | null {
-  if (!entry.details || typeof entry.details !== 'object' || Array.isArray(entry.details)) return null;
+  if (
+    !entry.details ||
+    typeof entry.details !== 'object' ||
+    Array.isArray(entry.details)
+  )
+    return null;
   return entry.details as Record<string, unknown>;
 }
 
@@ -99,7 +83,12 @@ function getTargetId(entry: AuditLogEntry): string | null {
   const details = toDetails(entry);
   return (
     toId(entry.resource_id) ||
-    (details ? toId(details.contract_id) ?? toId(details.task_id) ?? toId(details.webhook_id) ?? toId(details.project_id) : null)
+    (details
+      ? (toId(details.contract_id) ??
+        toId(details.task_id) ??
+        toId(details.webhook_id) ??
+        toId(details.project_id))
+      : null)
   );
 }
 
@@ -108,7 +97,8 @@ function buildTags(entry: AuditLogEntry): string[] {
   if (entry.resource_type) tags.push(entry.resource_type);
   const details = toDetails(entry);
   if (details?.env && typeof details.env === 'string') tags.push(details.env);
-  if (details?.region && typeof details.region === 'string') tags.push(details.region);
+  if (details?.region && typeof details.region === 'string')
+    tags.push(details.region);
   return tags.slice(0, 2);
 }
 
@@ -128,34 +118,29 @@ function tagPillClass(tag: string): string {
 
 // ── column layout ─────────────────────────────────────────────────────────────
 
-const COL_STATUS = 16;   // icon
-const COL_ACTOR  = 100;
-const COL_EVENT  = 240;
-const COL_TAGS   = 140;
-const COL_WHEN   = 80;
+const COL_STATUS = 16; // icon
+const COL_ACTOR = 100;
+const COL_EVENT = 240;
+const COL_TAGS = 140;
+const COL_WHEN = 80;
 
 // ── sub-components ────────────────────────────────────────────────────────────
 
 function TableHeader() {
   return (
     <div
-      className="row mono upper text-2xs"
-      style={{
-        background: 'var(--bg-2)',
-        borderBottom: '1px solid var(--line-1)',
-        padding: '0 16px',
-        height: 32,
-        
-        gap: 12,
-        flexShrink: 0,
-      }}
+      className={['row mono upper text-2xs', presentation.detail2]
+        .filter(Boolean)
+        .join(' ')}
     >
       <div style={{ width: COL_STATUS, flexShrink: 0 }} />
       <div style={{ width: COL_ACTOR, flexShrink: 0 }}>Actor</div>
       <div style={{ width: COL_EVENT, flexShrink: 0 }}>Event</div>
       <div style={{ width: COL_TAGS, flexShrink: 0 }}>Tags</div>
-      <div style={{ flex: 1, minWidth: 0 }}>Target</div>
-      <div style={{ width: COL_WHEN, flexShrink: 0, textAlign: 'right' }}>When</div>
+      <div className={presentation.detail3}>Target</div>
+      <div style={{ width: COL_WHEN, flexShrink: 0, textAlign: 'right' }}>
+        When
+      </div>
     </div>
   );
 }
@@ -174,7 +159,11 @@ function TableRow({ entry, isAlt }: { entry: AuditLogEntry; isAlt: boolean }) {
         padding: '0 16px',
         height: 38,
         gap: 12,
-        background: hovered ? 'var(--bg-2)' : isAlt ? 'var(--bg-stripe)' : 'transparent',
+        background: hovered
+          ? 'var(--bg-2)'
+          : isAlt
+            ? 'var(--bg-stripe)'
+            : 'transparent',
         borderBottom: '1px solid var(--line-1)',
         cursor: 'default',
         transition: 'background 0.1s',
@@ -185,7 +174,13 @@ function TableRow({ entry, isAlt }: { entry: AuditLogEntry; isAlt: boolean }) {
     >
       {/* status icon */}
       <div
-        style={{ width: COL_STATUS, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        style={{
+          width: COL_STATUS,
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
         <ActionIcon action={entry.action} />
       </div>
@@ -205,16 +200,20 @@ function TableRow({ entry, isAlt }: { entry: AuditLogEntry; isAlt: boolean }) {
             applies to a flex container's anonymous text item — this clipped
             mid-glyph with no ellipsis and no title to recover the value. */}
         <span
-          className={pillClass}
+          className={[pillClass, presentation.detail4]
+            .filter(Boolean)
+            .join(' ')}
           title={entry.action}
-          style={{ display: 'inline-block', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
         >
           {entry.action}
         </span>
       </div>
 
       {/* tags */}
-      <div className="row gap-1" style={{ width: COL_TAGS, flexShrink: 0, overflow: 'hidden' }}>
+      <div
+        className="row gap-1"
+        style={{ width: COL_TAGS, flexShrink: 0, overflow: 'hidden' }}
+      >
         {tags.map((tag) => (
           <span key={tag} className={`pill ${tagPillClass(tag)} text-2xs`}>
             {tag}
@@ -223,7 +222,7 @@ function TableRow({ entry, isAlt }: { entry: AuditLogEntry; isAlt: boolean }) {
       </div>
 
       {/* target */}
-      <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+      <div className={presentation.detail5}>
         {targetId ? (
           <HashChip value={targetId} />
         ) : (
@@ -234,7 +233,12 @@ function TableRow({ entry, isAlt }: { entry: AuditLogEntry; isAlt: boolean }) {
       {/* when */}
       <div
         className="mono num text-2xs"
-        style={{ width: COL_WHEN, flexShrink: 0, textAlign: 'right', color: 'var(--fg-3)' }}
+        style={{
+          width: COL_WHEN,
+          flexShrink: 0,
+          textAlign: 'right',
+          color: 'var(--fg-3)',
+        }}
         title={formatDateTime(entry.created_at)}
       >
         {formatRelative(entry.created_at)}
@@ -248,7 +252,9 @@ function TableRow({ entry, isAlt }: { entry: AuditLogEntry; isAlt: boolean }) {
 export default function AuditTable({ entries }: { entries: AuditLogEntry[] }) {
   if (entries.length === 0) {
     return (
-      <div className="card" style={{ marginBottom: 24 }}>
+      <div
+        className={['card', presentation.section1].filter(Boolean).join(' ')}
+      >
         <TableHeader />
         <EmptyState
           icon={<ScrollText size={20} />}
@@ -260,7 +266,7 @@ export default function AuditTable({ entries }: { entries: AuditLogEntry[] }) {
   }
 
   return (
-    <div className="card" style={{ marginBottom: 24, overflow: 'hidden' }}>
+    <div className={['card', presentation.section2].filter(Boolean).join(' ')}>
       <TableHeader />
       {entries.map((entry, idx) => (
         <TableRow key={entry.id} entry={entry} isAlt={idx % 2 === 1} />

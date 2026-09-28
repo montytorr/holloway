@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import ts from 'typescript';
 
 /**
  * The api-docs table of contents claims a number of endpoints per section, by
@@ -17,28 +18,68 @@ import { join } from 'node:path';
  */
 const PAGE = join(process.cwd(), 'src/app/(dashboard)/api-docs/page.tsx');
 
-function tocCounts(source: string): Map<string, number> {
-  const out = new Map<string, number>();
-  for (const line of source.split('\n')) {
-    const anchor = /TocItem href="#([\w-]+)"/.exec(line);
-    const count = /count=\{(\d+)\}/.exec(line);
-    if (anchor && count) out.set(anchor[1]!, Number(count[1]));
-  }
-  return out;
+function attribute(
+  node: ts.JsxOpeningElement | ts.JsxSelfClosingElement,
+  name: string,
+) {
+  const property = node.attributes.properties.find(
+    (item): item is ts.JsxAttribute =>
+      ts.isJsxAttribute(item) && item.name.getText() === name,
+  );
+  return property?.initializer;
 }
 
-function endpointCounts(source: string): Map<string, number> {
-  const out = new Map<string, number>();
-  let section: string | null = null;
-  for (const line of source.split('\n')) {
-    const opened = /<Section [^>]*id="([\w-]+)"/.exec(line);
-    if (opened) {
-      section = opened[1]!;
-      if (!out.has(section)) out.set(section, 0);
+// Read JSX structure rather than physical lines: responsive presentation and
+// formatting must not hide a stale count or invent an undocumented endpoint.
+function counts(source: string) {
+  const tree = ts.createSourceFile(
+    PAGE,
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  const toc = new Map<string, number>();
+  const endpoints = new Map<string, number>();
+  function visit(node: ts.Node, section: string | null = null) {
+    const opening = ts.isJsxElement(node)
+      ? node.openingElement
+      : ts.isJsxSelfClosingElement(node)
+        ? node
+        : null;
+    if (opening?.tagName.getText() === 'TocItem') {
+      const href = attribute(opening, 'href'),
+        count = attribute(opening, 'count');
+      if (
+        href &&
+        ts.isStringLiteral(href) &&
+        count &&
+        ts.isJsxExpression(count) &&
+        count.expression &&
+        ts.isNumericLiteral(count.expression)
+      )
+        toc.set(href.text.slice(1), Number(count.expression.text));
     }
-    if (section && line.includes('<Endpoint ')) out.set(section, out.get(section)! + 1);
+    if (opening?.tagName.getText() === 'Section') {
+      const id = attribute(opening, 'id');
+      if (id && ts.isStringLiteral(id)) {
+        section = id.text;
+        endpoints.set(section, 0);
+      }
+    }
+    if (section && opening?.tagName.getText() === 'Endpoint')
+      endpoints.set(section, (endpoints.get(section) ?? 0) + 1);
+    ts.forEachChild(node, (child) => visit(child, section));
   }
-  return out;
+  visit(tree);
+  return { toc, endpoints };
+}
+
+function tocCounts(source: string) {
+  return counts(source).toc;
+}
+function endpointCounts(source: string) {
+  return counts(source).endpoints;
 }
 
 test('every TOC count matches the endpoints its section actually documents', () => {
@@ -46,13 +87,22 @@ test('every TOC count matches the endpoints its section actually documents', () 
   const declared = tocCounts(source);
   const actual = endpointCounts(source);
 
-  assert.ok(declared.size >= 10, 'expected the TOC to still carry per-section counts');
+  assert.ok(
+    declared.size >= 10,
+    'expected the TOC to still carry per-section counts',
+  );
 
   const wrong = [...declared.entries()]
     .filter(([id, count]) => actual.get(id) !== count)
-    .map(([id, count]) => `${id}: says ${count}, documents ${actual.get(id) ?? 0}`);
+    .map(
+      ([id, count]) => `${id}: says ${count}, documents ${actual.get(id) ?? 0}`,
+    );
 
-  assert.deepEqual(wrong, [], `api-docs TOC counts are stale —\n  ${wrong.join('\n  ')}`);
+  assert.deepEqual(
+    wrong,
+    [],
+    `api-docs TOC counts are stale —\n  ${wrong.join('\n  ')}`,
+  );
 });
 
 test('a section that carries a count actually exists on the page', () => {
@@ -60,7 +110,7 @@ test('a section that carries a count actually exists on the page', () => {
   for (const id of tocCounts(source).keys()) {
     assert.ok(
       endpointCounts(source).has(id),
-      `TOC links to #${id}, which is not a Section id on the page`
+      `TOC links to #${id}, which is not a Section id on the page`,
     );
   }
 });

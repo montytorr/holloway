@@ -1,4 +1,5 @@
 'use client';
+import presentation from './task-status-dropdown-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import type { TaskStatus } from '@/lib/types';
@@ -26,7 +27,11 @@ interface TaskStatusDropdownProps {
   currentStatus: string;
 }
 
-export default function TaskStatusDropdown({ projectId, taskId, currentStatus }: TaskStatusDropdownProps) {
+export default function TaskStatusDropdown({
+  projectId,
+  taskId,
+  currentStatus,
+}: TaskStatusDropdownProps) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
@@ -41,7 +46,8 @@ export default function TaskStatusDropdown({ projectId, taskId, currentStatus }:
     }
     if (open) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [open]);
 
@@ -66,7 +72,9 @@ export default function TaskStatusDropdown({ projectId, taskId, currentStatus }:
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        <span className={`${dotClassForTone(tone)} ${isPending ? 'pulse' : ''}`} />
+        <span
+          className={`${dotClassForTone(tone)} ${isPending ? 'pulse' : ''}`}
+        />
         {isPending ? 'Updating…' : statusLabel(currentStatus)}
         <svg
           width="10"
@@ -75,7 +83,10 @@ export default function TaskStatusDropdown({ projectId, taskId, currentStatus }:
           fill="none"
           stroke="currentColor"
           strokeWidth="2.5"
-          style={{ transition: 'transform 0.15s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          style={{
+            transition: 'transform 0.15s',
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
           aria-hidden="true"
         >
           <path d="M6 9l6 6 6-6" />
@@ -83,7 +94,12 @@ export default function TaskStatusDropdown({ projectId, taskId, currentStatus }:
       </button>
 
       {open && (
-        <div className={`animate-fade-in ${menu.menu}`} role="menu" style={{ minWidth: 176 }}>
+        <div
+          className={[`animate-fade-in ${menu.menu}`, presentation.detail1]
+            .filter(Boolean)
+            .join(' ')}
+          role="menu"
+        >
           {allStatuses.map((status) => {
             const optTone = statusTone('task', status);
             const isSelected = status === currentStatus;
@@ -105,7 +121,16 @@ export default function TaskStatusDropdown({ projectId, taskId, currentStatus }:
                 <span className={dotClassForTone(optTone)} />
                 <span>{statusLabel(status)}</span>
                 {isSelected && (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={menu.menuItemCheck} aria-hidden="true">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    className={menu.menuItemCheck}
+                    aria-hidden="true"
+                  >
                     <path d="M20 6L9 17l-5-5" />
                   </svg>
                 )}

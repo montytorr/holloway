@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { BootScreen } from '@/components/boot-screen';
 import { ThemeProvider } from '@/components/theme-provider';
 
 const geist = Geist({
@@ -40,7 +39,7 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#f7f7f8' },
-    { media: '(prefers-color-scheme: dark)', color: '#1a1a2e' },
+    { media: '(prefers-color-scheme: dark)', color: '#0e1217' },
   ],
 };
 
@@ -53,13 +52,15 @@ export default function RootLayout({
     // suppressHydrationWarning: next-themes writes the theme class onto <html>
     // in a pre-hydration script, so the server and client markup differ here by
     // design.
-    <html lang="en" className={`${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html
+      data-density="compact"
+      lang="en"
+      className={`${geist.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <ThemeProvider>
-          <BootScreen />
-          <div id="app-root">
-            {children}
-          </div>
+          <div id="app-root">{children}</div>
         </ThemeProvider>
       </body>
     </html>

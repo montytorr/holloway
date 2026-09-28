@@ -48,7 +48,7 @@ function reloadNow(log: number[]) {
   try {
     sessionStorage.setItem(
       RELOAD_LOG_KEY,
-      JSON.stringify([...recentReloads(log, Date.now()), Date.now()])
+      JSON.stringify([...recentReloads(log, Date.now()), Date.now()]),
     );
   } catch {
     // A tab with no session storage still deserves the reload.
@@ -97,7 +97,9 @@ export default function AutoRefreshClient({
    * running into a guard that swallows every refresh. Reloading deliberately,
    * the moment the version changes, gets there first.
    */
-  const checkBuild = useCallback(async (): Promise<'same' | 'moved' | 'unknown'> => {
+  const checkBuild = useCallback(async (): Promise<
+    'same' | 'moved' | 'unknown'
+  > => {
     lastBuildCheckAt.current = Date.now();
     try {
       const res = await fetch('/api/internal/build', { cache: 'no-store' });
@@ -136,7 +138,10 @@ export default function AutoRefreshClient({
         setStreaming(true);
         // The first frame is a baseline, not a change. Refreshing on it would
         // make every page load cost an immediate second render.
-        if (previous !== null && changedKeys(previous, next, watch).length > 0) {
+        if (
+          previous !== null &&
+          changedKeys(previous, next, watch).length > 0
+        ) {
           lastServerRenderSeenAt.current = Date.now();
           doRefresh();
         }
@@ -158,7 +163,10 @@ export default function AutoRefreshClient({
         // Backed off, because a server that is down would otherwise be
         // reconnected to by every open tab several times a second.
         attempt += 1;
-        retry = setTimeout(connect, Math.min(30_000, 1000 * 2 ** Math.min(attempt, 5)));
+        retry = setTimeout(
+          connect,
+          Math.min(30_000, 1000 * 2 ** Math.min(attempt, 5)),
+        );
       };
     };
 
@@ -199,7 +207,9 @@ export default function AutoRefreshClient({
       if (action === 'give-up') return setStatus('stuck');
       if (action === 'idle') return;
 
-      setStatus((current) => (current === 'stuck' ? current : stale ? 'stale' : 'live'));
+      setStatus((current) =>
+        current === 'stuck' ? current : stale ? 'stale' : 'live',
+      );
       // With the stream connected, the server says when something moved, so a
       // timed refresh would be the churn this was built to remove. The timer
       // stays for the watchdog above, and for when the stream is down.
@@ -240,19 +250,25 @@ export default function AutoRefreshClient({
     };
   }, [doRefresh, checkBuild, intervalMs, onlyWhenVisible, streaming]);
 
-  const tone = status === 'live' ? 'mint' : status === 'stale' ? 'amber' : 'rose';
-  const label = status === 'live' ? 'Live' : status === 'stale' ? 'Not updating' : 'Reload needed';
+  const tone =
+    status === 'live' ? 'mint' : status === 'stale' ? 'amber' : 'rose';
+  const label =
+    status === 'live'
+      ? 'Current'
+      : status === 'stale'
+        ? 'Not updating'
+        : 'Reload needed';
 
   return (
     <div style={{ position: 'relative' }}>
-      <div className="auto-refresh-indicator row gap-2">
-        <span className={`dot dot--${tone} ${status === 'live' ? 'pulse' : ''}`} />
+      <div className="auto-refresh-indicator row gap-2" role="status">
         <span
-          className="mono text-2xs"
+          className={`dot dot--${tone} ${status === 'live' ? 'pulse' : ''}`}
+        />
+        <span
+          className="text-2xs"
           style={{
             color: `var(--${tone})`,
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
           }}
           title={
             status === 'stuck'
@@ -262,8 +278,12 @@ export default function AutoRefreshClient({
         >
           {label}
         </span>
-        <span className="mono num dim text-2xs">
-          {status === 'live' ? (streaming ? 'streaming' : `${Math.round(intervalMs / 1000)}s`) : `${ageSeconds}s ago`}
+        <span className="num dim text-2xs">
+          {status === 'live'
+            ? streaming
+              ? 'live updates'
+              : `${Math.round(intervalMs / 1000)}s`
+            : `${ageSeconds}s ago`}
         </span>
       </div>
       {children}

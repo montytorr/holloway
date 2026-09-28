@@ -1,0 +1,212 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.section1 {
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--space-6);
+}
+
+.section2 {
+  margin-bottom: 6px;
+}
+
+.link1 {
+  color: var(--fg-4);
+  text-decoration: none;
+}
+
+.ink1 {
+  color: var(--fg-4);
+}
+
+.copy1 {
+  margin-top: var(--space-1);
+}
+
+.panel1 {
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-2);
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-line);
+  padding: 10px 16px;
+}
+
+.ink2 {
+  color: var(--amber);
+  flex-shrink: 0;
+}
+
+.ink3 {
+  color: var(--amber);
+  font-weight: 500;
+}
+
+.panel2 {
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-2);
+  background: var(--bg-2);
+  border: 1px solid var(--line-1);
+  padding: 10px 16px;
+}
+
+.ink4 {
+  color: var(--fg-3);
+  flex-shrink: 0;
+}
+
+.ink5 {
+  color: var(--fg-3);
+  font-weight: 500;
+}
+
+.panel3 {
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-2);
+  background: var(--peri-bg);
+  border: 1px solid var(--peri-line);
+  padding: 10px 16px;
+}
+
+.ink6 {
+  color: var(--peri);
+  flex-shrink: 0;
+}
+
+.ink7 {
+  color: var(--peri);
+  font-weight: 500;
+}
+
+.grid1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.detail1 {
+  padding: 16px 20px;
+}
+
+.copy2 {
+  margin-bottom: var(--space-2);
+}
+
+.copy3 {
+  font-weight: 700;
+  color: var(--fg-0);
+}
+
+.copy4 {
+  margin-bottom: var(--space-2);
+  color: var(--mint);
+}
+
+.copy5 {
+  font-weight: 700;
+  color: var(--mint);
+}
+
+.copy6 {
+  margin-bottom: var(--space-2);
+  color: var(--rose);
+}
+
+.copy7 {
+  font-weight: 700;
+  color: var(--rose);
+}
+
+.copy8 {
+  margin-bottom: var(--space-2);
+  color: var(--peri);
+}
+
+.copy9 {
+  font-weight: 700;
+  color: var(--peri);
+}
+
+.section3 {
+  margin-bottom: var(--space-6);
+}
+
+.section4 {
+  margin-bottom: var(--space-4);
+}
+
+.ink8 {
+  color: var(--fg-3);
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--space-3);
+}
+
+.row1 {
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-2);
+  background: var(--peri-bg);
+  border: 1px solid var(--peri-line);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.copy10 {
+  color: var(--peri);
+}
+
+.detail2 {
+  font-weight: 600;
+}
+
+.ink9 {
+  color: var(--fg-1);
+}
+
+.detail3 {
+  overflow: hidden;
+}
+
+.detail4 {
+  overflow-x: auto;
+}
+
+.detail5 {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+}
+
+.detail6 {
+  border-bottom: 1px solid var(--line-1);
+}
+
+.detail7 {
+  text-align: left;
+  padding: 10px 16px;
+}
+
+.detail8 {
+  padding: 10px 16px;
+}
+
+.ink10 {
+  color: var(--fg-2);
+}
+
+.panel4 {
+  margin-top: var(--space-4);
+  border-radius: var(--radius-2);
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-line);
+  padding: 10px 16px;
+}
+
+.copy11 {
+  color: var(--amber);
+}

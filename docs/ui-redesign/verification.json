@@ -1,0 +1,74 @@
+{
+  "task": "HOL-152",
+  "verified_at_utc": "2026-09-28T10:16:53.584509+00:00",
+  "base_commit": "cabc2a9",
+  "browser": "Chromium",
+  "environment": "isolated PostgreSQL review database; loopback production-mode app",
+  "routes": {
+    "dashboard_routes": 30,
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "widths": [
+      390,
+      768,
+      1024,
+      1440,
+      1920
+    ],
+    "passed": 300,
+    "skipped": 0,
+    "failed": 0
+  },
+  "state_and_public_page_cases": {
+    "passed": 120,
+    "failed": 0
+  },
+  "blocking_question_cases": {
+    "passed": 10,
+    "failed": 0
+  },
+  "interactions": {
+    "passed": 19,
+    "failed": 0,
+    "browser_errors": 0,
+    "roles": [
+      "super-admin",
+      "member",
+      "partner observer",
+      "restricted external"
+    ]
+  },
+  "contrast": {
+    "pairs": 32,
+    "minimum_ratio": 4.5779,
+    "threshold": 4.5
+  },
+  "automated": {
+    "unit_tests": 462,
+    "reactor_tests": 86,
+    "lint": "passed",
+    "typescript": "passed",
+    "production_build": "passed",
+    "documentation_links_and_parity": "passed"
+  },
+  "limits": [
+    "Chromium only; no formal accessibility certification",
+    "No production deployment or production writes",
+    "Application screenshots use authored fixtures",
+    "Source delivered in an unmerged pull request"
+  ],
+  "deep_geometry": {
+    "theme": "dark",
+    "width": 390,
+    "routes": 30,
+    "findings": 0,
+    "checks": [
+      "horizontal overflow",
+      "text clipping",
+      "text overlap",
+      "human wheel scrolling"
+    ]
+  }
+}

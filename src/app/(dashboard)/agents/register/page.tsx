@@ -1,4 +1,5 @@
 'use client';
+import presentation from './page-presentation.module.css';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -47,45 +48,102 @@ export default function RegisterAgentPage() {
       <PageFrame width="narrow">
         <Link
           href="/agents"
-          className="text-xs" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', color: 'var(--fg-3)', marginBottom: '1.5rem', textDecoration: 'none' }}
+          className={['text-xs', presentation.link1].filter(Boolean).join(' ')}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M19 12H5" />
             <path d="M12 19l-7-7 7-7" />
           </svg>
           Back to Agents
         </Link>
 
-        <div style={{ maxWidth: '32rem', margin: '0 auto' }}>
-          <div className="card" style={{ overflow: 'hidden' }}>
-            <div style={{ padding: '1.75rem' }}>
-              <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: 'var(--radius-4)', background: 'var(--mint-bg)', border: '1px solid var(--mint)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--mint)' }}>
+        <div className={presentation.detail1}>
+          <div
+            className={['card', presentation.detail2].filter(Boolean).join(' ')}
+          >
+            <div className={presentation.detail3}>
+              <div className={presentation.row1}>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={presentation.ink1}
+                >
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
 
-              <h2 className="h2" style={{ textAlign: 'center', marginBottom: '0.5rem' }}>Agent Registered</h2>
-              <p className="muted text-sm" style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                Save these credentials now. The signing secret will <span style={{ color: 'var(--amber)', fontWeight: 600 }}>not be shown again</span>.
+              <h2
+                className={['h2', presentation.section1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Agent Registered
+              </h2>
+              <p
+                className={['muted text-sm', presentation.copy1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Save these credentials now. The signing secret will{' '}
+                <span className={presentation.ink2}>not be shown again</span>.
               </p>
 
-              <div style={{ borderRadius: 'var(--radius-4)', background: 'var(--amber-bg)', border: '1px solid var(--amber)', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.625rem', marginBottom: '0.25rem' }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--amber)', flexShrink: 0, marginTop: '0.125rem' }}>
+              <div className={presentation.stack1}>
+                <div className={presentation.row2}>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={presentation.ink3}
+                  >
                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
                     <line x1="12" y1="9" x2="12" y2="13" />
                     <line x1="12" y1="17" x2="12.01" y2="17" />
                   </svg>
-                  <p className="text-2xs" style={{ color: 'var(--amber)', lineHeight: 1.6 }}>
-                    Copy both values below. The signing secret is displayed only once and cannot be recovered.
+                  <p
+                    className={['text-2xs', presentation.copy2]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    Copy both values below. The signing secret is displayed only
+                    once and cannot be recovered.
                   </p>
                 </div>
 
                 <div>
-                  <p className="upper dim text-2xs" style={{ marginBottom: '0.375rem' }}>Key ID</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <code className="mono text-sm" style={{ flex: 1, color: 'var(--peri)', background: 'var(--bg-0)', border: '1px solid var(--line-1)', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p
+                    className={['upper dim text-2xs', presentation.copy3]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    Key ID
+                  </p>
+                  <div className={presentation.row3}>
+                    <code
+                      className={['mono text-sm', presentation.code1]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
                       {result.keyId}
                     </code>
                     <button
@@ -98,13 +156,25 @@ export default function RegisterAgentPage() {
                 </div>
 
                 <div>
-                  <p className="upper dim text-2xs" style={{ marginBottom: '0.375rem' }}>Signing Secret</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <code className="mono text-sm" style={{ flex: 1, color: 'var(--mint)', background: 'var(--bg-0)', border: '1px solid var(--line-1)', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', userSelect: 'all' }}>
+                  <p
+                    className={['upper dim text-2xs', presentation.copy3]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    Signing Secret
+                  </p>
+                  <div className={presentation.row3}>
+                    <code
+                      className={['mono text-sm', presentation.code2]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
                       {result.signingSecret}
                     </code>
                     <button
-                      onClick={() => copyToClipboard(result.signingSecret!, 'secret')}
+                      onClick={() =>
+                        copyToClipboard(result.signingSecret!, 'secret')
+                      }
                       className="btn btn--ghost btn--sm"
                     >
                       {copied === 'secret' ? '✓ Copied' : 'Copy'}
@@ -115,8 +185,9 @@ export default function RegisterAgentPage() {
 
               <Link
                 href="/agents"
-                className="btn btn--ghost"
-                style={{ marginTop: '1.5rem', display: 'block', width: '100%', textAlign: 'center', textDecoration: 'none', color: 'var(--peri)', borderColor: 'var(--peri-bg)' }}
+                className={['btn btn--ghost', presentation.link2]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 Back to Agents
               </Link>
@@ -131,112 +202,191 @@ export default function RegisterAgentPage() {
     <PageFrame width="narrow">
       <Link
         href="/agents"
-        className="text-xs" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', color: 'var(--fg-3)', marginBottom: '1.5rem', textDecoration: 'none' }}
+        className={['text-xs', presentation.link1].filter(Boolean).join(' ')}
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M19 12H5" />
           <path d="M12 19l-7-7 7-7" />
         </svg>
         Back to Agents
       </Link>
 
-      <div style={{ marginBottom: '2rem' }}>
-        <p className="upper text-2xs" style={{ color: 'var(--peri)', fontWeight: 600, marginBottom: '0.5rem' }}>Registry</p>
+      <div className={presentation.section2}>
+        <p
+          className={['upper text-2xs', presentation.copy4]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          Registry
+        </p>
         <h1 className="h1">Register Agent</h1>
-        <p className="muted text-sm" style={{ marginTop: '0.25rem' }}>Create a new agent identity and service key</p>
+        <p
+          className={['muted text-sm', presentation.copy5]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          Create a new agent identity and service key
+        </p>
       </div>
 
-      <div style={{ maxWidth: '32rem' }}>
-        <div className="card" style={{ overflow: 'hidden' }}>
-          <form onSubmit={handleSubmit} style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+      <div className={presentation.detail4}>
+        <div
+          className={['card', presentation.detail2].filter(Boolean).join(' ')}
+        >
+          <form onSubmit={handleSubmit} className={presentation.stack2}>
             {error && (
-              <div className="text-xs" style={{ borderRadius: 'var(--radius-4)', background: 'var(--rose-bg)', border: '1px solid var(--rose)', padding: '0.75rem 1rem', color: 'var(--rose)' }}>
+              <div
+                className={['text-xs', presentation.panel1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {error}
               </div>
             )}
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
-                Name <span style={{ color: 'var(--rose)' }}>*</span>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Name <span className={presentation.ink4}>*</span>
               </label>
               <input
                 name="name"
                 required
                 pattern="^[a-z0-9][a-z0-9_-]*$"
                 placeholder="my-agent"
-                className="cp-input mono"
-                style={{ width: '100%' }}
+                className={['cp-input mono', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
-              <p className="dim text-2xs" style={{ marginTop: '0.375rem' }}>Slug format: lowercase, numbers, hyphens, underscores</p>
+              <p
+                className={['dim text-2xs', presentation.copy6]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Slug format: lowercase, numbers, hyphens, underscores
+              </p>
             </div>
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
-                Display Name <span style={{ color: 'var(--rose)' }}>*</span>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Display Name <span className={presentation.ink4}>*</span>
               </label>
               <input
                 name="display_name"
                 required
                 placeholder="My Agent"
-                className="cp-input"
-                style={{ width: '100%' }}
+                className={['cp-input', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
             </div>
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
-                Owner <span style={{ color: 'var(--rose)' }}>*</span>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Owner <span className={presentation.ink4}>*</span>
               </label>
               <input
                 name="owner"
                 required
                 placeholder="your-name"
-                className="cp-input"
-                style={{ width: '100%' }}
+                className={['cp-input', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
             </div>
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 Description
               </label>
               <textarea
                 name="description"
                 rows={3}
                 placeholder="What does this agent do?"
-                className="cp-textarea"
-                style={{ width: '100%' }}
+                className={['cp-textarea', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
             </div>
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 Capabilities
               </label>
               <input
                 name="capabilities"
                 placeholder="trading, research, messaging"
-                className="cp-input"
-                style={{ width: '100%' }}
+                className={['cp-input', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
-              <p className="dim text-2xs" style={{ marginTop: '0.375rem' }}>Comma-separated list</p>
+              <p
+                className={['dim text-2xs', presentation.copy6]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Comma-separated list
+              </p>
             </div>
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 Protocols
               </label>
               <input
                 name="protocols"
                 placeholder="a2a-comms-v1, webhooks"
-                className="cp-input"
-                style={{ width: '100%' }}
+                className={['cp-input', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
-              <p className="dim text-2xs" style={{ marginTop: '0.375rem' }}>Comma-separated list</p>
+              <p
+                className={['dim text-2xs', presentation.copy6]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Comma-separated list
+              </p>
             </div>
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 Max Active Contracts
               </label>
               <input
@@ -245,50 +395,75 @@ export default function RegisterAgentPage() {
                 defaultValue={5}
                 min={1}
                 max={100}
-                className="cp-input mono"
-                style={{ width: '100%' }}
+                className={['cp-input mono', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
             </div>
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 Trust Tier
               </label>
               <select
                 name="trust_tier"
                 defaultValue="external"
-                className="cp-select"
-                style={{ width: '100%' }}
+                className={['cp-select', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               >
-                <option value="internal">Internal — full project + handoff access</option>
-                <option value="partner">Partner — can observe and broker, but not take handoffs</option>
-                <option value="external">External — registry only until explicitly trusted</option>
+                <option value="internal">
+                  Internal — full project + handoff access
+                </option>
+                <option value="partner">
+                  Partner — can observe and broker, but not take handoffs
+                </option>
+                <option value="external">
+                  External — registry only until explicitly trusted
+                </option>
               </select>
-              <p className="dim text-2xs" style={{ marginTop: '0.375rem' }}>This is the base trust rail. Fine-grained trust-policy thresholds can be adjusted later from the agent detail page.</p>
+              <p
+                className={['dim text-2xs', presentation.copy6]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                This is the base trust rail. Fine-grained trust-policy
+                thresholds can be adjusted later from the agent detail page.
+              </p>
             </div>
 
             <div>
-              <label className="upper dim text-2xs" style={{ display: 'block', marginBottom: '0.5rem' }}>
+              <label
+                className={['upper dim text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 Trust Notes
               </label>
               <textarea
                 name="trust_notes"
                 rows={2}
                 placeholder="Why this agent has this tier, who vetted it, or what restrictions apply"
-                className="cp-textarea"
-                style={{ width: '100%' }}
+                className={['cp-textarea', presentation.field1]
+                  .filter(Boolean)
+                  .join(' ')}
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="btn btn--primary"
-              style={{ width: '100%' }}
+              className={['btn btn--primary', presentation.field1]
+                .filter(Boolean)
+                .join(' ')}
             >
               {loading ? (
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                  <span style={{ width: '1rem', height: '1rem', border: '2px solid var(--peri)', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+                <span className={presentation.row4}>
+                  <span className={presentation.detail5} />
                   Registering…
                 </span>
               ) : (

@@ -1,8 +1,14 @@
 'use client';
+import presentation from './users-client-presentation.module.css';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toggleSuperAdmin, linkAgentToUser, unlinkAgent, createUser } from './actions';
+import {
+  toggleSuperAdmin,
+  linkAgentToUser,
+  unlinkAgent,
+  createUser,
+} from './actions';
 import { formatDate } from '@/lib/format-date';
 import { Plus, X, Shield, User, Bot, Link2, Unlink } from 'lucide-react';
 import { Avatar, PageFrame, EmptyState } from '@/components/atoms';
@@ -46,7 +52,9 @@ export default function UsersClient({
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [linkingUser, setLinkingUser] = useState<string | null>(null);
-  const [selectedAgentByUser, setSelectedAgentByUser] = useState<Record<string, string>>({});
+  const [selectedAgentByUser, setSelectedAgentByUser] = useState<
+    Record<string, string>
+  >({});
 
   // Add User form state
   const [showAddUser, setShowAddUser] = useState(false);
@@ -91,7 +99,11 @@ export default function UsersClient({
       setError(result.error);
     } else {
       setLinkingUser(null);
-      setSelectedAgentByUser((prev) => { const next = { ...prev }; delete next[userId]; return next; });
+      setSelectedAgentByUser((prev) => {
+        const next = { ...prev };
+        delete next[userId];
+        return next;
+      });
       router.refresh();
     }
     setLoading(null);
@@ -102,7 +114,12 @@ export default function UsersClient({
     setAddUserLoading(true);
     setAddUserError(null);
 
-    const result = await createUser(newEmail, newDisplayName, newPassword, newIsSuperAdmin);
+    const result = await createUser(
+      newEmail,
+      newDisplayName,
+      newPassword,
+      newIsSuperAdmin,
+    );
     if (result.error) {
       setAddUserError(result.error);
     } else {
@@ -120,28 +137,60 @@ export default function UsersClient({
   return (
     <PageFrame>
       {/* Header */}
-      <div className="animate-fade-in" style={{ marginBottom: 28 }}>
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div
+        className={['animate-fade-in', presentation.section1]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <div
+          className={['row', presentation.detail1].filter(Boolean).join(' ')}
+        >
           <div>
-            <p className="upper" style={{ color: 'var(--amber)', marginBottom: 6 }}>Administration</p>
-            <h1 className="h1" style={{ marginBottom: 4 }}>Users</h1>
-            <p className="text-sm" style={{ color: 'var(--fg-3)', marginBottom: 4 }}>
+            <p
+              className={['upper', presentation.copy1]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Administration
+            </p>
+            <h1
+              className={['h1', presentation.section2]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Users
+            </h1>
+            <p
+              className={['text-sm', presentation.copy2]
+                .filter(Boolean)
+                .join(' ')}
+            >
               Manage user profiles and agent ownership
             </p>
             <p className="mono dim text-2xs">
-              Acting agent scope: {activeAgentId ? 'selected agent' : fallbackMode === 'least-privilege' ? 'least-privilege aggregate' : 'selected agent'}.
-              Admin controls remain global.
+              Acting agent scope:{' '}
+              {activeAgentId
+                ? 'selected agent'
+                : fallbackMode === 'least-privilege'
+                  ? 'least-privilege aggregate'
+                  : 'selected agent'}
+              . Admin controls remain global.
             </p>
           </div>
           <button
-            className="btn btn--sm"
+            className={['btn btn--sm', presentation.action1]
+              .filter(Boolean)
+              .join(' ')}
             onClick={() => setShowAddUser(!showAddUser)}
-            style={{ gap: 6 }}
           >
             {showAddUser ? (
-              <><X size={13} /> Cancel</>
+              <>
+                <X size={13} /> Cancel
+              </>
             ) : (
-              <><Plus size={13} /> Add User</>
+              <>
+                <Plus size={13} /> Add User
+              </>
             )}
           </button>
         </div>
@@ -149,28 +198,36 @@ export default function UsersClient({
 
       {/* Add User Form */}
       {showAddUser && (
-        <div className="card animate-fade-in" style={{ marginBottom: 20, padding: 'var(--space-5)' }}>
-          <h3 className="h3" style={{ marginBottom: 16 }}>Create New User</h3>
+        <div
+          className={['card animate-fade-in', presentation.section3]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <h3
+            className={['h3', presentation.section4].filter(Boolean).join(' ')}
+          >
+            Create New User
+          </h3>
 
           {addUserError && (
-            <div className="text-sm" style={{
-              marginBottom: 16,
-              padding: '10px 14px',
-              background: 'var(--rose-bg)',
-              border: '1px solid var(--rose-line)',
-              borderRadius: 'var(--radius-2)',
-              
-              color: 'var(--rose)',
-            }}>
+            <div
+              className={['text-sm', presentation.panel1]
+                .filter(Boolean)
+                .join(' ')}
+            >
               {addUserError}
             </div>
           )}
 
           <form onSubmit={handleCreateUser}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+            <div className={presentation.grid1}>
               <div>
-                <label className="upper" style={{ display: 'block', marginBottom: 6 }}>
-                  Email <span style={{ color: 'var(--rose)' }}>*</span>
+                <label
+                  className={['upper', presentation.label1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  Email <span className={presentation.ink1}>*</span>
                 </label>
                 <input
                   type="email"
@@ -182,8 +239,12 @@ export default function UsersClient({
                 />
               </div>
               <div>
-                <label className="upper" style={{ display: 'block', marginBottom: 6 }}>
-                  Display Name <span style={{ color: 'var(--rose)' }}>*</span>
+                <label
+                  className={['upper', presentation.label1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  Display Name <span className={presentation.ink1}>*</span>
                 </label>
                 <input
                   type="text"
@@ -195,8 +256,12 @@ export default function UsersClient({
                 />
               </div>
               <div>
-                <label className="upper" style={{ display: 'block', marginBottom: 6 }}>
-                  Password <span style={{ color: 'var(--rose)' }}>*</span>
+                <label
+                  className={['upper', presentation.label1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  Password <span className={presentation.ink1}>*</span>
                 </label>
                 <input
                   type="password"
@@ -208,42 +273,60 @@ export default function UsersClient({
                   className="cp-input"
                 />
               </div>
-              <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', paddingBottom: 4 }}>
-                  <div style={{ position: 'relative' }}>
+              <div className={presentation.row1}>
+                <label className={presentation.row2}>
+                  <div className={presentation.detail2}>
                     <input
                       type="checkbox"
                       checked={newIsSuperAdmin}
                       onChange={(e) => setNewIsSuperAdmin(e.target.checked)}
-                      style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
+                      className={presentation.field1}
                     />
-                    <div style={{
-                      width: 36,
-                      height: 20,
-                      borderRadius: 10,
-                      background: newIsSuperAdmin ? 'var(--amber-bg)' : 'var(--bg-2)',
-                      border: `1px solid ${newIsSuperAdmin ? 'var(--amber-line)' : 'var(--line-1)'}`,
-                      transition: 'all 0.15s',
-                      position: 'relative',
-                    }}>
-                      <div style={{
-                        position: 'absolute',
-                        top: 2,
-                        left: newIsSuperAdmin ? 18 : 2,
-                        width: 14,
-                        height: 14,
-                        borderRadius: '50%',
-                        background: newIsSuperAdmin ? 'var(--amber)' : 'var(--fg-4)',
+                    <div
+                      style={{
+                        width: 36,
+                        height: 20,
+                        borderRadius: 10,
+                        background: newIsSuperAdmin
+                          ? 'var(--amber-bg)'
+                          : 'var(--bg-2)',
+                        border: `1px solid ${newIsSuperAdmin ? 'var(--amber-line)' : 'var(--line-1)'}`,
                         transition: 'all 0.15s',
-                      }} />
+                        position: 'relative',
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: 2,
+                          left: newIsSuperAdmin ? 18 : 2,
+                          width: 14,
+                          height: 14,
+                          borderRadius: '50%',
+                          background: newIsSuperAdmin
+                            ? 'var(--amber)'
+                            : 'var(--fg-4)',
+                          transition: 'all 0.15s',
+                        }}
+                      />
                     </div>
                   </div>
-                  <span className="text-xs" style={{ color: 'var(--fg-2)' }}>Super Admin</span>
+                  <span
+                    className={['text-xs', presentation.ink2]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    Super Admin
+                  </span>
                 </label>
               </div>
             </div>
 
-            <div className="row gap-3" style={{ marginTop: 20 }}>
+            <div
+              className={['row gap-3', presentation.detail3]
+                .filter(Boolean)
+                .join(' ')}
+            >
               <button
                 type="submit"
                 disabled={addUserLoading}
@@ -268,15 +351,11 @@ export default function UsersClient({
       )}
 
       {error && (
-        <div className="animate-fade-in text-sm" style={{
-          marginBottom: 20,
-          padding: '10px 14px',
-          background: 'var(--rose-bg)',
-          border: '1px solid var(--rose-line)',
-          borderRadius: 'var(--radius-2)',
-          
-          color: 'var(--rose)',
-        }}>
+        <div
+          className={['animate-fade-in text-sm', presentation.panel2]
+            .filter(Boolean)
+            .join(' ')}
+        >
           {error}
         </div>
       )}
@@ -302,13 +381,27 @@ export default function UsersClient({
               className="card animate-fade-in"
               style={{ animationDelay: `${idx * 0.08}s` }}
             >
-              <div style={{ padding: 'var(--space-5)' }}>
+              <div className={presentation.detail4}>
                 {/* User header */}
-                <div className="row row--split" style={{ alignItems: 'flex-start', marginBottom: 20 }}>
+                <div
+                  className={['row row--split', presentation.section5]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   <div className="row gap-3">
-                    <Avatar name={profile.display_name || profile.email || '?'} size={44} />
+                    <Avatar
+                      name={profile.display_name || profile.email || '?'}
+                      size={44}
+                    />
                     <div>
-                      <div className="row gap-2 flex-wrap" style={{ marginBottom: 3 }}>
+                      <div
+                        className={[
+                          'row gap-2 flex-wrap',
+                          presentation.section6,
+                        ]
+                          .filter(Boolean)
+                          .join(' ')}
+                      >
                         <h2 className="h3">{profile.display_name}</h2>
                         {/* Amber here means "elevated privilege" — a real
                             signal. The "You" chip beside it is identity, not a
@@ -329,8 +422,18 @@ export default function UsersClient({
                           </span>
                         )}
                       </div>
-                      <p className="mono text-xs" style={{ color: 'var(--fg-3)' }}>{profile.email}</p>
-                      <p className="mono dim text-2xs" style={{ marginTop: 2 }}>
+                      <p
+                        className={['mono text-xs', presentation.copy3]
+                          .filter(Boolean)
+                          .join(' ')}
+                      >
+                        {profile.email}
+                      </p>
+                      <p
+                        className={['mono dim text-2xs', presentation.copy4]
+                          .filter(Boolean)
+                          .join(' ')}
+                      >
                         ID: {profile.id.slice(0, 8)}…
                       </p>
                     </div>
@@ -338,14 +441,36 @@ export default function UsersClient({
 
                   {/* Toggle admin button */}
                   <button
-                    onClick={() => handleToggleAdmin(profile.id, profile.is_super_admin)}
-                    disabled={loading === profile.id || (isSelf && profile.is_super_admin)}
-                    className={profile.is_super_admin ? 'btn btn--sm btn--danger' : 'btn btn--sm'}
+                    onClick={() =>
+                      handleToggleAdmin(profile.id, profile.is_super_admin)
+                    }
+                    disabled={
+                      loading === profile.id ||
+                      (isSelf && profile.is_super_admin)
+                    }
+                    className={
+                      profile.is_super_admin
+                        ? 'btn btn--sm btn--danger'
+                        : 'btn btn--sm'
+                    }
                     style={{
-                      opacity: (loading === profile.id || (isSelf && profile.is_super_admin)) ? 0.35 : 1,
-                      ...(profile.is_super_admin ? {} : { color: 'var(--amber)', borderColor: 'var(--amber-line)' }),
+                      opacity:
+                        loading === profile.id ||
+                        (isSelf && profile.is_super_admin)
+                          ? 0.35
+                          : 1,
+                      ...(profile.is_super_admin
+                        ? {}
+                        : {
+                            color: 'var(--amber)',
+                            borderColor: 'var(--amber-line)',
+                          }),
                     }}
-                    title={isSelf && profile.is_super_admin ? 'Cannot remove your own admin' : undefined}
+                    title={
+                      isSelf && profile.is_super_admin
+                        ? 'Cannot remove your own admin'
+                        : undefined
+                    }
                   >
                     {loading === profile.id ? (
                       <span className="text-2xs">…</span>
@@ -359,12 +484,26 @@ export default function UsersClient({
 
                 {/* Linked Agents */}
                 <div>
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
-                    <p className="upper dim">Linked Agents ({userAgents.length})</p>
+                  <div
+                    className={['row', presentation.section7]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    <p className="upper dim">
+                      Linked Agents ({userAgents.length})
+                    </p>
                     <button
-                      className="btn btn--ghost btn--sm text-2xs"
-                      onClick={() => setLinkingUser(linkingUser === profile.id ? null : profile.id)}
-                      style={{ height: 'auto', padding: '2px 8px' }}
+                      className={[
+                        'btn btn--ghost btn--sm text-2xs',
+                        presentation.action2,
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                      onClick={() =>
+                        setLinkingUser(
+                          linkingUser === profile.id ? null : profile.id,
+                        )
+                      }
                     >
                       {linkingUser === profile.id ? 'Cancel' : '+ Link Agent'}
                     </button>
@@ -372,12 +511,25 @@ export default function UsersClient({
 
                   {/* Link agent form */}
                   {linkingUser === profile.id && (
-                    <div className="row gap-2 animate-fade-in" style={{ marginBottom: 10 }}>
+                    <div
+                      className={[
+                        'row gap-2 animate-fade-in',
+                        presentation.section8,
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
                       <select
                         value={selectedAgentByUser[profile.id] || ''}
-                        onChange={(e) => setSelectedAgentByUser((prev) => ({ ...prev, [profile.id]: e.target.value }))}
-                        className="cp-select"
-                        style={{ flex: 1 }}
+                        onChange={(e) =>
+                          setSelectedAgentByUser((prev) => ({
+                            ...prev,
+                            [profile.id]: e.target.value,
+                          }))
+                        }
+                        className={['cp-select', presentation.field2]
+                          .filter(Boolean)
+                          .join(' ')}
                       >
                         <option value="">Select unlinked agent…</option>
                         {initialUnlinked.map((a) => (
@@ -388,10 +540,17 @@ export default function UsersClient({
                       </select>
                       <button
                         onClick={() => handleLinkAgent(profile.id)}
-                        disabled={!(selectedAgentByUser[profile.id]) || loading === `link-${profile.id}`}
+                        disabled={
+                          !selectedAgentByUser[profile.id] ||
+                          loading === `link-${profile.id}`
+                        }
                         className="btn btn--sm"
                         style={{
-                          opacity: (!(selectedAgentByUser[profile.id]) || loading === `link-${profile.id}`) ? 0.35 : 1,
+                          opacity:
+                            !selectedAgentByUser[profile.id] ||
+                            loading === `link-${profile.id}`
+                              ? 0.35
+                              : 1,
                           gap: 5,
                           color: 'var(--peri)',
                           borderColor: 'var(--peri-line)',
@@ -410,50 +569,60 @@ export default function UsersClient({
                       {userAgents.map((agent) => (
                         <div
                           key={agent.id}
-                          className="row gap-3 flex-wrap"
-                          style={{
-                            background: 'var(--bg-2)',
-                            border: '1px solid var(--line-1)',
-                            borderRadius: 'var(--radius-2)',
-                            padding: '8px 12px',
-                          }}
+                          className={[
+                            'row gap-3 flex-wrap',
+                            presentation.panel3,
+                          ]
+                            .filter(Boolean)
+                            .join(' ')}
                         >
-                          <div style={{
-                            width: 28,
-                            height: 28,
-                            borderRadius: 'var(--radius-2)',
-                            background: 'var(--peri-bg)',
-                            border: '1px solid var(--peri-line)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexShrink: 0,
-                          }}>
-                            <Bot size={12} style={{ color: 'var(--peri)' }} />
+                          <div className={presentation.row3}>
+                            <Bot size={12} className={presentation.ink3} />
                           </div>
-                          <div className="min-w-[8rem]" style={{ flex: 1 }}>
-                            <span className="text-sm" style={{ color: 'var(--fg-1)' }}>
+                          <div
+                            className={['min-w-[8rem]', presentation.field2]
+                              .filter(Boolean)
+                              .join(' ')}
+                          >
+                            <span
+                              className={['text-sm', presentation.ink4]
+                                .filter(Boolean)
+                                .join(' ')}
+                            >
                               {agent.display_name}
                             </span>
-                            <span className="mono dim text-2xs" style={{ marginLeft: 8 }}>
+                            <span
+                              className={[
+                                'mono dim text-2xs',
+                                presentation.detail5,
+                              ]
+                                .filter(Boolean)
+                                .join(' ')}
+                            >
                               {agent.name}
                             </span>
                           </div>
                           {/* Capabilities */}
-                          {agent.capabilities && agent.capabilities.length > 0 && (
-                            <div className="row gap-1 flex-wrap">
-                              {agent.capabilities.slice(0, 3).map((cap: string) => (
-                                <span key={cap} className="pill pill--peri text-2xs">
-                                  {cap}
-                                </span>
-                              ))}
-                              {agent.capabilities.length > 3 && (
-                                <span className="dim text-2xs">
-                                  +{agent.capabilities.length - 3}
-                                </span>
-                              )}
-                            </div>
-                          )}
+                          {agent.capabilities &&
+                            agent.capabilities.length > 0 && (
+                              <div className="row gap-1 flex-wrap">
+                                {agent.capabilities
+                                  .slice(0, 3)
+                                  .map((cap: string) => (
+                                    <span
+                                      key={cap}
+                                      className="pill pill--peri text-2xs"
+                                    >
+                                      {cap}
+                                    </span>
+                                  ))}
+                                {agent.capabilities.length > 3 && (
+                                  <span className="dim text-2xs">
+                                    +{agent.capabilities.length - 3}
+                                  </span>
+                                )}
+                              </div>
+                            )}
                           <button
                             onClick={() => handleUnlinkAgent(agent.id)}
                             disabled={loading === agent.id}
@@ -465,7 +634,7 @@ export default function UsersClient({
                             }}
                             title="Unlink agent"
                           >
-                            <Unlink size={11} style={{ color: 'var(--fg-3)' }} />
+                            <Unlink size={11} className={presentation.copy3} />
                           </button>
                         </div>
                       ))}
@@ -474,11 +643,7 @@ export default function UsersClient({
                 </div>
 
                 {/* Meta */}
-                <div style={{
-                  marginTop: 16,
-                  paddingTop: 16,
-                  borderTop: '1px solid var(--line-1)',
-                }}>
+                <div className={presentation.detail6}>
                   <span className="mono dim num text-2xs">
                     Joined {formatDate(profile.created_at)}
                   </span>

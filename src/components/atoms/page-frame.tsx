@@ -21,9 +21,9 @@ type PageWidth = 'narrow' | 'prose' | 'default' | 'wide';
    `default` and `wide` still fill the canvas: a table or a board wants the
    room. `prose` and `narrow` do what they say again. */
 const widths: Record<PageWidth, string> = {
-  narrow: 'max-w-[42rem]',
-  prose: 'max-w-[68rem]',
-  default: 'max-w-none',
+  narrow: 'max-w-[48rem]',
+  prose: 'max-w-[78rem]',
+  default: 'max-w-[100rem]',
   wide: 'max-w-none',
 };
 
@@ -39,8 +39,18 @@ interface PageFrameProps {
   maxW?: number;
 }
 
-export const PageFrame = ({ children, width = 'default', className, maxW }: PageFrameProps) => (
-  <div className={cn('flex-1 px-4 pt-6 pb-16 sm:px-6 lg:px-8', className)}>
+export const PageFrame = ({
+  children,
+  width = 'default',
+  className,
+  maxW,
+}: PageFrameProps) => (
+  <div
+    className={cn(
+      'page-frame flex-1 px-4 pt-6 pb-16 sm:px-6 lg:px-8',
+      className,
+    )}
+  >
     <div
       className={cn('mx-auto w-full', maxW ? undefined : widths[width])}
       style={maxW ? { maxWidth: maxW } : undefined}

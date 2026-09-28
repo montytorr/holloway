@@ -1,3 +1,4 @@
+import presentation from './page-presentation.module.css';
 import type { Metadata } from 'next';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -38,7 +39,11 @@ function parseChangelog(): ChangelogEntry[] {
         if (currentSection) current.sections.push(currentSection);
         entries.push(current);
       }
-      current = { version: versionMatch[1], date: versionMatch[2], sections: [] };
+      current = {
+        version: versionMatch[1],
+        date: versionMatch[2],
+        sections: [],
+      };
       currentSection = null;
       continue;
     }
@@ -67,7 +72,12 @@ function parseChangelog(): ChangelogEntry[] {
   return entries;
 }
 
-function getSectionTone(type: string): { pill: string; dotColor: string; bg: string; border: string } {
+function getSectionTone(type: string): {
+  pill: string;
+  dotColor: string;
+  bg: string;
+  border: string;
+} {
   switch (type.toLowerCase()) {
     case 'added':
       return {
@@ -102,65 +112,81 @@ function getSectionTone(type: string): { pill: string; dotColor: string; bg: str
 
 const PAGE_SIZE = 20;
 
-export default async function ChangelogPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+export default async function ChangelogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const entries = parseChangelog();
   const params = await searchParams;
   const parsedPage = Number(params.page);
   const pageCount = Math.max(1, Math.ceil(entries.length / PAGE_SIZE));
-  const page = Number.isInteger(parsedPage) && parsedPage > 0 ? Math.min(parsedPage, pageCount) : 1;
-  const visibleEntries = entries.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const page =
+    Number.isInteger(parsedPage) && parsedPage > 0
+      ? Math.min(parsedPage, pageCount)
+      : 1;
+  const visibleEntries = entries.slice(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE,
+  );
 
   return (
     <PageFrame width="prose">
       {/* Header */}
-      <div className="animate-fade-in" style={{ marginBottom: 32 }}>
-        <div className="row gap-3" style={{ marginBottom: 8 }}>
-          <div style={{
-            width: 36,
-            height: 36,
-            borderRadius: 'var(--radius-3)',
-            background: 'var(--peri-bg)',
-            border: '1px solid var(--peri-line)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-          }}>
-            <FileText size={15} style={{ color: 'var(--peri)' }} />
+      <div
+        className={['animate-fade-in', presentation.section1]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <div
+          className={['row gap-3', presentation.section2]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <div className={presentation.row1}>
+            <FileText size={15} className={presentation.ink1} />
           </div>
           <div>
-            <p className="upper" style={{ color: 'var(--peri)', marginBottom: 4 }}>Documentation</p>
+            <p
+              className={['upper', presentation.copy1]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Documentation
+            </p>
             <h1 className="h1">Changelog</h1>
           </div>
         </div>
-        <p className="muted text-sm" style={{ lineHeight: 1.6, marginTop: 8 }}>
+        <p
+          className={['muted text-sm', presentation.copy2]
+            .filter(Boolean)
+            .join(' ')}
+        >
           All notable changes to Holloway. Format follows{' '}
           <a
             href="https://keepachangelog.com/en/1.1.0/"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: 'var(--peri)', textDecoration: 'none' }}
+            className={presentation.link1}
           >
             Keep a Changelog
-          </a>.
+          </a>
+          .
         </p>
       </div>
 
       {/* Version timeline */}
-      <div style={{ position: 'relative' }}>
+      <div className={presentation.detail1}>
         {/* Timeline line */}
-        <div style={{
-          position: 'absolute',
-          left: 15,
-          top: 16,
-          bottom: 16,
-          width: 1,
-          background: 'linear-gradient(to bottom, var(--peri-bg), var(--line-1), transparent)',
-        }} />
+        <div className={presentation.detail2} />
 
         <div className="col gap-3">
           {entries.length === 0 && (
-            <div className="card" style={{ marginLeft: 40 }}>
+            <div
+              className={['card', presentation.detail3]
+                .filter(Boolean)
+                .join(' ')}
+            >
               <EmptyState
                 icon={<FileText size={20} />}
                 title="No versions tracked yet"
@@ -169,39 +195,26 @@ export default async function ChangelogPage({ searchParams }: { searchParams: Pr
             </div>
           )}
           {visibleEntries.map((entry, idx) => (
-            <div
-              key={entry.version}
-              style={{ position: 'relative' }}
-            >
+            <div key={entry.version} className={presentation.detail1}>
               {/* Timeline dot */}
-              <div style={{
-                position: 'absolute',
-                left: 11,
-                top: 26,
-                width: 9,
-                height: 9,
-                borderRadius: '50%',
-                background: 'var(--bg-0)',
-                border: '2px solid var(--peri)',
-                zIndex: 10,
-              }} />
+              <div className={presentation.detail4} />
 
-              <div className="card" style={{ marginLeft: 40, padding: 'var(--space-5)' }}>
+              <div
+                className={['card', presentation.detail5]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {/* Version header */}
-                <div className="row gap-3" style={{ marginBottom: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-                  <span className="text-sm" style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    padding: '4px 10px',
-                    borderRadius: 'var(--radius-2)',
-                    background: 'var(--peri-bg)',
-                    border: '1px solid var(--peri-line)',
-                    color: 'var(--peri)',
-                    
-                    fontWeight: 700,
-                    fontFamily: 'var(--mono)',
-                    letterSpacing: '-0.01em',
-                  }}>
+                <div
+                  className={['row gap-3', presentation.section3]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  <span
+                    className={['text-sm', presentation.panel1]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
                     v{entry.version}
                   </span>
                   <span className="dim num text-xs">
@@ -218,26 +231,51 @@ export default async function ChangelogPage({ searchParams }: { searchParams: Pr
                     const tone = getSectionTone(section.type);
                     return (
                       <div key={sIdx}>
-                        <div className="row gap-2" style={{ marginBottom: 8 }}>
-                          <div style={{
-                            width: 6,
-                            height: 6,
-                            borderRadius: '50%',
-                            background: tone.dotColor,
-                            flexShrink: 0,
-                          }} />
-                          <span className={`pill ${tone.pill}`}>{section.type}</span>
+                        <div
+                          className={['row gap-2', presentation.section2]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
+                          <div
+                            style={{
+                              width: 6,
+                              height: 6,
+                              borderRadius: '50%',
+                              background: tone.dotColor,
+                              flexShrink: 0,
+                            }}
+                          />
+                          <span className={`pill ${tone.pill}`}>
+                            {section.type}
+                          </span>
                         </div>
-                        <div style={{
-                          borderRadius: 'var(--radius-2)',
-                          background: tone.bg,
-                          border: `1px solid ${tone.border}`,
-                          padding: '12px 16px',
-                        }}>
+                        <div
+                          style={{
+                            borderRadius: 'var(--radius-2)',
+                            background: tone.bg,
+                            border: `1px solid ${tone.border}`,
+                            padding: '12px 16px',
+                          }}
+                        >
                           <ul className="col gap-2">
                             {section.items.map((item, iIdx) => (
-                              <li key={iIdx} className="row text-sm" style={{ alignItems: 'flex-start', gap: 8, color: 'var(--fg-2)', lineHeight: 1.5 }}>
-                                <span style={{ width: 4, height: 4, borderRadius: '50%', background: tone.dotColor, opacity: 0.6, flexShrink: 0, marginTop: 7 }} />
+                              <li
+                                key={iIdx}
+                                className={['row text-sm', presentation.ink2]
+                                  .filter(Boolean)
+                                  .join(' ')}
+                              >
+                                <span
+                                  style={{
+                                    width: 4,
+                                    height: 4,
+                                    borderRadius: '50%',
+                                    background: tone.dotColor,
+                                    opacity: 0.6,
+                                    flexShrink: 0,
+                                    marginTop: 7,
+                                  }}
+                                />
                                 <span>{item}</span>
                               </li>
                             ))}
@@ -253,14 +291,35 @@ export default async function ChangelogPage({ searchParams }: { searchParams: Pr
         </div>
       </div>
 
-      <nav aria-label="Changelog pages" className="row gap-3" style={{ justifyContent: 'center', marginTop: 24 }}>
-        {page > 1 && <Link className="btn" href={page === 2 ? '/changelog' : `/changelog?page=${page - 1}`}>Newer releases</Link>}
-        <span className="dim text-xs">Page {page} of {pageCount}</span>
-        {page < pageCount && <Link className="btn" href={`/changelog?page=${page + 1}`}>Older releases</Link>}
+      <nav
+        aria-label="Changelog pages"
+        className={['row gap-3', presentation.detail6]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        {page > 1 && (
+          <Link
+            className="btn"
+            href={page === 2 ? '/changelog' : `/changelog?page=${page - 1}`}
+          >
+            Newer releases
+          </Link>
+        )}
+        <span className="dim text-xs">
+          Page {page} of {pageCount}
+        </span>
+        {page < pageCount && (
+          <Link className="btn" href={`/changelog?page=${page + 1}`}>
+            Older releases
+          </Link>
+        )}
       </nav>
-      <div style={{ marginTop: 32, textAlign: 'center' }}>
+      <div className={presentation.detail7}>
         <p className="dim text-2xs">
-          {entries.length} versions tracked · Started {entries.length > 0 ? formatDate(entries[entries.length - 1].date) : 'N/A'}
+          {entries.length} versions tracked · Started{' '}
+          {entries.length > 0
+            ? formatDate(entries[entries.length - 1].date)
+            : 'N/A'}
         </p>
       </div>
     </PageFrame>

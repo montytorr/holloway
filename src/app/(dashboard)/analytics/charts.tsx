@@ -1,9 +1,14 @@
 'use client';
+import presentation from './charts-presentation.module.css';
 
 import Link from 'next/link';
 import { formatDate } from '@/lib/format-date';
 import { showAxisLabel } from '@/lib/analytics-derive';
-import { chartFillForTone, chartFillMap, colorVarForTone } from '@/lib/status-tone';
+import {
+  chartFillForTone,
+  chartFillMap,
+  colorVarForTone,
+} from '@/lib/status-tone';
 import { PageFrame, EmptyState } from '@/components/atoms';
 import { BarChart3 } from 'lucide-react';
 
@@ -51,7 +56,10 @@ const barColorVars = [
   chartFillForTone('amber', 1),
 ];
 
-function buildConicGradient(data: Record<string, number>, colorMap: Record<string, string>): string {
+function buildConicGradient(
+  data: Record<string, number>,
+  colorMap: Record<string, string>,
+): string {
   const total = Object.values(data).reduce((s, v) => s + v, 0);
   if (total === 0) return `conic-gradient(var(--line-1) 0deg 360deg)`;
 
@@ -101,23 +109,43 @@ export default function AnalyticsCharts({
   allTimeContracts,
 }: AnalyticsChartsProps) {
   const maxDayCount = Math.max(...dayCounts, 1);
-  const maxAgentCount = agentStats.length > 0 ? Math.max(...agentStats.map((a) => a.count), 1) : 1;
-  const totalStatusCount = Object.values(contractsByStatus).reduce((s, v) => s + v, 0);
-  const totalTaskStatusCount = Object.values(tasksByStatus).reduce((s, v) => s + v, 0);
+  const maxAgentCount =
+    agentStats.length > 0 ? Math.max(...agentStats.map((a) => a.count), 1) : 1;
+  const totalStatusCount = Object.values(contractsByStatus).reduce(
+    (s, v) => s + v,
+    0,
+  );
+  const totalTaskStatusCount = Object.values(tasksByStatus).reduce(
+    (s, v) => s + v,
+    0,
+  );
   const maxContractDayCount = Math.max(...contractDayCounts, 1);
-  const maxTopContractMessages = topContractsByMessages.length > 0 ? Math.max(...topContractsByMessages.map(c => c.count), 1) : 1;
+  const maxTopContractMessages =
+    topContractsByMessages.length > 0
+      ? Math.max(...topContractsByMessages.map((c) => c.count), 1)
+      : 1;
   const maxHourlyCount = Math.max(...hourlyMessageCounts, 1);
   const dayTabs = [7, 14, 30, 90];
 
   return (
     <PageFrame>
       {/* Header */}
-      <div style={{ marginBottom: '32px' }}>
-        <p className="upper" style={{ marginBottom: '6px' }}>Insights</p>
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
+      <div className={presentation.section1}>
+        <p className={['upper', presentation.copy1].filter(Boolean).join(' ')}>
+          Insights
+        </p>
+        <div
+          className={['row', presentation.detail1].filter(Boolean).join(' ')}
+        >
           <div>
             <h1 className="h1">Analytics</h1>
-            <p className="dim text-sm" style={{ marginTop: '4px' }}>Platform activity overview</p>
+            <p
+              className={['dim text-sm', presentation.copy2]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Platform activity overview
+            </p>
           </div>
 
           {/* Day tabs — segmented control */}
@@ -137,117 +165,250 @@ export default function AnalyticsCharts({
       </div>
 
       {/* Summary Cards — Row 1 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '12px', marginBottom: '12px' }}>
+      <div className={presentation.grid1}>
         {[
-          { label: 'Contracts Created', value: totalContracts, suffix: ` (${days}d)`, accentVar: '--peri' },
-          { label: 'Messages', value: totalMessages, suffix: ` (${days}d)`, accentVar: '--mint' },
-          { label: 'Avg Turns', value: avgTurns, suffix: ` (${days}d)`, accentVar: '--mint' },
-          { label: 'Active Agents', value: agentStats.length, suffix: ` (${days}d)`, accentVar: '--amber' },
+          {
+            label: 'Contracts Created',
+            value: totalContracts,
+            suffix: ` (${days}d)`,
+            accentVar: '--peri',
+          },
+          {
+            label: 'Messages',
+            value: totalMessages,
+            suffix: ` (${days}d)`,
+            accentVar: '--mint',
+          },
+          {
+            label: 'Avg Turns',
+            value: avgTurns,
+            suffix: ` (${days}d)`,
+            accentVar: '--mint',
+          },
+          {
+            label: 'Active Agents',
+            value: agentStats.length,
+            suffix: ` (${days}d)`,
+            accentVar: '--amber',
+          },
         ].map((card) => (
           <div
             key={card.label}
-            className="card"
-            style={{ padding: '18px 20px' }}
+            className={['card', presentation.detail2].filter(Boolean).join(' ')}
           >
-            <p className="upper dim" style={{ marginBottom: '8px' }}>{card.label}</p>
-            <p className="mono num text-xl" style={{ fontWeight: 700, color: `var(${card.accentVar})` }}>
+            <p
+              className={['upper dim', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {card.label}
+            </p>
+            <p
+              className="mono num text-xl"
+              style={{ fontWeight: 700, color: `var(${card.accentVar})` }}
+            >
               {card.value}
-              {card.suffix && <span className="dim text-2xs" style={{ fontWeight: 400 }}>{card.suffix}</span>}
+              {card.suffix && (
+                <span
+                  className={['dim text-2xs', presentation.detail3]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {card.suffix}
+                </span>
+              )}
             </p>
           </div>
         ))}
       </div>
 
       {/* Summary Cards — Row 2 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '12px', marginBottom: '32px' }}>
+      <div className={presentation.grid2}>
         {[
-          { label: 'Active Projects', value: activeProjects, suffix: ` (${days}d)`, accentVar: '--mint' },
-          { label: 'Tasks Done', value: tasksDone, suffix: ` (${days}d)`, accentVar: '--mint' },
-          { label: 'Avg Response Time', value: avgResponseTimeHours !== null ? `${avgResponseTimeHours}h` : '—', suffix: ` (${days}d)`, accentVar: '--peri' },
-          { label: 'Webhooks Fired', value: webhooksFired, suffix: ` (${days}d)`, accentVar: '--rose' },
+          {
+            label: 'Active Projects',
+            value: activeProjects,
+            suffix: ` (${days}d)`,
+            accentVar: '--mint',
+          },
+          {
+            label: 'Tasks Done',
+            value: tasksDone,
+            suffix: ` (${days}d)`,
+            accentVar: '--mint',
+          },
+          {
+            label: 'Avg Response Time',
+            value:
+              avgResponseTimeHours !== null ? `${avgResponseTimeHours}h` : '—',
+            suffix: ` (${days}d)`,
+            accentVar: '--peri',
+          },
+          {
+            label: 'Webhooks Fired',
+            value: webhooksFired,
+            suffix: ` (${days}d)`,
+            accentVar: '--rose',
+          },
         ].map((card) => (
           <div
             key={card.label}
-            className="card"
-            style={{ padding: '18px 20px' }}
+            className={['card', presentation.detail2].filter(Boolean).join(' ')}
           >
-            <p className="upper dim" style={{ marginBottom: '8px' }}>{card.label}</p>
-            <p className="mono num text-xl" style={{ fontWeight: 700, color: `var(${card.accentVar})` }}>
+            <p
+              className={['upper dim', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {card.label}
+            </p>
+            <p
+              className="mono num text-xl"
+              style={{ fontWeight: 700, color: `var(${card.accentVar})` }}
+            >
               {card.value}
-              {card.suffix && <span className="dim text-2xs" style={{ fontWeight: 400 }}>{card.suffix}</span>}
+              {card.suffix && (
+                <span
+                  className={['dim text-2xs', presentation.detail3]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {card.suffix}
+                </span>
+              )}
             </p>
           </div>
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+      <div className={presentation.grid3}>
         {/* Donut Chart — Contracts by Status */}
-        <div className="card" style={{ padding: 'var(--space-5)' }}>
-          <h2 className="h3" style={{ marginBottom: '2px' }}>Contracts by Status</h2>
-          <p className="dim text-2xs" style={{ marginBottom: '24px' }}>Created in last {days} days</p>
+        <div
+          className={['card', presentation.detail4].filter(Boolean).join(' ')}
+        >
+          <h2
+            className={['h3', presentation.section2].filter(Boolean).join(' ')}
+          >
+            Contracts by Status
+          </h2>
+          <p
+            className={['dim text-2xs', presentation.copy4]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            Created in last {days} days
+          </p>
 
           {totalStatusCount === 0 ? (
-            <div style={{ padding: '40px 0', textAlign: 'center' }}>
+            <div className={presentation.detail5}>
               <p className="dim text-sm">No contracts created in this period</p>
               {allTimeContracts > 0 && (
-                <p className="dim text-2xs" style={{ marginTop: '6px' }}>
+                <p
+                  className={['dim text-2xs', presentation.copy5]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   {allTimeContracts} all time
                 </p>
               )}
             </div>
           ) : (
-          <div className="row gap-6">
-            {/* Donut */}
-            <div style={{ position: 'relative', flexShrink: 0 }}>
-              <div
-                style={{
-                  width: '144px',
-                  height: '144px',
-                  borderRadius: '50%',
-                  background: buildConicGradient(contractsByStatus, contractStatusFills),
-                  mask: 'radial-gradient(circle at center, transparent 42px, black 43px)',
-                  WebkitMask: 'radial-gradient(circle at center, transparent 42px, black 43px)',
-                }}
-              />
-              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ textAlign: 'center' }}>
-                  <span className="mono num text-lg" style={{ fontWeight: 700, color: 'var(--fg-0)' }}>{totalStatusCount}</span>
-                  <p className="upper dim" style={{ marginTop: '2px' }}>Total</p>
+            <div className="row gap-6">
+              {/* Donut */}
+              <div className={presentation.detail6}>
+                <div
+                  style={{
+                    width: '144px',
+                    height: '144px',
+                    borderRadius: '50%',
+                    background: buildConicGradient(
+                      contractsByStatus,
+                      contractStatusFills,
+                    ),
+                    mask: 'radial-gradient(circle at center, transparent 42px, black 43px)',
+                    WebkitMask:
+                      'radial-gradient(circle at center, transparent 42px, black 43px)',
+                  }}
+                />
+                <div className={presentation.row1}>
+                  <div className={presentation.detail7}>
+                    <span
+                      className={['mono num text-lg', presentation.ink1]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {totalStatusCount}
+                    </span>
+                    <p
+                      className={['upper dim', presentation.copy6]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      Total
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Legend */}
-            <div className="col gap-2" style={{ flex: 1 }}>
-              {Object.entries(contractsByStatus).map(([status, count]) => (
-                <div key={status} className="row gap-2">
-                  <div
-                    style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '2px',
-                      flexShrink: 0,
-                      background: contractStatusFills[status] || unknownStatusFill,
-                    }}
-                  />
-                  <span className="text-2xs" style={{ fontWeight: 500, flex: 1, textTransform: 'capitalize', color: 'var(--fg-1)' }}>
-                    {status}
-                  </span>
-                  <span className="mono num dim text-2xs">{count}</span>
-                  <span className="mono num text-2xs" style={{ color: 'var(--fg-4)', width: '32px', textAlign: 'right' }}>
-                    {totalStatusCount > 0 ? Math.round((count / totalStatusCount) * 100) : 0}%
-                  </span>
-                </div>
-              ))}
+              {/* Legend */}
+              <div
+                className={['col gap-2', presentation.detail8]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                {Object.entries(contractsByStatus).map(([status, count]) => (
+                  <div key={status} className="row gap-2">
+                    <div
+                      style={{
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '2px',
+                        flexShrink: 0,
+                        background:
+                          contractStatusFills[status] || unknownStatusFill,
+                      }}
+                    />
+                    <span
+                      className={['text-2xs', presentation.ink2]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {status}
+                    </span>
+                    <span className="mono num dim text-2xs">{count}</span>
+                    <span
+                      className={['mono num text-2xs', presentation.ink3]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {totalStatusCount > 0
+                        ? Math.round((count / totalStatusCount) * 100)
+                        : 0}
+                      %
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
           )}
         </div>
 
         {/* Bar Chart — Per Agent Messages */}
-        <div className="card" style={{ padding: 'var(--space-5)' }}>
-          <h2 className="h3" style={{ marginBottom: '2px' }}>Messages per Agent</h2>
-          <p className="dim text-2xs" style={{ marginBottom: '24px' }}>Last {days} days</p>
+        <div
+          className={['card', presentation.detail4].filter(Boolean).join(' ')}
+        >
+          <h2
+            className={['h3', presentation.section2].filter(Boolean).join(' ')}
+          >
+            Messages per Agent
+          </h2>
+          <p
+            className={['dim text-2xs', presentation.copy4]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            Last {days} days
+          </p>
 
           {agentStats.length === 0 ? (
             <EmptyState
@@ -259,11 +420,19 @@ export default function AnalyticsCharts({
             <div className="col gap-2">
               {agentStats.map((agent, idx) => (
                 <div key={agent.name}>
-                  <div className="row gap-2" style={{ marginBottom: '4px' }}>
-                    <span className="text-2xs" style={{ fontWeight: 500, color: 'var(--fg-2)', width: '96px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div
+                    className={['row gap-2', presentation.section3]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    <span
+                      className={['text-2xs', presentation.ink4]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
                       {agent.name}
                     </span>
-                    <div style={{ flex: 1, height: '22px', background: 'var(--bg-2)', borderRadius: 'var(--radius-1)', overflow: 'hidden', position: 'relative' }}>
+                    <div className={presentation.detail9}>
                       <div
                         style={{
                           height: '100%',
@@ -275,7 +444,16 @@ export default function AnalyticsCharts({
                         }}
                       />
                     </div>
-                    <span className="mono num dim text-2xs" style={{ width: '28px', textAlign: 'right' }}>{agent.count}</span>
+                    <span
+                      className={[
+                        'mono num dim text-2xs',
+                        presentation.detail10,
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {agent.count}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -284,26 +462,46 @@ export default function AnalyticsCharts({
         </div>
 
         {/* Bar Chart — Messages per Day */}
-        <div className="card md:col-span-2" style={{ padding: 'var(--space-5)' }}>
-          <h2 className="h3" style={{ marginBottom: '2px' }}>Messages per Day</h2>
-          <p className="dim text-2xs" style={{ marginBottom: '24px' }}>Last {days} days</p>
+        <div
+          className={['card md:col-span-2', presentation.detail4]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <h2
+            className={['h3', presentation.section2].filter(Boolean).join(' ')}
+          >
+            Messages per Day
+          </h2>
+          <p
+            className={['dim text-2xs', presentation.copy4]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            Last {days} days
+          </p>
 
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '160px' }}>
+          <div className={presentation.row2}>
             {dayLabels.map((label, idx) => {
               const count = dayCounts[idx];
-              const heightPct = maxDayCount > 0 ? (count / maxDayCount) * 100 : 0;
+              const heightPct =
+                maxDayCount > 0 ? (count / maxDayCount) * 100 : 0;
               const showLabel = showAxisLabel(idx, dayLabels.length, days);
               return (
                 <div
                   key={label}
-                  style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}
-                  className="group"
+                  className={['group', presentation.stack1]
+                    .filter(Boolean)
+                    .join(' ')}
                   title={`${formatShortDate(label)}: ${count}`}
                 >
-                  <span className="mono num text-2xs" style={{ color: 'var(--fg-4)', opacity: 0, transition: 'opacity 0.2s' }}>
+                  <span
+                    className={['mono num text-2xs', presentation.ink5]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
                     {count}
                   </span>
-                  <div style={{ width: '100%', position: 'relative', height: '120px' }}>
+                  <div className={presentation.detail11}>
                     <div
                       style={{
                         position: 'absolute',
@@ -318,8 +516,9 @@ export default function AnalyticsCharts({
                     />
                   </div>
                   <div
-                    className="mono num text-2xs"
-                    style={{ height: '14px', lineHeight: '14px', color: 'var(--fg-4)', whiteSpace: 'nowrap' }}
+                    className={['mono num text-2xs', presentation.ink6]
+                      .filter(Boolean)
+                      .join(' ')}
                   >
                     {showLabel ? formatAxisDate(label) : ''}
                   </div>
@@ -330,26 +529,48 @@ export default function AnalyticsCharts({
         </div>
 
         {/* Bar Chart — Contracts Created per Day */}
-        <div className="card md:col-span-2" style={{ padding: 'var(--space-5)' }}>
-          <h2 className="h3" style={{ marginBottom: '2px' }}>Contracts Created per Day</h2>
-          <p className="dim text-2xs" style={{ marginBottom: '24px' }}>Last {days} days</p>
+        <div
+          className={['card md:col-span-2', presentation.detail4]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <h2
+            className={['h3', presentation.section2].filter(Boolean).join(' ')}
+          >
+            Contracts Created per Day
+          </h2>
+          <p
+            className={['dim text-2xs', presentation.copy4]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            Last {days} days
+          </p>
 
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '160px' }}>
+          <div className={presentation.row2}>
             {dayLabels.map((label, idx) => {
               const count = contractDayCounts[idx];
-              const heightPct = maxContractDayCount > 0 ? (count / maxContractDayCount) * 100 : 0;
+              const heightPct =
+                maxContractDayCount > 0
+                  ? (count / maxContractDayCount) * 100
+                  : 0;
               const showLabel = showAxisLabel(idx, dayLabels.length, days);
               return (
                 <div
                   key={label}
-                  style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}
-                  className="group"
+                  className={['group', presentation.stack1]
+                    .filter(Boolean)
+                    .join(' ')}
                   title={`${formatShortDate(label)}: ${count}`}
                 >
-                  <span className="mono num text-2xs" style={{ color: 'var(--fg-4)', opacity: 0, transition: 'opacity 0.2s' }}>
+                  <span
+                    className={['mono num text-2xs', presentation.ink5]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
                     {count}
                   </span>
-                  <div style={{ width: '100%', position: 'relative', height: '120px' }}>
+                  <div className={presentation.detail11}>
                     <div
                       style={{
                         position: 'absolute',
@@ -364,8 +585,9 @@ export default function AnalyticsCharts({
                     />
                   </div>
                   <div
-                    className="mono num text-2xs"
-                    style={{ height: '14px', lineHeight: '14px', color: 'var(--fg-4)', whiteSpace: 'nowrap' }}
+                    className={['mono num text-2xs', presentation.ink6]
+                      .filter(Boolean)
+                      .join(' ')}
                   >
                     {showLabel ? formatAxisDate(label) : ''}
                   </div>
@@ -376,41 +598,77 @@ export default function AnalyticsCharts({
         </div>
 
         {/* Donut Chart — Task Status Distribution */}
-        <div className="card" style={{ padding: 'var(--space-5)' }}>
-          <h2 className="h3" style={{ marginBottom: '2px' }}>Task Status Distribution</h2>
-          <p className="dim text-2xs" style={{ marginBottom: '24px' }}>Updated in last {days} days</p>
+        <div
+          className={['card', presentation.detail4].filter(Boolean).join(' ')}
+        >
+          <h2
+            className={['h3', presentation.section2].filter(Boolean).join(' ')}
+          >
+            Task Status Distribution
+          </h2>
+          <p
+            className={['dim text-2xs', presentation.copy4]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            Updated in last {days} days
+          </p>
 
           {totalTaskStatusCount === 0 ? (
-            <div style={{ padding: '40px 0', textAlign: 'center' }}>
+            <div className={presentation.detail5}>
               <p className="dim text-sm">No task activity in this period</p>
               {allTimeTasks > 0 && (
-                <p className="dim text-2xs" style={{ marginTop: '6px' }}>
+                <p
+                  className={['dim text-2xs', presentation.copy5]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   {allTimeTasks} tasks all time
                 </p>
               )}
             </div>
           ) : (
             <div className="row gap-6">
-              <div style={{ position: 'relative', flexShrink: 0 }}>
+              <div className={presentation.detail6}>
                 <div
                   style={{
                     width: '144px',
                     height: '144px',
                     borderRadius: '50%',
-                    background: buildConicGradient(tasksByStatus, taskStatusFills),
+                    background: buildConicGradient(
+                      tasksByStatus,
+                      taskStatusFills,
+                    ),
                     mask: 'radial-gradient(circle at center, transparent 42px, black 43px)',
-                    WebkitMask: 'radial-gradient(circle at center, transparent 42px, black 43px)',
+                    WebkitMask:
+                      'radial-gradient(circle at center, transparent 42px, black 43px)',
                   }}
                 />
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ textAlign: 'center' }}>
-                    <span className="mono num text-lg" style={{ fontWeight: 700, color: 'var(--fg-0)' }}>{totalTaskStatusCount}</span>
-                    <p className="upper dim" style={{ marginTop: '2px' }}>Total</p>
+                <div className={presentation.row1}>
+                  <div className={presentation.detail7}>
+                    <span
+                      className={['mono num text-lg', presentation.ink1]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {totalTaskStatusCount}
+                    </span>
+                    <p
+                      className={['upper dim', presentation.copy6]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      Total
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="col gap-2" style={{ flex: 1 }}>
+              <div
+                className={['col gap-2', presentation.detail8]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {Object.entries(tasksByStatus).map(([status, count]) => (
                   <div key={status} className="row gap-2">
                     <div
@@ -419,15 +677,27 @@ export default function AnalyticsCharts({
                         height: '8px',
                         borderRadius: '2px',
                         flexShrink: 0,
-                        background: taskStatusFills[status] || unknownStatusFill,
+                        background:
+                          taskStatusFills[status] || unknownStatusFill,
                       }}
                     />
-                    <span className="text-2xs" style={{ fontWeight: 500, flex: 1, textTransform: 'capitalize', color: 'var(--fg-1)' }}>
+                    <span
+                      className={['text-2xs', presentation.ink2]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
                       {status}
                     </span>
                     <span className="mono num dim text-2xs">{count}</span>
-                    <span className="mono num text-2xs" style={{ color: 'var(--fg-4)', width: '32px', textAlign: 'right' }}>
-                      {totalTaskStatusCount > 0 ? Math.round((count / totalTaskStatusCount) * 100) : 0}%
+                    <span
+                      className={['mono num text-2xs', presentation.ink3]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {totalTaskStatusCount > 0
+                        ? Math.round((count / totalTaskStatusCount) * 100)
+                        : 0}
+                      %
                     </span>
                   </div>
                 ))}
@@ -437,9 +707,23 @@ export default function AnalyticsCharts({
         </div>
 
         {/* Horizontal Bar Chart — Top Contracts by Messages */}
-        <div className="card md:col-span-2" style={{ padding: 'var(--space-5)' }}>
-          <h2 className="h3" style={{ marginBottom: '2px' }}>Top Contracts by Messages</h2>
-          <p className="dim text-2xs" style={{ marginBottom: '24px' }}>Top 5 in last {days} days</p>
+        <div
+          className={['card md:col-span-2', presentation.detail4]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <h2
+            className={['h3', presentation.section2].filter(Boolean).join(' ')}
+          >
+            Top Contracts by Messages
+          </h2>
+          <p
+            className={['dim text-2xs', presentation.copy4]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            Top 5 in last {days} days
+          </p>
 
           {topContractsByMessages.length === 0 ? (
             <EmptyState
@@ -453,12 +737,14 @@ export default function AnalyticsCharts({
                 <div key={contract.title}>
                   <div className="row gap-2">
                     <span
-                      className="text-2xs" style={{ fontWeight: 500, color: 'var(--fg-2)', flex: '0 1 280px', minWidth: '96px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                      className={['text-2xs', presentation.ink7]
+                        .filter(Boolean)
+                        .join(' ')}
                       title={contract.title}
                     >
                       {contract.title}
                     </span>
-                    <div style={{ flex: 1, height: '22px', background: 'var(--bg-2)', borderRadius: 'var(--radius-1)', overflow: 'hidden', position: 'relative' }}>
+                    <div className={presentation.detail9}>
                       <div
                         style={{
                           height: '100%',
@@ -470,7 +756,16 @@ export default function AnalyticsCharts({
                         }}
                       />
                     </div>
-                    <span className="mono num dim text-2xs" style={{ width: '28px', textAlign: 'right' }}>{contract.count}</span>
+                    <span
+                      className={[
+                        'mono num dim text-2xs',
+                        presentation.detail10,
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {contract.count}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -479,21 +774,40 @@ export default function AnalyticsCharts({
         </div>
 
         {/* Hourly Activity Heatmap */}
-        <div className="card md:col-span-2" style={{ padding: 'var(--space-5)' }}>
-          <h2 className="h3" style={{ marginBottom: '2px' }}>Hourly Activity Heatmap</h2>
-          <p className="dim text-2xs" style={{ marginBottom: '24px' }}>Message distribution by hour (UTC) — last {days} days</p>
+        <div
+          className={['card md:col-span-2', presentation.detail4]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <h2
+            className={['h3', presentation.section2].filter(Boolean).join(' ')}
+          >
+            Hourly Activity Heatmap
+          </h2>
+          <p
+            className={['dim text-2xs', presentation.copy4]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            Message distribution by hour (UTC) — last {days} days
+          </p>
 
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px' }}>
+          <div className={presentation.row3}>
             {hourlyMessageCounts.map((count, hour) => {
               const intensity = maxHourlyCount > 0 ? count / maxHourlyCount : 0;
               return (
                 <div
                   key={hour}
-                  style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}
-                  className="group"
+                  className={['group', presentation.stack2]
+                    .filter(Boolean)
+                    .join(' ')}
                   title={`${hour}:00 UTC — ${count} messages`}
                 >
-                  <span className="mono num text-2xs" style={{ color: 'var(--fg-4)', opacity: 0, transition: 'opacity 0.2s' }}>
+                  <span
+                    className={['mono num text-2xs', presentation.ink5]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
                     {count}
                   </span>
                   <div
@@ -502,12 +816,17 @@ export default function AnalyticsCharts({
                       height: '40px',
                       borderRadius: '3px',
                       transition: 'background 0.3s',
-                      background: count === 0
-                        ? 'var(--bg-2)'
-                        : `color-mix(in oklch, var(--mint) ${(0.12 + intensity * 0.65) * 100}%, transparent)`,
+                      background:
+                        count === 0
+                          ? 'var(--bg-2)'
+                          : `color-mix(in oklch, var(--mint) ${(0.12 + intensity * 0.65) * 100}%, transparent)`,
                     }}
                   />
-                  <span className="mono num text-2xs" style={{ color: 'var(--fg-4)' }}>
+                  <span
+                    className={['mono num text-2xs', presentation.ink8]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
                     {hour.toString().padStart(2, '0')}
                   </span>
                 </div>

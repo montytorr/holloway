@@ -6,14 +6,25 @@
   cursor: pointer;
   list-style: none;
   color: var(--fg-2);
-  font: var(--text-2xs)/1.4 var(--mono);
+  font: var(--text-2xs) / 1.4 var(--mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-.invitationsSummary::-webkit-details-marker { display: none; }
-.invitationsSummary::after { content: '⌄'; margin-left: auto; }
-details[open] > .invitationsSummary::after { transform: rotate(180deg); }
-.invitationsBody { display: grid; gap: var(--space-2); padding: 0 var(--space-4) var(--space-4); }
+.invitationsSummary::-webkit-details-marker {
+  display: none;
+}
+.invitationsSummary::after {
+  content: '⌄';
+  margin-left: auto;
+}
+details[open] > .invitationsSummary::after {
+  transform: rotate(180deg);
+}
+.invitationsBody {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-4);
+}
 
 .headerGrid {
   display: grid;
@@ -24,12 +35,24 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   align-items: start;
   gap: var(--space-5);
 }
-.headerGrid h1 { overflow-wrap: anywhere; }
-.headerMain { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.headerGrid h1 {
+  overflow-wrap: anywhere;
+}
+.headerMain {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
 
 @media (max-width: 900px) {
-  .headerMain { flex-direction: column; }
-  .headerMain > div:first-child { width: 100%; }
+  .headerMain {
+    flex-direction: column;
+  }
+  .headerMain > div:first-child {
+    width: 100%;
+  }
 }
 
 /* ──────────────────────────────────────────────
@@ -65,14 +88,25 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   margin: 0;
   color: var(--fg-0);
   font-size: var(--text-sm);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
-.radarSub { margin: 0; color: var(--fg-2); font-size: var(--text-xs); }
-.radarCount { margin-left: auto; color: var(--rose); font: 600 var(--text-2xs) / 1.4 var(--mono); white-space: nowrap; }
+.radarSub {
+  margin: 0;
+  color: var(--fg-2);
+  font-size: var(--text-xs);
+}
+.radarCount {
+  margin-left: auto;
+  color: var(--rose);
+  font: 600 var(--text-2xs) / 1.4 var(--mono);
+  white-space: nowrap;
+}
 
-.radarList { display: grid; }
+.radarList {
+  display: grid;
+}
 
 .radarRow {
   display: grid;
@@ -84,16 +118,48 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   text-decoration: none;
   transition: background 0.12s;
 }
-.radarList > .radarRow:first-child { border-top: 0; }
-.radarRow:hover { background: color-mix(in oklch, var(--rose) 8%, transparent); }
-.radarRow:focus-visible { outline: 2px solid var(--rose); outline-offset: -2px; }
+.radarList > .radarRow:first-child {
+  border-top: 0;
+}
+.radarRow:hover {
+  background: color-mix(in oklch, var(--rose) 8%, transparent);
+}
+.radarRow:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: -2px;
+}
 
-.radarRowMain { min-width: 0; display: grid; gap: var(--space-1); }
-.radarRowTop { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
-.radarTask { color: var(--fg-0); font-size: var(--text-sm); font-weight: 600; overflow-wrap: anywhere; }
-.radarMeta { color: var(--fg-2); font-size: var(--text-xs); overflow-wrap: anywhere; }
-.radarMeta b { color: var(--fg-1); font-weight: 600; }
-.radarOpen { color: var(--peri); font-size: var(--text-2xs); white-space: nowrap; }
+.radarRowMain {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+.radarRowTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.radarTask {
+  color: var(--fg-0);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.radarMeta {
+  color: var(--fg-2);
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
+}
+.radarMeta b {
+  color: var(--fg-1);
+  font-weight: 600;
+}
+.radarOpen {
+  color: var(--peri);
+  font-size: var(--text-2xs);
+  white-space: nowrap;
+}
 
 .radarMore {
   padding: var(--space-2) var(--space-4);
@@ -103,8 +169,12 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
 }
 
 @media (max-width: 560px) {
-  .radarRow { grid-template-columns: minmax(0, 1fr); }
-  .radarOpen { display: none; }
+  .radarRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .radarOpen {
+    display: none;
+  }
 }
 
 /* ──────────────────────────────────────────────
@@ -125,7 +195,10 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   font-size: var(--text-2xs);
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
 }
 /* Was two onMouseEnter/onMouseLeave handlers, so it had no focus state. */
 .addTask:hover,
@@ -136,9 +209,11 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   outline: none;
 }
 
-.addTaskForm { margin-bottom: var(--space-2); padding: var(--space-3); border-color: var(--peri-line); }
-
-
+.addTaskForm {
+  margin-bottom: var(--space-2);
+  padding: var(--space-3);
+  border-color: var(--peri-line);
+}
 
 /* ──────────────────────────────────────────────
    PROJECT DESCRIPTION
@@ -150,8 +225,13 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
    edge of a 1400px row. It is collapsed to a readable first glance with the
    rest one click away.
    ────────────────────────────────────────────── */
-.description { position: relative; max-width: 74ch; }
-.description :is(h1, h2, h3) { font-size: var(--text-sm); }
+.description {
+  position: relative;
+  max-width: 74ch;
+}
+.description :is(h1, h2, h3) {
+  font-size: var(--text-sm);
+}
 
 .descriptionClamped {
   max-height: 168px;
@@ -182,8 +262,14 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   font-weight: 500;
   cursor: pointer;
 }
-.descriptionToggle:hover { text-decoration: underline; }
-.descriptionToggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: var(--radius-1); }
+.descriptionToggle:hover {
+  text-decoration: underline;
+}
+.descriptionToggle:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
 
 /* The cap that used to live here (max-width: 1180px) existed because the
    description sat in this row and left ~500px of nothing between it and the
@@ -200,20 +286,45 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
    underneath. retention_mode was in the grid too, and nothing in the system
    has ever read it — not the UI, not the API, not the reactor.
    ────────────────────────────────────────────── */
-.policy { padding: var(--space-5); }
+.policy {
+  padding: var(--space-5);
+}
 
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.check label {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  cursor: pointer;
+}
+.check label strong {
+  color: var(--fg-0);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.check label span {
+  color: var(--fg-2);
+  font-size: var(--text-2xs);
+  line-height: 1.5;
+}
+.check code {
+  font-family: var(--mono);
+  font-size: var(--text-2xs);
+  color: var(--fg-1);
+}
 
-
-.check { display: flex; align-items: flex-start; gap: var(--space-3); }
-.check label { display: grid; gap: var(--space-1); min-width: 0; cursor: pointer; }
-.check label strong { color: var(--fg-0); font-size: var(--text-sm); font-weight: 600; }
-.check label span { color: var(--fg-2); font-size: var(--text-2xs); line-height: 1.5; }
-.check code { font-family: var(--mono); font-size: var(--text-2xs); color: var(--fg-1); }
-
-
-
-.policyNote { margin: 0; color: var(--fg-3); font-size: var(--text-2xs); }
-.policyErr { color: var(--rose); }
+.policyNote {
+  margin: 0;
+  color: var(--fg-3);
+  font-size: var(--text-2xs);
+}
+.policyErr {
+  color: var(--rose);
+}
 
 /* ──────────────────────────────────────────────
    PROJECT LAYOUT
@@ -235,10 +346,24 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   gap: var(--space-6);
 }
 
-.work { grid-area: work; min-width: 0; display: grid; align-content: start; gap: var(--space-4); }
-.context { grid-area: context; min-width: 0; display: grid; align-content: start; gap: var(--space-4); }
+.work {
+  grid-area: work;
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+}
+.context {
+  grid-area: context;
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+}
 
-.aboutCard { padding: var(--space-5); }
+.aboutCard {
+  padding: var(--space-5);
+}
 .aboutTitle {
   margin: 0 0 var(--space-3);
   color: var(--fg-3);
@@ -248,7 +373,10 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
 }
 
 @media (max-width: 1000px) {
-  .workLayout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'work' 'context'; }
+  .workLayout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'work' 'context';
+  }
 }
 
 .workHead {
@@ -258,10 +386,21 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   flex-wrap: wrap;
   gap: var(--space-3);
 }
-.workHead h2 { color: var(--fg-0); font-size: var(--text-lg); font-weight: 600; }
-.workHead p { margin-top: var(--space-1); color: var(--fg-2); font-size: var(--text-xs); }
+.workHead h2 {
+  color: var(--fg-0);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.workHead p {
+  margin-top: var(--space-1);
+  color: var(--fg-2);
+  font-size: var(--text-xs);
+}
 
-.newTask { display: flex; justify-content: flex-start; }
+.newTask {
+  display: flex;
+  justify-content: flex-start;
+}
 
 /* Was opacity:0 flipped by onMouseEnter/onMouseLeave. opacity:0 keeps an
    element in the tab order, so a keyboard user landed on a focused but
@@ -269,7 +408,9 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
    behind a confirm(). On touch there was no way to reach it at all.
    Revealed by hovering the avatar, by focusing the button, and always on a
    device without hover. */
-.memberChip { position: relative; }
+.memberChip {
+  position: relative;
+}
 
 .memberRemove {
   position: absolute;
@@ -289,10 +430,17 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   transition: opacity 0.15s;
 }
 .memberChip:hover .memberRemove,
-.memberRemove:focus-visible { opacity: 1; }
-.memberRemove:focus-visible { outline: 2px solid var(--fg-0); outline-offset: 1px; }
+.memberRemove:focus-visible {
+  opacity: 1;
+}
+.memberRemove:focus-visible {
+  outline: 2px solid var(--fg-0);
+  outline-offset: 1px;
+}
 @media (hover: none) {
-  .memberRemove { opacity: 1; }
+  .memberRemove {
+    opacity: 1;
+  }
 }
 
 /* The composer's primary control had border:none, outline:none and no
@@ -315,4 +463,6 @@ details[open] > .invitationsSummary::after { transform: rotate(180deg); }
   background: var(--bg-2);
   box-shadow: 0 0 0 2px var(--brand);
 }
-.titleInput::placeholder { color: var(--fg-3); }
+.titleInput::placeholder {
+  color: var(--fg-3);
+}

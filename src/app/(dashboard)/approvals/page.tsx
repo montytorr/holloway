@@ -1,3 +1,4 @@
+import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import { createServerClient } from '@/lib/db/server';
 import { getAuthActorContext } from '@/lib/auth-actor-context';
@@ -22,10 +23,16 @@ export default async function ApprovalsPage({
   if (!visibility.canViewPage) {
     return (
       <PageFrame>
-        <div style={{ marginBottom: 28 }}>
-          <p className="upper" style={{ marginBottom: 6 }}>System</p>
+        <div className={presentation.section1}>
+          <p
+            className={['upper', presentation.copy1].filter(Boolean).join(' ')}
+          >
+            System
+          </p>
           <h1 className="h1">Approvals</h1>
-          <p className="muted text-sm">Sensitive operations waiting for an authorized reviewer.</p>
+          <p className="muted text-sm">
+            Sensitive operations waiting for an authorized reviewer.
+          </p>
         </div>
         <div className="card">
           <EmptyState
@@ -51,7 +58,10 @@ export default async function ApprovalsPage({
     .limit(50);
 
   if (!user.isSuperAdmin) {
-    if (visibility.allowedApprovalIds && visibility.allowedApprovalIds.length > 0) {
+    if (
+      visibility.allowedApprovalIds &&
+      visibility.allowedApprovalIds.length > 0
+    ) {
       query = query.in('id', visibility.allowedApprovalIds);
     } else if (visibility.visibleActors.length > 0) {
       query = query.in('actor', visibility.visibleActors);
@@ -68,7 +78,7 @@ export default async function ApprovalsPage({
   if (queryError) {
     return (
       <PageFrame width="prose">
-        <div style={{ marginBottom: 32 }}>
+        <div className={presentation.section2}>
           <h1 className="h1">Approvals</h1>
           <p className="muted text-sm">Failed to load approvals</p>
         </div>
@@ -101,12 +111,24 @@ export default async function ApprovalsPage({
     .eq('status', 'pending');
 
   if (!user.isSuperAdmin) {
-    if (visibility.allowedApprovalIds && visibility.allowedApprovalIds.length > 0) {
-      pendingCountQuery = pendingCountQuery.in('id', visibility.allowedApprovalIds);
+    if (
+      visibility.allowedApprovalIds &&
+      visibility.allowedApprovalIds.length > 0
+    ) {
+      pendingCountQuery = pendingCountQuery.in(
+        'id',
+        visibility.allowedApprovalIds,
+      );
     } else if (visibility.visibleActors.length > 0) {
-      pendingCountQuery = pendingCountQuery.in('actor', visibility.visibleActors);
+      pendingCountQuery = pendingCountQuery.in(
+        'actor',
+        visibility.visibleActors,
+      );
     } else {
-      pendingCountQuery = pendingCountQuery.eq('id', '00000000-0000-0000-0000-000000000000');
+      pendingCountQuery = pendingCountQuery.eq(
+        'id',
+        '00000000-0000-0000-0000-000000000000',
+      );
     }
   }
 
@@ -118,29 +140,40 @@ export default async function ApprovalsPage({
     <AutoRefresh intervalMs={10000} watch={['approvals']}>
       <PageFrame width="prose">
         {/* Header */}
-        <div style={{ marginBottom: 32 }}>
-          <div className="row gap-3" style={{ marginBottom: 8 }}>
-            <div style={{
-              width: 36,
-              height: 36,
-              borderRadius: 'var(--radius-3)',
-              background: 'var(--amber-bg)',
-              border: '1px solid var(--amber-line)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <ShieldCheck size={16} style={{ color: 'var(--amber)' }} />
+        <div className={presentation.section2}>
+          <div
+            className={['row gap-3', presentation.section3]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <div className={presentation.row1}>
+              <ShieldCheck size={16} className={presentation.ink1} />
             </div>
             <div>
-              <p className="upper" style={{ marginBottom: 2 }}>System</p>
+              <p
+                className={['upper', presentation.copy2]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                System
+              </p>
               <h1 className="h1">Approvals</h1>
             </div>
           </div>
-          <p className="muted text-sm" style={{ lineHeight: 1.6, marginTop: 8 }}>
-            Review and approve sensitive operations. Key rotation requires approval from another admin; admin-triggered kill switch activations are auto-approved.
+          <p
+            className={['muted text-sm', presentation.copy3]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            Review and approve sensitive operations. Key rotation requires
+            approval from another admin; admin-triggered kill switch activations
+            are auto-approved.
             {(pendingCount ?? 0) > 0 && (
-              <span className="pill pill--amber" style={{ marginLeft: 8 }}>
+              <span
+                className={['pill pill--amber', presentation.detail1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {pendingCount} pending
               </span>
             )}
@@ -148,14 +181,20 @@ export default async function ApprovalsPage({
         </div>
 
         {/* Filter tabs using .seg */}
-        <div className="seg" style={{ marginBottom: 24 }}>
+        <div
+          className={['seg', presentation.section4].filter(Boolean).join(' ')}
+        >
           {filters.map((f) => (
             <a
               key={f}
               href={`/approvals${f === 'pending' ? '' : `?filter=${f}`}`}
-              style={{ textDecoration: 'none' }}
+              className={presentation.link1}
             >
-              <button className={filter === f ? 'active' : ''} style={{ textTransform: 'capitalize' }}>
+              <button
+                className={[filter === f ? 'active' : '', presentation.action1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 {f}
               </button>
             </a>

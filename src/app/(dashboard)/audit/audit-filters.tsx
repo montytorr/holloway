@@ -1,4 +1,5 @@
 'use client';
+import presentation from './audit-filters-presentation.module.css';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
@@ -61,27 +62,20 @@ export default function AuditFilters() {
   );
 
   return (
-    <div className="row gap-3" style={{ marginBottom: 16, flexWrap: 'wrap' }}>
+    <div
+      className={['row gap-3', presentation.section1].filter(Boolean).join(' ')}
+    >
       {/* Actor search — full width on small screens, flex grow on large */}
-      <div style={{ position: 'relative', flex: '1 1 200px', minWidth: 0 }}>
-        <Search
-          size={13}
-          style={{
-            position: 'absolute',
-            left: 10,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: 'var(--fg-3)',
-            pointerEvents: 'none',
-          }}
-        />
+      <div className={presentation.detail1}>
+        <Search size={13} className={presentation.ink1} />
         <input
           type="text"
           placeholder="Search actors…"
           value={actor}
           onChange={(e) => updateFilter('actor', e.target.value)}
-          className="cp-input"
-          style={{ paddingLeft: 30 }}
+          className={['cp-input', presentation.field1]
+            .filter(Boolean)
+            .join(' ')}
         />
       </div>
 
@@ -89,8 +83,7 @@ export default function AuditFilters() {
       <select
         value={action}
         onChange={(e) => updateFilter('action', e.target.value)}
-        className="cp-select"
-        style={{ width: 160 }}
+        className={['cp-select', presentation.field2].filter(Boolean).join(' ')}
       >
         {actionTypes.map((t) => (
           <option key={t.value} value={t.value}>
@@ -103,8 +96,7 @@ export default function AuditFilters() {
       <select
         value={dateRange}
         onChange={(e) => updateFilter('range', e.target.value)}
-        className="cp-select"
-        style={{ width: 130 }}
+        className={['cp-select', presentation.field3].filter(Boolean).join(' ')}
       >
         {dateRanges.map((d) => (
           <option key={d.value} value={d.value}>

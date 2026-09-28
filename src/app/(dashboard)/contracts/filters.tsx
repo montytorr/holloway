@@ -5,7 +5,16 @@ import { useCallback, useRef, useState, useTransition } from 'react';
 import type { ContractStatus } from '@/lib/types';
 import styles from './contracts-list.module.css';
 
-const statuses: Array<ContractStatus | 'all' | 'open'> = ['open', 'all', 'proposed', 'active', 'closed', 'rejected', 'expired', 'cancelled'];
+const statuses: Array<ContractStatus | 'all' | 'open'> = [
+  'open',
+  'all',
+  'proposed',
+  'active',
+  'closed',
+  'rejected',
+  'expired',
+  'cancelled',
+];
 const sortOptions = [
   { value: 'newest', label: 'Newest First' },
   { value: 'oldest', label: 'Oldest First' },
@@ -25,7 +34,11 @@ export default function ContractFilters({ current }: { current: string }) {
     (updates: Record<string, string>) => {
       const params = new URLSearchParams(searchParams.toString());
       for (const [key, value] of Object.entries(updates)) {
-        if (!value || (key === 'status' && value === 'open') || (key === 'sort' && value === 'newest')) {
+        if (
+          !value ||
+          (key === 'status' && value === 'open') ||
+          (key === 'sort' && value === 'newest')
+        ) {
           params.delete(key);
         } else {
           params.set(key, value);
@@ -40,28 +53,46 @@ export default function ContractFilters({ current }: { current: string }) {
   const debouncedSearch = useCallback(
     (value: string) => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(() => updateParams({ search: value }), 300);
+      debounceRef.current = setTimeout(
+        () => updateParams({ search: value }),
+        300,
+      );
     },
     [updateParams],
   );
 
   return (
-    <div className={styles.filters} aria-busy={isPending}>
-      {isPending && <div role="status" aria-live="polite" className="text-2xs contract-filter-loading">Loading contracts…</div>}
+    <div className={`list-toolbar ${styles.filters}`} aria-busy={isPending}>
+      {isPending && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="text-2xs contract-filter-loading"
+        >
+          Loading contracts…
+        </div>
+      )}
       <div className="seg">
         {statuses.map((status) => (
           <button
             key={status}
+            type="button"
+            aria-pressed={current === status}
             className={current === status ? 'active' : ''}
             onClick={() => updateParams({ status })}
           >
-            {status === 'open' ? 'Open' : status === 'all' ? 'All' : status[0].toUpperCase() + status.slice(1)}
+            {status === 'open'
+              ? 'Open'
+              : status === 'all'
+                ? 'All'
+                : status[0].toUpperCase() + status.slice(1)}
           </button>
         ))}
       </div>
       <div className={styles.filterInputs}>
         <input
-          type="text"
+          type="search"
+          aria-label="Search contracts by title"
           placeholder="Search by title..."
           value={localSearch}
           onChange={(e) => {
@@ -71,12 +102,15 @@ export default function ContractFilters({ current }: { current: string }) {
           className={`cp-input ${styles.search}`}
         />
         <select
+          aria-label="Sort contracts"
           value={currentSort}
           onChange={(e) => updateParams({ sort: e.target.value })}
           className={`cp-select ${styles.sort}`}
         >
           {sortOptions.map((o) => (
-            <option key={o.value} value={o.value}>{o.label}</option>
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
           ))}
         </select>
       </div>

@@ -1,0 +1,78 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.stack1 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field1 {
+  width: 100%;
+  resize: none;
+  border-radius: var(--radius-2);
+  border: 1px solid var(--line-1);
+  background: var(--bg-0);
+  padding: var(--space-2) var(--space-3);
+  color: var(--fg-2);
+  outline: none;
+  font-family: var(--sans);
+}
+
+.row1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.row2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.row3 {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--fg-4);
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.stack2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border-top: 1px solid var(--line-1);
+  padding-top: 10px;
+}
+
+.row4 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.label1 {
+  width: 48px;
+  flex-shrink: 0;
+}
+
+.field2 {
+  flex: 1;
+  min-width: 0;
+}
+
+.field3 {
+  flex: 1;
+  min-width: 0;
+  color-scheme: dark;
+}
+
+.row5 {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}

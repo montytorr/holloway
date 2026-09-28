@@ -1,7 +1,16 @@
 'use client';
+import presentation from './email-admin-client-presentation.module.css';
 
 import { useState } from 'react';
-import { AlertTriangle, CheckSquare, FileText, KeyRound, Mail, ShieldCheck, UserPlus } from 'lucide-react';
+import {
+  AlertTriangle,
+  CheckSquare,
+  FileText,
+  KeyRound,
+  Mail,
+  ShieldCheck,
+  UserPlus,
+} from 'lucide-react';
 
 const TEMPLATES = [
   {
@@ -56,19 +65,13 @@ export default function EmailAdminClient({ userEmail }: EmailAdminClientProps) {
   const [activeTemplate, setActiveTemplate] = useState<string | null>(null);
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1.25rem', alignItems: 'start' }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 6,
-          padding: 'var(--space-2)',
-          border: '1px solid var(--line-1)',
-          borderRadius: 'var(--radius-4)',
-          background: 'color-mix(in oklch, var(--bg-1) 72%, transparent)',
-        }}
-      >
-        <p className="upper dim text-2xs" style={{ padding: '4px 8px 8px', letterSpacing: '0.12em' }}>
+    <div className={presentation.grid1}>
+      <div className={presentation.stack1}>
+        <p
+          className={['upper dim text-2xs', presentation.copy1]
+            .filter(Boolean)
+            .join(' ')}
+        >
           Templates
         </p>
         {TEMPLATES.map((tpl) => {
@@ -83,7 +86,9 @@ export default function EmailAdminClient({ userEmail }: EmailAdminClientProps) {
                 cursor: 'pointer',
                 width: '100%',
                 border: `1px solid ${selected ? 'color-mix(in oklch, var(--brand) 58%, var(--line-1))' : 'transparent'}`,
-                background: selected ? 'color-mix(in oklch, var(--brand-bg) 46%, var(--bg-1))' : 'transparent',
+                background: selected
+                  ? 'color-mix(in oklch, var(--brand-bg) 46%, var(--bg-1))'
+                  : 'transparent',
                 borderRadius: 9,
                 padding: '9px 10px',
                 display: 'grid',
@@ -95,19 +100,7 @@ export default function EmailAdminClient({ userEmail }: EmailAdminClientProps) {
               }}
               onClick={() => setActiveTemplate(tpl.id)}
             >
-              {selected && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    left: -1,
-                    top: 10,
-                    bottom: 10,
-                    width: 2,
-                    borderRadius: 999,
-                    background: 'var(--brand)',
-                  }}
-                />
-              )}
+              {selected && <span className={presentation.detail1} />}
               <span
                 style={{
                   width: 30,
@@ -116,17 +109,27 @@ export default function EmailAdminClient({ userEmail }: EmailAdminClientProps) {
                   display: 'grid',
                   placeItems: 'center',
                   color: selected ? 'var(--brand)' : 'var(--fg-3)',
-                  background: selected ? 'color-mix(in oklch, var(--brand-bg) 70%, transparent)' : 'var(--bg-2)',
+                  background: selected
+                    ? 'color-mix(in oklch, var(--brand-bg) 70%, transparent)'
+                    : 'var(--bg-2)',
                   border: '1px solid var(--line-1)',
                 }}
               >
                 <Icon size={15} strokeWidth={1.8} />
               </span>
-              <span style={{ minWidth: 0 }}>
-                <span className="text-sm" style={{ display: 'block', fontWeight: 600, color: 'var(--fg-0)', lineHeight: 1.2 }}>
+              <span className={presentation.detail2}>
+                <span
+                  className={['text-sm', presentation.ink1]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   {tpl.label}
                 </span>
-                <span className="dim text-2xs" style={{ display: 'block', marginTop: 3, lineHeight: 1.25 }}>
+                <span
+                  className={['dim text-2xs', presentation.detail3]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   {tpl.description}
                 </span>
               </span>
@@ -135,36 +138,45 @@ export default function EmailAdminClient({ userEmail }: EmailAdminClientProps) {
         })}
       </div>
 
-      <div
-        className="card"
-        style={{
-          overflow: 'hidden',
-          border: '1px solid var(--line-1)',
-          minHeight: '600px',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: 0,
-        }}
-      >
+      <div className={['card', presentation.stack2].filter(Boolean).join(' ')}>
         {activeTemplate ? (
           <>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', borderBottom: '1px solid var(--line-1)', background: 'var(--bg-1)' }}>
+            <div className={presentation.row1}>
               <div>
-                <p className="muted text-xs" style={{ fontWeight: 600 }}>
-                  Preview — {TEMPLATES.find((t) => t.id === activeTemplate)?.label}
+                <p
+                  className={['muted text-xs', presentation.copy2]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  Preview —{' '}
+                  {TEMPLATES.find((t) => t.id === activeTemplate)?.label}
                 </p>
-                <p className="dim text-2xs" style={{ marginTop: 2 }}>
-                  Uses preview-only payloads; test sends require explicit real props and remain disabled here for {userEmail}.
+                <p
+                  className={['dim text-2xs', presentation.copy3]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  Uses preview-only payloads; test sends require explicit real
+                  props and remain disabled here for {userEmail}.
                 </p>
               </div>
               <a
                 href={`/api/v1/email/preview?template=${activeTemplate}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xs" style={{ color: 'var(--peri)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                className={['text-2xs', presentation.row2]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 Open in new tab
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                   <polyline points="15 3 21 3 21 9" />
                   <line x1="10" y1="14" x2="21" y2="3" />
@@ -174,27 +186,25 @@ export default function EmailAdminClient({ userEmail }: EmailAdminClientProps) {
             <iframe
               key={activeTemplate}
               src={`/api/v1/email/preview?template=${activeTemplate}`}
-              style={{ flex: 1, width: '100%', border: 'none', background: '#fff', minHeight: '560px' }}
+              className={presentation.detail4}
               title={`Preview — ${activeTemplate}`}
             />
           </>
         ) : (
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div
-                style={{
-                  width: '3rem',
-                  height: '3rem',
-                  borderRadius: 'var(--radius-4)',
-                  background: 'var(--bg-2)',
-                  border: '1px solid var(--line-1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 0.75rem',
-                }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--fg-3)' }}>
+          <div className={presentation.row3}>
+            <div className={presentation.detail5}>
+              <div className={presentation.row4}>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={presentation.ink2}
+                >
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>

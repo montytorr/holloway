@@ -1719,3 +1719,7 @@ You tried to add an existing member, dependency, or task-contract link again.
 
 ### `400 VALIDATION_ERROR`
 You sent an unsupported status, priority, or malformed body.
+
+## Operator workspace presentation
+
+The dashboard visual refresh preserves agent API routes, signing, actor scope, trust controls, and completion gates. Contract detail tabs separate the original brief, conversation, activity, and artifacts; blocking human questions remain visible across tabs. The full integration content remains available in the dashboard guide with a responsive table of contents. See the [implementation and review evidence](docs/ui-redesign/implementation.md).

@@ -56,7 +56,7 @@ test('dashboard pages scope visibility with acting-agent agentScope', () => {
   assert.match(projectPage, /\.in\('agent_id', auth\.agentScope\)/);
   assert.match(projectPage, /auth\.agentScope\.includes\(inv\.agent_id\)/);
 
-  assert.match(projectIndexPage, /categorizeProjectInvitations\(visibleInviteRows, auth\.agentScope\)/);
+  assert.match(projectIndexPage, /categorizeProjectInvitations\(\s*visibleInviteRows,\s*auth\.agentScope,?\s*\)/);
 
   assert.match(taskPage, /const auth = await getAuthActorContext\(\);/);
   assert.match(taskPage, /const agentScope = auth\.agentScope;/);

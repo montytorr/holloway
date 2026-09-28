@@ -1,3 +1,4 @@
+import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import Link from 'next/link';
 import { createServerClient } from '@/lib/db/server';
@@ -8,7 +9,11 @@ import WebhookFilterCard from './webhook-filter-card';
 import { buildDashboardVisibilityScope } from '@/lib/dashboard-scope';
 import { ArrowLeft, Clock, Info, Activity } from 'lucide-react';
 import StatusBadge from '@/components/status-badge';
-import { colorVarForTone, httpStatusTone, pillClassForTone } from '@/lib/status-tone';
+import {
+  colorVarForTone,
+  httpStatusTone,
+  pillClassForTone,
+} from '@/lib/status-tone';
 import type { WebhookDeliveryStatus } from '@/lib/types';
 import { PageFrame, EmptyState } from '@/components/atoms';
 
@@ -57,8 +62,11 @@ function truncateUrl(url: string, maxLen = 40) {
     const u = new URL(url);
     const host = u.hostname;
     const path = u.pathname;
-    const truncated = host + (path.length > 20 ? path.slice(0, 17) + '...' : path);
-    return truncated.length > maxLen ? truncated.slice(0, maxLen - 3) + '...' : truncated;
+    const truncated =
+      host + (path.length > 20 ? path.slice(0, 17) + '...' : path);
+    return truncated.length > maxLen
+      ? truncated.slice(0, maxLen - 3) + '...'
+      : truncated;
   } catch {
     return url.slice(0, maxLen - 3) + '...';
   }
@@ -94,7 +102,8 @@ export default async function WebhookHealthPage({
   noStore();
 
   // eslint-disable-next-line react-hooks/purity -- server component with noStore(), Date.now() is intentional
-  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const now = Date.now();
+  const twentyFourHoursAgo = new Date(now - 24 * 60 * 60 * 1000).toISOString();
 
   // Resolve visible webhook IDs from the current acting-agent scope.
   const scope = await buildDashboardVisibilityScope(auth);
@@ -106,7 +115,8 @@ export default async function WebhookHealthPage({
   // Fetch recent deliveries (last 50), optionally filtered by webhook + failures only
   let deliveriesQuery = db
     .from('webhook_deliveries')
-    .select(`
+    .select(
+      `
       id,
       webhook_id,
       event,
@@ -118,7 +128,8 @@ export default async function WebhookHealthPage({
       max_retries,
       last_retry_at,
       webhooks!inner(id, url, agent_id, is_active, failure_count, last_delivery_at, agents(id, name, display_name))
-    `)
+    `,
+    )
     .order('created_at', { ascending: false })
     .limit(50);
 
@@ -133,26 +144,32 @@ export default async function WebhookHealthPage({
       .gte('created_at', twentyFourHoursAgo);
   }
 
-  const { data: recentDeliveries } = hasWebhooks ? await deliveriesQuery : { data: [] };
+  const { data: recentDeliveries } = hasWebhooks
+    ? await deliveriesQuery
+    : { data: [] };
   const deliveries = (recentDeliveries || []) as unknown as WebhookDelivery[];
 
   // Fetch deliveries in last 24h for summary stats
   let stats24hQuery = db
     .from('webhook_deliveries')
-    .select(`
+    .select(
+      `
       id,
       webhook_id,
       status,
       attempts,
       webhooks!inner(id, url, agent_id, is_active, failure_count, last_delivery_at, agents(id, name, display_name))
-    `)
+    `,
+    )
     .gte('created_at', twentyFourHoursAgo);
 
   if (needsScope) {
     stats24hQuery = stats24hQuery.in('webhook_id', userWebhookIds);
   }
 
-  const { data: last24hDeliveries } = hasWebhooks ? await stats24hQuery : { data: [] };
+  const { data: last24hDeliveries } = hasWebhooks
+    ? await stats24hQuery
+    : { data: [] };
 
   const stats24h = (last24hDeliveries || []) as unknown as Array<{
     id: string;
@@ -179,7 +196,8 @@ export default async function WebhookHealthPage({
         webhookId: wid,
         url: d.webhooks.url,
         agentId: d.webhooks.agent_id,
-        agentName: d.webhooks.agents?.display_name || d.webhooks.agents?.name || null,
+        agentName:
+          d.webhooks.agents?.display_name || d.webhooks.agents?.name || null,
         isActive: d.webhooks.is_active,
         failureCount: d.webhooks.failure_count,
         lastDeliveryAt: d.webhooks.last_delivery_at,
@@ -194,40 +212,66 @@ export default async function WebhookHealthPage({
     s.totalCount24h++;
     if (d.status === 'success') s.successCount24h++;
     else if (d.status === 'failed') s.failedCount24h++;
-    else if (d.status === 'pending_retry' || d.status === 'retrying') s.retryCount24h++;
+    else if (d.status === 'pending_retry' || d.status === 'retrying')
+      s.retryCount24h++;
     else s.pendingCount24h++;
   }
 
-  const summaries = Array.from(summaryMap.values()).sort((a, b) => b.totalCount24h - a.totalCount24h);
+  const summaries = Array.from(summaryMap.values()).sort(
+    (a, b) => b.totalCount24h - a.totalCount24h,
+  );
 
   // Overall stats
   const totalDeliveries24h = stats24h.length;
-  const totalSuccess = stats24h.filter(d => d.status === 'success').length;
-  const totalFailed = stats24h.filter(d => d.status === 'failed').length;
-  const totalPending = stats24h.filter(d => d.status === 'pending').length;
-  const totalRetrying = stats24h.filter(d => d.status === 'pending_retry' || d.status === 'retrying').length;
-  const successRate = totalDeliveries24h > 0 ? Math.round((totalSuccess / totalDeliveries24h) * 100) : 0;
+  const totalSuccess = stats24h.filter((d) => d.status === 'success').length;
+  const totalFailed = stats24h.filter((d) => d.status === 'failed').length;
+  const totalPending = stats24h.filter((d) => d.status === 'pending').length;
+  const totalRetrying = stats24h.filter(
+    (d) => d.status === 'pending_retry' || d.status === 'retrying',
+  ).length;
+  const successRate =
+    totalDeliveries24h > 0
+      ? Math.round((totalSuccess / totalDeliveries24h) * 100)
+      : 0;
 
   // Resolve filtered webhook name for display
   const filteredWebhookUrl = filterWebhookId
-    ? summaries.find(s => s.webhookId === filterWebhookId)?.url || filterWebhookId
+    ? summaries.find((s) => s.webhookId === filterWebhookId)?.url ||
+      filterWebhookId
     : null;
 
   return (
     <AutoRefresh intervalMs={30000} watch={['webhooks']}>
       <PageFrame>
         {/* Header */}
-        <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
+        <div
+          className={['row', presentation.section1].filter(Boolean).join(' ')}
+        >
           <div>
-            <div className="row gap-2" style={{ marginBottom: 6 }}>
-              <Link href="/webhooks" className="upper" style={{ color: 'var(--fg-4)', textDecoration: 'none' }}>
+            <div
+              className={['row gap-2', presentation.section2]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <Link
+                href="/webhooks"
+                className={['upper', presentation.link1]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 Webhooks
               </Link>
-              <span style={{ color: 'var(--fg-4)' }}>/</span>
+              <span className={presentation.ink1}>/</span>
               <p className="upper">Delivery Health</p>
             </div>
             <h1 className="h1">Webhook Health</h1>
-            <p className="muted text-sm" style={{ marginTop: 4 }}>Delivery status monitoring &amp; diagnostics</p>
+            <p
+              className={['muted text-sm', presentation.copy1]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Delivery status monitoring &amp; diagnostics
+            </p>
           </div>
           <Link href="/webhooks" className="btn">
             <ArrowLeft size={14} />
@@ -237,67 +281,149 @@ export default async function WebhookHealthPage({
 
         {/* Scope banner */}
         {isSuperAdmin ? (
-          <div className="row gap-2" style={{
-            marginBottom: 16,
-            borderRadius: 'var(--radius-2)',
-            background: 'var(--amber-bg)',
-            border: '1px solid var(--amber-line)',
-            padding: '10px 16px',
-          }}>
-            <Info size={14} style={{ color: 'var(--amber)', flexShrink: 0 }} />
-            <span className="text-xs" style={{ color: 'var(--amber)', fontWeight: 500 }}>
+          <div
+            className={['row gap-2', presentation.panel1]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <Info size={14} className={presentation.ink2} />
+            <span
+              className={['text-xs', presentation.ink3]
+                .filter(Boolean)
+                .join(' ')}
+            >
               Admin view — showing all platform webhook deliveries.
             </span>
           </div>
         ) : !hasWebhooks ? (
-          <div className="row gap-2" style={{
-            marginBottom: 16,
-            borderRadius: 'var(--radius-2)',
-            background: 'var(--bg-2)',
-            border: '1px solid var(--line-1)',
-            padding: '10px 16px',
-          }}>
-            <Info size={14} style={{ color: 'var(--fg-3)', flexShrink: 0 }} />
-            <span className="text-xs" style={{ color: 'var(--fg-3)', fontWeight: 500 }}>
-              No webhooks registered for your agents. Register a webhook to see delivery health here.
+          <div
+            className={['row gap-2', presentation.panel2]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <Info size={14} className={presentation.ink4} />
+            <span
+              className={['text-xs', presentation.ink5]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              No webhooks registered for your agents. Register a webhook to see
+              delivery health here.
             </span>
           </div>
         ) : (
-          <div className="row gap-2" style={{
-            marginBottom: 16,
-            borderRadius: 'var(--radius-2)',
-            background: 'var(--peri-bg)',
-            border: '1px solid var(--peri-line)',
-            padding: '10px 16px',
-          }}>
-            <Info size={14} style={{ color: 'var(--peri)', flexShrink: 0 }} />
-            <span className="text-xs" style={{ color: 'var(--peri)', fontWeight: 500 }}>
+          <div
+            className={['row gap-2', presentation.panel3]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <Info size={14} className={presentation.ink6} />
+            <span
+              className={['text-xs', presentation.ink7]
+                .filter(Boolean)
+                .join(' ')}
+            >
               Showing deliveries for your webhooks only.
             </span>
           </div>
         )}
 
         {/* Overall Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 32 }}>
-          <div className="card" style={{ padding: '16px 20px' }}>
-            <p className="upper" style={{ marginBottom: 8 }}>24h Total</p>
-            <p className="num text-xl" style={{ fontWeight: 700, color: 'var(--fg-0)' }}>{totalDeliveries24h}</p>
+        <div className={presentation.grid1}>
+          <div
+            className={['card', presentation.detail1].filter(Boolean).join(' ')}
+          >
+            <p
+              className={['upper', presentation.copy2]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              24h Total
+            </p>
+            <p
+              className={['num text-xl', presentation.copy3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {totalDeliveries24h}
+            </p>
           </div>
-          <div className="card" style={{ padding: '16px 20px' }}>
-            <p className="upper" style={{ marginBottom: 8, color: 'var(--mint)' }}>Success</p>
-            <p className="num text-xl" style={{ fontWeight: 700, color: 'var(--mint)' }}>{totalSuccess}</p>
+          <div
+            className={['card', presentation.detail1].filter(Boolean).join(' ')}
+          >
+            <p
+              className={['upper', presentation.copy4]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Success
+            </p>
+            <p
+              className={['num text-xl', presentation.copy5]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {totalSuccess}
+            </p>
           </div>
-          <div className="card" style={{ padding: '16px 20px' }}>
-            <p className="upper" style={{ marginBottom: 8, color: 'var(--rose)' }}>Failed</p>
-            <p className="num text-xl" style={{ fontWeight: 700, color: 'var(--rose)' }}>{totalFailed}</p>
+          <div
+            className={['card', presentation.detail1].filter(Boolean).join(' ')}
+          >
+            <p
+              className={['upper', presentation.copy6]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Failed
+            </p>
+            <p
+              className={['num text-xl', presentation.copy7]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {totalFailed}
+            </p>
           </div>
-          <div className="card" style={{ padding: '16px 20px' }}>
-            <p className="upper" style={{ marginBottom: 8, color: 'var(--peri)' }}>Retrying</p>
-            <p className="num text-xl" style={{ fontWeight: 700, color: 'var(--peri)' }}>{totalRetrying}</p>
+          <div
+            className={['card', presentation.detail1].filter(Boolean).join(' ')}
+          >
+            <p
+              className={['upper', presentation.copy8]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Retrying
+            </p>
+            <p
+              className={['num text-xl', presentation.copy9]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {totalRetrying}
+            </p>
           </div>
-          <div className="card" style={{ padding: '16px 20px' }}>
-            <p className="upper" style={{ marginBottom: 8 }}>Success Rate</p>
-            <p className="num text-xl" style={{ fontWeight: 700, color: successRate >= 90 ? 'var(--mint)' : successRate >= 70 ? 'var(--amber)' : 'var(--rose)' }}>
+          <div
+            className={['card', presentation.detail1].filter(Boolean).join(' ')}
+          >
+            <p
+              className={['upper', presentation.copy2]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              Success Rate
+            </p>
+            <p
+              className="num text-xl"
+              style={{
+                fontWeight: 700,
+                color:
+                  successRate >= 90
+                    ? 'var(--mint)'
+                    : successRate >= 70
+                      ? 'var(--amber)'
+                      : 'var(--rose)',
+              }}
+            >
               {successRate}%
             </p>
           </div>
@@ -305,16 +431,32 @@ export default async function WebhookHealthPage({
 
         {/* Per-Webhook Summary Cards (clickable for drill-down) */}
         {summaries.length > 0 && (
-          <div style={{ marginBottom: 32 }}>
-            <div className="row gap-2" style={{ marginBottom: 16 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--fg-3)' }}>
+          <div className={presentation.section3}>
+            <div
+              className={['row gap-2', presentation.section4]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={presentation.ink8}
+              >
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
               </svg>
               <h2 className="h3">Per-Webhook Summary</h2>
-              <span className="dim text-2xs">(last 24h · click to filter failures)</span>
+              <span className="dim text-2xs">
+                (last 24h · click to filter failures)
+              </span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
+            <div className={presentation.grid2}>
               {summaries.map((s, idx) => (
                 <WebhookFilterCard
                   key={s.webhookId}
@@ -339,19 +481,21 @@ export default async function WebhookHealthPage({
 
         {/* Filter indicator */}
         {filterWebhookId && (
-          <div style={{
-            marginBottom: 16,
-            borderRadius: 'var(--radius-2)',
-            background: 'var(--peri-bg)',
-            border: '1px solid var(--peri-line)',
-            padding: '10px 16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-            <p className="text-xs" style={{ color: 'var(--peri)' }}>
-              <span style={{ fontWeight: 600 }}>Filtered:</span> Showing failures for{' '}
-              <span className="mono" style={{ color: 'var(--fg-1)' }}>{truncateUrl(filteredWebhookUrl || '', 60)}</span>
+          <div className={presentation.row1}>
+            <p
+              className={['text-xs', presentation.copy10]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <span className={presentation.detail2}>Filtered:</span> Showing
+              failures for{' '}
+              <span
+                className={['mono', presentation.ink9]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                {truncateUrl(filteredWebhookUrl || '', 60)}
+              </span>
             </p>
             <Link href="/webhooks/health" className="btn btn--sm btn--ghost">
               Clear filter
@@ -361,13 +505,19 @@ export default async function WebhookHealthPage({
 
         {/* Recent Deliveries Table */}
         <div>
-          <div className="row gap-2" style={{ marginBottom: 16 }}>
-            <Clock size={14} style={{ color: 'var(--fg-3)' }} />
+          <div
+            className={['row gap-2', presentation.section4]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <Clock size={14} className={presentation.ink8} />
             <h2 className="h3">
               {filterWebhookId ? 'Failed Deliveries' : 'Recent Deliveries'}
             </h2>
             <span className="dim text-2xs">
-              {filterWebhookId ? `(${deliveries.length} failures)` : '(last 50)'}
+              {filterWebhookId
+                ? `(${deliveries.length} failures)`
+                : '(last 50)'}
             </span>
           </div>
 
@@ -375,20 +525,39 @@ export default async function WebhookHealthPage({
             <div className="card">
               <EmptyState
                 icon={<Activity size={20} />}
-                title={filterWebhookId ? 'No failures found' : 'No deliveries recorded'}
-                hint={filterWebhookId
-                  ? 'This webhook has no failed deliveries in the last 50 attempts.'
-                  : 'Webhook deliveries appear here once events are dispatched.'}
+                title={
+                  filterWebhookId
+                    ? 'No failures found'
+                    : 'No deliveries recorded'
+                }
+                hint={
+                  filterWebhookId
+                    ? 'This webhook has no failed deliveries in the last 50 attempts.'
+                    : 'Webhook deliveries appear here once events are dispatched.'
+                }
               />
             </div>
           ) : (
-            <div className="card" style={{ overflow: 'hidden' }}>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', minWidth: 720, borderCollapse: 'collapse' }}>
+            <div
+              className={['card', presentation.detail3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <div className={presentation.detail4}>
+                <table className={presentation.detail5}>
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--line-1)' }}>
-                      {['Event', 'Status', 'HTTP', 'Attempts', 'Webhook', 'Target Agent', 'Created', 'Delivered'].map(col => (
-                        <th key={col} style={{ textAlign: 'left', padding: '10px 16px' }}>
+                    <tr className={presentation.detail6}>
+                      {[
+                        'Event',
+                        'Status',
+                        'HTTP',
+                        'Attempts',
+                        'Webhook',
+                        'Target Agent',
+                        'Created',
+                        'Delivered',
+                      ].map((col) => (
+                        <th key={col} className={presentation.detail7}>
                           <span className="upper text-2xs">{col}</span>
                         </th>
                       ))}
@@ -404,50 +573,95 @@ export default async function WebhookHealthPage({
                           animationDelay: `${0.15 + idx * 0.02}s`,
                         }}
                       >
-                        <td style={{ padding: '10px 16px' }}>
-                          <span className={`${pillClassForTone('neutral')} mono text-2xs`}>
+                        <td className={presentation.detail8}>
+                          <span
+                            className={`${pillClassForTone('neutral')} mono text-2xs`}
+                          >
                             {d.event}
                           </span>
                         </td>
-                        <td style={{ padding: '10px 16px' }}>
-                          <StatusBadge domain="webhook-delivery" status={d.status} size="lg" />
+                        <td className={presentation.detail8}>
+                          <StatusBadge
+                            domain="webhook-delivery"
+                            status={d.status}
+                            size="lg"
+                          />
                         </td>
-                        <td style={{ padding: '10px 16px' }}>
+                        <td className={presentation.detail8}>
                           {d.response_status ? (
-                            <span className="mono num text-xs" style={{
-                              color: colorVarForTone(httpStatusTone(d.response_status)),
-                            }}>
+                            <span
+                              className="mono num text-xs"
+                              style={{
+                                color: colorVarForTone(
+                                  httpStatusTone(d.response_status),
+                                ),
+                              }}
+                            >
                               {d.response_status}
                             </span>
                           ) : (
                             <span className="dim text-xs">—</span>
                           )}
                         </td>
-                        <td style={{ padding: '10px 16px' }}>
-                          <span className="mono num text-xs" style={{ color: colorVarForTone(d.attempts > 1 ? 'amber' : 'neutral') }}>
+                        <td className={presentation.detail8}>
+                          <span
+                            className="mono num text-xs"
+                            style={{
+                              color: colorVarForTone(
+                                d.attempts > 1 ? 'amber' : 'neutral',
+                              ),
+                            }}
+                          >
                             {d.attempts}/{d.max_retries}
                           </span>
                         </td>
-                        <td style={{ padding: '10px 16px' }}>
-                          <span className="mono text-xs" style={{ color: 'var(--fg-3)' }} title={d.webhooks.url}>
+                        <td className={presentation.detail8}>
+                          <span
+                            className={['mono text-xs', presentation.ink8]
+                              .filter(Boolean)
+                              .join(' ')}
+                            title={d.webhooks.url}
+                          >
                             {truncateUrl(d.webhooks.url)}
                           </span>
                         </td>
-                        <td style={{ padding: '10px 16px' }}>
-                          <span className="text-xs" style={{ color: 'var(--fg-2)' }} title={d.webhooks.agents?.name || d.webhooks.agent_id}>
-                            {d.webhooks.agents?.display_name || d.webhooks.agents?.name || (
-                              <span className="mono dim">{d.webhooks.agent_id.slice(0, 8)}</span>
-                            )}
+                        <td className={presentation.detail8}>
+                          <span
+                            className={['text-xs', presentation.ink10]
+                              .filter(Boolean)
+                              .join(' ')}
+                            title={
+                              d.webhooks.agents?.name || d.webhooks.agent_id
+                            }
+                          >
+                            {d.webhooks.agents?.display_name ||
+                              d.webhooks.agents?.name || (
+                                <span className="mono dim">
+                                  {d.webhooks.agent_id.slice(0, 8)}
+                                </span>
+                              )}
                           </span>
                         </td>
-                        <td style={{ padding: '10px 16px' }}>
-                          <span className="num text-xs" style={{ color: 'var(--fg-3)' }} title={d.created_at}>
+                        <td className={presentation.detail8}>
+                          <span
+                            className={['num text-xs', presentation.ink8]
+                              .filter(Boolean)
+                              .join(' ')}
+                            title={d.created_at}
+                          >
                             {formatTimestamp(d.created_at)}
                           </span>
                         </td>
-                        <td style={{ padding: '10px 16px' }}>
-                          <span className="num text-xs" style={{ color: 'var(--fg-3)' }} title={d.delivered_at || undefined}>
-                            {d.delivered_at ? formatTimestamp(d.delivered_at) : '—'}
+                        <td className={presentation.detail8}>
+                          <span
+                            className={['num text-xs', presentation.ink8]
+                              .filter(Boolean)
+                              .join(' ')}
+                            title={d.delivered_at || undefined}
+                          >
+                            {d.delivered_at
+                              ? formatTimestamp(d.delivered_at)
+                              : '—'}
                           </span>
                         </td>
                       </tr>
@@ -461,15 +675,16 @@ export default async function WebhookHealthPage({
 
         {/* Pending count note */}
         {(totalPending > 0 || totalRetrying > 0) && !filterWebhookId && (
-          <div style={{
-            marginTop: 16,
-            borderRadius: 'var(--radius-2)',
-            background: 'var(--amber-bg)',
-            border: '1px solid var(--amber-line)',
-            padding: '10px 16px',
-          }}>
-            <p className="text-xs" style={{ color: 'var(--amber)' }}>
-              <span style={{ fontWeight: 600 }}>{totalPending + totalRetrying}</span> deliveries pending or retrying in the last 24h.
+          <div className={presentation.panel4}>
+            <p
+              className={['text-xs', presentation.copy11]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <span className={presentation.detail2}>
+                {totalPending + totalRetrying}
+              </span>{' '}
+              deliveries pending or retrying in the last 24h.
             </p>
           </div>
         )}

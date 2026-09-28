@@ -1,0 +1,66 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.grid1 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 280px);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+@media (max-width: 1050px) {
+  .grid1 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.detail1 {
+  padding: 10px 16px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line-1);
+}
+
+.detail2 {
+  padding: 48px 0;
+  text-align: center;
+}
+
+.detail3 {
+  padding: var(--space-4);
+}
+
+.section1 {
+  margin-bottom: var(--space-3);
+}
+
+.section2 {
+  margin-bottom: 5px;
+}
+
+.detail4 {
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-3);
+  overflow: hidden;
+}
+
+.ink1 {
+  color: var(--fg-4);
+  width: 70px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.detail5 {
+  flex-shrink: 0;
+}
+
+.ink2 {
+  color: var(--fg-3);
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.ink3 {
+  flex: 1;
+  color: var(--fg-2);
+}

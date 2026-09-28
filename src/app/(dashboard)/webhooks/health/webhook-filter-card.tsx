@@ -1,4 +1,5 @@
 'use client';
+import presentation from './webhook-filter-card-presentation.module.css';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -24,8 +25,11 @@ function truncateUrl(url: string, maxLen = 50) {
     const u = new URL(url);
     const host = u.hostname;
     const path = u.pathname;
-    const truncated = host + (path.length > 20 ? path.slice(0, 17) + '...' : path);
-    return truncated.length > maxLen ? truncated.slice(0, maxLen - 3) + '...' : truncated;
+    const truncated =
+      host + (path.length > 20 ? path.slice(0, 17) + '...' : path);
+    return truncated.length > maxLen
+      ? truncated.slice(0, maxLen - 3) + '...'
+      : truncated;
   } catch {
     return url.slice(0, maxLen - 3) + '...';
   }
@@ -72,7 +76,8 @@ export default function WebhookFilterCard({
     }
   }
 
-  const rate = totalCount24h > 0 ? Math.round((successCount24h / totalCount24h) * 100) : 0;
+  const rate =
+    totalCount24h > 0 ? Math.round((successCount24h / totalCount24h) * 100) : 0;
 
   return (
     <button
@@ -89,30 +94,72 @@ export default function WebhookFilterCard({
         outline: isSelected ? `1px solid var(--peri)` : 'none',
         background: isSelected ? 'var(--peri-bg)' : 'var(--bg-1)',
       }}
-      title={isSelected ? 'Click to clear filter' : 'Click to filter deliveries to this webhook'}
+      title={
+        isSelected
+          ? 'Click to clear filter'
+          : 'Click to filter deliveries to this webhook'
+      }
     >
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
-        <div style={{ minWidth: 0, flex: 1 }}>
-          <div className="row gap-2" style={{ marginBottom: 6 }}>
-            <span className="dot" style={{ background: isActive ? 'var(--mint)' : 'var(--fg-4)' }} />
-            <span className="mono text-xs" style={{ color: 'var(--fg-2)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={url}>
+      <div className={presentation.row1}>
+        <div className={presentation.detail1}>
+          <div
+            className={['row gap-2', presentation.section1]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <span
+              className="dot"
+              style={{ background: isActive ? 'var(--mint)' : 'var(--fg-4)' }}
+            />
+            <span
+              className={['mono text-xs', presentation.ink1]
+                .filter(Boolean)
+                .join(' ')}
+              title={url}
+            >
               {truncateUrl(url, 50)}
             </span>
             {isSelected && (
-              <span className="pill pill--peri text-2xs" style={{ flexShrink: 0 }}>Filtered</span>
+              <span
+                className={['pill pill--peri text-2xs', presentation.detail2]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
+                Filtered
+              </span>
             )}
           </div>
-          <div className="row gap-2 text-2xs" style={{ color: 'var(--fg-4)' }}>
-            <span title={agentId}>{agentName || <span className="mono">{agentId.slice(0, 8)}...</span>}</span>
+          <div
+            className={['row gap-2 text-2xs', presentation.ink2]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <span title={agentId}>
+              {agentName || (
+                <span className="mono">{agentId.slice(0, 8)}...</span>
+              )}
+            </span>
             {failureCount > 0 && (
-              <span style={{ color: 'var(--rose)' }}>
-                {failureCount} consecutive failure{failureCount !== 1 ? 's' : ''}
+              <span className={presentation.ink3}>
+                {failureCount} consecutive failure
+                {failureCount !== 1 ? 's' : ''}
               </span>
             )}
           </div>
         </div>
-        <div style={{ textAlign: 'right', marginLeft: 16, flexShrink: 0 }}>
-          <p className="num text-lg" style={{ fontWeight: 700, color: rate >= 90 ? 'var(--mint)' : rate >= 70 ? 'var(--amber)' : 'var(--rose)' }}>
+        <div className={presentation.detail3}>
+          <p
+            className="num text-lg"
+            style={{
+              fontWeight: 700,
+              color:
+                rate >= 90
+                  ? 'var(--mint)'
+                  : rate >= 70
+                    ? 'var(--amber)'
+                    : 'var(--rose)',
+            }}
+          >
             {rate}%
           </p>
           <p className="upper text-2xs">success</p>
@@ -121,62 +168,67 @@ export default function WebhookFilterCard({
       <div className="row gap-4 text-xs">
         <div className="row gap-1">
           <span className="dot dot--mint" />
-          <span style={{ color: 'var(--fg-3)' }}>{successCount24h}</span>
+          <span className={presentation.ink4}>{successCount24h}</span>
         </div>
         <div className="row gap-1">
           <span className="dot dot--rose" />
-          <span style={{ color: 'var(--fg-3)' }}>{failedCount24h}</span>
+          <span className={presentation.ink4}>{failedCount24h}</span>
         </div>
         <div className="row gap-1">
           <span className="dot dot--amber" />
-          <span style={{ color: 'var(--fg-3)' }}>{pendingCount24h}</span>
+          <span className={presentation.ink4}>{pendingCount24h}</span>
         </div>
         {retryCount24h > 0 && (
           <div className="row gap-1">
             <span className="dot dot--peri" />
-            <span style={{ color: 'var(--fg-3)' }}>{retryCount24h}</span>
+            <span className={presentation.ink4}>{retryCount24h}</span>
           </div>
         )}
-        <span className="mono num dim text-2xs" style={{ marginLeft: 'auto' }}>
+        <span
+          className={['mono num dim text-2xs', presentation.detail4]
+            .filter(Boolean)
+            .join(' ')}
+        >
           {lastDeliveryAt ? timeAgo(lastDeliveryAt) : 'never'}
         </span>
       </div>
       {/* Progress bar */}
-      <div style={{
-        marginTop: 12,
-        height: 4,
-        borderRadius: 2,
-        background: 'var(--bg-3)',
-        overflow: 'hidden',
-        display: 'flex',
-      }}>
+      <div className={presentation.row2}>
         {successCount24h > 0 && (
-          <div style={{
-            height: '100%',
-            background: 'var(--mint-2)',
-            width: `${(successCount24h / totalCount24h) * 100}%`,
-          }} />
+          <div
+            style={{
+              height: '100%',
+              background: 'var(--mint-2)',
+              width: `${(successCount24h / totalCount24h) * 100}%`,
+            }}
+          />
         )}
         {pendingCount24h > 0 && (
-          <div style={{
-            height: '100%',
-            background: 'var(--amber-2)',
-            width: `${(pendingCount24h / totalCount24h) * 100}%`,
-          }} />
+          <div
+            style={{
+              height: '100%',
+              background: 'var(--amber-2)',
+              width: `${(pendingCount24h / totalCount24h) * 100}%`,
+            }}
+          />
         )}
         {retryCount24h > 0 && (
-          <div style={{
-            height: '100%',
-            background: 'var(--peri)',
-            width: `${(retryCount24h / totalCount24h) * 100}%`,
-          }} />
+          <div
+            style={{
+              height: '100%',
+              background: 'var(--peri)',
+              width: `${(retryCount24h / totalCount24h) * 100}%`,
+            }}
+          />
         )}
         {failedCount24h > 0 && (
-          <div style={{
-            height: '100%',
-            background: 'var(--rose)',
-            width: `${(failedCount24h / totalCount24h) * 100}%`,
-          }} />
+          <div
+            style={{
+              height: '100%',
+              background: 'var(--rose)',
+              width: `${(failedCount24h / totalCount24h) * 100}%`,
+            }}
+          />
         )}
       </div>
     </button>

@@ -1,4 +1,5 @@
 'use client';
+import presentation from './filters-presentation.module.css';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
@@ -40,7 +41,12 @@ export default function TaskFilters({ projects }: TaskFiltersProps) {
       const params = new URLSearchParams(searchParams.toString());
       // 'open' and 'all' are the defaults, so they stay out of the URL — a
       // shared link then carries only what was deliberately changed.
-      if (!value || value === 'open' || (key === 'assignee' && value === 'all') || value === 'any') {
+      if (
+        !value ||
+        value === 'open' ||
+        (key === 'assignee' && value === 'all') ||
+        value === 'any'
+      ) {
         params.delete(key);
       } else {
         params.set(key, value);
@@ -52,36 +58,51 @@ export default function TaskFilters({ projects }: TaskFiltersProps) {
   );
 
   return (
-    <div className="row gap-2" style={{ flexWrap: 'wrap', marginBottom: 4 }}>
+    <div className="list-toolbar">
       <select
-        className="cp-select text-sm"
-        style={{ width: 'auto', minWidth: '9rem' }}
+        className={['cp-select text-sm', presentation.field1]
+          .filter(Boolean)
+          .join(' ')}
         aria-label="Filter by status"
         value={searchParams.get('status') || 'open'}
         onChange={(e) => update('status', e.target.value)}
       >
-        {statuses.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+        {statuses.map((s) => (
+          <option key={s.value} value={s.value}>
+            {s.label}
+          </option>
+        ))}
       </select>
 
       <select
-        className="cp-select text-sm"
-        style={{ width: 'auto', minWidth: '10rem' }}
+        className={['cp-select text-sm', presentation.field2]
+          .filter(Boolean)
+          .join(' ')}
         aria-label="Filter by assignee"
         value={searchParams.get('assignee') || 'all'}
         onChange={(e) => update('assignee', e.target.value)}
       >
-        {scopes.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+        {scopes.map((s) => (
+          <option key={s.value} value={s.value}>
+            {s.label}
+          </option>
+        ))}
       </select>
 
       <select
-        className="cp-select text-sm"
-        style={{ width: 'auto', minWidth: '11rem', maxWidth: '18rem' }}
+        className={['cp-select text-sm', presentation.field3]
+          .filter(Boolean)
+          .join(' ')}
         aria-label="Filter by project"
         value={searchParams.get('project') || 'any'}
         onChange={(e) => update('project', e.target.value)}
       >
         <option value="any">All projects</option>
-        {projects.map((p) => <option key={p.id} value={p.id}>{p.title}</option>)}
+        {projects.map((p) => (
+          <option key={p.id} value={p.id}>
+            {p.title}
+          </option>
+        ))}
       </select>
     </div>
   );

@@ -1,0 +1,16 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.detail1 {
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+.action1 {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.ink1 {
+  color: var(--fg-2);
+  padding: 0 8px;
+}

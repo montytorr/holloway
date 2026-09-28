@@ -1,4 +1,5 @@
 'use client';
+import presentation from './quick-task-form-presentation.module.css';
 
 import { useState, useRef, useEffect, useCallback, useTransition } from 'react';
 import { Plus, MoreHorizontal } from 'lucide-react';
@@ -10,9 +11,9 @@ import styles from './project-detail.module.css';
 /* Third copy of the priority→colour map in the tree; the tone now comes from
    status-tone.ts, so only the label lives here. */
 const priorities: { id: TaskPriority; label: string }[] = [
-  { id: 'low',    label: 'Low'    },
+  { id: 'low', label: 'Low' },
   { id: 'medium', label: 'Medium' },
-  { id: 'high',   label: 'High'   },
+  { id: 'high', label: 'High' },
   { id: 'urgent', label: 'Urgent' },
 ];
 
@@ -85,7 +86,8 @@ export default function QuickTaskForm({
     }
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [isOpen, title, resetAndClose]);
 
@@ -109,7 +111,7 @@ export default function QuickTaskForm({
         assigneeId || undefined,
         labels.length > 0 ? labels : undefined,
         dueDate || undefined,
-        description.trim() || undefined
+        description.trim() || undefined,
       );
       resetAndClose();
     });
@@ -123,7 +125,11 @@ export default function QuickTaskForm({
 
   if (!isOpen) {
     return (
-      <button type="button" onClick={() => setIsOpen(true)} className={styles.addTask}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className={styles.addTask}
+      >
         <Plus size={12} aria-hidden />
         Add task
       </button>
@@ -131,11 +137,8 @@ export default function QuickTaskForm({
   }
 
   return (
-    <div
-      ref={formRef}
-      className={`card ${styles.addTaskForm}`}
-    >
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div ref={formRef} className={`card ${styles.addTaskForm}`}>
+      <form onSubmit={handleSubmit} className={presentation.stack1}>
         <input
           ref={inputRef}
           type="text"
@@ -155,30 +158,14 @@ export default function QuickTaskForm({
             placeholder="Description (markdown supported)…"
             disabled={isPending}
             rows={2}
-            className="cp-textarea text-2xs" style={{
-              width: '100%',
-              resize: 'none',
-              borderRadius: 'var(--radius-2)',
-              border: '1px solid var(--line-1)',
-              background: 'var(--bg-0)',
-              padding: 'var(--space-2) var(--space-3)',
-              
-              color: 'var(--fg-2)',
-              outline: 'none',
-              fontFamily: 'var(--sans)',
-            }}
+            className={['cp-textarea text-2xs', presentation.field1]
+              .filter(Boolean)
+              .join(' ')}
           />
         )}
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 8,
-          }}
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+        <div className={presentation.row1}>
+          <div className={presentation.row2}>
             {priorities.map((p) => (
               <button
                 key={p.id}
@@ -199,20 +186,14 @@ export default function QuickTaskForm({
               type="button"
               onClick={() => setExpanded(true)}
               title="More options"
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: 'var(--fg-4)',
-                padding: 0,
-                display: 'flex',
-                alignItems: 'center',
-              }}
+              className={presentation.row3}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color = 'var(--peri)';
+                (e.currentTarget as HTMLButtonElement).style.color =
+                  'var(--peri)';
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color = 'var(--fg-4)';
+                (e.currentTarget as HTMLButtonElement).style.color =
+                  'var(--fg-4)';
               }}
             >
               <MoreHorizontal size={12} />
@@ -221,20 +202,13 @@ export default function QuickTaskForm({
         </div>
 
         {expanded && (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 8,
-              borderTop: '1px solid var(--line-1)',
-              paddingTop: 10,
-            }}
-          >
+          <div className={presentation.stack2}>
             {members.length > 0 && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div className={presentation.row4}>
                 <label
-                  className="upper text-2xs"
-                  style={{ width: 48, flexShrink: 0 }}
+                  className={['upper text-2xs', presentation.label1]
+                    .filter(Boolean)
+                    .join(' ')}
                 >
                   Assign
                 </label>
@@ -242,8 +216,9 @@ export default function QuickTaskForm({
                   value={assigneeId}
                   onChange={(e) => setAssigneeId(e.target.value)}
                   disabled={isPending}
-                  className="cp-select"
-                  style={{ flex: 1, minWidth: 0 }}
+                  className={['cp-select', presentation.field2]
+                    .filter(Boolean)
+                    .join(' ')}
                 >
                   <option value="">Unassigned</option>
                   {members.map((m) => {
@@ -258,10 +233,11 @@ export default function QuickTaskForm({
               </div>
             )}
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className={presentation.row4}>
               <label
-                className="upper text-2xs"
-                style={{ width: 48, flexShrink: 0 }}
+                className={['upper text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 Labels
               </label>
@@ -271,15 +247,17 @@ export default function QuickTaskForm({
                 onChange={(e) => setLabelsInput(e.target.value)}
                 placeholder="bug, ui, api..."
                 disabled={isPending}
-                className="cp-input"
-                style={{ flex: 1, minWidth: 0 }}
+                className={['cp-input', presentation.field2]
+                  .filter(Boolean)
+                  .join(' ')}
               />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className={presentation.row4}>
               <label
-                className="upper text-2xs"
-                style={{ width: 48, flexShrink: 0 }}
+                className={['upper text-2xs', presentation.label1]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 Due
               </label>
@@ -288,14 +266,15 @@ export default function QuickTaskForm({
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
                 disabled={isPending}
-                className="cp-input"
-                style={{ flex: 1, minWidth: 0, colorScheme: 'dark' }}
+                className={['cp-input', presentation.field3]
+                  .filter(Boolean)
+                  .join(' ')}
               />
             </div>
           </div>
         )}
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6 }}>
+        <div className={presentation.row5}>
           <button
             type="button"
             onClick={resetAndClose}

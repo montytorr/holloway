@@ -1,0 +1,10 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.detail1 {
+  margin-top: var(--space-4);
+  border-color: var(--rose-line);
+}
+
+.detail2 {
+  margin-top: var(--space-4);
+}

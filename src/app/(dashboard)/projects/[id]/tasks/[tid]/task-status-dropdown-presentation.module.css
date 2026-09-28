@@ -1,0 +1,5 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.detail1 {
+  min-width: 176px;
+}

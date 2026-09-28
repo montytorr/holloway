@@ -1,0 +1,15 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.detail1 {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 50;
+  min-width: 160px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.detail2 {
+  margin-left: auto;
+}

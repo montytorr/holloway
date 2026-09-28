@@ -1,0 +1,154 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.link1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--fg-3);
+  margin-bottom: var(--space-5);
+  text-decoration: none;
+}
+
+.section1 {
+  margin-bottom: var(--space-6);
+}
+
+.detail1 {
+  padding: 1.75rem;
+}
+
+.row1 {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: var(--space-5);
+}
+
+.detail2 {
+  flex: 1;
+  min-width: 0;
+}
+
+.section2 {
+  margin-bottom: var(--space-1);
+}
+
+.row2 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.code1 {
+  color: var(--fg-3);
+  background: var(--bg-1);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-2);
+  border: 1px solid var(--line-1);
+}
+
+.detail3 {
+  margin-top: var(--space-3);
+}
+
+.detail4 {
+  margin-top: var(--space-3);
+  padding: 0.75rem 1rem;
+}
+
+.copy1 {
+  margin-bottom: 0.375rem;
+}
+
+.copy2 {
+  color: var(--fg-1);
+}
+
+.copy3 {
+  margin-top: var(--space-2);
+}
+
+.section3 {
+  margin-bottom: 1.25rem;
+}
+
+.copy4 {
+  margin-bottom: var(--space-2);
+}
+
+.row3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.grid1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--space-5);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-1);
+}
+
+.ink1 {
+  color: var(--mint);
+}
+
+.ink2 {
+  color: var(--fg-2);
+}
+
+.detail5 {
+  overflow: hidden;
+}
+
+.row4 {
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--line-1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.copy5 {
+  margin-top: 0.125rem;
+}
+
+.stack1 {
+  padding: var(--section-pad);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.row5 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.code2 {
+  color: var(--fg-1);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row6 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  margin-top: var(--space-3);
+  margin-left: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.detail6 {
+  margin-left: auto;
+}
+
+.ink3 {
+  color: var(--amber);
+}

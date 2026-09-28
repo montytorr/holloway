@@ -1,0 +1,193 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.link1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--fg-3);
+  margin-bottom: var(--space-5);
+  text-decoration: none;
+}
+
+.detail1 {
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+.detail2 {
+  overflow: hidden;
+}
+
+.detail3 {
+  padding: 1.75rem;
+}
+
+.row1 {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-4);
+  background: var(--mint-bg);
+  border: 1px solid var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+
+.ink1 {
+  color: var(--mint);
+}
+
+.section1 {
+  text-align: center;
+  margin-bottom: var(--space-2);
+}
+
+.copy1 {
+  text-align: center;
+  margin-bottom: var(--space-5);
+}
+
+.ink2 {
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.stack1 {
+  border-radius: var(--radius-4);
+  background: var(--amber-bg);
+  border: 1px solid var(--amber);
+  padding: var(--section-pad);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.row2 {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  margin-bottom: var(--space-1);
+}
+
+.ink3 {
+  color: var(--amber);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.copy2 {
+  color: var(--amber);
+  line-height: 1.6;
+}
+
+.copy3 {
+  margin-bottom: 0.375rem;
+}
+
+.row3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.code1 {
+  flex: 1;
+  color: var(--peri);
+  background: var(--bg-0);
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-3);
+  padding: 0.5rem 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.code2 {
+  flex: 1;
+  color: var(--mint);
+  background: var(--bg-0);
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-3);
+  padding: 0.5rem 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: all;
+}
+
+.link2 {
+  margin-top: var(--space-5);
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  color: var(--peri);
+  border-color: var(--peri-bg);
+}
+
+.section2 {
+  margin-bottom: var(--space-6);
+}
+
+.copy4 {
+  color: var(--peri);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.copy5 {
+  margin-top: var(--space-1);
+}
+
+.detail4 {
+  max-width: 32rem;
+}
+
+.stack2 {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.panel1 {
+  border-radius: var(--radius-4);
+  background: var(--rose-bg);
+  border: 1px solid var(--rose);
+  padding: 0.75rem 1rem;
+  color: var(--rose);
+}
+
+.label1 {
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.ink4 {
+  color: var(--rose);
+}
+
+.field1 {
+  width: 100%;
+}
+
+.copy6 {
+  margin-top: 0.375rem;
+}
+
+.row4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.detail5 {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--peri);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}

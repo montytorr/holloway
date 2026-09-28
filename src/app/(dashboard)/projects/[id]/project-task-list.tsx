@@ -37,7 +37,11 @@ export default function ProjectTaskList({
   tasks: TaskRow[];
   projectId: string;
   sprintId?: string;
-  members?: Array<{ id: string; role: string; agent: { id: string; name: string; display_name: string } | null }>;
+  members?: Array<{
+    id: string;
+    role: string;
+    agent: { id: string; name: string; display_name: string } | null;
+  }>;
   canCreate: boolean;
 }) {
   const [creating, setCreating] = useState(false);
@@ -47,7 +51,7 @@ export default function ProjectTaskList({
   const rows: TaskListRow[] = tasks.map((task) => ({
     ...task,
     blockedBy: (task.dependencySummary?.blockedBy || []).filter(
-      (dep) => dep.status !== 'done' && dep.status !== 'cancelled'
+      (dep) => dep.status !== 'done' && dep.status !== 'cancelled',
     ).length,
   }));
 
@@ -67,26 +71,34 @@ export default function ProjectTaskList({
               onClose={() => setCreating(false)}
             />
           ) : (
-            <button type="button" className="btn btn--sm" onClick={() => setCreating(true)}>+ New task</button>
+            <button
+              type="button"
+              className="btn btn--sm"
+              onClick={() => setCreating(true)}
+            >
+              + New task
+            </button>
           )}
         </div>
       )}
       <TaskList
         tasks={rows}
-        hrefFor={(row) => `/projects/${projectId}/tasks/${row.id}`}
+        projectId={projectId}
         emptyHint="No tasks in this project yet."
-        renderComposer={canCreate
-          ? (status: TaskStatus, close: () => void) => (
-              <QuickTaskForm
-                projectId={projectId}
-                status={status}
-                sprintId={sprintId}
-                members={members}
-                defaultOpen
-                onClose={close}
-              />
-            )
-          : undefined}
+        renderComposer={
+          canCreate
+            ? (status: TaskStatus, close: () => void) => (
+                <QuickTaskForm
+                  projectId={projectId}
+                  status={status}
+                  sprintId={sprintId}
+                  members={members}
+                  defaultOpen
+                  onClose={close}
+                />
+              )
+            : undefined
+        }
       />
     </>
   );

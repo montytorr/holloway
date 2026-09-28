@@ -1,4 +1,5 @@
 'use client';
+import presentation from './message-filters-presentation.module.css';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useRef, useState } from 'react';
@@ -44,7 +45,10 @@ export default function MessageFilters({ agents }: MessageFiltersProps) {
   const debouncedSearch = useCallback(
     (value: string) => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(() => updateFilter('search', value), 300);
+      debounceRef.current = setTimeout(
+        () => updateFilter('search', value),
+        300,
+      );
     },
     [updateFilter],
   );
@@ -57,13 +61,12 @@ export default function MessageFilters({ agents }: MessageFiltersProps) {
   }, [router]);
 
   return (
-    <div className="row" style={{ flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
+    <div className={['row', presentation.section1].filter(Boolean).join(' ')}>
       {/* Agent filter */}
       <select
         value={agent}
         onChange={(e) => updateFilter('agent', e.target.value)}
-        className="cp-select"
-        style={{ width: 'auto', minWidth: '140px' }}
+        className={['cp-select', presentation.field1].filter(Boolean).join(' ')}
       >
         <option value="all">All Agents</option>
         {agents.map((a) => (
@@ -77,8 +80,7 @@ export default function MessageFilters({ agents }: MessageFiltersProps) {
       <select
         value={type}
         onChange={(e) => updateFilter('type', e.target.value)}
-        className="cp-select"
-        style={{ width: 'auto', minWidth: '120px' }}
+        className={['cp-select', presentation.field2].filter(Boolean).join(' ')}
       >
         {messageTypes.map((t) => (
           <option key={t.value} value={t.value}>
@@ -96,16 +98,12 @@ export default function MessageFilters({ agents }: MessageFiltersProps) {
           setLocalSearch(e.target.value);
           debouncedSearch(e.target.value);
         }}
-        className="cp-input"
-        style={{ width: '200px' }}
+        className={['cp-input', presentation.field3].filter(Boolean).join(' ')}
       />
 
       {/* Clear button */}
       {hasFilters && (
-        <button
-          onClick={clearAll}
-          className="btn btn--ghost btn--sm"
-        >
+        <button onClick={clearAll} className="btn btn--ghost btn--sm">
           Clear filters
         </button>
       )}

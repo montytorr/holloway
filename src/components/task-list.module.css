@@ -16,9 +16,13 @@
    headers below resolved against this box and never moved. `clip` keeps the
    rounded corners clipping the rows without creating a scrollport, which
    lets the headers stick to the shell's scroller as intended. */
-.list { overflow: clip; }
+.list {
+  overflow: clip;
+}
 
-.group + .group { border-top: 1px solid var(--line-1); }
+.group + .group {
+  border-top: 1px solid var(--line-1);
+}
 
 .groupHead {
   position: sticky;
@@ -42,7 +46,7 @@
 
 .groupCount {
   color: var(--fg-3);
-  font: var(--text-2xs)/1 var(--mono);
+  font: var(--text-2xs) / 1 var(--mono);
 }
 
 .groupAdd {
@@ -55,35 +59,65 @@
   font-size: var(--text-2xs);
   cursor: pointer;
 }
-.groupAdd:hover { color: var(--peri); background: var(--bg-3); }
-.groupAdd:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.groupAdd:hover {
+  color: var(--peri);
+  background: var(--bg-3);
+}
+.groupAdd:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
 
 .row {
   display: grid;
   grid-template-columns: 14px 72px minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-2) var(--space-4);
+  padding: var(--list-row-py) var(--space-4);
   border-top: 1px solid var(--line-1);
   text-decoration: none;
   transition: background 0.1s;
 }
-.group .row:first-of-type { border-top: 0; }
-.row:hover { background: var(--bg-2); }
-.row:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
+.group .row:first-of-type {
+  border-top: 0;
+}
+.row:hover {
+  background: var(--bg-2);
+}
+.row:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: -2px;
+}
 
 /* Priority as a three-bar glyph rather than a chip: it reads at a glance in
    a dense list and costs 14px instead of a labelled pill. */
-.priority { display: flex; align-items: flex-end; gap: 1px; height: 11px; }
-.priority i { width: 3px; border-radius: 1px; background: currentColor; }
-.priority i:nth-child(1) { height: 4px; }
-.priority i:nth-child(2) { height: 7px; }
-.priority i:nth-child(3) { height: 11px; }
-.priorityDim { opacity: 0.25; }
+.priority {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  height: 11px;
+}
+.priority i {
+  width: 3px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.priority i:nth-child(1) {
+  height: 4px;
+}
+.priority i:nth-child(2) {
+  height: 7px;
+}
+.priority i:nth-child(3) {
+  height: 11px;
+}
+.priorityDim {
+  opacity: 0.25;
+}
 
 .ref {
   color: var(--fg-3);
-  font: var(--text-2xs)/1 var(--mono);
+  font: var(--text-2xs) / 1 var(--mono);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -91,8 +125,18 @@
   text-overflow: ellipsis;
 }
 
-.titleCell { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
-.statusDot { width: 8px; height: 8px; border-radius: var(--radius-pill); flex-shrink: 0; }
+.titleCell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
 .title {
   min-width: 0;
   color: var(--fg-0);
@@ -102,12 +146,31 @@
   white-space: nowrap;
 }
 
-.meta { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
-.metaText { color: var(--fg-3); font-size: var(--text-2xs); white-space: nowrap; }
-.blocked { color: var(--rose); font-size: var(--text-2xs); font-weight: 600; white-space: nowrap; }
-.overdue { color: var(--rose); }
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+.metaText {
+  color: var(--fg-3);
+  font-size: var(--text-2xs);
+  white-space: nowrap;
+}
+.blocked {
+  color: var(--rose);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.overdue {
+  color: var(--rose);
+}
 
-.labels { display: flex; gap: var(--space-1); }
+.labels {
+  display: flex;
+  gap: var(--space-1);
+}
 .labels > span {
   display: inline-block;
   max-width: 12ch;
@@ -116,13 +179,32 @@
   white-space: nowrap;
 }
 
-.empty { padding: var(--space-3) var(--space-4); color: var(--fg-3); font-size: var(--text-2xs); }
+.empty {
+  padding: var(--space-3) var(--space-4);
+  color: var(--fg-3);
+  font-size: var(--text-2xs);
+}
 
-.composer { padding: var(--space-3) var(--space-4); border-top: 1px solid var(--line-1); }
+.composer {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line-1);
+}
 
 @media (max-width: 720px) {
-  .row { grid-template-columns: 14px minmax(0, 1fr); row-gap: var(--space-1); }
-  .ref { grid-column: 2; order: 3; }
-  .meta { grid-column: 2; order: 4; flex-wrap: wrap; }
-  .labels { display: none; }
+  .row {
+    grid-template-columns: 14px minmax(0, 1fr);
+    row-gap: var(--space-1);
+  }
+  .ref {
+    grid-column: 2;
+    order: 3;
+  }
+  .meta {
+    grid-column: 2;
+    order: 4;
+    flex-wrap: wrap;
+  }
+  .labels {
+    display: none;
+  }
 }

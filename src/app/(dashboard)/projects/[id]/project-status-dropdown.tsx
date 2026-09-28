@@ -1,4 +1,5 @@
 'use client';
+import presentation from './project-status-dropdown-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
@@ -24,7 +25,10 @@ interface ProjectStatusDropdownProps {
   currentStatus: string;
 }
 
-export default function ProjectStatusDropdown({ projectId, currentStatus }: ProjectStatusDropdownProps) {
+export default function ProjectStatusDropdown({
+  projectId,
+  currentStatus,
+}: ProjectStatusDropdownProps) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
@@ -39,7 +43,8 @@ export default function ProjectStatusDropdown({ projectId, currentStatus }: Proj
     }
     if (open) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [open]);
 
@@ -69,22 +74,16 @@ export default function ProjectStatusDropdown({ projectId, currentStatus }: Proj
         {isPending ? 'Updating…' : statusLabel(currentStatus)}
         <ChevronDown
           size={10}
-          style={{ transition: 'transform 0.15s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          style={{
+            transition: 'transform 0.15s',
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
         />
       </button>
 
       {open && (
         <div
-          className="card"
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 8px)',
-            left: 0,
-            zIndex: 50,
-            minWidth: 160,
-            padding: 0,
-            overflow: 'hidden',
-          }}
+          className={['card', presentation.detail1].filter(Boolean).join(' ')}
         >
           {allStatuses.map((status) => {
             const optTone = statusTone('project', status);
@@ -93,14 +92,15 @@ export default function ProjectStatusDropdown({ projectId, currentStatus }: Proj
               <button
                 key={status}
                 onClick={() => handleSelect(status)}
-                className="text-2xs" style={{
+                className="text-2xs"
+                style={{
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 8,
                   padding: '8px 12px',
                   textAlign: 'left',
-                  
+
                   fontWeight: 600,
                   background: isSelected ? 'var(--bg-2)' : 'transparent',
                   color: isSelected ? 'var(--fg-1)' : 'var(--fg-3)',
@@ -110,20 +110,26 @@ export default function ProjectStatusDropdown({ projectId, currentStatus }: Proj
                 }}
                 onMouseEnter={(e) => {
                   if (!isSelected) {
-                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-2)';
-                    (e.currentTarget as HTMLButtonElement).style.color = 'var(--fg-1)';
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      'var(--bg-2)';
+                    (e.currentTarget as HTMLButtonElement).style.color =
+                      'var(--fg-1)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isSelected) {
-                    (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-                    (e.currentTarget as HTMLButtonElement).style.color = 'var(--fg-3)';
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      'transparent';
+                    (e.currentTarget as HTMLButtonElement).style.color =
+                      'var(--fg-3)';
                   }
                 }}
               >
                 <span className={dotClassForTone(optTone)} />
                 <span className="upper text-2xs">{statusLabel(status)}</span>
-                {isSelected && <Check size={12} style={{ marginLeft: 'auto' }} />}
+                {isSelected && (
+                  <Check size={12} className={presentation.detail2} />
+                )}
               </button>
             );
           })}

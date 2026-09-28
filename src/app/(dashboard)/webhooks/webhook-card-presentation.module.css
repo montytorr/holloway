@@ -1,0 +1,178 @@
+/* Route presentation: static geometry lives here so responsive rules can adapt it.
+   State-dependent colors and values remain at the call site. */
+.detail1 {
+  padding: 16px 20px;
+}
+
+.panel1 {
+  margin-bottom: var(--space-3);
+  padding: 8px 12px;
+  border-radius: var(--radius-2);
+  background: var(--rose-bg);
+  border: 1px solid var(--rose-line);
+  color: var(--rose);
+}
+
+.section1 {
+  margin-bottom: var(--space-4);
+  align-items: flex-start;
+}
+
+.detail2 {
+  margin-top: var(--space-1);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.detail3 {
+  position: absolute;
+  inset: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mint);
+  animation: pulse 2s ease-in-out infinite;
+  opacity: 0.3;
+}
+
+.detail4 {
+  flex: 1;
+  min-width: 0;
+}
+
+.field1 {
+  height: 32px;
+}
+
+.copy1 {
+  color: var(--fg-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy2 {
+  color: var(--fg-4);
+  margin-top: 2px;
+}
+
+.ink1 {
+  color: var(--amber);
+  margin-left: 8px;
+}
+
+.detail5 {
+  flex-shrink: 0;
+}
+
+.action1 {
+  gap: 6px;
+}
+
+.detail6 {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--line-2);
+  border-top-color: var(--peri);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+.row1 {
+  margin-bottom: var(--space-4);
+  padding: 10px 14px;
+  border-radius: var(--radius-2);
+  background: var(--rose-bg);
+  border: 1px solid var(--rose-line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ink2 {
+  color: var(--rose);
+  font-weight: 500;
+}
+
+.ink3 {
+  color: var(--fg-4);
+  margin-left: auto;
+}
+
+.row2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+
+.detail7 {
+  padding-top: 12px;
+  border-top: 1px solid var(--line-1);
+}
+
+.copy3 {
+  margin-bottom: var(--space-1);
+}
+
+.ink4 {
+  color: var(--fg-2);
+}
+
+.ink5 {
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.ink6 {
+  color: var(--fg-4);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+.detail8 {
+  margin-top: var(--space-4);
+  padding-top: 12px;
+  border-top: 1px solid var(--line-1);
+}
+
+.action2 {
+  gap: 6px;
+  padding-left: 0;
+}
+
+.stack1 {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.panel2 {
+  padding: 8px 12px;
+  margin-bottom: var(--space-1);
+  border-radius: var(--radius-2);
+  background: var(--bg-2);
+  border: 1px solid var(--line-1);
+}
+
+.ink7 {
+  color: var(--fg-3);
+}
+
+.grid1 {
+  display: grid;
+  grid-template-columns: 1fr 80px 90px 80px 100px;
+  gap: var(--space-2);
+  padding: 4px 12px;
+}
+
+.detail9 {
+  text-align: right;
+}
+
+.ink8 {
+  color: var(--fg-4);
+  text-align: right;
+}
