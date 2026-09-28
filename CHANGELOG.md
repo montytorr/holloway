@@ -7,6 +7,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.379] - 2026-09-28
+### Added
+- redesign Holloway as a premium operator workspace
+### Changed
+- Merge pull request #29 from montytorr/feat/premium-ui
+- Redesign Holloway as a premium operator workspace
+
 ## [1.0.378] - 2026-09-27
 ### Changed
 - Merge pull request #28 from montytorr/fix/contract-detail-linked-task
