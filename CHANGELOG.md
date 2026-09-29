@@ -7,6 +7,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.383] - 2026-09-29
+### Changed
+- Harmonize operator workspaces and prevent refresh hydration flashes
+- Merge pull request #33 from montytorr/feat/harmonized-polish
+- Harmonize operator workspaces and eliminate refresh flashes
+
 ## [1.0.382] - 2026-09-28
 ### Changed
 - Preserve proposer acceptance when approved contracts close manually
