@@ -1,9 +1,11 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
+import { LoadingPlaceholder } from '@/components/loading';
 import presentation from './page-presentation.module.css';
 
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { createBrowserClient } from '@/lib/auth/browser';
 import { HollowayMark } from '@/components/holloway-mark';
 
@@ -128,7 +130,7 @@ function LoginForm() {
           cursor: loading ? 'not-allowed' : 'pointer',
         }}
       >
-        {loading ? 'Authenticating…' : 'Sign In'}
+        <PendingLabel pending={loading} label="Authenticating…">Sign In</PendingLabel>
       </button>
     </form>
   );
@@ -160,7 +162,7 @@ export default function LoginPage() {
           <Suspense
             fallback={
               <div className={presentation.row3}>
-                <span className="dot dot--amber pulse" />
+                <LoadingPlaceholder label="Loading sign in" rows={4}/>
               </div>
             }
           >

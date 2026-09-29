@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './trust-policy-controls-presentation.module.css';
 
 import { useMemo, useState, useTransition } from 'react';
@@ -233,7 +234,7 @@ export default function TrustPolicyControls({
             disabled={!dirty || isPending}
             className="btn btn--primary btn--sm"
           >
-            {isPending ? 'Saving…' : 'Save gates'}
+            <PendingLabel pending={isPending} label="Saving…">Save gates</PendingLabel>
           </button>
         )}
       </div>

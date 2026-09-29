@@ -1,9 +1,10 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './page-presentation.module.css';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { HollowayMark } from '@/components/holloway-mark';
 
 export default function ResetPasswordPage() {
@@ -163,7 +164,7 @@ export default function ResetPasswordPage() {
                   opacity: loading ? 0.5 : 1,
                 }}
               >
-                {loading ? 'Updating…' : 'Update Password'}
+                <PendingLabel pending={loading} label="Updating…">Update Password</PendingLabel>
               </button>
             </form>
           )}

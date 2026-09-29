@@ -1,4 +1,5 @@
 'use client';
+import { LoadingPlaceholder } from '@/components/loading';
 import presentation from './feed-client-presentation.module.css';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
@@ -311,7 +312,7 @@ export default function FeedClient({
           <div>
             {loading ? (
               <div className={presentation.detail2}>
-                <span className="dim text-sm">Loading events…</span>
+                <LoadingPlaceholder label="Loading events" rows={5}/>
               </div>
             ) : events.length === 0 ? (
               <EmptyState

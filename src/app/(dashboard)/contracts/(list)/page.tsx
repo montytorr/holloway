@@ -19,7 +19,7 @@ import {
   describeContractLink,
   getRelatedContractsForContracts,
 } from '@/lib/contract-links';
-import { getOperatorChannelForContracts } from '@/lib/contract-operator-channel-server';
+import { getOpenQuestionsForContracts } from '@/lib/contract-operator-channel-server';
 import { deriveContractTurnState } from '@/lib/contract-turn-state';
 import { getLastMessages } from '@/app/api/v1/contracts/_helpers';
 import {
@@ -33,7 +33,10 @@ import styles from '../contracts-list.module.css';
 
 export const dynamic = 'force-dynamic';
 
-interface ContractWithRelations extends Contract {
+interface ContractWithRelations extends Pick<Contract,
+  'id' | 'title' | 'status' | 'proposer_id' | 'current_turns' | 'max_turns' |
+  'created_at' | 'expires_at' | 'completion_requires_approval' | 'completion_approved_at'
+> {
   proposer: { name: string; display_name: string } | null;
   contract_participants: Array<{
     agent: { id: string; name: string; display_name: string } | null;
@@ -104,7 +107,7 @@ export default async function ContractsPage({
   }
 
   let query = db.from('contracts').select(`
-      *,
+      id, title, status, proposer_id, current_turns, max_turns, created_at, expires_at, completion_requires_approval, completion_approved_at,
       proposer:agents!contracts_proposer_id_fkey(name, display_name),
       contract_participants(
         agent:agents(id, name, display_name),
@@ -150,7 +153,7 @@ export default async function ContractsPage({
       getRelatedContractsForContracts(contractIds),
       // An agent that has stopped to ask a person is the most actionable thing on
       // this page, and it was only visible by opening each contract in turn.
-      getOperatorChannelForContracts(contractIds, null),
+      getOpenQuestionsForContracts(contractIds),
       // One query for the page, same as the links above.
       getLastMessages(contractIds),
     ]);
@@ -175,7 +178,7 @@ export default async function ContractsPage({
           }
         />
 
-        <ContractFilters current={statusFilter} />
+        <ContractFilters />
 
         <section className={styles.register} aria-label="Contract register">
           <div className={styles.columns} aria-hidden="true">
@@ -253,11 +256,11 @@ export default async function ContractsPage({
                     ),
                     lastMessage: lastMessages.get(contract.id) ?? null,
                     blockingQuestions: (
-                      channels.get(contract.id)?.questions ?? []
+                      channels.get(contract.id) ?? []
                     )
                       .filter(
                         (question) =>
-                          question.status === 'open' && question.blocking,
+                          question.blocking,
                       )
                       .map((question) => ({
                         asked_by_agent_id: question.asked_by_agent_id,
@@ -331,7 +334,7 @@ export default async function ContractsPage({
                         status={contract.status}
                         dot="static"
                       />
-                      {(channels.get(contract.id)?.counts.open_questions ?? 0) >
+                      {(channels.get(contract.id)?.length ?? 0) >
                         0 && (
                         <span
                           className="pill pill--rose"

@@ -1,0 +1,298 @@
+{
+  "task": "HOL-159",
+  "date": "2026-09-29",
+  "scope": "Isolated production build and authored fixtures; no production data changes",
+  "nextVersion": "16.3.6",
+  "checks": {
+    "applicationTests": 468,
+    "reactorTests": 88,
+    "typecheck": "passed",
+    "lint": "passed",
+    "optimizedBuild": "passed",
+    "loadingAndControls": 48,
+    "routeThemeWidthCases": 300,
+    "contractStatesAndPublicPages": 120,
+    "layoutClockAndRefresh": 24,
+    "shellInteractions": 8,
+    "operatorInteractions": 24,
+    "phoneOverlapRoutes": 30,
+    "foregroundContrastPairs": 32,
+    "browserCasesTotal": 554
+  },
+  "loadingCases": [
+    {
+      "name": "dark-390: no speculative sidebar or row requests",
+      "pass": true
+    },
+    {
+      "name": "dark-390: filter feedback preserves results and geometry",
+      "pass": true
+    },
+    {
+      "name": "dark-390: rapid changes compose and Back restores selection",
+      "pass": true
+    },
+    {
+      "name": "dark-390: search sends one request and cancels on departure",
+      "pass": true
+    },
+    {
+      "name": "dark-390: /projects uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-390: /tasks uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-390: /messages uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-390: /audit uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-390: /webhooks/health uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-390: refresh keeps the mounted workspace",
+      "pass": true
+    },
+    {
+      "name": "dark-390: real streamed skeleton has shared geometry and motion",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: no speculative sidebar or row requests",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: filter feedback preserves results and geometry",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: rapid changes compose and Back restores selection",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: search sends one request and cancels on departure",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: /projects uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: /tasks uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: /messages uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: /audit uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: /webhooks/health uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: refresh keeps the mounted workspace",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: real streamed skeleton has shared geometry and motion",
+      "pass": true
+    },
+    {
+      "name": "light-390: no speculative sidebar or row requests",
+      "pass": true
+    },
+    {
+      "name": "light-390: filter feedback preserves results and geometry",
+      "pass": true
+    },
+    {
+      "name": "light-390: rapid changes compose and Back restores selection",
+      "pass": true
+    },
+    {
+      "name": "light-390: search sends one request and cancels on departure",
+      "pass": true
+    },
+    {
+      "name": "light-390: /projects uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-390: /tasks uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-390: /messages uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-390: /audit uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-390: /webhooks/health uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-390: refresh keeps the mounted workspace",
+      "pass": true
+    },
+    {
+      "name": "light-390: real streamed skeleton has shared geometry and motion",
+      "pass": true
+    },
+    {
+      "name": "light-1440: no speculative sidebar or row requests",
+      "pass": true
+    },
+    {
+      "name": "light-1440: filter feedback preserves results and geometry",
+      "pass": true
+    },
+    {
+      "name": "light-1440: rapid changes compose and Back restores selection",
+      "pass": true
+    },
+    {
+      "name": "light-1440: search sends one request and cancels on departure",
+      "pass": true
+    },
+    {
+      "name": "light-1440: /projects uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-1440: /tasks uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-1440: /messages uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-1440: /audit uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-1440: /webhooks/health uses shared query feedback",
+      "pass": true
+    },
+    {
+      "name": "light-1440: refresh keeps the mounted workspace",
+      "pass": true
+    },
+    {
+      "name": "light-1440: real streamed skeleton has shared geometry and motion",
+      "pass": true
+    },
+    {
+      "name": "dark-390: busy control keeps width and respects reduced motion",
+      "pass": true
+    },
+    {
+      "name": "dark-1440: busy control keeps width and respects reduced motion",
+      "pass": true
+    },
+    {
+      "name": "light-390: busy control keeps width and respects reduced motion",
+      "pass": true
+    },
+    {
+      "name": "light-1440: busy control keeps width and respects reduced motion",
+      "pass": true
+    }
+  ],
+  "filterBenchmark": {
+    "environment": "Local optimized production builds, six selections, same isolated database",
+    "baseline": [
+      {
+        "status": "all",
+        "elapsedMs": 15069,
+        "rscRequests": 46
+      },
+      {
+        "status": "closed",
+        "elapsedMs": 3332,
+        "rscRequests": 7
+      },
+      {
+        "status": "active",
+        "elapsedMs": 152,
+        "rscRequests": 1
+      },
+      {
+        "status": "all",
+        "elapsedMs": 10259,
+        "rscRequests": 1
+      },
+      {
+        "status": "closed",
+        "elapsedMs": 500,
+        "rscRequests": 1
+      },
+      {
+        "status": "all",
+        "elapsedMs": 2878,
+        "rscRequests": 1
+      }
+    ],
+    "final": [
+      {
+        "status": "all",
+        "elapsedMs": 953,
+        "rscRequests": 1
+      },
+      {
+        "status": "closed",
+        "elapsedMs": 681,
+        "rscRequests": 1
+      },
+      {
+        "status": "active",
+        "elapsedMs": 369,
+        "rscRequests": 1
+      },
+      {
+        "status": "all",
+        "elapsedMs": 1902,
+        "rscRequests": 1
+      },
+      {
+        "status": "closed",
+        "elapsedMs": 771,
+        "rscRequests": 1
+      },
+      {
+        "status": "all",
+        "elapsedMs": 1073,
+        "rscRequests": 1
+      }
+    ],
+    "baselineMedianMs": 3105,
+    "finalMedianMs": 862,
+    "limits": "Local samples; actual production and network latency varies."
+  },
+  "screenshots": {
+    "count": 8,
+    "data": "Authored fixtures only",
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "widths": [
+      390,
+      1440
+    ]
+  }
+}

@@ -68,4 +68,7 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO webhooks(id,agent_id,url,secret,is_active,last_delivery_at) VALUES
 ('80000000-0000-0000-0000-000000000001','20000000-0000-0000-0000-000000000001','https://review.example.test/delivery','visual-fixture-unused',false,now())
 ON CONFLICT (id) DO UPDATE SET is_active=false,last_delivery_at=EXCLUDED.last_delivery_at;
+INSERT INTO webhook_deliveries(id,webhook_id,event,status,response_status,delivered_at,created_at,payload) VALUES
+('90000000-0000-0000-0000-000000000001','80000000-0000-0000-0000-000000000001','review.fixture','success',200,now(),now(),'{}')
+ON CONFLICT (id) DO UPDATE SET delivered_at=EXCLUDED.delivered_at,created_at=EXCLUDED.created_at;
 COMMIT;

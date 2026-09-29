@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './task-status-dropdown-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
@@ -73,9 +74,9 @@ export default function TaskStatusDropdown({
         aria-expanded={open}
       >
         <span
-          className={`${dotClassForTone(tone)} ${isPending ? 'pulse' : ''}`}
+          className={dotClassForTone(tone)}
         />
-        {isPending ? 'Updating…' : statusLabel(currentStatus)}
+        <PendingLabel pending={isPending} label="Updating…">{statusLabel(currentStatus)}</PendingLabel>
         <svg
           width="10"
           height="10"

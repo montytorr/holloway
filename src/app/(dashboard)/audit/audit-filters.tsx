@@ -1,8 +1,8 @@
 'use client';
 import presentation from './audit-filters-presentation.module.css';
 
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
+import { useQueryFilters, useDebouncedFilter } from '@/components/use-query-filters';
 import { Search } from 'lucide-react';
 
 const actionTypes = [
@@ -39,30 +39,16 @@ const dateRanges = [
 ];
 
 export default function AuditFilters() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const actor = searchParams.get('actor') || '';
-  const action = searchParams.get('action') || 'all';
-  const dateRange = searchParams.get('range') || 'all';
-
-  const updateFilter = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value === '' || value === 'all') {
-        params.delete(key);
-      } else {
-        params.set(key, value);
-      }
-      params.delete('page');
-      const qs = params.toString();
-      router.push(`/audit${qs ? `?${qs}` : ''}`);
-    },
-    [router, searchParams],
-  );
+  const { params, update, pending } = useQueryFilters('/audit', { action: 'all', range: 'all' }, true);
+  const search = useCallback((value: string) => update({ actor: value }, { replace: true }), [update]);
+  const [actor, changeActor] = useDebouncedFilter(params.get('actor') || '', search);
+  const action = params.get('action') || 'all';
+  const dateRange = params.get('range') || 'all';
+  const updateFilter = (key: string, value: string) => update({ [key]: value });
 
   return (
     <div
+      aria-busy={pending}
       className={['row gap-3', presentation.section1].filter(Boolean).join(' ')}
     >
       {/* Actor search — full width on small screens, flex grow on large */}
@@ -70,9 +56,10 @@ export default function AuditFilters() {
         <Search size={13} className={presentation.ink1} />
         <input
           type="text"
+          aria-label="Search audit actors"
           placeholder="Search actors…"
           value={actor}
-          onChange={(e) => updateFilter('actor', e.target.value)}
+          onChange={(e) => changeActor(e.target.value)}
           className={['cp-input', presentation.field1]
             .filter(Boolean)
             .join(' ')}
@@ -81,6 +68,7 @@ export default function AuditFilters() {
 
       {/* All actors placeholder select — reuses actor filter visually */}
       <select
+        aria-label="Filter audit event type"
         value={action}
         onChange={(e) => updateFilter('action', e.target.value)}
         className={['cp-select', presentation.field2].filter(Boolean).join(' ')}
@@ -94,6 +82,7 @@ export default function AuditFilters() {
 
       {/* Date range */}
       <select
+        aria-label="Filter audit date range"
         value={dateRange}
         onChange={(e) => updateFilter('range', e.target.value)}
         className={['cp-select', presentation.field3].filter(Boolean).join(' ')}

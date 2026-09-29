@@ -1,6 +1,6 @@
 import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { createServerClient } from '@/lib/db/server';
 import { redirect } from 'next/navigation';
 import { getAuthActorContext } from '@/lib/auth-actor-context';
@@ -376,7 +376,7 @@ async function renderProjectsPage({
           </div>
         )}
 
-        <ProjectFilters current={statusFilter} />
+        <ProjectFilters />
 
         {/* Project cards */}
         <div className={`card ${styles.list}`}>

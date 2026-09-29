@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './key-actions-presentation.module.css';
 
 import { useState } from 'react';
@@ -218,14 +219,7 @@ export default function KeyActions({ agentId }: { agentId: string }) {
                   .filter(Boolean)
                   .join(' ')}
               >
-                {loading ? (
-                  <span className={presentation.row6}>
-                    <span className={presentation.detail4} />
-                    Rotating…
-                  </span>
-                ) : (
-                  'Confirm Rotate'
-                )}
+                <PendingLabel pending={loading} label="Rotating…">Confirm Rotate</PendingLabel>
               </button>
             </div>
           </div>

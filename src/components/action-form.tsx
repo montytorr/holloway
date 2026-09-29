@@ -1,4 +1,5 @@
 'use client';
+import { LoadingIndicator } from '@/components/loading';
 
 import {
   useState,
@@ -50,9 +51,7 @@ export function ActionForm({
         {children}
       </fieldset>
       {pending && (
-        <p role="status" className="text-xs dim">
-          Saving…
-        </p>
+        <LoadingIndicator label="Saving changes" />
       )}
       {error && (
         <p role="alert" className="form-error">

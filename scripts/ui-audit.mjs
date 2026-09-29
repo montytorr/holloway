@@ -200,7 +200,7 @@ for (const [name, path] of ROUTES) {
       const clipped = [];
       for (const el of document.querySelectorAll('body *')) {
         if (el.children.length > 0) continue; // leaf text nodes only
-        if (!el.checkVisibility()) continue;
+        if (!el.checkVisibility({ visibilityProperty: true, opacityProperty: true })) continue;
         const text = (el.textContent || '').trim();
         if (!text) continue;
         const cs = getComputedStyle(el);
@@ -235,7 +235,7 @@ for (const [name, path] of ROUTES) {
       // there. Only measure what is actually on screen.
       const isVisible = (el) => {
         // Closed <details> can retain layout rectangles for invisible descendants.
-        if (!el.checkVisibility()) return false;
+        if (!el.checkVisibility({ visibilityProperty: true, opacityProperty: true })) return false;
         const r = el.getBoundingClientRect();
         for (
           let n = el.parentElement, d = 0;

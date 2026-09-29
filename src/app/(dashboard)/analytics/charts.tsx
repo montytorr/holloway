@@ -1,7 +1,7 @@
 'use client';
 import presentation from './charts-presentation.module.css';
 
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { formatDate } from '@/lib/format-date';
 import { showAxisLabel } from '@/lib/analytics-derive';
 import {

@@ -3,7 +3,7 @@
 import { useRenderTime } from '@/components/render-time';
 import presentation from './webhook-filter-card-presentation.module.css';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useQueryFilters } from '@/components/use-query-filters';
 
 interface WebhookFilterCardProps {
   webhookId: string;
@@ -66,18 +66,11 @@ export default function WebhookFilterCard({
   animationDelay,
 }: WebhookFilterCardProps) {
   const now = useRenderTime();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const activeFilter = searchParams.get('webhook');
+  const { params, update, pending } = useQueryFilters('/webhooks/health');
+  const activeFilter = params.get('webhook');
   const isSelected = activeFilter === webhookId;
 
-  function handleClick() {
-    if (isSelected) {
-      router.push('/webhooks/health');
-    } else {
-      router.push(`/webhooks/health?webhook=${webhookId}`);
-    }
-  }
+  function handleClick() { update({ webhook: isSelected ? '' : webhookId }); }
 
   const rate =
     totalCount24h > 0 ? Math.round((successCount24h / totalCount24h) * 100) : 0;
@@ -85,6 +78,8 @@ export default function WebhookFilterCard({
   return (
     <button
       onClick={handleClick}
+      aria-busy={pending}
+      aria-pressed={isSelected}
       className="card animate-fade-in"
       style={{
         display: 'block',

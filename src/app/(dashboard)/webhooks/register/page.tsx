@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './page-presentation.module.css';
 
 import { useState, useEffect } from 'react';
@@ -6,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { registerWebhook, getAgents } from './actions';
 
 import { CANONICAL_WEBHOOK_EVENTS } from '@/lib/webhook-events';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { Bot } from 'lucide-react';
 import { EmptyState, PageFrame, SectionHeader } from '@/components/atoms';
 
@@ -322,14 +323,7 @@ export default function RegisterWebhookPage() {
             cursor: loading ? 'not-allowed' : 'pointer',
           }}
         >
-          {loading ? (
-            <span className={presentation.row4}>
-              <span className={presentation.detail3} />
-              Registering…
-            </span>
-          ) : (
-            'Register Webhook'
-          )}
+          <PendingLabel pending={loading} label="Registering…">Register Webhook</PendingLabel>
         </button>
       </form>
     </PageFrame>

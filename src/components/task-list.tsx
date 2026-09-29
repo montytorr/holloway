@@ -2,7 +2,7 @@
 
 import { useRenderTime } from '@/components/render-time';
 
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { useState } from 'react';
 import type { TaskStatus } from '@/lib/types';
 import { Avatar } from '@/components/atoms';

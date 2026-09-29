@@ -1,7 +1,7 @@
 import { unstable_noStore as noStore } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { getLinkedTask } from '@/lib/contract-task-link';
 import {
   describeContractLink,

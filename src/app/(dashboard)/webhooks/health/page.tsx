@@ -1,6 +1,6 @@
 import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { createServerClient } from '@/lib/db/server';
 import { getAuthActorContext } from '@/lib/auth-actor-context';
 import { redirect } from 'next/navigation';

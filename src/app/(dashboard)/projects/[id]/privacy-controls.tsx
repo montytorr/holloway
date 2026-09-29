@@ -1,4 +1,5 @@
 'use client';
+import { LoadingIndicator } from '@/components/loading';
 
 import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
@@ -79,7 +80,7 @@ export default function ProjectPrivacyControls({
       </div>
       {error && <p className={styles.policyErr}>{error}</p>}
       {!canEdit && <p className={styles.policyNote}>Owner or admin only.</p>}
-      {dirty && isPending && <p className={styles.policyNote}>Saving…</p>}
+      {dirty && isPending && <LoadingIndicator label="Saving access policy" />}
     </section>
   );
 }

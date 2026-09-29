@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useRef, useState, useTransition } from 'react';
+import { useCallback } from 'react';
+import { useQueryFilters, useDebouncedFilter } from '@/components/use-query-filters';
 import type { ContractStatus } from '@/lib/types';
 import styles from './contracts-list.module.css';
 
@@ -21,64 +21,22 @@ const sortOptions = [
   { value: 'most-turns', label: 'Most Turns' },
 ];
 
-export default function ContractFilters({ current }: { current: string }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const currentSearch = searchParams.get('search') || '';
-  const currentSort = searchParams.get('sort') || 'newest';
-  const [localSearch, setLocalSearch] = useState(currentSearch);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isPending, startTransition] = useTransition();
-
-  const updateParams = useCallback(
-    (updates: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams.toString());
-      for (const [key, value] of Object.entries(updates)) {
-        if (
-          !value ||
-          (key === 'status' && value === 'open') ||
-          (key === 'sort' && value === 'newest')
-        ) {
-          params.delete(key);
-        } else {
-          params.set(key, value);
-        }
-      }
-      const qs = params.toString();
-      startTransition(() => router.push(`/contracts${qs ? `?${qs}` : ''}`));
-    },
-    [router, searchParams],
-  );
-
-  const debouncedSearch = useCallback(
-    (value: string) => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(
-        () => updateParams({ search: value }),
-        300,
-      );
-    },
-    [updateParams],
-  );
+export default function ContractFilters() {
+  const { params, update: updateParams, pending } = useQueryFilters('/contracts', { status: 'open', sort: 'newest' });
+  const currentStatus = params.get('status') || 'open';
+  const currentSort = params.get('sort') || 'newest';
+  const search = useCallback((value: string) => updateParams({ search: value }, { replace: true }), [updateParams]);
+  const [localSearch, debouncedSearch] = useDebouncedFilter(params.get('search') || '', search);
 
   return (
-    <div className={`list-toolbar ${styles.filters}`} aria-busy={isPending}>
-      {isPending && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="text-2xs contract-filter-loading"
-        >
-          Loading contracts…
-        </div>
-      )}
+    <div className={`list-toolbar ${styles.filters}`} aria-busy={pending}>
       <div className="seg">
         {statuses.map((status) => (
           <button
             key={status}
             type="button"
-            aria-pressed={current === status}
-            className={current === status ? 'active' : ''}
+            aria-pressed={currentStatus === status}
+            className={currentStatus === status ? 'active' : ''}
             onClick={() => updateParams({ status })}
           >
             {status === 'open'
@@ -96,7 +54,6 @@ export default function ContractFilters({ current }: { current: string }) {
           placeholder="Search by title..."
           value={localSearch}
           onChange={(e) => {
-            setLocalSearch(e.target.value);
             debouncedSearch(e.target.value);
           }}
           className={`cp-input ${styles.search}`}

@@ -1,8 +1,8 @@
 'use client';
 import presentation from './message-filters-presentation.module.css';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback } from 'react';
+import { useQueryFilters, useDebouncedFilter } from '@/components/use-query-filters';
 
 const messageTypes = [
   { value: 'all', label: 'All Types' },
@@ -18,52 +18,20 @@ interface MessageFiltersProps {
 }
 
 export default function MessageFilters({ agents }: MessageFiltersProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const agent = searchParams.get('agent') || 'all';
-  const type = searchParams.get('type') || 'all';
-  const search = searchParams.get('search') || '';
-  const [localSearch, setLocalSearch] = useState(search);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const updateFilter = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value === '' || value === 'all') {
-        params.delete(key);
-      } else {
-        params.set(key, value);
-      }
-      params.delete('page');
-      const qs = params.toString();
-      router.push(`/messages${qs ? `?${qs}` : ''}`);
-    },
-    [router, searchParams],
-  );
-
-  const debouncedSearch = useCallback(
-    (value: string) => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(
-        () => updateFilter('search', value),
-        300,
-      );
-    },
-    [updateFilter],
-  );
-
-  const hasFilters = agent !== 'all' || type !== 'all' || search !== '';
-
-  const clearAll = useCallback(() => {
-    setLocalSearch('');
-    router.push('/messages');
-  }, [router]);
+  const { params, update, pending } = useQueryFilters('/messages', { agent: 'all', type: 'all' }, true);
+  const agent = params.get('agent') || 'all';
+  const type = params.get('type') || 'all';
+  const search = useCallback((value: string) => update({ search: value }, { replace: true }), [update]);
+  const [localSearch, debouncedSearch] = useDebouncedFilter(params.get('search') || '', search);
+  const updateFilter = (key: string, value: string) => update({ [key]: value });
+  const hasFilters = agent !== 'all' || type !== 'all' || localSearch !== '';
+  const clearAll = () => { debouncedSearch(''); update({ agent: 'all', type: 'all', search: '' }); };
 
   return (
-    <div className={['row', presentation.section1].filter(Boolean).join(' ')}>
+    <div aria-busy={pending} className={['row', presentation.section1].filter(Boolean).join(' ')}>
       {/* Agent filter */}
       <select
+        aria-label="Filter messages by agent"
         value={agent}
         onChange={(e) => updateFilter('agent', e.target.value)}
         className={['cp-select', presentation.field1].filter(Boolean).join(' ')}
@@ -78,6 +46,7 @@ export default function MessageFilters({ agents }: MessageFiltersProps) {
 
       {/* Message type */}
       <select
+        aria-label="Filter messages by type"
         value={type}
         onChange={(e) => updateFilter('type', e.target.value)}
         className={['cp-select', presentation.field2].filter(Boolean).join(' ')}
@@ -92,10 +61,10 @@ export default function MessageFilters({ agents }: MessageFiltersProps) {
       {/* Content search */}
       <input
         type="text"
+        aria-label="Search message content"
         placeholder="Search content..."
         value={localSearch}
         onChange={(e) => {
-          setLocalSearch(e.target.value);
           debouncedSearch(e.target.value);
         }}
         className={['cp-input', presentation.field3].filter(Boolean).join(' ')}

@@ -1,8 +1,7 @@
 'use client';
 import presentation from './filters-presentation.module.css';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useQueryFilters } from '@/components/use-query-filters';
 
 /**
  * Every option here must be a status a task can actually hold. `Blocked` was
@@ -33,38 +32,17 @@ interface TaskFiltersProps {
 }
 
 export default function TaskFilters({ projects }: TaskFiltersProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const update = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      // 'open' and 'all' are the defaults, so they stay out of the URL — a
-      // shared link then carries only what was deliberately changed.
-      if (
-        !value ||
-        value === 'open' ||
-        (key === 'assignee' && value === 'all') ||
-        value === 'any'
-      ) {
-        params.delete(key);
-      } else {
-        params.set(key, value);
-      }
-      const qs = params.toString();
-      router.push(`/tasks${qs ? `?${qs}` : ''}`);
-    },
-    [router, searchParams],
-  );
+  const { params, update: updateParams, pending } = useQueryFilters('/tasks', { status: 'open', assignee: 'all', project: 'any' });
+  const update = (key: string, value: string) => updateParams({ [key]: value });
 
   return (
-    <div className="list-toolbar">
+    <div className="list-toolbar" aria-busy={pending}>
       <select
         className={['cp-select text-sm', presentation.field1]
           .filter(Boolean)
           .join(' ')}
         aria-label="Filter by status"
-        value={searchParams.get('status') || 'open'}
+        value={params.get('status') || 'open'}
         onChange={(e) => update('status', e.target.value)}
       >
         {statuses.map((s) => (
@@ -79,7 +57,7 @@ export default function TaskFilters({ projects }: TaskFiltersProps) {
           .filter(Boolean)
           .join(' ')}
         aria-label="Filter by assignee"
-        value={searchParams.get('assignee') || 'all'}
+        value={params.get('assignee') || 'all'}
         onChange={(e) => update('assignee', e.target.value)}
       >
         {scopes.map((s) => (
@@ -94,7 +72,7 @@ export default function TaskFilters({ projects }: TaskFiltersProps) {
           .filter(Boolean)
           .join(' ')}
         aria-label="Filter by project"
-        value={searchParams.get('project') || 'any'}
+        value={params.get('project') || 'any'}
         onChange={(e) => update('project', e.target.value)}
       >
         <option value="any">All projects</option>

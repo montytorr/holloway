@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './trust-controls-presentation.module.css';
 
 import { useMemo, useState, useTransition } from 'react';
@@ -152,7 +153,7 @@ export default function TrustControls({
             disabled={!dirty || isPending}
             className="btn btn--primary btn--sm"
           >
-            {isPending ? 'Saving…' : 'Save tier'}
+            <PendingLabel pending={isPending} label="Saving…">Save tier</PendingLabel>
           </button>
         )}
       </div>

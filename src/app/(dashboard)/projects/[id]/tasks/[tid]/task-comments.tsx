@@ -1,8 +1,9 @@
 'use client';
 
+import { PendingLabel } from '@/components/loading';
 import { useRenderTime } from '@/components/render-time';
 
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { useState, useRef, useTransition } from 'react';
 import MarkdownPreview from '@/components/markdown-preview';
 import { Avatar, EmptyState } from '@/components/atoms';
@@ -207,7 +208,7 @@ export default function TaskComments({
         <div className={styles.composerActions}>
           <span>Markdown supported · ⌘+Enter to send</span>
           <button type="button" onClick={handleSubmit} disabled={isPending || !content.trim()} className="btn btn--primary btn--sm">
-            {isPending ? 'Sending…' : 'Comment'}
+            <PendingLabel pending={isPending} label="Sending…">Comment</PendingLabel>
           </button>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { formatDate } from '@/lib/format-date';
 import { FileText } from 'lucide-react';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { PageFrame, EmptyState, SectionHeader } from '@/components/atoms';
 
 export const dynamic = 'force-dynamic';

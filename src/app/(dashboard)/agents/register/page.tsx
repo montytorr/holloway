@@ -1,8 +1,9 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './page-presentation.module.css';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { registerAgent, type RegisterAgentResult } from './actions';
 import { PageFrame, SectionHeader } from '@/components/atoms';
 
@@ -459,14 +460,7 @@ export default function RegisterAgentPage() {
                 .filter(Boolean)
                 .join(' ')}
             >
-              {loading ? (
-                <span className={presentation.row4}>
-                  <span className={presentation.detail5} />
-                  Registering…
-                </span>
-              ) : (
-                'Register Agent'
-              )}
+              <PendingLabel pending={loading} label="Registering…">Register Agent</PendingLabel>
             </button>
           </form>
         </div>

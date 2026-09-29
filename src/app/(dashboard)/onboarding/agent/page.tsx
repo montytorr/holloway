@@ -1,6 +1,6 @@
 import presentation from './page-presentation.module.css';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 
 import { PageFrame, SectionHeader } from '@/components/atoms';
 import {

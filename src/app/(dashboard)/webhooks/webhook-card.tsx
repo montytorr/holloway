@@ -1,5 +1,6 @@
 'use client';
 
+import { PendingLabel } from '@/components/loading';
 import { useRenderTime } from '@/components/render-time';
 import presentation from './webhook-card-presentation.module.css';
 
@@ -279,7 +280,7 @@ export default function WebhookCard({
                   disabled={isPending}
                   className="btn btn--sm btn--primary"
                 >
-                  {isPending ? '…' : 'Save'}
+                  <PendingLabel pending={isPending} label="Saving…">Save</PendingLabel>
                 </button>
                 <button
                   onClick={() => {
@@ -311,7 +312,7 @@ export default function WebhookCard({
                 disabled={isPending}
                 className="btn btn--sm btn--danger"
               >
-                {isPending ? '…' : 'Delete'}
+                <PendingLabel pending={isPending} label="Deleting…">Delete</PendingLabel>
               </button>
               <button
                 onClick={() => setConfirmDelete(false)}
@@ -506,9 +507,7 @@ export default function WebhookCard({
               }}
             />
             <span className="upper text-2xs">
-              {deliveriesLoading
-                ? 'Loading…'
-                : `Recent Deliveries${deliveries.length > 0 ? ` (${deliveries.length})` : ''}`}
+              <PendingLabel pending={deliveriesLoading} label="Loading deliveries…">{showDeliveries ? 'Hide Deliveries' : `Delivery History${deliveries.length > 0 ? ` (${deliveries.length})` : ''}`}</PendingLabel>
             </span>
           </button>
 

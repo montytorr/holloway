@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './close-button-presentation.module.css';
 
 import { useState, useRef } from 'react';
@@ -167,11 +168,9 @@ export default function CloseContractButton({
                       loading || (withoutApproval && !reasonReady) ? 0.5 : 1,
                   }}
                 >
-                  {loading
-                    ? 'Closing…'
-                    : withoutApproval
-                      ? 'Close without approving'
-                      : 'Confirm Close'}
+                  <PendingLabel pending={loading} label="Closing…">
+                    {withoutApproval ? 'Close without approving' : 'Confirm Close'}
+                  </PendingLabel>
                 </button>
               </div>
             </div>

@@ -1,8 +1,9 @@
 'use client';
 
+import { LoadingSpinner } from './loading';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import Link from '@/components/app-link';
+import { usePathname } from 'next/navigation';
 import {
   Search,
   RefreshCw,
@@ -38,10 +39,9 @@ export const Topbar = ({
   collapsed,
   onToggleCollapsed,
 }: TopbarProps) => {
-  const router = useRouter();
+  const { refresh, pending, begin } = useNavigationFeedback();
   const pathname = usePathname();
   const { notificationCounts } = useDashboardContext();
-  const { begin } = useNavigationFeedback();
   const [connection, setConnection] = useState<
     'checking' | 'connected' | 'stale'
   >('checking');
@@ -168,9 +168,10 @@ export const Topbar = ({
           className="btn btn--ghost btn--icon"
           title="Refresh page"
           aria-label="Refresh current page"
-          onClick={() => router.refresh()}
+          onClick={refresh}
+          disabled={pending}
         >
-          <RefreshCw size={16} />
+          {pending ? <LoadingSpinner /> : <RefreshCw size={16} />}
         </button>
         <Link
           href="/kill-switch"

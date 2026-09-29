@@ -1,6 +1,7 @@
 'use client';
 
-import Link from 'next/link';
+import { LoadingPlaceholder } from '@/components/loading';
+import Link from '@/components/app-link';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import MarkdownPreview from '@/components/markdown-preview';
@@ -114,7 +115,7 @@ const InlinePreview = ({ attachment }: { attachment: TaskAttachment }) => {
   }
   if (isText) {
     if (textError) return <p className="text-sm" style={{ color: 'var(--rose)' }}>{textError}</p>;
-    if (textContent === null) return <p className="dim text-sm">Loading text preview…</p>;
+    if (textContent === null) return <LoadingPlaceholder label="Loading text preview" rows={6}/>;
     if (isMd) {
       return (
         <div style={{ height: '100%', minHeight: 0, width: '100%', overflow: 'auto', borderRadius: 'var(--radius-3)', border: '1px solid var(--line-1)', background: 'var(--bg-0)', padding: 20 }}>
