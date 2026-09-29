@@ -7,6 +7,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.384] - 2026-09-29
+### Changed
+- Unify loading feedback and eliminate stalled filter transitions
+- Merge pull request #34 from montytorr/feat/uniform-loading
+- Unify loading and fix stalled filter navigation
+
 ## [1.0.383] - 2026-09-29
 ### Changed
 - Harmonize operator workspaces and prevent refresh hydration flashes
