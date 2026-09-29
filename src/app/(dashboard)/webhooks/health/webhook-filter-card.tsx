@@ -1,4 +1,6 @@
 'use client';
+
+import { useRenderTime } from '@/components/render-time';
 import presentation from './webhook-filter-card-presentation.module.css';
 
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -35,9 +37,9 @@ function truncateUrl(url: string, maxLen = 50) {
   }
 }
 
-function timeAgo(dateStr: string | null) {
+function timeAgo(dateStr: string | null, now: number) {
   if (!dateStr) return '—';
-  const diff = Date.now() - new Date(dateStr).getTime();
+  const diff = now - new Date(dateStr).getTime();
   const seconds = Math.floor(diff / 1000);
   if (seconds < 60) return `${seconds}s ago`;
   const minutes = Math.floor(seconds / 60);
@@ -63,6 +65,7 @@ export default function WebhookFilterCard({
   totalCount24h,
   animationDelay,
 }: WebhookFilterCardProps) {
+  const now = useRenderTime();
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeFilter = searchParams.get('webhook');
@@ -189,7 +192,7 @@ export default function WebhookFilterCard({
             .filter(Boolean)
             .join(' ')}
         >
-          {lastDeliveryAt ? timeAgo(lastDeliveryAt) : 'never'}
+          {lastDeliveryAt ? timeAgo(lastDeliveryAt, now) : 'never'}
         </span>
       </div>
       {/* Progress bar */}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useEffect, useCallback, useRef, useState, useMemo } from 'react';
 import {
   decideAction,
   isStale,
@@ -10,6 +10,7 @@ import {
 } from '@/lib/refresh-watchdog';
 import { changedKeys, type Pulse, type PulseKey } from '@/lib/pulse';
 import { usePageFreshnessPublisher } from './page-freshness';
+import { RenderTimeProvider } from './render-time';
 
 interface AutoRefreshClientProps {
   intervalMs: number;
@@ -67,6 +68,13 @@ export default function AutoRefreshClient({
   watch,
   children,
 }: AutoRefreshClientProps) {
+  // RSC refreshes reconstruct array props. The same watched domains must not
+  // tear down a healthy stream and start another first-load subscription.
+  const watchSignature = [...new Set(watch)].sort().join(',');
+  const watchedKeys = useMemo(
+    () => (watchSignature ? (watchSignature.split(',') as PulseKey[]) : []),
+    [watchSignature],
+  );
   const router = useRouter();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isVisible = useRef(true);
@@ -141,7 +149,7 @@ export default function AutoRefreshClient({
         // make every page load cost an immediate second render.
         if (
           previous !== null &&
-          changedKeys(previous, next, watch).length > 0
+          changedKeys(previous, next, watchedKeys).length > 0
         ) {
           lastServerRenderSeenAt.current = Date.now();
           doRefresh();
@@ -177,7 +185,7 @@ export default function AutoRefreshClient({
       if (retry) clearTimeout(retry);
       source?.close();
     };
-  }, [doRefresh, watch]);
+  }, [doRefresh, watchedKeys]);
 
   useEffect(() => {
     const tick = async () => {
@@ -271,37 +279,39 @@ export default function AutoRefreshClient({
   }, [publish, pathname, status, ageSeconds, streaming, intervalMs]);
 
   return (
-    <div ref={rootRef}>
-      <div
-        className="auto-refresh-indicator row gap-2"
-        data-shell={!!publish}
-        role="status"
-      >
-        <span
-          className={`dot dot--${tone} ${status === 'live' ? 'pulse' : ''}`}
-        />
-        <span
-          className="text-2xs"
-          style={{
-            color: `var(--${tone})`,
-          }}
-          title={
-            status === 'stuck'
-              ? 'This page reloaded itself repeatedly and stopped trying. Reload manually.'
-              : `Server data last seen ${ageSeconds}s ago`
-          }
+    <RenderTimeProvider now={renderedAt}>
+      <div ref={rootRef}>
+        <div
+          className="auto-refresh-indicator row gap-2"
+          data-shell={!!publish}
+          role="status"
         >
-          {label}
-        </span>
-        <span className="num dim text-2xs">
-          {status === 'live'
-            ? streaming
-              ? 'live updates'
-              : `${Math.round(intervalMs / 1000)}s`
-            : `${ageSeconds}s ago`}
-        </span>
+          <span
+            className={`dot dot--${tone} ${status === 'live' ? 'pulse' : ''}`}
+          />
+          <span
+            className="text-2xs"
+            style={{
+              color: `var(--${tone})`,
+            }}
+            title={
+              status === 'stuck'
+                ? 'This page reloaded itself repeatedly and stopped trying. Reload manually.'
+                : `Server data last seen ${ageSeconds}s ago`
+            }
+          >
+            {label}
+          </span>
+          <span className="num dim text-2xs">
+            {status === 'live'
+              ? streaming
+                ? 'live updates'
+                : `${Math.round(intervalMs / 1000)}s`
+              : `${ageSeconds}s ago`}
+          </span>
+        </div>
+        {children}
       </div>
-      {children}
-    </div>
+    </RenderTimeProvider>
   );
 }

@@ -577,6 +577,11 @@ export default async function TaskDetailPage({
               )
             }
             badge={stateBadges}
+            right={
+              !hasReadOnlyObserverAccess ? (
+                <DeleteTaskButton projectId={projectId} taskId={tid} />
+              ) : undefined
+            }
           />
         </header>
 
@@ -796,12 +801,6 @@ export default async function TaskDetailPage({
                 fidelity lower and with no author avatars — the page told its
                 own history twice. The feed is the single narrative; the
                 audit trail lives in the protocol inspector. */}
-
-            {!hasReadOnlyObserverAccess && (
-              <div className={styles.railFooter}>
-                <DeleteTaskButton projectId={projectId} taskId={tid} />
-              </div>
-            )}
           </aside>
         </div>
       </PageFrame>

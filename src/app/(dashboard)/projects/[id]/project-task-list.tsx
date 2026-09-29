@@ -57,28 +57,35 @@ export default function ProjectTaskList({
 
   return (
     <>
-      {/* Creating work does not depend on an empty group existing to host a
-          button — a finished project has none. */}
-      {canCreate && (
+      <div className={styles.workHead}>
+        <div>
+          <h2>Tasks</h2>
+          <p>
+            {tasks.length} task{tasks.length === 1 ? '' : 's'} across the
+            workflow
+          </p>
+        </div>
+        {canCreate && (
+          <button
+            type="button"
+            className="btn btn--sm"
+            aria-expanded={creating}
+            onClick={() => setCreating(!creating)}
+          >
+            {creating ? 'Cancel' : '+ New task'}
+          </button>
+        )}
+      </div>
+      {canCreate && creating && (
         <div className={styles.newTask}>
-          {creating ? (
-            <QuickTaskForm
-              projectId={projectId}
-              status="backlog"
-              sprintId={sprintId}
-              members={members}
-              defaultOpen
-              onClose={() => setCreating(false)}
-            />
-          ) : (
-            <button
-              type="button"
-              className="btn btn--sm"
-              onClick={() => setCreating(true)}
-            >
-              + New task
-            </button>
-          )}
+          <QuickTaskForm
+            projectId={projectId}
+            status="backlog"
+            sprintId={sprintId}
+            members={members}
+            defaultOpen
+            onClose={() => setCreating(false)}
+          />
         </div>
       )}
       <TaskList

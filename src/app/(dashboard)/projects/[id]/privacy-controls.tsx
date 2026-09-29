@@ -25,9 +25,11 @@ export default function ProjectPrivacyControls({
   const router = useRouter();
   const normalizedInitial = useMemo(
     () => normalizeProjectPrivacyMetadata(initialPrivacy),
-    [initialPrivacy]
+    [initialPrivacy],
   );
-  const [allowObserverAccess, setAllowObserverAccess] = useState(normalizedInitial.allow_observer_access);
+  const [allowObserverAccess, setAllowObserverAccess] = useState(
+    normalizedInitial.allow_observer_access,
+  );
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -39,7 +41,10 @@ export default function ProjectPrivacyControls({
     setError(null);
     startTransition(async () => {
       try {
-        await updateProjectPrivacy(projectId, normalizeProjectPrivacyMetadata({ allow_observer_access: next }));
+        await updateProjectPrivacy(
+          projectId,
+          normalizeProjectPrivacyMetadata({ allow_observer_access: next }),
+        );
         router.refresh();
       } catch (err) {
         setAllowObserverAccess(!next);
@@ -49,8 +54,13 @@ export default function ProjectPrivacyControls({
   }
 
   return (
-    <section className={`card ${styles.policy}`} aria-labelledby="project-privacy-heading">
-      <h2 id="project-privacy-heading" className={styles.aboutTitle}>Access</h2>
+    <section
+      className={`card ${styles.policy}`}
+      aria-labelledby="project-privacy-heading"
+    >
+      <h2 id="project-privacy-heading" className={styles.aboutTitle}>
+        Access
+      </h2>
       <div className={styles.check}>
         <input
           id="project-observer-access"
@@ -63,8 +73,7 @@ export default function ProjectPrivacyControls({
         <label htmlFor="project-observer-access">
           <strong>Observers may open this project</strong>
           <span>
-            With this off, an observer is redirected away from the project page and the API answers
-            403 <code>PRIVACY_POLICY_BLOCKED</code>.
+            Turn this off to prevent observers from opening this project.
           </span>
         </label>
       </div>

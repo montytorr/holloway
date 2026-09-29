@@ -19,7 +19,7 @@
   --sidebar-rose: oklch(0.74 0.14 25);
   --shadow-well: inset 0 1px 2px rgb(0 0 0 / 0.2);
   --shadow-pop: 0 16px 48px -12px rgb(0 0 0 / 0.65);
-  --page-gutter: 20px;
+  --page-gutter: 24px;
 
   /* surfaces */
   --bg-0: oklch(0.15873 0.00913 264.27);
@@ -131,9 +131,9 @@
   --space-6: 32px;
 
   --radius-1: 4px;
-  --radius-2: 8px;
-  --radius-3: 10px;
-  --radius-4: 12px;
+  --radius-2: 6px;
+  --radius-3: 6px;
+  --radius-4: 8px;
   --radius-pill: 999px;
   --radius: var(--radius-3);
 
@@ -319,11 +319,6 @@
 [data-sidebar='wide'] {
   --sidebar-w: 264px;
 }
-[data-density='comfortable'] {
-  --list-row-py: 16px;
-  --section-pad: 24px;
-  --control-h: 36px;
-}
 
 /* ══════════════════════════════════════════════
    BASE RESET
@@ -400,6 +395,13 @@ body::before {
   background: var(--line-2);
   background-clip: padding-box;
   border: 2px solid transparent;
+}
+
+/* Theme tokens are unlayered, so responsive token overrides must be too. */
+@media (max-width: 640px) {
+  :root {
+    --page-gutter: 16px;
+  }
 }
 
 @layer components {
@@ -819,7 +821,7 @@ body::before {
   /* cards */
   .card {
     background: var(--bg-1);
-    border: 1px solid var(--line-1);
+    border: 1px solid var(--line-soft);
     border-radius: var(--radius-4);
     overflow: hidden;
     /* `none` in dark, a two-layer soft shadow in light. See --shadow-card:
@@ -1104,7 +1106,8 @@ body::before {
   }
 
   .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+    /* Live workspaces paint once; refreshed rows must not fade in again. */
+    animation: none;
   }
 
   @keyframes spin {
@@ -1240,7 +1243,7 @@ body::before {
   }
 
   .page-frame {
-    padding: 18px var(--page-gutter) 40px;
+    padding: 16px var(--page-gutter) 32px;
   }
   .shell-actor-row {
     padding: 0 var(--page-gutter);
@@ -1340,6 +1343,7 @@ body::before {
     opacity: 1;
   }
   table thead th {
+    text-align: left;
     font-family: var(--sans);
     font-size: 11px;
     font-weight: 600;
@@ -1402,7 +1406,7 @@ body::before {
   .page-description {
     color: var(--fg-2);
     font-size: 13px;
-    max-width: 82ch;
+    max-width: none;
     line-height: 1.55;
   }
   .h1 {
@@ -1819,5 +1823,13 @@ body::before {
     max-width: 640px;
     margin: 0 auto;
     padding: 32px;
+  }
+
+  /* Workspace prose meets the panel's padding edge, including authored headings. */
+  .markdown-preview > :first-child {
+    margin-top: 0 !important;
+  }
+  .markdown-preview > :last-child {
+    margin-bottom: 0 !important;
   }
 }

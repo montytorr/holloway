@@ -2,7 +2,7 @@
   display: grid;
   gap: var(--space-3);
   min-width: 0;
-  padding: 18px var(--page-gutter) 40px;
+  padding: 0;
 }
 .shell > div {
   background: var(--bg-2);
@@ -68,12 +68,12 @@
   border-bottom: 0;
 }
 /* Geometry copied from the pages this stands in for, so a route does not
-   visibly jump the moment it paints: same track sizes, same --space-6 gutter,
+   visibly jump the moment it paints: same track sizes, same --space-4 gutter,
    same collapse point. */
 .detail {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
-  gap: var(--space-6);
+  gap: var(--space-4);
   background: none !important;
   border: 0 !important;
 }
@@ -101,17 +101,7 @@
   border: 1px solid var(--line-1);
   border-radius: var(--radius-3);
 }
-@media (min-width: 640px) {
-  .shell {
-    padding-inline: var(--space-6);
-  }
-}
-@media (min-width: 1024px) {
-  .shell {
-    padding-inline: var(--space-6);
-  }
-}
-@media (max-width: 1000px) {
+@media (max-width: 1050px) {
   .detail {
     grid-template-columns: 1fr;
   }
@@ -127,4 +117,18 @@
   .chart {
     height: 220px;
   }
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--section-pad);
+}
+.field {
+  height: 36px;
+  background: var(--bg-3);
+  border-radius: var(--radius-2);
+}
+.field:last-child {
+  height: 140px;
 }

@@ -5,7 +5,8 @@
 .tabs {
   display: flex;
   gap: 20px;
-  border-bottom: 1px solid var(--line-soft);
+  flex: 1;
+  min-width: 0;
   overflow-x: auto;
 }
 .tabs button {
@@ -138,17 +139,51 @@
 }
 
 .context :global(.kv) {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  justify-content: space-between;
   gap: 8px;
 }
 .context :global(.kv-value) {
   font-size: 13px;
   max-width: 100%;
+  min-width: 0;
 }
 
 .notes > summary[hidden] {
   display: none;
+}
+
+.context :global(.kv):has(a) {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 5px;
+}
+.context :global(.kv-value):has(a) {
+  text-align: left;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.operatorToggle {
+  flex: 0 0 auto;
+  gap: 8px;
+  font-size: 12px;
+}
+@media (max-width: 640px) {
+  .toolbar {
+    border-bottom: 0;
+  }
+  .toolbar .tabs {
+    flex-basis: 100%;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .operatorToggle {
+    margin-left: auto;
+    margin-bottom: 0;
+  }
 }

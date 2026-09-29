@@ -9,7 +9,6 @@ import {
   Bell,
   PanelLeftClose,
   PanelLeftOpen,
-  Rows3,
   Shield,
   ChevronRight,
 } from 'lucide-react';
@@ -19,7 +18,6 @@ import {
   dashboardDestination,
   DASHBOARD_NAVIGATION,
 } from '@/lib/dashboard-navigation';
-import { usePersistedToggle } from '@/lib/persisted-toggle';
 import { useNavigationFeedback } from './navigation-feedback';
 import { ThemeToggle } from './theme-toggle';
 import { usePageFreshness } from './page-freshness';
@@ -44,9 +42,6 @@ export const Topbar = ({
   const pathname = usePathname();
   const { notificationCounts } = useDashboardContext();
   const { begin } = useNavigationFeedback();
-  const [comfortable, toggleDensity] = usePersistedToggle(
-    'holloway:comfortable-density',
-  );
   const [connection, setConnection] = useState<
     'checking' | 'connected' | 'stale'
   >('checking');
@@ -62,11 +57,6 @@ export const Topbar = ({
   const reportedFreshness = usePageFreshness();
   const freshness =
     reportedFreshness?.path === pathname ? reportedFreshness : null;
-  useEffect(() => {
-    document.documentElement.dataset.density = comfortable
-      ? 'comfortable'
-      : 'compact';
-  }, [comfortable]);
   useEffect(() => {
     const controller = new AbortController();
     const load = async () => {
@@ -171,20 +161,6 @@ export const Topbar = ({
           <Search size={16} aria-hidden />
           <span>Search workspace…</span>
           <kbd>⌘ K</kbd>
-        </button>
-        <button
-          type="button"
-          className="btn btn--ghost btn--icon hidden sm:inline-flex"
-          onClick={toggleDensity}
-          aria-pressed={!comfortable}
-          aria-label={comfortable ? 'Use compact rows' : 'Use comfortable rows'}
-          title={
-            comfortable
-              ? 'Comfortable density — switch to compact'
-              : 'Compact density — switch to comfortable'
-          }
-        >
-          <Rows3 size={18} aria-hidden />
         </button>
         <ThemeToggle />
         <button

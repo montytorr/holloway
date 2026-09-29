@@ -17,7 +17,6 @@ import {
   NavigationFeedbackProvider,
   useNavigationFeedback,
 } from './navigation-feedback';
-import RouteSkeleton from './route-skeleton';
 import { PageFreshnessProvider } from './page-freshness';
 import { PageHeadingProvider } from './page-heading';
 import type { DashboardNotificationCounts } from '@/lib/dashboard-notifications';
@@ -50,18 +49,10 @@ const fetchNotificationCounts = async (
 
 function DashboardPageContent({ children }: { children: React.ReactNode }) {
   const { pending } = useNavigationFeedback();
-  const [showSkeleton, setShowSkeleton] = useState(false);
-
-  useEffect(() => {
-    if (!pending) {
-      const reset = window.setTimeout(() => setShowSkeleton(false), 0);
-      return () => window.clearTimeout(reset);
-    }
-    const timer = window.setTimeout(() => setShowSkeleton(true), 180);
-    return () => window.clearTimeout(timer);
-  }, [pending]);
-
-  return pending && showSkeleton ? <RouteSkeleton /> : <>{children}</>;
+  // Keep the existing tree mounted while the router resolves the destination.
+  // Route loading boundaries own their skeletons; swapping children here
+  // caused a second loading screen and reset page state and subscriptions.
+  return <div aria-busy={pending || undefined}>{children}</div>;
 }
 
 export default function DashboardShell({

@@ -53,4 +53,19 @@ UPDATE contract_questions SET status='open', answer=null, answered_at=null,
   answered_by_user_id=null, answered_by_name=null
 WHERE id='50000000-0000-0000-0000-000000000001';
 DELETE FROM contract_notes WHERE contract_id='30000000-0000-0000-0000-000000000001';
+INSERT INTO tasks(id,project_id,title,description,status,priority,assignee_agent_id) VALUES
+('60000000-0000-0000-0000-000000000001','40000000-0000-0000-0000-000000000001','Review fixture · implement release audit findings',E'## Implementation scope\n\nCorrect command-aware instance routing, preserve FIFO order and retain failed deliveries for explicit replay. This work needs clear ownership, review evidence and the full original task brief.\n\n'||repeat(E'Inspect the current implementation across all runtimes, record the exact reviewed commit and verify the expected behavior before completing the work. The description uses the whole work column at desktop widths and wraps naturally on a phone.\n\n',5),'in-review','high','20000000-0000-0000-0000-000000000001'),
+('60000000-0000-0000-0000-000000000002','40000000-0000-0000-0000-000000000001','Review fixture · release audit','done','done','medium','20000000-0000-0000-0000-000000000001')
+ON CONFLICT (id) DO UPDATE SET description=EXCLUDED.description;
+INSERT INTO task_contracts(task_id,contract_id) VALUES
+('60000000-0000-0000-0000-000000000002','30000000-0000-0000-0000-000000000004')
+ON CONFLICT DO NOTHING;
+INSERT INTO task_comments(id,task_id,project_id,author_agent_id,author_name,content,comment_type) VALUES
+('70000000-0000-0000-0000-000000000001','60000000-0000-0000-0000-000000000001','40000000-0000-0000-0000-000000000001','20000000-0000-0000-0000-000000000001','Review proposer','Implementation is ready for review. The focused routing and outbox checks passed. Please review the current change before merging.','comment'),
+('70000000-0000-0000-0000-000000000002','60000000-0000-0000-0000-000000000001','40000000-0000-0000-0000-000000000001','20000000-0000-0000-0000-000000000001','Review proposer',repeat('Keep the review evidence readable across the complete work column. ',12),'comment')
+ON CONFLICT (id) DO NOTHING;
+-- A recent inactive endpoint exercises second-level delivery labels without dispatching.
+INSERT INTO webhooks(id,agent_id,url,secret,is_active,last_delivery_at) VALUES
+('80000000-0000-0000-0000-000000000001','20000000-0000-0000-0000-000000000001','https://review.example.test/delivery','visual-fixture-unused',false,now())
+ON CONFLICT (id) DO UPDATE SET is_active=false,last_delivery_at=EXCLUDED.last_delivery_at;
 COMMIT;

@@ -9,21 +9,13 @@ import { cn } from '@/lib/utils';
  * Horizontal padding matches the shell's own so the acting-agent row and the
  * page body line up at every breakpoint.
  */
-type PageWidth = 'narrow' | 'prose' | 'default' | 'wide';
+export type PageWidth = 'narrow' | 'prose' | 'default' | 'wide';
 
-/* These were all `max-w-none`, on the reasoning that "individual reading and
-   form surfaces can set their own comfortable line length inside that
-   canvas". The data pages do. The reading and form pages never did, so
-   `prose` and `narrow` were inert on twelve call sites and api-docs and
-   security rendered body text at ~1300px lines on a 1600px window — roughly
-   double a readable measure.
-
-   `default` and `wide` still fill the canvas: a table or a board wants the
-   room. `prose` and `narrow` do what they say again. */
+// Workspace pages share the full canvas; forms and documents remain bounded.
 const widths: Record<PageWidth, string> = {
   narrow: 'max-w-[48rem]',
   prose: 'max-w-[78rem]',
-  default: 'max-w-[100rem]',
+  default: 'max-w-none',
   wide: 'max-w-none',
 };
 

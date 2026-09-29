@@ -18,8 +18,8 @@ export const ThemeToggle = () => {
       type="button"
       onClick={() => setTheme(next)}
       className="btn btn--ghost btn--icon"
-      title={`Switch to ${next} theme`}
-      aria-label={`Switch to ${next} theme`}
+      title="Toggle color theme"
+      aria-label="Toggle color theme"
     >
       <Sun size={18} className="hidden dark:block" aria-hidden />
       <Moon size={18} className="block dark:hidden" aria-hidden />

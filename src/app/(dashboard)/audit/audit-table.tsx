@@ -1,4 +1,6 @@
 'use client';
+
+import { useRenderTime } from '@/components/render-time';
 import presentation from './audit-table-presentation.module.css';
 
 import { useState } from 'react';
@@ -146,6 +148,7 @@ function TableHeader() {
 }
 
 function TableRow({ entry, isAlt }: { entry: AuditLogEntry; isAlt: boolean }) {
+  const now = useRenderTime();
   const [hovered, setHovered] = useState(false);
   const tags = buildTags(entry);
   const targetId = getTargetId(entry);
@@ -241,7 +244,7 @@ function TableRow({ entry, isAlt }: { entry: AuditLogEntry; isAlt: boolean }) {
         }}
         title={formatDateTime(entry.created_at)}
       >
-        {formatRelative(entry.created_at)}
+        {formatRelative(entry.created_at, now)}
       </div>
     </div>
   );

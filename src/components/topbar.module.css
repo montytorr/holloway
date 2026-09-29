@@ -80,7 +80,7 @@
 .tools :global(.btn) {
   border: 1px solid var(--line-1);
   background: var(--bg-2);
-  border-radius: 8px;
+  border-radius: var(--radius-2);
   height: 32px;
   width: 32px;
 }
@@ -103,7 +103,7 @@
   color: var(--fg-2);
   background: var(--bg-2);
   border: 1px solid var(--line-1);
-  border-radius: 8px;
+  border-radius: var(--radius-2);
   font-size: 13px;
   cursor: pointer;
 }

@@ -194,6 +194,7 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
   await check('note draft survives tabs and hash links', async () => {
     await page
       .getByText('Operator notes & questions', { exact: false })
+      .filter({ visible: true })
       .click();
     await page
       .getByRole('button', { name: 'Leave a note', exact: true })
@@ -206,6 +207,21 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
       location.hash = 'operator-channel';
     });
     await page.waitForTimeout(150);
+    assert.equal(
+      await page
+        .getByRole('textbox', { name: 'Standing instruction' })
+        .inputValue(),
+      'Preserve this operator draft.',
+    );
+    // A direct channel link can also be collapsed, without losing the draft.
+    const disclosure = page.getByRole('button', {
+      name: /Operator notes & questions/,
+    });
+    await disclosure.click();
+    await page
+      .getByRole('textbox', { name: 'Standing instruction' })
+      .waitFor({ state: 'hidden' });
+    await disclosure.click();
     assert.equal(
       await page
         .getByRole('textbox', { name: 'Standing instruction' })
@@ -291,33 +307,28 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
     );
     await page.locator('#' + id).waitFor({ state: 'visible' });
   });
-  await check('density changes geometry and persists', async () => {
-    await go('/tasks');
-    await page.waitForTimeout(250);
-    const before = await page.evaluate(
-      () =>
-        getComputedStyle(
-          document.querySelector('a[class*="task-list"][class*="row"]'),
-        ).paddingTop,
-    );
-    await page.getByRole('button', { name: 'Use comfortable rows' }).click();
-    const after = await page.evaluate(
-      () =>
-        getComputedStyle(
-          document.querySelector('a[class*="task-list"][class*="row"]'),
-        ).paddingTop,
-    );
-    assert.notEqual(before, after);
-    await page.reload();
-    await page.waitForFunction(
-      () => document.documentElement.dataset.density === 'comfortable',
-    );
-    assert.equal(
-      await page.evaluate(() => document.documentElement.dataset.density),
-      'comfortable',
-    );
-    await page.getByRole('button', { name: 'Use compact rows' }).click();
-  });
+  await check(
+    'workspace spacing stays consistent across routes and reloads',
+    async () => {
+      const geometry = () =>
+        page.locator('.page-frame:visible').evaluate((element) => {
+          const style = getComputedStyle(element);
+          return [style.paddingLeft, style.paddingRight];
+        });
+      await go('/tasks');
+      const before = await geometry();
+      assert.equal(
+        await page
+          .getByRole('button', { name: /Use (comfortable|compact) rows/ })
+          .count(),
+        0,
+      );
+      await go('/projects');
+      assert.deepEqual(await geometry(), before);
+      await page.reload();
+      assert.deepEqual(await geometry(), before);
+    },
+  );
   await check('palette traps focus and restores trigger', async () => {
     const trigger = page.getByRole('button', {
       name: 'Search workspace or run a command',
@@ -522,6 +533,7 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
         );
         await rp
           .getByText('Operator notes & questions', { exact: false })
+          .filter({ visible: true })
           .click();
         assert.equal(
           await rp

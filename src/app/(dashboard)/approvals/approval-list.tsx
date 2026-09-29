@@ -1,4 +1,6 @@
 'use client';
+
+import { useRenderTime } from '@/components/render-time';
 import presentation from './approval-list-presentation.module.css';
 
 import { useState, useTransition } from 'react';
@@ -27,8 +29,8 @@ function formatAction(action: string): string {
   return map[action] || action;
 }
 
-function timeAgo(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime();
+function timeAgo(dateStr: string, now: number): string {
+  const diff = now - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
   if (mins < 1) return 'just now';
   if (mins < 60) return `${mins}m ago`;
@@ -47,6 +49,7 @@ export default function ApprovalList({
   currentUser: string;
   isSuperAdmin: boolean;
 }) {
+  const now = useRenderTime();
   const [isPending, startTransition] = useTransition();
   const [actionId, setActionId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -129,7 +132,7 @@ export default function ApprovalList({
                     <span className={presentation.ink2}>{a.actor}</span>
                   </span>
                   <span className={presentation.ink3}>·</span>
-                  <span>{timeAgo(a.created_at)}</span>
+                  <span>{timeAgo(a.created_at, now)}</span>
                   {a.reviewed_by && (
                     <>
                       <span className={presentation.ink3}>·</span>

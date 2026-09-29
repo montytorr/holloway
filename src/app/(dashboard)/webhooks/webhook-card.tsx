@@ -1,4 +1,6 @@
 'use client';
+
+import { useRenderTime } from '@/components/render-time';
 import presentation from './webhook-card-presentation.module.css';
 
 import { useState, useTransition } from 'react';
@@ -58,8 +60,7 @@ function truncateUrl(url: string, max = 60): string {
   return url.slice(0, max) + '…';
 }
 
-function timeAgo(dateStr: string): string {
-  const now = Date.now();
+function timeAgo(dateStr: string, now: number): string {
   const then = new Date(dateStr).getTime();
   const diffMs = now - then;
   const diffMin = Math.floor(diffMs / 60000);
@@ -76,6 +77,7 @@ export default function WebhookCard({
   webhook: wh,
   animationDelay,
 }: WebhookCardProps) {
+  const now = useRenderTime();
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<WebhookTestResult | null>(null);
   const [editing, setEditing] = useState(false);
@@ -418,7 +420,7 @@ export default function WebhookCard({
                 .filter(Boolean)
                 .join(' ')}
             >
-              {wh.last_delivery_at ? timeAgo(wh.last_delivery_at) : 'Never'}
+              {wh.last_delivery_at ? timeAgo(wh.last_delivery_at, now) : 'Never'}
             </span>
           </div>
           <div>
@@ -699,9 +701,9 @@ export default function WebhookCard({
                             .join(' ')}
                         >
                           {d.delivered_at
-                            ? timeAgo(d.delivered_at)
+                            ? timeAgo(d.delivered_at, now)
                             : d.created_at
-                              ? timeAgo(d.created_at)
+                              ? timeAgo(d.created_at, now)
                               : '—'}
                         </span>
                       </div>

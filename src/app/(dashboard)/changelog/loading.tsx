@@ -1,5 +1,5 @@
 import RouteSkeleton from '@/components/route-skeleton';
 
 export default function ChangelogLoading() {
-  return <RouteSkeleton label="changelog" shape="document" />;
+  return <RouteSkeleton width="prose" label="changelog" shape="document" />;
 }

@@ -318,10 +318,17 @@ export default async function ProjectDetailPage({
         />
 
         {blockedTaskCards.length > 0 && (
-          <section className={`animate-fade-in ${styles.radar}`} aria-labelledby="blocker-radar-heading">
+          <section
+            className={`animate-fade-in ${styles.radar}`}
+            aria-labelledby="blocker-radar-heading"
+          >
             <div className={styles.radarHead}>
-              <h2 id="blocker-radar-heading" className={styles.radarTitle}>Blocker radar</h2>
-              <p className={styles.radarSub}>Tasks waiting on other work, oldest first.</p>
+              <h2 id="blocker-radar-heading" className={styles.radarTitle}>
+                Blocker radar
+              </h2>
+              <p className={styles.radarSub}>
+                Tasks waiting on other work, oldest first.
+              </p>
               <span className={styles.radarCount}>
                 {blockedTaskCards.length} blocked
               </span>
@@ -339,26 +346,43 @@ export default async function ProjectDetailPage({
                   blockerResolutionDueAt: task.blocker_resolution_due_at,
                   blockerResolutionStatus: task.blocker_resolution_status,
                   blockedByCount: task.blockers.length,
-                  blockingTaskTitles: task.blockers.map((blocker) => blocker.title),
+                  blockingTaskTitles: task.blockers.map(
+                    (blocker) => blocker.title,
+                  ),
                 });
                 return (
-                  <Link key={task.id} href={`/projects/${id}/tasks/${task.id}`} className={styles.radarRow}>
+                  <Link
+                    key={task.id}
+                    href={`/projects/${id}/tasks/${task.id}`}
+                    className={styles.radarRow}
+                  >
                     <span className={styles.radarRowMain}>
                       <span className={styles.radarRowTop}>
-                        <span className={`${pillClassForTone(BLOCKER_TONE[state.tone])} text-2xs`} style={{ fontWeight: 600 }}>
-                          {state.tone === 'stale' ? 'stale blocker' : state.tone === 'follow-through' ? 'follow-through due' : 'blocked'}
+                        <span
+                          className={`${pillClassForTone(BLOCKER_TONE[state.tone])} text-2xs`}
+                          style={{ fontWeight: 600 }}
+                        >
+                          {state.tone === 'stale'
+                            ? 'stale blocker'
+                            : state.tone === 'follow-through'
+                              ? 'follow-through due'
+                              : 'blocked'}
                         </span>
                         <span className={styles.radarTask}>{task.title}</span>
                       </span>
                       <span className={styles.radarMeta}>
-                        Waiting on {task.blockers.map((blocker) => blocker.title).join(', ')}
+                        Waiting on{' '}
+                        {task.blockers
+                          .map((blocker) => blocker.title)
+                          .join(', ')}
                       </span>
                       {/* One line of plan, not two inset tiles repeating what
                           the task page already says in full. */}
                       <span className={styles.radarMeta}>
                         <b>{state.blockerResolutionOwner || 'No owner'}</b>
                         {' · '}
-                        {state.blockerResolutionAction || 'no unblock plan logged'}
+                        {state.blockerResolutionAction ||
+                          'no unblock plan logged'}
                         {state.dueStateLabel ? ` · ${state.dueStateLabel}` : ''}
                       </span>
                     </span>
@@ -369,37 +393,39 @@ export default async function ProjectDetailPage({
             </div>
             {blockedTaskCards.length > 6 && (
               <p className={styles.radarMore}>
-                {blockedTaskCards.length - 6} more blocked task{blockedTaskCards.length - 6 === 1 ? '' : 's'} in the list below.
+                {blockedTaskCards.length - 6} more blocked task
+                {blockedTaskCards.length - 6 === 1 ? '' : 's'} in the list
+                below.
               </p>
             )}
           </section>
         )}
 
-        {/* Context left, work right. The board used to take the full width
-            and still hide a third of itself off-screen, while the project's
-            own description sat in a 530px column with the rest of the page
-            empty beside it. */}
+        {/* Shared detail layout: work first, context second. */}
         <div className={styles.workLayout}>
-          <div className={styles.work}>
-            <div className={styles.workHead}>
-              <div>
-                <h2>Tasks</h2>
-                <p>{tasks.length} task{tasks.length === 1 ? '' : 's'} across the workflow</p>
-              </div>
-            </div>
+          <section className={`card ${styles.work}`} aria-label="Project tasks">
             <ProjectTaskList
               tasks={tasksWithDependencySummary}
               projectId={id}
               members={members}
               canCreate={!isObserver}
             />
-          </div>
+          </section>
 
           <aside className={styles.context} aria-label="Project context">
             {(project.description || isOwner) && (
-              <section className={`card ${styles.aboutCard}`} aria-labelledby="project-about-heading">
-                <h2 id="project-about-heading" className={styles.aboutTitle}>About</h2>
-                <EditableProjectDescription value={project.description} projectId={id} isOwner={isOwner} />
+              <section
+                className={`card ${styles.aboutCard}`}
+                aria-labelledby="project-about-heading"
+              >
+                <h2 id="project-about-heading" className={styles.aboutTitle}>
+                  About
+                </h2>
+                <EditableProjectDescription
+                  value={project.description}
+                  projectId={id}
+                  isOwner={isOwner}
+                />
               </section>
             )}
             <ProjectPrivacyControls
