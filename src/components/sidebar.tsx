@@ -1,8 +1,9 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { usePathname } from 'next/navigation';
-import { useSyncExternalStore } from 'react';
+import { useState, useSyncExternalStore } from 'react';
+import { LoadingSpinner } from './loading';
 import { createBrowserClient } from '@/lib/auth/browser';
 import { Avatar } from '@/components/atoms';
 import { HollowayMark } from '@/components/holloway-mark';
@@ -82,6 +83,7 @@ export function SidebarContent({
   onNavigate,
 }: SidebarProps) {
   const pathname = usePathname();
+  const [signingOut, setSigningOut] = useState(false);
   const { begin } = useNavigationFeedback();
   const destination = dashboardDestination(pathname);
   const renderItem = (item: DashboardDestination) => {
@@ -172,13 +174,22 @@ export function SidebarContent({
             <button
               type="button"
               className="btn btn--ghost btn--icon"
-              aria-label="Sign out"
+              aria-label={signingOut ? 'Signing out' : 'Sign out'}
+              aria-busy={signingOut || undefined}
+              disabled={signingOut}
               onClick={async () => {
-                await createBrowserClient().auth.signOut();
-                window.location.href = '/login';
+                setSigningOut(true);
+                try {
+                  await createBrowserClient().auth.signOut();
+                  // A full navigation discards the previous user's private router cache.
+                  // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+                  window.location.href = '/login';
+                } finally {
+                  setSigningOut(false);
+                }
               }}
             >
-              <LogOut size={16} aria-hidden />
+              {signingOut ? <LoadingSpinner /> : <LogOut size={16} aria-hidden />}
             </button>
           </>
         )}

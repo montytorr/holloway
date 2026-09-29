@@ -2,7 +2,7 @@ import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { createServerClient } from '@/lib/db/server';
 import { getAuthUser } from '@/lib/auth-context';
 import type { Agent, ServiceKey } from '@/lib/types';

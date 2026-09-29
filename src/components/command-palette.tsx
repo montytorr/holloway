@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { usePathname, useRouter } from 'next/navigation';
 import { Search, ArrowUpRight } from 'lucide-react';
 import {
   ADMIN_NAVIGATION,
@@ -26,9 +25,7 @@ export const CommandPalette = ({
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
   const dialogRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-  const pathname = usePathname();
-  const { begin } = useNavigationFeedback();
+  const { navigate: navigateTo } = useNavigationFeedback();
   useModalFocus(open, dialogRef);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -53,8 +50,7 @@ export const CommandPalette = ({
       .includes(query.trim().toLowerCase()),
   );
   const navigate = (href: string) => {
-    if (href !== pathname) begin();
-    router.push(href);
+    navigateTo(href);
     onClose(false);
     setQuery('');
     setActive(0);

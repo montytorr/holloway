@@ -142,13 +142,3 @@
   justify-content: center;
   gap: var(--space-2);
 }
-
-.detail3 {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  border: 2px solid var(--peri);
-  border-top-color: transparent;
-  animation: spin 0.6s linear infinite;
-  display: inline-block;
-}

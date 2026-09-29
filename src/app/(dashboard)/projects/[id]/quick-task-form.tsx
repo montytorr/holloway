@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './quick-task-form-presentation.module.css';
 
 import { useState, useRef, useEffect, useCallback, useTransition } from 'react';
@@ -287,7 +288,7 @@ export default function QuickTaskForm({
             disabled={!title.trim() || isPending}
             className="btn btn--primary btn--sm"
           >
-            {isPending ? 'Adding…' : 'Add'}
+            <PendingLabel pending={isPending} label="Adding…">Add</PendingLabel>
           </button>
         </div>
       </form>

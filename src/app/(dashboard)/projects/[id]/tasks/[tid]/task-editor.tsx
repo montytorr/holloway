@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './task-editor-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
@@ -190,7 +191,7 @@ function EditableDescription({
           className="btn btn--primary btn--sm"
           style={{ opacity: isPending ? 0.3 : 1 }}
         >
-          {isPending ? 'Saving…' : 'Save'}
+          <PendingLabel pending={isPending} label="Saving…">Save</PendingLabel>
         </button>
       </div>
     </div>
@@ -547,7 +548,7 @@ function DeleteTaskButton({
       className="btn btn--ghost btn--sm"
       style={{ color: 'var(--rose)', opacity: isPending ? 0.35 : 1 }}
     >
-      {isPending ? 'Deleting…' : 'Delete task'}
+      <PendingLabel pending={isPending} label="Deleting…">Delete task</PendingLabel>
     </button>
   );
 }

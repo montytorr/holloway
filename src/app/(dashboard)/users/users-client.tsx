@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './users-client-presentation.module.css';
 
 import { useState } from 'react';
@@ -324,7 +325,7 @@ export default function UsersClient({
                 className="btn btn--primary btn--sm"
                 style={{ opacity: addUserLoading ? 0.5 : 1 }}
               >
-                {addUserLoading ? 'Creating…' : 'Create User'}
+                <PendingLabel pending={addUserLoading} label="Creating…">Create User</PendingLabel>
               </button>
               <button
                 type="button"
@@ -463,13 +464,7 @@ export default function UsersClient({
                         : undefined
                     }
                   >
-                    {loading === profile.id ? (
-                      <span className="text-2xs">…</span>
-                    ) : profile.is_super_admin ? (
-                      'Remove Admin'
-                    ) : (
-                      'Make Admin'
-                    )}
+                    <PendingLabel pending={loading === profile.id} label="Updating…">{profile.is_super_admin ? 'Remove Admin' : 'Make Admin'}</PendingLabel>
                   </button>
                 </div>
 

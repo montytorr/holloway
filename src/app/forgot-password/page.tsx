@@ -1,8 +1,9 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './page-presentation.module.css';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { createBrowserClient } from '@/lib/auth/browser';
 import { Mail } from 'lucide-react';
 import { HollowayMark } from '@/components/holloway-mark';
@@ -125,7 +126,7 @@ export default function ForgotPasswordPage() {
                   opacity: loading ? 0.5 : 1,
                 }}
               >
-                {loading ? 'Sending…' : 'Send Reset Link'}
+                <PendingLabel pending={loading} label="Sending…">Send Reset Link</PendingLabel>
               </button>
             </form>
           )}

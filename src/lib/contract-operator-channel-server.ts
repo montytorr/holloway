@@ -231,6 +231,22 @@ export async function getOperatorChannelForContracts(
   return result;
 }
 
+/** Lightweight register projection: histories and bodies belong on the detail page. */
+export async function getOpenQuestionsForContracts(contractIds: string[]): Promise<Map<string, Array<{ asked_by_agent_id: string; kind: string; blocking: boolean }>>> {
+  const out = new Map<string, Array<{ asked_by_agent_id: string; kind: string; blocking: boolean }>>();
+  const ids = safeIdList(contractIds);
+  if (!ids.length) return out;
+  const { data } = await createServerClient().from('contract_questions')
+    .select('contract_id, asked_by_agent_id, kind, blocking')
+    .in('contract_id', ids).eq('status', 'open');
+  for (const row of data || []) {
+    const bucket = out.get(row.contract_id) ?? [];
+    bucket.push(row);
+    out.set(row.contract_id, bucket);
+  }
+  return out;
+}
+
 /* ── writes ──────────────────────────────────────────────────────────────── */
 
 export async function createContractNote(params: {

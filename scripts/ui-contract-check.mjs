@@ -86,12 +86,12 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
           .focus();
         await page.keyboard.press('Shift+Tab');
         assert.equal(
-          await page.evaluate(() => document.activeElement?.textContent),
+          await page.evaluate(() => document.activeElement?.innerText?.trim()),
           'Confirm Close',
         );
         await page.keyboard.press('Tab');
         assert.equal(
-          await page.evaluate(() => document.activeElement?.textContent),
+          await page.evaluate(() => document.activeElement?.innerText?.trim()),
           'Cancel',
         );
         await page.keyboard.press('Escape');
@@ -555,17 +555,25 @@ fs.mkdirSync('ui-audit-shots', { recursive: true });
         .click();
       const draft = page.getByRole('textbox', { name: 'Standing instruction' });
       await draft.fill('Keep this unsaved instruction after a failed request.');
+      let releaseSave;
+      const saveGate = new Promise(resolve => { releaseSave = resolve; });
       await page.route('**/contracts/' + fixture(1), async (route) => {
-        if (route.request().method() === 'POST')
+        if (route.request().method() === 'POST') {
+          await saveGate;
           await route.fulfill({
             status: 500,
             body: 'Review-only simulated failure',
           });
-        else await route.continue();
+        } else await route.continue();
       });
-      await page
-        .getByRole('button', { name: 'Leave note', exact: true })
-        .click();
+      const save = page.getByRole('button', { name: 'Leave note', exact: true });
+      const beforeSave = await save.boundingBox();
+      await save.click();
+      await page.getByRole('status', { name: 'Saving changes', exact: true }).waitFor();
+      assert.equal(await save.isDisabled(), true);
+      assert.equal((await save.boundingBox()).width, beforeSave.width);
+      assert.equal(await page.locator('#operator-channel .loading-spinner:visible').count(), 1);
+      releaseSave();
       await page.locator('#operator-channel [role=alert]').waitFor();
       assert.equal(
         await draft.inputValue(),

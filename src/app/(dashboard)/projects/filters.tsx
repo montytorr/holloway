@@ -1,7 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useQueryFilters } from '@/components/use-query-filters';
 import type { ProjectStatus } from '@/lib/types';
 
 const statuses: Array<ProjectStatus | 'all'> = [
@@ -13,36 +12,20 @@ const statuses: Array<ProjectStatus | 'all'> = [
 ];
 const inboxOptions = ['all', 'needs-response', 'history'] as const;
 
-export default function ProjectFilters({ current }: { current: string }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const currentInbox = searchParams.get('inbox') || 'all';
-
-  const updateParams = useCallback(
-    (updates: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams.toString());
-      for (const [key, value] of Object.entries(updates)) {
-        if (!value || value === 'all') {
-          params.delete(key);
-        } else {
-          params.set(key, value);
-        }
-      }
-      const qs = params.toString();
-      router.push(`/projects${qs ? `?${qs}` : ''}`);
-    },
-    [router, searchParams],
-  );
+export default function ProjectFilters() {
+  const { params, update: updateParams, pending } = useQueryFilters('/projects', { status: 'all', inbox: 'all' });
+  const currentStatus = params.get('status') || 'all';
+  const currentInbox = params.get('inbox') || 'all';
 
   return (
-    <div className="list-toolbar">
+    <div className="list-toolbar" aria-busy={pending}>
       <div className="seg">
         {statuses.map((status) => (
           <button
             key={status}
             type="button"
-            aria-pressed={current === status}
-            className={current === status ? 'active' : ''}
+            aria-pressed={currentStatus === status}
+            className={currentStatus === status ? 'active' : ''}
             onClick={() => updateParams({ status })}
           >
             {status === 'all'

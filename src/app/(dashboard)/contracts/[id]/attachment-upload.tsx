@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './attachment-upload-presentation.module.css';
 
 import { useRef, useState, useTransition, type DragEvent } from 'react';
@@ -127,7 +128,7 @@ export default function ContractAttachmentUpload({
           className="btn btn--primary btn--sm"
           style={{ opacity: pending ? 0.5 : 1 }}
         >
-          {pending ? 'Uploading…' : 'Upload'}
+          <PendingLabel pending={pending} label="Uploading…">Upload</PendingLabel>
         </button>
       </div>
 

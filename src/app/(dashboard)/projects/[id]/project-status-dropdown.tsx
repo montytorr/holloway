@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './project-status-dropdown-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
@@ -69,9 +70,8 @@ export default function ProjectStatusDropdown({
       >
         <span
           className={`${dotClassForTone(tone)}${!isPending && tonePulses(tone) ? ' pulse' : ''}`}
-          style={isPending ? { animation: 'pulse 1s infinite' } : undefined}
         />
-        {isPending ? 'Updating…' : statusLabel(currentStatus)}
+        <PendingLabel pending={isPending} label="Updating…">{statusLabel(currentStatus)}</PendingLabel>
         <ChevronDown
           size={10}
           style={{

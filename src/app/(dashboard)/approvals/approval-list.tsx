@@ -1,5 +1,6 @@
 'use client';
 
+import { PendingLabel } from '@/components/loading';
 import { useRenderTime } from '@/components/render-time';
 import presentation from './approval-list-presentation.module.css';
 
@@ -209,14 +210,14 @@ export default function ApprovalList({
                       .filter(Boolean)
                       .join(' ')}
                   >
-                    {isActioning ? '...' : 'Approve'}
+                    <PendingLabel pending={isActioning} label="Reviewing…">Approve</PendingLabel>
                   </button>
                   <button
                     onClick={() => doDeny(a.id)}
                     disabled={isActioning}
                     className="btn btn--sm btn--danger"
                   >
-                    {isActioning ? '...' : 'Deny'}
+                    <PendingLabel pending={isActioning} label="Reviewing…">Deny</PendingLabel>
                   </button>
                 </div>
               )}

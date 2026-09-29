@@ -52,7 +52,7 @@ function DashboardPageContent({ children }: { children: React.ReactNode }) {
   // Keep the existing tree mounted while the router resolves the destination.
   // Route loading boundaries own their skeletons; swapping children here
   // caused a second loading screen and reset page state and subscriptions.
-  return <div aria-busy={pending || undefined}>{children}</div>;
+  return <div className="dashboard-page-content" aria-busy={pending || undefined}>{children}</div>;
 }
 
 export default function DashboardShell({

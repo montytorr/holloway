@@ -5,7 +5,8 @@ import { readEnv } from './env';
 
 export const MAX_ATTACHMENT_SIZE_BYTES = 10 * 1024 * 1024;
 
-const attachmentRoot = () => resolve(readEnv('ATTACHMENT_DIR') || '/data/attachments');
+// Attachment binaries live on a runtime volume, outside the bundled application.
+const attachmentRoot = () => resolve(/* turbopackIgnore: true */ readEnv('ATTACHMENT_DIR') || '/data/attachments');
 const signingKey = () => {
   const key = readEnv('ATTACHMENT_SIGNING_KEY');
   if (!key) throw new Error('HOLLOWAY_ATTACHMENT_SIGNING_KEY (or legacy A2A_ATTACHMENT_SIGNING_KEY) is required');
@@ -171,4 +172,4 @@ export function verifyAttachmentToken(path: string, expires: number, download: s
   return supplied.length === expected.length && timingSafeEqual(supplied, expected);
 }
 
-export const readAttachmentBinary = (path: string) => readFile(absolutePath(path));
+export const readAttachmentBinary = (path: string) => readFile(/* turbopackIgnore: true */ absolutePath(path));

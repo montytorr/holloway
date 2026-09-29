@@ -1,9 +1,10 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './page-presentation.module.css';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import MarkdownPreview from '@/components/markdown-preview';
 import {
   Avatar,
@@ -297,7 +298,7 @@ export default function NewProjectPage() {
               cursor: loading ? 'not-allowed' : 'pointer',
             }}
           >
-            {loading ? 'Creating...' : 'Create Project'}
+            <PendingLabel pending={loading} label="Creating...">Create Project</PendingLabel>
           </button>
           <Link
             href="/projects"

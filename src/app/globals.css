@@ -1142,33 +1142,9 @@ body::before {
   }
 
   .contract-row-loading {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 8px;
-    border-radius: var(--radius-pill);
-    background: var(--bg-1);
-    border: 1px solid var(--line-2);
-    color: var(--peri);
-    font-size: var(--text-2xs);
-    z-index: 2;
-  }
-
-  .contract-row-loading__spinner {
-    width: 10px;
-    height: 10px;
-    border: 2px solid currentColor;
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
-
-  .contract-filter-loading {
-    align-self: flex-end;
-    color: var(--peri);
+    position: absolute; right: 12px; top: 12px; z-index: 2;
+    padding: 6px; background: var(--bg-1); border: 1px solid var(--line-soft);
+    border-radius: var(--radius-2); color: var(--brand);
   }
 
   .contract-action-error {
@@ -1180,44 +1156,17 @@ body::before {
     color: var(--rose);
   }
 
-  .route-loading-shell {
-    width: 100%;
-    padding: 24px 16px;
-  }
-
-  .route-loading-title {
-    width: 240px;
-    height: 28px;
-    margin-bottom: 20px;
-    border-radius: var(--radius-2);
-    background: var(--bg-2);
-  }
-
-  .route-loading-title--contracts {
-    width: 180px;
-  }
-  .route-loading-card--short {
-    height: 88px;
-    margin-bottom: 16px;
-    opacity: 0.7;
-  }
-  .route-loading-card--detail {
-    height: 150px;
-    margin-bottom: 16px;
-    opacity: 0.7;
-  }
-  .route-loading-card--list {
-    height: 420px;
-    opacity: 0.55;
-  }
-  .route-loading-card--body {
-    height: 480px;
-    opacity: 0.55;
-  }
-
-  .route-loading-card {
-    background: var(--bg-2);
-  }
+  .loading-indicator { display: inline-flex; align-items: center; gap: 8px; color: var(--fg-2); font-size: var(--text-xs); }
+  .loading-spinner { display: inline-block; width: 12px; height: 12px; flex: 0 0 12px; border: 1.5px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; }
+  .loading-skeleton { position: relative; overflow: hidden; border-radius: var(--radius-1); background: var(--bg-3); }
+  .loading-skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 20%, var(--bg-hover) 50%, transparent 80%); transform: translateX(-100%); animation: loading-sweep 1.8s ease-in-out infinite; }
+  .loading-placeholder { display: grid; gap: 12px; padding: 16px; width: 100%; min-height: 96px; align-content: start; }
+  .loading-placeholder .loading-skeleton { height: 12px; }
+  .pending-label { display: inline-grid; align-items: center; }
+  .pending-label > span { grid-area: 1 / 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+  .pending-label-hidden { visibility: hidden; }
+  @keyframes loading-sweep { to { transform: translateX(100%); } }
+  @media (prefers-reduced-motion: reduce) { .loading-spinner, .loading-skeleton::after { animation: none; } .loading-skeleton::after { display: none; } }
 
   .navigation-progress {
     position: fixed;
@@ -1225,10 +1174,10 @@ body::before {
     z-index: 100;
     height: 2px;
     background: var(--brand);
-    box-shadow: 0 0 10px var(--glow-brand);
     transform-origin: left;
 
-    animation: navigation-progress 10s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
+    animation: navigation-progress 10s cubic-bezier(0.1, 0.7, 0.2, 1) 120ms forwards;
+    opacity: 0;
   }
 
   @keyframes navigation-progress {
@@ -1241,6 +1190,8 @@ body::before {
       opacity: 1;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) { .navigation-progress { animation: none; opacity: 1; transform: scaleX(.3); } }
 
   .page-frame {
     padding: 16px var(--page-gutter) 32px;

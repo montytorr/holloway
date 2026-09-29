@@ -3,7 +3,7 @@
 import { useRenderTime } from '@/components/render-time';
 import presentation from './invitation-inbox-presentation.module.css';
 
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { formatDateTime, formatRelative } from '@/lib/format-date';
 import type { ProjectInvitationStatus } from '@/lib/types';
 import {

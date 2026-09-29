@@ -1,10 +1,11 @@
 'use client';
 
+import { PendingLabel } from '@/components/loading';
 import { useRenderTime } from '@/components/render-time';
 import presentation from './project-header-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
-import Link from 'next/link';
+import Link from '@/components/app-link';
 import { Pencil, Plus } from 'lucide-react';
 import MarkdownPreview from '@/components/markdown-preview';
 import { Avatar, EmptyState, SectionHeader } from '@/components/atoms';
@@ -298,7 +299,7 @@ function EditableProjectDescription({
           disabled={isSaving}
           className="btn btn--primary btn--sm"
         >
-          {isSaving ? 'Saving…' : 'Save'}
+          <PendingLabel pending={isSaving} label="Saving…">Save</PendingLabel>
         </button>
       </div>
     </div>

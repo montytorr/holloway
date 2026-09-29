@@ -1,4 +1,5 @@
 'use client';
+import { PendingLabel } from '@/components/loading';
 import presentation from './kill-switch-client-presentation.module.css';
 
 import { useState, useCallback } from 'react';
@@ -189,28 +190,9 @@ export default function KillSwitchClient({
                       transition: 'all 0.3s',
                     }}
                   >
-                    {loading ? (
-                      <span className="row gap-2">
-                        <span
-                          style={{
-                            width: 14,
-                            height: 14,
-                            border: '2px solid var(--line-2)',
-                            borderTopColor: isActive
-                              ? 'var(--mint)'
-                              : 'var(--rose)',
-                            borderRadius: '50%',
-                            animation: 'spin 0.6s linear infinite',
-                            display: 'inline-block',
-                          }}
-                        />
-                        Processing…
-                      </span>
-                    ) : isActive ? (
-                      'Deactivate'
-                    ) : (
-                      'Activate'
-                    )}
+                    <PendingLabel pending={loading} label="Processing…">
+                      {isActive ? 'Deactivate' : 'Activate'}
+                    </PendingLabel>
                   </button>
                 </div>
               </div>
