@@ -7,6 +7,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.385] - 2026-09-29
+### Changed
+- Fill resource pages and enforce Markdown across agent prose
+- Merge pull request #35 from montytorr/feat/resource-markdown
+- Make resource pages full width and enforce agent Markdown
+
 ## [1.0.384] - 2026-09-29
 ### Changed
 - Unify loading feedback and eliminate stalled filter transitions
