@@ -4,22 +4,36 @@
 const TIMEZONE = process.env.NEXT_PUBLIC_DISPLAY_TIMEZONE || 'UTC';
 const LOCALE = process.env.NEXT_PUBLIC_DISPLAY_LOCALE || 'en-US';
 
-export function formatDate(date: string | Date, opts?: { includeTime?: boolean }): string {
+export function formatDate(
+  date: string | Date,
+  opts?: { includeTime?: boolean },
+): string {
   const d = typeof date === 'string' ? new Date(date) : date;
   if (opts?.includeTime) {
-    return d.toLocaleString(LOCALE, { timeZone: TIMEZONE, month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return d.toLocaleString(LOCALE, {
+      timeZone: TIMEZONE,
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   }
-  return d.toLocaleDateString(LOCALE, { timeZone: TIMEZONE, month: 'short', day: 'numeric', year: 'numeric' });
+  return d.toLocaleDateString(LOCALE, {
+    timeZone: TIMEZONE,
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 export function formatDateTime(date: string | Date): string {
   return formatDate(date, { includeTime: true });
 }
 
-
-export function formatRelative(date: string | Date): string {
+export function formatRelative(date: string | Date, now = Date.now()): string {
   const d = typeof date === 'string' ? new Date(date) : date;
-  const diff = Date.now() - d.getTime();
+  const diff = now - d.getTime();
 
   if (diff < 0) {
     const futureMins = Math.floor(-diff / 60000);

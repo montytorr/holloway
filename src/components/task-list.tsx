@@ -1,5 +1,7 @@
 'use client';
 
+import { useRenderTime } from '@/components/render-time';
+
 import Link from 'next/link';
 import { useState } from 'react';
 import type { TaskStatus } from '@/lib/types';
@@ -78,10 +80,11 @@ function PriorityGlyph({ priority }: { priority: string }) {
 }
 
 function TaskRow({ row, href }: { row: TaskListRow; href: string }) {
+  const now = useRenderTime();
   const tone = statusTone('task', row.status);
   const isOverdue =
     !!row.due_date &&
-    new Date(row.due_date) < new Date() &&
+    new Date(row.due_date).getTime() < now &&
     row.status !== 'done' &&
     row.status !== 'cancelled';
   const assigneeName = row.assignee?.display_name || row.assignee?.name;

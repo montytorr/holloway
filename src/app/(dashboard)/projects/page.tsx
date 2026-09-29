@@ -381,9 +381,13 @@ async function renderProjectsPage({
         {/* Project cards */}
         <div className={`card ${styles.list}`}>
           <div className={styles.columns} aria-hidden="true">
-            <span>Project</span>
+            <span className={styles.mainHeading}>
+              <span>Status</span>
+              <span>Project</span>
+            </span>
             <span>Task progress</span>
-            <span>Workspace / Updated</span>
+            <span>Workspace</span>
+            <span>Updated</span>
           </div>
           {rows.length === 0 ? (
             <div
@@ -491,9 +495,9 @@ async function renderProjectsPage({
                     <span className={styles.rowStat}>
                       <Layers size={11} /> {stats.total}
                     </span>
-                    <span className={styles.rowUpdated}>
-                      {formatRelative(project.updated_at || project.created_at)}
-                    </span>
+                  </span>
+                  <span className={styles.rowUpdated}>
+                    {formatRelative(project.updated_at || project.created_at)}
                   </span>
                 </Link>
               );

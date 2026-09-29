@@ -1,4 +1,6 @@
 'use client';
+
+import { useRenderTime } from '@/components/render-time';
 import presentation from './project-header-presentation.module.css';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
@@ -315,6 +317,7 @@ export default function ProjectHeader({
   hiddenPendingInvitationCount = 0,
   canSeeObserverInvitationSummary = false,
 }: ProjectHeaderProps) {
+  const now = useRenderTime();
   const [showAddDropdown, setShowAddDropdown] = useState(false);
   const [isPending, startTransition] = useTransition();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -328,10 +331,18 @@ export default function ProjectHeader({
         setShowAddDropdown(false);
       }
     }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return;
+      setShowAddDropdown(false);
+      dropdownRef.current?.querySelector('button')?.focus();
+    }
     if (showAddDropdown) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () =>
+      document.addEventListener('keydown', handleKeyDown);
+      return () => {
         document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleKeyDown);
+      };
     }
   }, [showAddDropdown]);
 
@@ -386,171 +397,163 @@ export default function ProjectHeader({
         </span>
       </div>
 
-      <div className={styles.headerGrid}>
-        <div className={presentation.detail2}>
-          <div className={styles.headerMain}>
-            <div className={presentation.detail1}>
-              <SectionHeader
-                eyebrow="Project"
-                heading={
-                  <EditableProjectTitle
-                    value={project.title}
-                    projectId={project.id}
-                    isOwner={isOwner}
-                  />
-                }
-                badge={
-                  <ProjectStatusDropdown
-                    projectId={project.id}
-                    currentStatus={project.status}
-                  />
-                }
-              />
+      <SectionHeader
+        eyebrow="Project"
+        heading={
+          <EditableProjectTitle
+            value={project.title}
+            projectId={project.id}
+            isOwner={isOwner}
+          />
+        }
+        badge={
+          <ProjectStatusDropdown
+            projectId={project.id}
+            currentStatus={project.status}
+          />
+        }
+        right={
+          <div className={presentation.row6}>
+            <div className={presentation.row7}>
+              {members.slice(0, 5).map((m) => {
+                const name = m.agent?.display_name || m.agent?.name || '?';
+                return (
+                  <div
+                    key={m.id}
+                    className={styles.memberChip}
+                    style={{ marginLeft: m.id === members[0]?.id ? 0 : -8 }}
+                  >
+                    <span
+                      title={`${name} (${m.role})`}
+                      className={presentation.detail3}
+                    >
+                      <Avatar name={name} size={32} />
+                    </span>
+                    {isOwner && m.role !== 'owner' && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveMember(m.id)}
+                        disabled={isPending}
+                        title={`Remove ${name}`}
+                        aria-label={`Remove ${name} from this project`}
+                        className={`text-2xs ${styles.memberRemove}`}
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+              {members.length > 5 && (
+                <div
+                  className={['text-2xs', presentation.row8]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  +{members.length - 5}
+                </div>
+              )}
             </div>
 
-            {/* Member Avatars */}
-            <div className={presentation.row6}>
-              <div className={presentation.row7}>
-                {members.slice(0, 5).map((m) => {
-                  const name = m.agent?.display_name || m.agent?.name || '?';
-                  return (
-                    <div
-                      key={m.id}
-                      className={styles.memberChip}
-                      style={{ marginLeft: m.id === members[0]?.id ? 0 : -8 }}
-                    >
-                      <span
-                        title={`${name} (${m.role})`}
-                        className={presentation.detail3}
-                      >
-                        <Avatar name={name} size={32} />
-                      </span>
-                      {isOwner && m.role !== 'owner' && (
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveMember(m.id)}
-                          disabled={isPending}
-                          title={`Remove ${name}`}
-                          aria-label={`Remove ${name} from this project`}
-                          className={`text-2xs ${styles.memberRemove}`}
-                        >
-                          ×
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
-                {members.length > 5 && (
+            {/* Add Member Button */}
+            {isOwner && (
+              <div className={presentation.detail4} ref={dropdownRef}>
+                <button
+                  onClick={() => setShowAddDropdown(!showAddDropdown)}
+                  disabled={isPending}
+                  className={['btn btn--ghost btn--icon', presentation.action2]
+                    .filter(Boolean)
+                    .join(' ')}
+                  title="Add member"
+                  aria-expanded={showAddDropdown}
+                  aria-controls="project-add-member"
+                >
+                  <Plus size={14} className={presentation.ink1} />
+                </button>
+
+                {showAddDropdown && (
                   <div
-                    className={['text-2xs', presentation.row8]
+                    id="project-add-member"
+                    className={['card', presentation.detail5]
                       .filter(Boolean)
                       .join(' ')}
                   >
-                    +{members.length - 5}
+                    <div className={presentation.detail6}>
+                      <span className="upper text-2xs">Add Member</span>
+                    </div>
+                    {availableAgents.length === 0 ? (
+                      <EmptyState
+                        title="No agents available"
+                        hint="Every agent you can invite is already a member."
+                      />
+                    ) : (
+                      availableAgents.map((agent) => {
+                        const name = agent.display_name || agent.name;
+                        return (
+                          <button
+                            key={agent.id}
+                            onClick={() => handleAddMember(agent.id)}
+                            disabled={isPending}
+                            style={{
+                              width: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 10,
+                              padding: '8px 12px',
+                              textAlign: 'left',
+                              background: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'background 0.1s',
+                              opacity: isPending ? 0.5 : 1,
+                            }}
+                            onMouseEnter={(e) => {
+                              (
+                                e.currentTarget as HTMLButtonElement
+                              ).style.background = 'var(--bg-2)';
+                            }}
+                            onMouseLeave={(e) => {
+                              (
+                                e.currentTarget as HTMLButtonElement
+                              ).style.background = 'transparent';
+                            }}
+                          >
+                            <Avatar name={name} size={24} />
+                            <div className={presentation.detail2}>
+                              <p
+                                className={['text-2xs', presentation.copy2]
+                                  .filter(Boolean)
+                                  .join(' ')}
+                              >
+                                {name}
+                              </p>
+                              <p
+                                className={['text-2xs', presentation.copy3]
+                                  .filter(Boolean)
+                                  .join(' ')}
+                              >
+                                {agent.name}
+                              </p>
+                            </div>
+                          </button>
+                        );
+                      })
+                    )}
                   </div>
                 )}
               </div>
+            )}
 
-              {/* Add Member Button */}
-              {isOwner && (
-                <div className={presentation.detail4} ref={dropdownRef}>
-                  <button
-                    onClick={() => setShowAddDropdown(!showAddDropdown)}
-                    disabled={isPending}
-                    className={[
-                      'btn btn--ghost btn--icon',
-                      presentation.action2,
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                    title="Add member"
-                  >
-                    <Plus size={14} className={presentation.ink1} />
-                  </button>
-
-                  {showAddDropdown && (
-                    <div
-                      className={['card', presentation.detail5]
-                        .filter(Boolean)
-                        .join(' ')}
-                    >
-                      <div className={presentation.detail6}>
-                        <span className="upper text-2xs">Add Member</span>
-                      </div>
-                      {availableAgents.length === 0 ? (
-                        <EmptyState
-                          title="No agents available"
-                          hint="Every agent you can invite is already a member."
-                        />
-                      ) : (
-                        availableAgents.map((agent) => {
-                          const name = agent.display_name || agent.name;
-                          return (
-                            <button
-                              key={agent.id}
-                              onClick={() => handleAddMember(agent.id)}
-                              disabled={isPending}
-                              style={{
-                                width: '100%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 10,
-                                padding: '8px 12px',
-                                textAlign: 'left',
-                                background: 'transparent',
-                                border: 'none',
-                                cursor: 'pointer',
-                                transition: 'background 0.1s',
-                                opacity: isPending ? 0.5 : 1,
-                              }}
-                              onMouseEnter={(e) => {
-                                (
-                                  e.currentTarget as HTMLButtonElement
-                                ).style.background = 'var(--bg-2)';
-                              }}
-                              onMouseLeave={(e) => {
-                                (
-                                  e.currentTarget as HTMLButtonElement
-                                ).style.background = 'transparent';
-                              }}
-                            >
-                              <Avatar name={name} size={24} />
-                              <div className={presentation.detail2}>
-                                <p
-                                  className={['text-2xs', presentation.copy2]
-                                    .filter(Boolean)
-                                    .join(' ')}
-                                >
-                                  {name}
-                                </p>
-                                <p
-                                  className={['text-2xs', presentation.copy3]
-                                    .filter(Boolean)
-                                    .join(' ')}
-                                >
-                                  {agent.name}
-                                </p>
-                              </div>
-                            </button>
-                          );
-                        })
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <span
-                className={['text-2xs', presentation.ink3]
-                  .filter(Boolean)
-                  .join(' ')}
-              >
-                {members.length} member{members.length !== 1 ? 's' : ''}
-              </span>
-            </div>
+            <span
+              className={['text-2xs', presentation.ink3]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {members.length} member{members.length !== 1 ? 's' : ''}
+            </span>
           </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Invitation banners */}
       {(myPendingInvitations.length > 0 ||
@@ -598,18 +601,18 @@ export default function ProjectHeader({
                   >
                     {invitation.created_at && (
                       <span>
-                        Created {formatRelative(invitation.created_at)}
+                        Created {formatRelative(invitation.created_at, now)}
                       </span>
                     )}
                     {invitation.expires_at && (
                       <span title={formatDateTime(invitation.expires_at)}>
-                        Expires {formatRelative(invitation.expires_at)}
+                        Expires {formatRelative(invitation.expires_at, now)}
                       </span>
                     )}
                     {invitation.reminder_sent_at && (
                       <span title={formatDateTime(invitation.reminder_sent_at)}>
                         Reminder sent{' '}
-                        {formatRelative(invitation.reminder_sent_at)}
+                        {formatRelative(invitation.reminder_sent_at, now)}
                       </span>
                     )}
                   </div>
@@ -726,11 +729,11 @@ export default function ProjectHeader({
                           Invited by {inviter}
                           {invitation.expires_at &&
                           invitation.status === 'pending'
-                            ? ` · expires ${formatRelative(invitation.expires_at)}`
+                            ? ` · expires ${formatRelative(invitation.expires_at, now)}`
                             : ''}
                           {invitation.responded_at &&
                           invitation.status !== 'pending'
-                            ? ` · resolved ${formatRelative(invitation.responded_at)}`
+                            ? ` · resolved ${formatRelative(invitation.responded_at, now)}`
                             : ''}
                         </p>
                       </div>

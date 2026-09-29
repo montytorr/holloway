@@ -13,7 +13,7 @@ const inlineCodeStyle: CSSProperties = {
   ...baseCodeStyle,
   display: 'inline',
   padding: '0.12rem 0.36rem',
-  borderRadius: 5,
+  borderRadius: 'var(--radius-1)',
   fontSize: '0.86em',
   lineHeight: 1.45,
   whiteSpace: 'break-spaces',
@@ -27,7 +27,7 @@ const blockCodeStyle: CSSProperties = {
   fontSize: 12,
   lineHeight: 1.65,
   color: 'var(--fg-1)',
-  background: 'linear-gradient(180deg, var(--bg-2), var(--bg-1))',
+  background: 'var(--bg-2)',
   overflowX: 'auto',
   whiteSpace: 'pre',
 };

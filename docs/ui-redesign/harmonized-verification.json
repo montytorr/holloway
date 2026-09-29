@@ -1,0 +1,49 @@
+{
+  "task": "HOL-158",
+  "verified_at_utc": "2026-09-29T05:57:34.802127+00:00",
+  "base_commit": "cec60d1",
+  "environment": "isolated ui_review database; loopback production build; Chromium",
+  "application_tests": 468,
+  "reactor_tests": 88,
+  "lint": "passed",
+  "typescript": "passed",
+  "production_build": "passed",
+  "route_cases": {
+    "passed": 300,
+    "failed": 0,
+    "skipped": 0,
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "widths": [
+      390,
+      768,
+      1024,
+      1440,
+      1920
+    ]
+  },
+  "state_and_public_cases": 120,
+  "geometry_clock_refresh_checks": 24,
+  "shell_interactions": 8,
+  "operator_interactions": 24,
+  "clock_skew_seconds": 65,
+  "contrast": {
+    "pairs": 32,
+    "minimum_ratio": 4.9,
+    "required_ratio": 4.5
+  },
+  "authored_screenshots": 16,
+  "limits": [
+    "Browser verification uses isolated data, not live production mutations.",
+    "Committed screenshots contain authored fixtures only.",
+    "Route and geometry assertions are supplemented by inspected screenshots; aesthetic quality remains a human judgment."
+  ],
+  "phone_overlap_scan": {
+    "routes": 30,
+    "theme": "dark",
+    "width": 390,
+    "findings": 0
+  }
+}

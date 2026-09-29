@@ -1,4 +1,6 @@
 'use client';
+
+import { useRenderTime } from '@/components/render-time';
 import presentation from './invitation-inbox-presentation.module.css';
 
 import Link from 'next/link';
@@ -20,6 +22,7 @@ export default function InvitationInbox({
   title: string;
   empty: string;
 }) {
+  const now = useRenderTime();
   return (
     <div className={['card', presentation.detail1].filter(Boolean).join(' ')}>
       <div className={['row', presentation.section1].filter(Boolean).join(' ')}>
@@ -97,22 +100,22 @@ export default function InvitationInbox({
                     .filter(Boolean)
                     .join(' ')}
                 >
-                  <span>Created {formatRelative(invitation.created_at)}</span>
+                  <span>Created {formatRelative(invitation.created_at, now)}</span>
                   {invitation.expires_at && invitation.status === 'pending' && (
                     <span title={formatDateTime(invitation.expires_at)}>
-                      Expires {formatRelative(invitation.expires_at)}
+                      Expires {formatRelative(invitation.expires_at, now)}
                     </span>
                   )}
                   {invitation.reminder_sent_at && (
                     <span title={formatDateTime(invitation.reminder_sent_at)}>
                       Reminder sent{' '}
-                      {formatRelative(invitation.reminder_sent_at)}
+                      {formatRelative(invitation.reminder_sent_at, now)}
                     </span>
                   )}
                   {invitation.responded_at &&
                     invitation.status !== 'pending' && (
                       <span title={formatDateTime(invitation.responded_at)}>
-                        Resolved {formatRelative(invitation.responded_at)}
+                        Resolved {formatRelative(invitation.responded_at, now)}
                       </span>
                     )}
                 </div>

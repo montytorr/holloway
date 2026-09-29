@@ -95,7 +95,7 @@
   grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
   grid-template-areas: 'work context';
   align-items: start;
-  gap: var(--space-6);
+  gap: var(--space-4);
 }
 
 .main {
@@ -130,7 +130,7 @@
 }
 
 .description {
-  max-width: 75ch;
+  max-width: none;
   font-size: 15px;
   line-height: 1.75;
 }
@@ -345,18 +345,10 @@
   gap: var(--space-1);
 }
 
-/* A destructive action does not earn a titled card of its own — that gave
-   "Task controls" the same weight as the task's attachments and links. */
-.railFooter {
-  display: flex;
-  justify-content: flex-start;
-  padding-top: var(--space-1);
-}
-
 /* ──────────────────────────────────────────────
    RESPONSIVE
    ────────────────────────────────────────────── */
-@media (max-width: 1000px) {
+@media (max-width: 1050px) {
   .layout {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: 'work' 'context';

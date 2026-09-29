@@ -10,12 +10,13 @@
    converging on: one row per thing, aligned columns, scannable down.
    ────────────────────────────────────────────── */
 .list {
+  --register-columns: minmax(0, 1fr) 156px minmax(150px, 220px) 108px;
   overflow: hidden;
 }
 
 .row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 140px 300px;
+  grid-template-columns: var(--register-columns);
   align-items: center;
   gap: var(--space-4);
   padding: var(--list-row-py) 12px;
@@ -41,7 +42,8 @@
   gap: var(--space-1);
 }
 .rowTitleLine {
-  display: flex;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
   align-items: center;
   gap: var(--space-2);
   min-width: 0;
@@ -65,7 +67,9 @@
 
 .rowProgress {
   display: grid;
-  gap: var(--space-1);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
   min-width: 0;
 }
 .rowProgressText {
@@ -96,8 +100,10 @@
 }
 
 @media (max-width: 900px) {
+  .list {
+    --register-columns: minmax(0, 1fr);
+  }
   .row {
-    grid-template-columns: minmax(0, 1fr);
     row-gap: var(--space-2);
   }
   .rowProgress {
@@ -115,8 +121,8 @@
 
 .columns {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 140px 300px;
-  gap: 16px;
+  grid-template-columns: var(--register-columns);
+  gap: var(--space-4);
   padding: 10px 12px;
   border-bottom: 1px solid var(--line-1);
   color: var(--fg-2);
@@ -128,5 +134,22 @@
 @media (max-width: 900px) {
   .columns {
     display: none;
+  }
+}
+
+.mainHeading {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: var(--space-2);
+}
+.rowTitleLine > :first-child {
+  justify-self: start;
+}
+.rowDesc {
+  padding-inline-start: 100px;
+}
+@media (max-width: 900px) {
+  .rowDesc {
+    padding-inline-start: 0;
   }
 }

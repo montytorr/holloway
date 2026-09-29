@@ -1,5 +1,7 @@
 'use client';
 
+import { useRenderTime } from '@/components/render-time';
+
 import Link from 'next/link';
 import { useState, useRef, useTransition } from 'react';
 import MarkdownPreview from '@/components/markdown-preview';
@@ -83,6 +85,7 @@ function eventText(content: string, contractId: string | null) {
 }
 
 function CommentItem({ comment }: { comment: Comment }) {
+  const now = useRenderTime();
   const authorName = comment.author?.display_name || comment.author?.name || comment.author_name || 'Unknown';
   const isSystem = comment.comment_type !== 'comment' && comment.comment_type !== 'analysis';
   const config = typeConfig[comment.comment_type] || typeConfig.comment;
@@ -100,7 +103,7 @@ function CommentItem({ comment }: { comment: Comment }) {
         <div className={styles.entryHeader}>
           <span className={styles.author}>{authorName}</span>
           <span className={styles.kind}>{config.label}</span>
-          <time className={styles.time} dateTime={comment.created_at}>{formatRelative(comment.created_at)}</time>
+          <time className={styles.time} dateTime={comment.created_at}>{formatRelative(comment.created_at, now)}</time>
         </div>
         {isSystem ? (
           <p className={styles.eventText}>{eventText(comment.content, contractId)}</p>

@@ -1,7 +1,8 @@
 .register {
+  --register-columns: minmax(0, 1fr) 120px 200px 80px 120px;
   overflow: hidden;
   border: 1px solid var(--line-1);
-  border-radius: 10px;
+  border-radius: var(--radius-4);
   background: var(--bg-1);
 }
 
@@ -30,7 +31,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 120px 200px 80px 120px;
+  grid-template-columns: var(--register-columns);
   align-items: center;
   gap: var(--space-3);
   min-width: 0;
@@ -229,7 +230,7 @@
 
 .columns {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 120px 200px 80px 120px;
+  grid-template-columns: var(--register-columns);
   gap: 12px;
   padding: 10px 12px;
   border-bottom: 1px solid var(--line-1);
@@ -253,9 +254,8 @@
   gap: 2px;
 }
 @media (max-width: 1100px) {
-  .columns,
-  .row {
-    grid-template-columns: minmax(0, 1fr) 100px 140px 64px;
+  .register {
+    --register-columns: minmax(0, 1fr) 100px 140px 64px;
   }
   .columns > :last-child {
     display: none;

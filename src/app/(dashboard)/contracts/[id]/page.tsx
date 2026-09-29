@@ -467,6 +467,9 @@ export default async function ContractDetailPage({
           contractId={id}
           messageCount={threadMessages.length}
           artifactCount={attachments.length}
+          hasOperatorContent={
+            channel.notes.length > 0 || channel.questions.length > 0
+          }
           hasOpenQuestions={channel.questions.some(
             (question) => question.status === 'open',
           )}
@@ -778,7 +781,7 @@ export default async function ContractDetailPage({
           stateSummary={
             <>
               {' '}
-              {turnState && (
+              {turnState && !closeOutcome && (
                 <div
                   className={styles.turnState}
                   data-awaiting={turnState.awaiting}
