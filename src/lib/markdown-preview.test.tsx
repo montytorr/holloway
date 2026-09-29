@@ -27,6 +27,22 @@ test('MarkdownPreview preserves real Markdown line breaks', () => {
   assert.match(html, /Second item/);
 });
 
+test('Markdown renders ordered/nested lists, tables and task lists without custom bullet substitution', () => {
+  const html = renderToStaticMarkup(<MarkdownPreview content={'1. First\n2. Second\n   - Nested\n\n- [x] Checked\n\n| Item | State |\n| --- | --- |\n| Routing | Ready |'} />);
+  assert.match(html, /list-style-type:decimal/);
+  assert.match(html, /list-style-type:disc/);
+  assert.doesNotMatch(html, /•/);
+  assert.match(html, /\[x\]/);
+  assert.match(html, /<table/);
+  assert.match(html, /Nested/);
+});
+
+test('Markdown escapes raw HTML and refuses executable links', () => {
+  const html = renderToStaticMarkup(<MarkdownPreview content={'<script>alert(1)</script>\n\n[unsafe](javascript:alert%281%29)\n\n`<img onerror="alert(1)">`'} />);
+  assert.doesNotMatch(html, /<script|href="javascript:|<img/);
+  assert.match(html, /&lt;img/);
+});
+
 test('normalization restores structural breaks but preserves prose and code literals', () => {
   const source = '## Scope\\n\\n- First\\n- Second';
   assert.equal(normalizeMarkdownSource(source), '## Scope\n\n- First\n- Second');

@@ -76,7 +76,7 @@
 }
 .content {
   min-width: 0;
-  max-width: 82ch;
+  width: 100%;
 }
 .content p,
 .content li {

@@ -1,5 +1,8 @@
 'use client';
 
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
+
+
 import Link from '@/components/app-link';
 import {
   ArrowRight,
@@ -146,7 +149,7 @@ export function DashboardClient(props: DashboardClientProps) {
                   </span>
                   <div className={styles.rowText}>
                     <strong>{item.title}</strong>
-                    <span>{item.meta || item.body}</span>
+                    <CompactMarkdownPreview content={item.meta || item.body} inline />
                   </div>
                   <ArrowRight size={16} aria-hidden />
                 </Link>

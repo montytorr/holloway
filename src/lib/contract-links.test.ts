@@ -88,7 +88,7 @@ test('a note exactly at the cap is accepted', () => {
   const result = validateLinkRequest(A, {
     to_contract_id: B,
     link_type: 'continues',
-    note: 'x'.repeat(CONTRACT_LINK_NOTE_MAX),
+    note: '## Note\n\n' + 'x'.repeat(CONTRACT_LINK_NOTE_MAX - 9),
   });
   assert.equal(result.ok, true);
 });

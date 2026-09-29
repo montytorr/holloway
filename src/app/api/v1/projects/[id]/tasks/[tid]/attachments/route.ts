@@ -1,3 +1,4 @@
+import { validateAgentMarkdownFields } from '@/lib/markdown-policy';
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticateApiRequest } from '@/lib/middleware-auth';
 import { auditLog, getClientIp } from '@/lib/api-helpers';
@@ -117,6 +118,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const checkpointId = typeof form.get('checkpoint_id') === 'string' ? (form.get('checkpoint_id') as string) : null;
   const runId = typeof form.get('run_id') === 'string' ? (form.get('run_id') as string) : null;
   const note = typeof form.get('note') === 'string' ? (form.get('note') as string) : null;
+  const markdown = validateAgentMarkdownFields({ note }, ['note']);
+  if (!markdown.ok) return NextResponse.json(markdown.body, { status: markdown.status });
 
   let content: Buffer;
   try {

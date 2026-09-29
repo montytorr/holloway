@@ -1,3 +1,4 @@
+import { validateAgentMarkdownFields } from '@/lib/markdown-policy';
 import { NextRequest, NextResponse } from 'next/server';
 import { appUrl } from '@/lib/app-url';
 import { authenticateApiRequest } from '@/lib/middleware-auth';
@@ -427,6 +428,9 @@ export async function PATCH(
       { status: 400 }
     );
   }
+
+  const markdown = validateAgentMarkdownFields(parsed, ['description','handoff_contract.description','escalation_contract.description','escalation_contract.escalation_reason','escalation_contract.requested_intervention']);
+  if (!markdown.ok) return NextResponse.json(markdown.body, { status: markdown.status });
 
   const updates: Record<string, unknown> = {};
   if (parsed.title !== undefined) updates.title = parsed.title;

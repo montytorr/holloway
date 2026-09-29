@@ -8,14 +8,17 @@ import { normalizeMarkdownSource } from './markdown-source';
 interface CompactMarkdownPreviewProps {
   content: string;
   className?: string;
+  inline?: boolean;
 }
 
 export default function CompactMarkdownPreview({
   content,
   className = '',
+  inline = false,
 }: CompactMarkdownPreviewProps) {
+  const Tag = inline ? 'span' : 'div';
   return (
-    <div
+    <Tag
       // text-sm is the default rather than inheriting, which after the inline
       // fontSize was removed would have picked up the 16px body size.
       className={`text-sm ${className}`}
@@ -34,6 +37,6 @@ export default function CompactMarkdownPreview({
       >
         {normalizeMarkdownSource(content)}
       </ReactMarkdown>
-    </div>
+    </Tag>
   );
 }

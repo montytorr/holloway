@@ -1,3 +1,5 @@
+import MarkdownPreview from '@/components/markdown-preview';
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
 import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import Link from '@/components/app-link';
@@ -240,15 +242,14 @@ function RunCard({ run }: { run: TaskExecutionRun }) {
           className={['text-xs', presentation.stack1].filter(Boolean).join(' ')}
         >
           {run.summary && (
-            <p className={presentation.copy5}>
-              <span className={presentation.copy2}>Summary:</span> {run.summary}
-            </p>
+            <div className={presentation.copy5}>
+              <span className={presentation.copy2}>Summary</span><MarkdownPreview content={run.summary} />
+            </div>
           )}
           {run.error_message && (
-            <p className={presentation.copy6}>
-              <span className={presentation.copy6}>Error:</span>{' '}
-              {run.error_message}
-            </p>
+            <div className={presentation.copy6}>
+              <span className={presentation.copy6}>Error</span><MarkdownPreview content={run.error_message} />
+            </div>
           )}
         </div>
       )}
@@ -265,13 +266,13 @@ function CheckpointCard({
     <div className={['card', presentation.detail2].filter(Boolean).join(' ')}>
       <div className={presentation.row2}>
         <div>
-          <p
+          <div
             className={['text-sm', presentation.copy3]
               .filter(Boolean)
               .join(' ')}
           >
-            {checkpoint.summary || checkpoint.checkpoint_key}
-          </p>
+            {checkpoint.summary ? <MarkdownPreview content={checkpoint.summary} /> : checkpoint.checkpoint_key}
+          </div>
           <p
             className={['mono text-2xs', presentation.copy4]
               .filter(Boolean)
@@ -849,7 +850,7 @@ export default async function ProtocolInspectorPage({
                             >
                               {related.contract_id}
                             </p>
-                            {related.note && <p>{related.note}</p>}
+                            {related.note && <CompactMarkdownPreview content={related.note} />}
                             <p>
                               Recorded {formatRelative(related.linked_at)}
                               {related.linked_by_agent_id
@@ -945,7 +946,7 @@ export default async function ProtocolInspectorPage({
                               <p>
                                 Last checkpoint:{' '}
                                 <span className={presentation.copy5}>
-                                  {task.last_checkpoint_summary || '—'}
+                                  {task.last_checkpoint_summary ? <CompactMarkdownPreview content={task.last_checkpoint_summary} inline /> : '—'}
                                 </span>
                               </p>
                               <p>

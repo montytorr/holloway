@@ -1,3 +1,4 @@
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
 import { unstable_noStore as noStore } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { redirect } from 'next/navigation';
@@ -212,10 +213,10 @@ function AskedAPerson({ question }: { question: OperatorQuestionSummary }) {
       data-open={open ? 'true' : 'false'}
     >
       <MessageSquareWarning size={14} aria-hidden="true" />
-      <span className={styles.askedPersonText}>
-        <span>
-          <strong>Asked a person:</strong> {question.body}
-        </span>
+      <div className={styles.askedPersonText}>
+        <div>
+          <strong>Asked a person:</strong><CompactMarkdownPreview content={question.body} />
+        </div>
         <span className="dim text-2xs">
           {open
             ? `${question.blocking ? 'Blocking · ' : ''}open — answer it in the operator channel`
@@ -223,7 +224,7 @@ function AskedAPerson({ question }: { question: OperatorQuestionSummary }) {
               ? `Answered by ${question.answered_by_name || 'an operator'}`
               : `Dismissed by ${question.answered_by_name || 'an operator'}`}
         </span>
-      </span>
+      </div>
     </a>
   );
 }
@@ -709,12 +710,12 @@ export default async function ContractDetailPage({
                           <StatusBadge status={related.status} />
                         </div>
                         {related.note && (
-                          <p
+                          <div
                             className="text-sm"
                             style={{ color: 'var(--fg-2)', margin: 0 }}
                           >
-                            {related.note}
-                          </p>
+                            <CompactMarkdownPreview content={related.note} />
+                          </div>
                         )}
                       </div>
                     ))}
@@ -861,9 +862,9 @@ export default async function ContractDetailPage({
                     </div>
                   </div>
                   {contract.close_reason && (
-                    <p className={styles.outcomeReason}>
-                      {contract.close_reason}
-                    </p>
+                    <div className={styles.outcomeReason}>
+                      <MarkdownPreview content={contract.close_reason} />
+                    </div>
                   )}
                   <div className={styles.outcomeMeta}>
                     {contract.closed_by && (

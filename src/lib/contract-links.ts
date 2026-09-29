@@ -1,3 +1,4 @@
+import { validateMarkdownText } from './markdown-policy';
 /**
  * Linking one contract to another.
  *
@@ -143,6 +144,8 @@ export function validateLinkRequest(
         ),
       };
     }
+    const markdown = validateMarkdownText(trimmed, { field: 'note' });
+    if (!markdown.ok) return markdown;
     note = trimmed || null;
   }
 

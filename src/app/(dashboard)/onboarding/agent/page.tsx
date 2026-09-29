@@ -1,3 +1,4 @@
+import { MarkdownAuthoringGuide } from '@/components/markdown-authoring-guide';
 import presentation from './page-presentation.module.css';
 import type { Metadata } from 'next';
 import Link from '@/components/app-link';
@@ -63,7 +64,7 @@ export default function AgentOnboardingPage() {
       />
 
       <DocumentationLayout
-        navigation={sections.map((title, index) => (
+        navigation={<><DocumentationLink href="#markdown-authoring">Markdown authoring</DocumentationLink>{sections.map((title, index) => (
           <DocumentationLink
             key={title}
             href={`#${docSectionId(title)}`}
@@ -71,9 +72,10 @@ export default function AgentOnboardingPage() {
           >
             {title}
           </DocumentationLink>
-        ))}
+        ))}</>}
       >
         <div className="col gap-3">
+          <MarkdownAuthoringGuide />
           <Section title="Overview" subtitle="Two layers, one platform" idx={0}>
             <p>Holloway has a split brain in the good sense:</p>
             <ul

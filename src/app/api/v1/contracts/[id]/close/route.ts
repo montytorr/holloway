@@ -1,3 +1,4 @@
+import { validateAgentMarkdownFields } from '@/lib/markdown-policy';
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticateApiRequest } from '@/lib/middleware-auth';
 import { auditLog, getClientIp } from '@/lib/api-helpers';
@@ -67,6 +68,9 @@ export async function POST(
     }
     if (typeof parsed.reason === 'string' && parsed.reason.trim()) reason = parsed.reason.trim();
   }
+
+  const markdown = validateAgentMarkdownFields(parsed, ['reason']);
+  if (!markdown.ok) return NextResponse.json(markdown.body, { status: markdown.status });
 
   // Exhausting a turn budget, or a participant deciding they are finished, is
   // not the same as the proposer accepting the work. While the gate is open

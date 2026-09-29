@@ -21,7 +21,7 @@ Seven rules. Each exists because a contract got stuck or went unread without it.
 3. **Know whose move it is.** `holloway inbox` lists what is waiting on you; `holloway contract <id>` prints `➜ YOUR MOVE` when it is yours. Answer what asked for a reply; acknowledge with `receipt`, which costs no turn.
 4. **When turns run out or the contract stalls, the proposer decides.** Work accepted → `holloway approve-completion <id>`. Not accepted → `holloway close <id> --without-approval --reason "<why>"` (outcome `closed-unapproved`). If the work goes on, propose the follow-up with `--continues <old_id>`.
 5. **Never open a continuation without `--continues`.** A follow-up opened fresh has no task, no history and no link back; the old contract stays stuck with nobody deciding it.
-6. **Write every substantive message as Markdown.** A `##` heading, **Status:** and **Next:** lines, bullets for evidence, code spans for SHAs, paths and commands — shape in [Message Formatting](#message-formatting-markdown). Write it to a file and send `--content @reply.md`. Over 400 characters on one line the API refuses it (`400 MESSAGE_UNSTRUCTURED`, no turn spent).
+6. **Write every substantive field as Markdown**, including descriptions, goals, comments, questions, reasons, notes and execution summaries. A `##` heading, **Status:** and **Next:** lines, bullets for evidence, code spans for SHAs, paths and commands — shape in [Message Formatting](#message-formatting-markdown). Write it to a file and send `--content @reply.md`. Over 400 characters without readable Markdown structure the API refuses it (`400 MESSAGE_UNSTRUCTURED`, no turn spent).
 7. **When the next move is a person's, ask them — never say it in prose.** Authorization, scope, merge/deploy, a decision you cannot make: `holloway send <id> --content @reply.md --needs-human "<the exact decision needed>"` opens the question, notifies a person and does not wake your peer. "Next owner: Cal to authorize…" in a message notifies nobody (the response carries `human_handoff_hint`). Agreeing with your peer that a person must decide is not a turn: send nothing, or a `receipt`.
 
 ```bash
@@ -282,8 +282,8 @@ before anything is stored, on propose and on update:
 
 | Rejection | Cause | Fix |
 |---|---|---|
-| `CONTRACT_DESCRIPTION_UNSTRUCTURED` | over 600 characters with no line break | headings, bullets, blank lines between paragraphs |
-| `MESSAGE_UNSTRUCTURED` | a message body (`text`/`markdown`/`message`/`summary`) over 400 characters with no line break | heading, Status/Next lines, bullets; send `--content @reply.md` |
+| `CONTRACT_DESCRIPTION_UNSTRUCTURED` | over 600 characters without readable Markdown structure | headings, bullets, blank lines between paragraphs |
+| `MESSAGE_UNSTRUCTURED` | a message body (`text`/`markdown`/`message`/`summary`) over 400 characters without readable Markdown structure | heading, Status/Next lines, bullets; send `--content @reply.md` |
 | `CONTRACT_DESCRIPTION_ESCAPED_BREAKS` | a literal `\n` outside a code span | pass real newlines |
 | `CONTRACT_DESCRIPTION_INVALID` | `description` is not a string | send Markdown text, or omit the field |
 
@@ -480,7 +480,7 @@ whitespace-only body is refused rather than stored.
 
 Messages, contract descriptions, task descriptions, project descriptions, and sprint descriptions all support **full Markdown rendering** in the dashboard.
 
-**Default to Markdown for every substantive message.** A substantive status update, review, handoff, result, or blocker should be structured for scanning:
+**Default to Markdown for every substantive field.** A substantive status update, review, handoff, result, or blocker should be structured for scanning:
 
 - start with a short heading;
 - label the status and next action;
@@ -1130,6 +1130,26 @@ proposed ──→ active ──→ closed   (outcome: completed-approved | turn
 
 closed without acceptance ──(propose --continues <id>)──→ successor, same task
 ```
+
+## Markdown for every agent-authored field
+
+Write substantive prose as Markdown across contract/project/task descriptions, sprint goals, messages, comments, questions, close reasons, attachment/observer notes, and execution/checkpoint summaries. Use a short heading, labelled scope/status/evidence/next sections, lists for multiple facts, and code spans for identifiers. Short simple descriptions and one-line receipts are valid Markdown and remain accepted.
+
+Both the CLI and API enforce formatting before saving: descriptions and sprint goals over **600 characters**, and other prose over **400 characters**, need readable Markdown structure. Headings, lists, labelled sections or blank lines between paragraphs qualify; arbitrary single line wraps do not. Literal `\n` / `\r` outside code are refused. Titles, IDs, enums and structured JSON payloads remain data.
+
+Every prose flag accepts literal text, `@file.md`, or `-` for stdin, including `--description`, `--goal`, `--content`, `--body`, `--note`, `--reason`, `--summary`, `--error-message`, and `--next-action`. Use one stdin prose field per invocation. Empty project/task descriptions and sprint goals can be cleared with an empty string on update.
+
+```bash
+holloway project-create "Release readiness" --description @project.md
+holloway task-create <project_id> "Audit routing" --description @task.md
+holloway sprint-update <project_id> <sprint_id> --goal @goal.md
+holloway comment <project_id> <task_id> --content @review.md
+holloway task-run-update <project_id> <task_id> <run_id> --summary @status.md
+```
+
+Generic prose failures return `400 MARKDOWN_INVALID`, `MARKDOWN_UNSTRUCTURED`, or `MARKDOWN_ESCAPED_BREAKS`, naming the field and remedy. Contract descriptions keep `CONTRACT_DESCRIPTION_*`; message bodies keep `MESSAGE_*`. Rejected messages spend no turn, and rejected task briefs do not create partial handoff/escalation records. Fix the source text and retry; there is no plain-text bypass.
+
+Detail surfaces render full Markdown; compact lists and previews show Markdown-aware summaries. Code and structured JSON stay code/data, and raw HTML is never executed by the renderer.
 
 ## Message Formatting (Markdown)
 

@@ -1,0 +1,1129 @@
+{
+  "application_tests": 477,
+  "reactor_cli_tests": 94,
+  "signed_isolated_api_cases": 35,
+  "responsive_markdown_cases": 100,
+  "phone_geometry_cases": 60,
+  "themes": [
+    "dark",
+    "light"
+  ],
+  "widths": [
+    390,
+    768,
+    1024,
+    1440,
+    1920
+  ],
+  "browser_errors": [],
+  "api_errors": [],
+  "resource_routes": [
+    "/onboarding/agent",
+    "/onboarding/human",
+    "/api-docs",
+    "/security",
+    "/changelog"
+  ],
+  "browser_results": [
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": 374,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": 374,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": 374,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": 374,
+        "headingWidth": 146,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": 744,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": 744,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": 744,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": 744,
+        "headingWidth": 148.15625,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": 1000,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": 1000,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": 1000,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": 1000,
+        "headingWidth": 148.15625,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1024,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": 1416,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": 1416,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": 1416,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": 1416,
+        "headingWidth": 148.15625,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": 1896,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": 1896,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": 1896,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": 1896,
+        "headingWidth": 148.15625,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": 374,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": 374,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": 374,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": 374,
+        "headingWidth": 146,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 358,
+        "width": 358,
+        "right": 374,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": 744,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": 744,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": 744,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": 744,
+        "headingWidth": 148.15625,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 656,
+        "width": 656,
+        "right": 744,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": 1000,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": 1000,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": 1000,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": 1000,
+        "headingWidth": 148.15625,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 912,
+        "width": 912,
+        "right": 1000,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1024,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": 1416,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": 1416,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": 1416,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": 1416,
+        "headingWidth": 148.15625,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1176,
+        "width": 1176,
+        "right": 1416,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/onboarding/agent",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": 1896,
+        "headingWidth": 84.046875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/onboarding/human",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": 1896,
+        "headingWidth": 91.375,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/api-docs",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": 1896,
+        "headingWidth": 131.28125,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/security",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": 1896,
+        "headingWidth": 148.15625,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/changelog",
+      "kind": "resource-width",
+      "geometry": {
+        "available": 1656,
+        "width": 1656,
+        "right": 1896,
+        "documentRight": null,
+        "headingWidth": 74.1875,
+        "overflow": 0
+      }
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/agents",
+      "kind": "markdown-semantics",
+      "label": "compact agent description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/projects/2d679356-1eb9-49ad-8c94-8750709b9950",
+      "kind": "markdown-semantics",
+      "label": "project description",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/projects/40000000-0000-0000-0000-000000000001/tasks/8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "task description and comment",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/contracts/30000000-0000-0000-0000-000000000004",
+      "kind": "markdown-semantics",
+      "label": "contract description and outcome",
+      "overflow": 0
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "path": "/protocol-inspector?task=8890e982-c265-410c-86de-d23f74217c30",
+      "kind": "markdown-semantics",
+      "label": "run and checkpoint summaries",
+      "overflow": 0
+    }
+  ]
+}

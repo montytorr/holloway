@@ -12,7 +12,7 @@ interface MarkdownPreviewProps {
 
 export default function MarkdownPreview({ content, className = '' }: MarkdownPreviewProps) {
   return (
-    <div className={`markdown-preview ${className}`}>
+    <div className={`markdown-preview ${className}`} style={{ minWidth: 0, overflowWrap: 'anywhere' }}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={markdownComponents}

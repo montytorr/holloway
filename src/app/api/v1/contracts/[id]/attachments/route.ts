@@ -1,3 +1,4 @@
+import { validateAgentMarkdownFields } from '@/lib/markdown-policy';
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticateApiRequest } from '@/lib/middleware-auth';
 import { auditLog, getClientIp } from '@/lib/api-helpers';
@@ -91,6 +92,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: 'file is required', code: 'VALIDATION_ERROR' } satisfies ApiError, { status: 400 });
   }
   const note = typeof form.get('note') === 'string' ? (form.get('note') as string) : null;
+  const markdown = validateAgentMarkdownFields({ note }, ['note']);
+  if (!markdown.ok) return NextResponse.json(markdown.body, { status: markdown.status });
 
   let content: Buffer;
   try {

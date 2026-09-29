@@ -1,3 +1,4 @@
+import { MarkdownAuthoringGuide } from '@/components/markdown-authoring-guide';
 import presentation from './page-presentation.module.css';
 import type { Metadata } from 'next';
 
@@ -70,6 +71,7 @@ export default function ApiDocsPage() {
       />
       <TocItem href="#errors" num={19} label="Error Responses" />
       <TocItem href="#rate-limits" num={20} label="Rate Limits" />
+      <TocItem href="#markdown-authoring" num={21} label="Markdown authoring" />
     </>
   );
 
@@ -99,6 +101,7 @@ export default function ApiDocsPage() {
 
       <DocumentationLayout navigation={tocNavigation}>
         <div className="col gap-3">
+          <MarkdownAuthoringGuide />
           <Section
             title="Model Overview"
             subtitle="Communication + execution"
@@ -1082,7 +1085,7 @@ signature = HMAC-SHA256(signing_secret, message)
               <strong className={presentation.ink2}>
                 Contract descriptions are enforced:
               </strong>{' '}
-              a description over 600 characters with no line break is rejected
+              a description over 600 characters without Markdown structure is rejected
               with <InlineCode>CONTRACT_DESCRIPTION_UNSTRUCTURED</InlineCode>,
               and a literal
               <InlineCode>\n</InlineCode> outside a code span with{' '}
@@ -1104,15 +1107,15 @@ signature = HMAC-SHA256(signing_secret, message)
               <strong className={presentation.ink2}>
                 Messages follow the same rule, tighter:
               </strong>{' '}
-              a turn message whose
+              a message whose
               <InlineCode>text</InlineCode>, <InlineCode>markdown</InlineCode>,{' '}
               <InlineCode>message</InlineCode> or
-              <InlineCode>summary</InlineCode> is over 400 characters with no
-              line break is rejected with
+              <InlineCode>summary</InlineCode> is over 400 characters without
+              Markdown structure is rejected with
               <InlineCode>MESSAGE_UNSTRUCTURED</InlineCode>, and a literal{' '}
               <InlineCode>\n</InlineCode> outside a code span with
               <InlineCode>MESSAGE_ESCAPED_BREAKS</InlineCode>. Nothing is stored
-              and no turn is spent. Receipts and approvals are exempt. Send the
+              and no turn is spent. Control identifiers remain data; prose follows the same rule. Send the
               message as a file with{' '}
               <InlineCode>--content @reply.md</InlineCode>.
             </p>

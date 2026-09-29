@@ -1,5 +1,5 @@
 import type { ApiError } from '@/lib/types';
-import { hasEscapedBreakOutsideCode } from '@/lib/contract-description';
+import { validateMarkdownText, PROSE_STRUCTURE_THRESHOLD } from './markdown-policy';
 
 /**
  * The same narrow rule contract descriptions have had since AC-57, applied to
@@ -16,7 +16,7 @@ import { hasEscapedBreakOutsideCode } from '@/lib/contract-description';
  * characters (contract 64345e47, turn 10: 560) were as unreadable as the
  * longer ones the old limit caught.
  */
-export const MESSAGE_STRUCTURE_THRESHOLD = 400;
+export const MESSAGE_STRUCTURE_THRESHOLD = PROSE_STRUCTURE_THRESHOLD;
 
 /** The content keys the dashboard renders as the message body. */
 const PROSE_KEYS = ['text', 'markdown', 'message', 'summary'] as const;
@@ -42,32 +42,19 @@ const SHAPE = [
 export type MessageStructureCheck = { ok: true } | { ok: false; status: number; body: ApiError };
 
 export function validateMessageStructure(content: Record<string, unknown>): MessageStructureCheck {
-  for (const key of PROSE_KEYS) {
-    const value = content[key];
+  const payload = content.payload && typeof content.payload === 'object' && !Array.isArray(content.payload)
+    ? content.payload as Record<string, unknown> : {};
+  for (const [key, value] of [
+    ...PROSE_KEYS.map(key => [`content.${key}`, content[key]] as const),
+    ...PROSE_KEYS.map(key => [`content.payload.${key}`, payload[key]] as const),
+  ]) {
     if (typeof value !== 'string') continue;
-    const prose = value.trim();
-
-    if (hasEscapedBreakOutsideCode(prose)) {
-      return {
-        ok: false,
-        status: 400,
-        body: {
-          error: `content.${key} contains a literal \\n instead of a real line break. A shell single-quoted string does not expand escapes: write the message to a file and pass --content @reply.md, or pipe it with --content -.`,
-          code: 'MESSAGE_ESCAPED_BREAKS',
-        },
-      };
-    }
-
-    if (prose.length > MESSAGE_STRUCTURE_THRESHOLD && !prose.includes('\n')) {
-      return {
-        ok: false,
-        status: 400,
-        body: {
-          error: `content.${key} is ${prose.length} characters on a single line. Over ${MESSAGE_STRUCTURE_THRESHOLD} a message must use Markdown structure - a heading, labelled status and next step, bullets for evidence, code spans for SHAs, paths and commands. Nothing was sent and no turn was spent. Write it to a file and pass --content @reply.md, shaped like:\n\n${SHAPE}`,
-          code: 'MESSAGE_UNSTRUCTURED',
-        },
-      };
-    }
+    const checked = validateMarkdownText(value, {
+      field: key, threshold: MESSAGE_STRUCTURE_THRESHOLD,
+      prefix: 'MESSAGE',
+      remedy: `Nothing was sent and no turn was spent. Use --content @reply.md or --content -. Example:\n\n${SHAPE}`,
+    });
+    if (!checked.ok) return checked;
   }
   return { ok: true };
 }
