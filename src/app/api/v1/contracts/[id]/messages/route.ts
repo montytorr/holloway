@@ -1,3 +1,4 @@
+import { validateAgentMarkdownFields } from '@/lib/markdown-policy';
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticateApiRequest } from '@/lib/middleware-auth';
 import { auditLog, getClientIp } from '@/lib/api-helpers';
@@ -270,12 +271,13 @@ export async function POST(
     );
   }
 
+  const markdown = validateAgentMarkdownFields(parsed, ['content.note', 'needs_human.question']);
+  if (!markdown.ok) return NextResponse.json(markdown.body, { status: markdown.status });
+
   // Checked before the turn cap so a refused message never costs a turn.
-  // Receipts and approvals carry short control notes, not prose.
-  if (!isNonTurn) {
-    const structure = validateMessageStructure(parsed.content);
-    if (!structure.ok) return NextResponse.json(structure.body satisfies ApiError, { status: structure.status });
-  }
+  // Control identifiers remain data; any prose still uses the same format rule.
+  const structure = validateMessageStructure(parsed.content);
+  if (!structure.ok) return NextResponse.json(structure.body satisfies ApiError, { status: structure.status });
 
   // The turn cap bounds the conversation, not the bookkeeping about it. A
   // contract held open for an approval that has not arrived must still be able

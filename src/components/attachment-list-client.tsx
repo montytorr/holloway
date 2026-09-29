@@ -5,6 +5,7 @@ import Link from '@/components/app-link';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import MarkdownPreview from '@/components/markdown-preview';
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
 import type { TaskAttachment } from '@/lib/types';
 import { formatDateTime } from '@/lib/format-date';
 
@@ -157,13 +158,13 @@ const PreviewMetaPanel = ({ attachment }: { attachment: TaskAttachment }) => (
     {typeof attachment.metadata?.note === 'string' && attachment.metadata.note.length > 0 && (
       <div className="card" style={{ padding: 'var(--space-4)', borderColor: 'var(--mint-line)' }}>
         <div className="upper text-2xs" style={{ color: 'var(--mint)' }}>Attachment note</div>
-        <div className="text-sm" style={{ marginTop: 8, color: 'var(--fg-1)', whiteSpace: 'pre-wrap' }}>{attachment.metadata.note}</div>
+        <div className="text-sm" style={{ marginTop: 8, color: 'var(--fg-1)', minWidth: 0 }}><MarkdownPreview content={attachment.metadata.note} /></div>
       </div>
     )}
     {typeof attachment.metadata?.observer_note === 'string' && attachment.metadata.observer_note.length > 0 && (
       <div className="card" style={{ padding: 'var(--space-4)' }}>
         <div className="upper text-2xs">Observer note</div>
-        <div className="text-sm" style={{ marginTop: 8, color: 'var(--peri)', whiteSpace: 'pre-wrap' }}>{attachment.metadata.observer_note}</div>
+        <div className="text-sm" style={{ marginTop: 8, color: 'var(--peri)', minWidth: 0 }}><MarkdownPreview content={attachment.metadata.observer_note} /></div>
       </div>
     )}
   </div>
@@ -316,8 +317,8 @@ export default function AttachmentListClient({ attachments }: { attachments: Tas
                     <span className="dim text-2xs">·</span>
                     <span className="mono dim text-2xs">{formatDateTime(attachment.created_at)}</span>
                   </div>
-                  {note && <div className="dim text-xs" style={{ marginTop: 8, whiteSpace: 'pre-wrap' }}>{note}</div>}
-                  {observerNote && <div className="text-2xs" style={{ color: 'var(--peri)', marginTop: 6 }}>Observer note: {observerNote}</div>}
+                  {note && <div className="dim text-xs" style={{ marginTop: 8, minWidth: 0 }}><CompactMarkdownPreview content={note} /></div>}
+                  {observerNote && <div className="text-2xs" style={{ color: 'var(--peri)', marginTop: 6 }}><span>Observer note</span><CompactMarkdownPreview content={observerNote} /></div>}
                 </div>
 
                 {href && (

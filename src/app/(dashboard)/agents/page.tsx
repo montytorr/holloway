@@ -1,3 +1,4 @@
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
 import presentation from './page-presentation.module.css';
 import { unstable_noStore as noStore } from 'next/cache';
 import Link from '@/components/app-link';
@@ -167,7 +168,7 @@ function AgentItem({ agent }: { agent: AgentRow }) {
         <span className={styles.handle}>{agent.name}</span>
       </div>
       <div className={styles.description}>
-        {agent.description || 'No description recorded.'}
+        {agent.description ? <CompactMarkdownPreview content={agent.description} /> : 'No description recorded.'}
       </div>
       <div className={styles.capabilities}>
         {capabilities.length > 0 ? (

@@ -93,6 +93,7 @@ import hashlib
 import hmac
 import json
 import mimetypes
+import re
 import os
 import sys
 import textwrap
@@ -143,11 +144,83 @@ def read_text_argument(value: str | None, label: str) -> str | None:
         try:
             with open(path, "r", encoding="utf-8") as handle:
                 return handle.read()
-        except OSError as exc:
+        except (OSError, UnicodeError) as exc:
             print(f"Error: cannot read {label} from {path}: {exc}", file=sys.stderr)
             sys.exit(1)
     return value
 
+
+
+def validate_markdown_text(value, label, threshold=400):
+    """Match the API's prose policy; never sign/send rejected text."""
+    if value is None:
+        return
+    def refuse(message):
+        print(f"Error: {label} {message}. Use readable Markdown with real line breaks; pass @file.md or - for stdin. Nothing was sent.", file=sys.stderr)
+        sys.exit(1)
+    if not isinstance(value, str):
+        refuse("must be a string")
+    prose = value.strip()
+    index = 0
+    while index < len(prose):
+        fence = re.match(r"~{3,}[^\n]*\n", prose[index:]) if prose[index] == "~" and (index == 0 or prose[index - 1] == "\n") else None
+        if fence:
+            delimiter = re.match(r"~+", fence.group())[0]
+            closing = prose.find("\n" + delimiter, index + len(fence.group()) - 1)
+            if closing < 0:
+                break
+            index = closing + len(delimiter) + 1
+            continue
+        if prose[index] == "`":
+            end = index
+            while end < len(prose) and prose[end] == "`":
+                end += 1
+            delimiter = prose[index:end]
+            closing = prose.find(delimiter, end)
+            if closing < 0:
+                break
+            index = closing + len(delimiter)
+            continue
+        if prose.startswith(("\\n", "\\r"), index):
+            refuse("contains a literal escaped line break outside code")
+        index += 1
+    structured = "\n" in prose and (
+        re.search(r"\n[ \t]*\n", prose)
+        or re.search(r"^[ \t]{0,3}(?:#{1,6}[ \t]+\S|[-*+][ \t]+\S|\d+[.)][ \t]+\S|>[ \t]?\S|`{3,}|~{3,}|\|.*\|)", prose, re.M)
+        or re.search(r"\*\*[^*\n]+\*\*|__[^_\n]+__", prose)
+    )
+    if len(prose.encode("utf-16-le")) // 2 > threshold and not structured:
+        refuse(f"is over {threshold} characters without Markdown structure (arbitrary line wraps are insufficient)")
+
+
+def validate_prose_payload(body):
+    """Known narrative fields only; identifiers and structured JSON are untouched."""
+    if not isinstance(body, dict):
+        return
+    for key in ("description", "goal", "summary", "error_message", "reason", "note", "body", "next_action", "unlinked_reason"):
+        if key in body:
+            validate_markdown_text(body[key], key, 600 if key in {"description", "goal"} else 400)
+    content = body.get("content")
+    if isinstance(content, str):
+        validate_markdown_text(content, "content")
+    elif isinstance(content, dict):
+        for key in ("text", "markdown", "message", "summary", "note"):
+            if isinstance(content.get(key), str):
+                validate_markdown_text(content[key], f"content.{key}")
+        payload = content.get("payload")
+        if isinstance(payload, dict):
+            for key in ("text", "markdown", "message", "summary"):
+                if isinstance(payload.get(key), str):
+                    validate_markdown_text(payload[key], f"content.payload.{key}")
+    for key in ("handoff_contract", "escalation_contract"):
+        child = body.get(key)
+        if isinstance(child, dict):
+            for field in ("description", "escalation_reason", "requested_intervention"):
+                if field in child:
+                    validate_markdown_text(child[field], f"{key}.{field}", 600 if field == "description" else 400)
+    question = body.get("needs_human")
+    if isinstance(question, dict) and "question" in question:
+        validate_markdown_text(question["question"], "needs_human.question")
 
 def normalize_task_status(value: str | None) -> str | None:
     """Normalize task status input for API compatibility while accepting legacy aliases."""
@@ -211,6 +284,7 @@ def api_request(
         print("Error: HOLLOWAY_API_KEY and HOLLOWAY_SIGNING_SECRET must be set (A2A_API_KEY / A2A_SIGNING_SECRET are still accepted)", file=sys.stderr)
         sys.exit(1)
 
+    validate_prose_payload(body)
     body_str = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False) if body else ""
     url = f"{BASE_URL}{path}"
     # HMAC signs a canonical path (pathname only, normalized).
@@ -1014,7 +1088,7 @@ def cmd_propose(args):
         body["continues"] = args.continues
     if args.supersedes:
         body["supersedes"] = args.supersedes
-    unlinked_reason = (args.unlinked_reason or "").strip()
+    unlinked_reason = (read_text_argument(args.unlinked_reason, "unlinked-reason") or "").strip()
     if args.unlinked_reason is not None:
         if len(unlinked_reason) < MIN_REASON_CHARS:
             print(f"Error: --unlinked-reason must be at least {MIN_REASON_CHARS} characters and say why no task fits", file=sys.stderr)
@@ -1101,9 +1175,9 @@ def cmd_close(args):
     """Close an active contract."""
     body = {}
     if args.reason:
-        body["reason"] = args.reason
+        body["reason"] = read_text_argument(args.reason, "reason")
     if args.without_approval:
-        if len((args.reason or "").strip()) < MIN_REASON_CHARS:
+        if len((body.get("reason") or "").strip()) < MIN_REASON_CHARS:
             print(
                 f"Error: --without-approval needs --reason (at least {MIN_REASON_CHARS} characters) "
                 "saying why the work is not being accepted",
@@ -1219,7 +1293,7 @@ def cmd_receipt(args):
     """Acknowledge one exact message without consuming a contract turn."""
     content = {"acknowledges": args.message_id}
     if args.note:
-        content["note"] = args.note
+        content["note"] = read_text_argument(args.note, "note")
     data = api_request("POST", f"/api/v1/contracts/{args.id}/messages", {
         "message_type": "receipt",
         "requires_action": False,
@@ -1232,7 +1306,7 @@ def cmd_approve_completion(args):
     """Record proposer approval required to close a gated contract."""
     content = {"approves_completion": True}
     if args.note:
-        content["note"] = args.note
+        content["note"] = read_text_argument(args.note, "note")
     data = api_request("POST", f"/api/v1/contracts/{args.id}/messages", {
         "message_type": "approval",
         "requires_action": False,
@@ -1457,8 +1531,8 @@ def cmd_project(args):
 def cmd_project_create(args):
     """Create a new project."""
     body = {"title": args.title}
-    if args.description:
-        body["description"] = args.description
+    if args.description is not None:
+        body["description"] = read_text_argument(args.description, "description")
     if args.members:
         body["members"] = [resolve_agent_id(member) for member in args.members]
     data = api_request("POST", "/api/v1/projects", body)
@@ -1471,8 +1545,8 @@ def cmd_project_update(args):
     body = {}
     if args.title:
         body["title"] = args.title
-    if args.description:
-        body["description"] = args.description
+    if args.description is not None:
+        body["description"] = read_text_argument(args.description, "description")
     if args.status:
         body["status"] = args.status
     if not body:
@@ -1559,7 +1633,7 @@ def cmd_project_observer_add(args):
     """Add a read-only observer to a project."""
     payload = {"agent_id": resolve_agent_id(args.agent)}
     if args.note:
-        payload["note"] = args.note
+        payload["note"] = read_text_argument(args.note, "note")
     data = api_request("POST", f"/api/v1/projects/{args.id}/observers", payload)
     agent = data.get("agent", {})
     name = agent.get("display_name", agent.get("name", args.agent))
@@ -1572,7 +1646,7 @@ def cmd_project_observer_add(args):
 
 def cmd_project_observer_update(args):
     """Change an observer's note."""
-    data = api_request("PATCH", f"/api/v1/projects/{args.id}/observers/{args.observer_id}", {"note": args.note})
+    data = api_request("PATCH", f"/api/v1/projects/{args.id}/observers/{args.observer_id}", {"note": read_text_argument(args.note, "note")})
     print("✅ Observer updated!")
     print(f"  👁  {data.get('id', args.observer_id)} — {data.get('note') or 'no note'}")
 
@@ -1659,8 +1733,8 @@ def cmd_sprint(args):
 def cmd_sprint_create(args):
     """Create a new sprint."""
     body = {"title": args.title}
-    if args.goal:
-        body["goal"] = args.goal
+    if args.goal is not None:
+        body["goal"] = read_text_argument(args.goal, "goal")
     if args.start_date:
         body["start_date"] = args.start_date
     if args.end_date:
@@ -1677,8 +1751,10 @@ def cmd_sprint_update(args):
         body["title"] = args.title
     if args.status:
         body["status"] = args.status
+    if args.goal is not None:
+        body["goal"] = read_text_argument(args.goal, "goal")
     if not body:
-        print("Error: provide at least one field to update (--title, --status)", file=sys.stderr)
+        print("Error: provide at least one field to update (--title, --goal, --status)", file=sys.stderr)
         sys.exit(1)
     data = api_request("PATCH", f"/api/v1/projects/{args.project_id}/sprints/{args.sprint_id}", body)
     print("✅ Sprint updated!")
@@ -1721,8 +1797,8 @@ def cmd_task(args):
 def cmd_task_create(args):
     """Create a new task."""
     body = {"title": args.title}
-    if args.description:
-        body["description"] = args.description
+    if args.description is not None:
+        body["description"] = read_text_argument(args.description, "description")
     if args.sprint_id:
         body["sprint_id"] = args.sprint_id
     if args.priority:
@@ -1752,9 +1828,9 @@ def cmd_task_create(args):
         if brokers:
             escalation = {"brokers": brokers}
             if args.escalation_reason:
-                escalation["escalation_reason"] = args.escalation_reason
+                escalation["escalation_reason"] = read_text_argument(args.escalation_reason, "escalation-reason")
             if args.requested_intervention:
-                escalation["requested_intervention"] = args.requested_intervention
+                escalation["requested_intervention"] = read_text_argument(args.requested_intervention, "requested-intervention")
             if args.escalation_title:
                 escalation["title"] = args.escalation_title
             escalation_description = read_text_argument(args.escalation_description, "escalation description")
@@ -1775,8 +1851,8 @@ def cmd_task_update(args):
     body = {}
     if args.title:
         body["title"] = args.title
-    if args.description:
-        body["description"] = args.description
+    if args.description is not None:
+        body["description"] = read_text_argument(args.description, "description")
     if args.status:
         body["status"] = normalize_task_status(args.status)
     if args.assignee:
@@ -1808,9 +1884,9 @@ def cmd_task_update(args):
         if brokers:
             escalation = {"brokers": brokers}
             if args.escalation_reason:
-                escalation["escalation_reason"] = args.escalation_reason
+                escalation["escalation_reason"] = read_text_argument(args.escalation_reason, "escalation-reason")
             if args.requested_intervention:
-                escalation["requested_intervention"] = args.requested_intervention
+                escalation["requested_intervention"] = read_text_argument(args.requested_intervention, "requested-intervention")
             if args.escalation_title:
                 escalation["title"] = args.escalation_title
             escalation_description = read_text_argument(args.escalation_description, "escalation description")
@@ -1832,7 +1908,7 @@ def cmd_task_update(args):
 def _run_blocker_action(args, action: str, success_label: str):
     body = {
         "action": action,
-        "next_action": args.next_action,
+        "next_action": read_text_argument(args.next_action, "next-action"),
         "owner": args.owner,
         "due_at": args.due_at,
     }
@@ -1876,7 +1952,7 @@ def cmd_task_run_start(args):
     if args.status:
         body["status"] = args.status
     if args.summary:
-        body["summary"] = args.summary
+        body["summary"] = read_text_argument(args.summary, "summary")
     if args.metadata:
         body["metadata"] = parse_json_arg(args.metadata, "--metadata")
     data = api_request("POST", f"/api/v1/projects/{args.project_id}/tasks/{args.task_id}/runs", body)
@@ -1896,9 +1972,9 @@ def cmd_task_run_update(args):
     if args.status:
         body["status"] = args.status
     if args.summary is not None:
-        body["summary"] = args.summary
+        body["summary"] = read_text_argument(args.summary, "summary")
     if args.error_message is not None:
-        body["error_message"] = args.error_message
+        body["error_message"] = read_text_argument(args.error_message, "error-message")
     if args.metadata:
         body["metadata"] = parse_json_arg(args.metadata, "--metadata")
     if args.heartbeat:
@@ -1931,7 +2007,7 @@ def cmd_checkpoint(args):
     """Append a checkpoint to a run."""
     body = {"checkpoint_key": args.key}
     if args.summary is not None:
-        body["summary"] = args.summary
+        body["summary"] = read_text_argument(args.summary, "summary")
     if args.payload:
         body["payload"] = parse_json_arg(args.payload, "--payload")
     if args.attachment_ids:
@@ -1945,11 +2021,12 @@ def cmd_task_attach(args):
     """Upload a task-scoped attachment/artifact."""
     fields: dict[str, str] = {}
     if args.note:
-        fields["note"] = args.note
+        fields["note"] = read_text_argument(args.note, "note")
     if args.run_id:
         fields["run_id"] = args.run_id
     if args.checkpoint_id:
         fields["checkpoint_id"] = args.checkpoint_id
+    validate_prose_payload(fields)
     data = multipart_request(
         "POST",
         f"/api/v1/projects/{args.project_id}/tasks/{args.task_id}/attachments",
@@ -1964,7 +2041,8 @@ def cmd_contract_attach(args):
     """Upload a contract-scoped attachment/artifact."""
     fields: dict[str, str] = {}
     if args.note:
-        fields["note"] = args.note
+        fields["note"] = read_text_argument(args.note, "note")
+    validate_prose_payload(fields)
     data = multipart_request(
         "POST",
         f"/api/v1/contracts/{args.contract_id}/attachments",
@@ -2112,7 +2190,7 @@ def cmd_contract_relate(args):
     """Record that this contract continues, supersedes, or delegates to another."""
     body = {"to_contract_id": args.to, "link_type": args.type}
     if args.note:
-        body["note"] = args.note
+        body["note"] = read_text_argument(args.note, "note")
     data = api_request("POST", f"/api/v1/contracts/{args.id}/links", body)
     print(f"✅ {args.id} {args.type} {args.to}")
     for link in data.get("related_contracts") or []:
@@ -2189,8 +2267,8 @@ def cmd_comments(args):
 
 def cmd_comment(args):
     """Add a comment to a task."""
-    content = args.content
-    if not content or content == "-":
+    content = read_text_argument(args.content, "content")
+    if content is None:
         content = sys.stdin.read().strip()
     if not content:
         print("Error: provide --content or pipe content via stdin", file=sys.stderr)
@@ -2424,7 +2502,7 @@ def main():
     # close
     p = sub.add_parser("close", help="Close an active contract")
     p.add_argument("id", help="Contract ID")
-    p.add_argument("--reason", help="Close reason (required with --without-approval)")
+    p.add_argument("--reason", help="Close reason (required with --without-approval); Markdown text, @file.md, or - for stdin")
     p.add_argument("--without-approval", action="store_true", help="Proposer only, gated contracts: close without accepting the work (outcome closed-unapproved)")
 
     # messages
@@ -2450,11 +2528,11 @@ def main():
     p = sub.add_parser("receipt", help="Acknowledge an exact message without consuming a turn")
     p.add_argument("id", help="Contract ID")
     p.add_argument("message_id", help="Message ID being acknowledged")
-    p.add_argument("--note", help="Optional human-readable receipt note")
+    p.add_argument("--note", help="Optional human-readable receipt note; Markdown text, @file.md, or - for stdin")
 
     p = sub.add_parser("approve-completion", help="Record proposer approval for gated contract completion without consuming a turn")
     p.add_argument("id", help="Contract ID")
-    p.add_argument("--note", help="Optional approval note")
+    p.add_argument("--note", help="Optional approval note; Markdown text, @file.md, or - for stdin")
 
     # ── Operator channel ──────────────────────────────────
 
@@ -2542,14 +2620,14 @@ def main():
     # project-create
     p = sub.add_parser("project-create", help="Create a new project")
     p.add_argument("title", help="Project title")
-    p.add_argument("--description", help="Project description")
+    p.add_argument("--description", help="Project description; Markdown text, @file.md, or - for stdin")
     p.add_argument("--members", nargs="+", help="Agent names or UUIDs to add as members")
 
     # project-update
     p = sub.add_parser("project-update", help="Update a project")
     p.add_argument("id", help="Project ID")
     p.add_argument("--title", help="New title")
-    p.add_argument("--description", help="New description")
+    p.add_argument("--description", help="New description; Markdown text, @file.md, or - for stdin")
     p.add_argument("--status", help="New status")
 
     # project-members
@@ -2568,13 +2646,13 @@ def main():
     p = sub.add_parser("project-observer-add", help="Add a read-only observer to a project")
     p.add_argument("id", help="Project ID")
     p.add_argument("--agent", required=True, help="Agent name or UUID to add as observer")
-    p.add_argument("--note", help="Why this agent is observing")
+    p.add_argument("--note", help="Why this agent is observing; Markdown text, @file.md, or - for stdin")
 
     # project-observer-update
     p = sub.add_parser("project-observer-update", help="Change an observer's note")
     p.add_argument("id", help="Project ID")
     p.add_argument("observer_id", help="Observer ID")
-    p.add_argument("--note", help="New note (omit to clear)")
+    p.add_argument("--note", help="New note (omit to clear); Markdown text, @file.md, or - for stdin")
 
     # project-observer-remove
     p = sub.add_parser("project-observer-remove", help="Remove an observer from a project")
@@ -2620,7 +2698,7 @@ def main():
     p = sub.add_parser("sprint-create", help="Create a new sprint")
     p.add_argument("project_id", help="Project ID")
     p.add_argument("title", help="Sprint title")
-    p.add_argument("--goal", help="Sprint goal")
+    p.add_argument("--goal", help="Sprint goal; Markdown text, @file.md, or - for stdin")
     p.add_argument("--start-date", help="Start date (YYYY-MM-DD)")
     p.add_argument("--end-date", help="End date (YYYY-MM-DD)")
 
@@ -2629,6 +2707,7 @@ def main():
     p.add_argument("project_id", help="Project ID")
     p.add_argument("sprint_id", help="Sprint ID")
     p.add_argument("--title", help="New title")
+    p.add_argument("--goal", help="Sprint goal as Markdown; @file.md or - for stdin")
     p.add_argument("--status", help="New status (planning, active, completed, cancelled)")
 
     # ── Tasks ─────────────────────────────────────────────
@@ -2654,7 +2733,7 @@ def main():
     p = sub.add_parser("task-create", help="Create a new task")
     p.add_argument("project_id", help="Project ID")
     p.add_argument("title", help="Task title")
-    p.add_argument("--description", help="Task description")
+    p.add_argument("--description", help="Task description; Markdown text, @file.md, or - for stdin")
     p.add_argument("--sprint-id", help="Sprint ID to assign to")
     p.add_argument("--priority", choices=["critical", "urgent", "high", "medium", "low"], help="Task priority (critical is legacy alias for urgent)")
     p.add_argument("--assignee", help="Assignee agent name or UUID")
@@ -2678,7 +2757,7 @@ def main():
     p.add_argument("project_id", help="Project ID")
     p.add_argument("task_id", help="Task ID")
     p.add_argument("--title", help="New title")
-    p.add_argument("--description", help="New description")
+    p.add_argument("--description", help="New description; Markdown text, @file.md, or - for stdin")
     p.add_argument(
         "--status",
         choices=["backlog", "todo", "in-progress", "in_review", "in-review", "done", "cancelled"],
@@ -2706,7 +2785,7 @@ def main():
     p = sub.add_parser("blocker-follow-up", help="Log blocker follow-up workflow details")
     p.add_argument("project_id", help="Project ID")
     p.add_argument("task_id", help="Task ID")
-    p.add_argument("--next-action", required=True, help="Concrete unblock step to record")
+    p.add_argument("--next-action", required=True, help="Concrete unblock step to record; Markdown text, @file.md, or - for stdin")
     p.add_argument("--owner", required=True, help="Who owns the unblock step")
     p.add_argument("--due-at", required=True, help="Expected follow-up time (ISO 8601)")
 
@@ -2714,7 +2793,7 @@ def main():
     p = sub.add_parser("blocker-escalate", help="Escalate blocker workflow details")
     p.add_argument("project_id", help="Project ID")
     p.add_argument("task_id", help="Task ID")
-    p.add_argument("--next-action", required=True, help="Concrete escalation or unblock step to record")
+    p.add_argument("--next-action", required=True, help="Concrete escalation or unblock step to record; Markdown text, @file.md, or - for stdin")
     p.add_argument("--owner", required=True, help="Who owns the escalation or unblock step")
     p.add_argument("--due-at", required=True, help="Expected follow-up time (ISO 8601)")
 
@@ -2728,7 +2807,7 @@ def main():
     p.add_argument("project_id", help="Project ID")
     p.add_argument("task_id", help="Task ID")
     p.add_argument("--status", choices=sorted(RUN_STATUSES), help="Initial execution run status")
-    p.add_argument("--summary", help="Run summary")
+    p.add_argument("--summary", help="Run summary; Markdown text, @file.md, or - for stdin")
     p.add_argument("--metadata", help="JSON object metadata")
 
     # task-run
@@ -2743,8 +2822,8 @@ def main():
     p.add_argument("task_id", help="Task ID")
     p.add_argument("run_id", help="Execution run ID")
     p.add_argument("--status", choices=sorted(RUN_STATUSES), help="New execution run status")
-    p.add_argument("--summary", help="Run summary")
-    p.add_argument("--error-message", help="Failure/cancellation detail")
+    p.add_argument("--summary", help="Run summary; Markdown text, @file.md, or - for stdin")
+    p.add_argument("--error-message", help="Failure/cancellation detail; Markdown text, @file.md, or - for stdin")
     p.add_argument("--metadata", help="JSON object metadata")
     p.add_argument("--heartbeat", action="store_true", help="Stamp a heartbeat without changing status")
 
@@ -2760,7 +2839,7 @@ def main():
     p.add_argument("task_id", help="Task ID")
     p.add_argument("run_id", help="Execution run ID")
     p.add_argument("--key", required=True, help="Checkpoint key")
-    p.add_argument("--summary", help="Checkpoint summary")
+    p.add_argument("--summary", help="Checkpoint summary; Markdown text, @file.md, or - for stdin")
     p.add_argument("--payload", help="JSON object payload")
     p.add_argument("--attachment-id", dest="attachment_ids", action="append", help="Attach uploaded artifact ID (repeatable)")
 
@@ -2769,7 +2848,7 @@ def main():
     p.add_argument("project_id", help="Project ID")
     p.add_argument("task_id", help="Task ID")
     p.add_argument("--file", required=True, help="File path to upload")
-    p.add_argument("--note", help="Optional attachment note")
+    p.add_argument("--note", help="Optional attachment note; Markdown text, @file.md, or - for stdin")
     p.add_argument("--run-id", help="Optional run ID association")
     p.add_argument("--checkpoint-id", help="Optional checkpoint ID to append attachment onto")
 
@@ -2777,7 +2856,7 @@ def main():
     p = sub.add_parser("contract-attach", help="Upload a contract artifact via multipart form-data")
     p.add_argument("contract_id", help="Contract ID")
     p.add_argument("--file", required=True, help="File path to upload")
-    p.add_argument("--note", help="Optional attachment note")
+    p.add_argument("--note", help="Optional attachment note; Markdown text, @file.md, or - for stdin")
 
     # ── Dependencies ──────────────────────────────────────
 
@@ -2848,7 +2927,7 @@ def main():
             "delegates_to: this one handed execution onward to the other"
         ),
     )
-    p.add_argument("--note", help="One line on why, 500 characters max")
+    p.add_argument("--note", help="One line on why, 500 characters max; Markdown text, @file.md, or - for stdin")
 
     p = sub.add_parser("contract-unrelate", help="Remove a contract-to-contract link")
     p.add_argument("id", help="Contract ID the link starts from")
@@ -2877,7 +2956,7 @@ def main():
     p = sub.add_parser("comment", help="Add a comment to a task")
     p.add_argument("project_id", help="Project ID")
     p.add_argument("task_id", help="Task ID")
-    p.add_argument("--content", help="Comment content (markdown). Use '-' or omit and pipe via stdin.")
+    p.add_argument("--content", help="Comment content (markdown). Use '-' or omit and pipe via stdin.; Markdown text, @file.md, or - for stdin")
     p.add_argument("--type", choices=["comment", "status_change", "assignment", "system"], default=None, help="Comment type")
 
     args = parser.parse_args()
@@ -2971,6 +3050,9 @@ def main():
         "request-approval": cmd_request_approval,
     }
 
+    prose_flags = ("description", "goal", "content", "body", "note", "reason", "summary", "error_message", "next_action", "needs_human", "handoff_description", "escalation_description", "escalation_reason", "requested_intervention", "unlinked_reason")
+    if sum(getattr(args, field, None) == "-" for field in prose_flags) > 1:
+        parser.error("stdin can supply only one prose field; use @file.md for the others")
     commands[args.command](args)
 
 

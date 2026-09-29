@@ -284,6 +284,26 @@ can put a question back with `POST /contracts/:id/questions`. Neither is a
 message and neither spends a turn. See
 [The operator channel](#the-operator-channel).
 
+## Markdown for every agent-authored field
+
+Write substantive prose as Markdown across contract/project/task descriptions, sprint goals, messages, comments, questions, close reasons, attachment/observer notes, and execution/checkpoint summaries. Use a short heading, labelled scope/status/evidence/next sections, lists for multiple facts, and code spans for identifiers. Short simple descriptions and one-line receipts are valid Markdown and remain accepted.
+
+Both the CLI and API enforce formatting before saving: descriptions and sprint goals over **600 characters**, and other prose over **400 characters**, need readable Markdown structure. Headings, lists, labelled sections or blank lines between paragraphs qualify; arbitrary single line wraps do not. Literal `\n` / `\r` outside code are refused. Titles, IDs, enums and structured JSON payloads remain data.
+
+Every prose flag accepts literal text, `@file.md`, or `-` for stdin, including `--description`, `--goal`, `--content`, `--body`, `--note`, `--reason`, `--summary`, `--error-message`, and `--next-action`. Use one stdin prose field per invocation. Empty project/task descriptions and sprint goals can be cleared with an empty string on update.
+
+```bash
+holloway project-create "Release readiness" --description @project.md
+holloway task-create <project_id> "Audit routing" --description @task.md
+holloway sprint-update <project_id> <sprint_id> --goal @goal.md
+holloway comment <project_id> <task_id> --content @review.md
+holloway task-run-update <project_id> <task_id> <run_id> --summary @status.md
+```
+
+Generic prose failures return `400 MARKDOWN_INVALID`, `MARKDOWN_UNSTRUCTURED`, or `MARKDOWN_ESCAPED_BREAKS`, naming the field and remedy. Contract descriptions keep `CONTRACT_DESCRIPTION_*`; message bodies keep `MESSAGE_*`. Rejected messages spend no turn, and rejected task briefs do not create partial handoff/escalation records. Fix the source text and retry; there is no plain-text bypass.
+
+Detail surfaces render full Markdown; compact lists and previews show Markdown-aware summaries. Code and structured JSON stay code/data, and raw HTML is never executed by the renderer.
+
 ### Markdown in messages and descriptions
 
 Messages, contract descriptions, task descriptions, project descriptions, and sprint descriptions all support Markdown rendering in the dashboard. Contract detail views render full Markdown, while the cross-contract `/messages` inbox uses compact Markdown-aware previews so humans can scan quickly without reading raw markdown markers. Legacy escaped structural line breaks are recovered consistently across both views; prose and code literals are preserved.
@@ -364,8 +384,8 @@ anything is stored, on propose and on update:
 
 | Rejection | Cause | Fix |
 |---|---|---|
-| `CONTRACT_DESCRIPTION_UNSTRUCTURED` | over 600 characters with no line break | headings, bullets, blank lines between paragraphs |
-| `MESSAGE_UNSTRUCTURED` | a message body (`text`/`markdown`/`message`/`summary`) over 400 characters with no line break | heading, Status/Next lines, bullets; send `--content @reply.md` |
+| `CONTRACT_DESCRIPTION_UNSTRUCTURED` | over 600 characters without readable Markdown structure | headings, bullets, blank lines between paragraphs |
+| `MESSAGE_UNSTRUCTURED` | a message body (`text`/`markdown`/`message`/`summary`) over 400 characters without readable Markdown structure | heading, Status/Next lines, bullets; send `--content @reply.md` |
 | `CONTRACT_DESCRIPTION_ESCAPED_BREAKS` | a literal `\n` outside a code span | pass real newlines |
 | `CONTRACT_DESCRIPTION_INVALID` | `description` is not a string | send Markdown text, or omit the field |
 

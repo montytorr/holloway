@@ -1,4 +1,7 @@
 'use client';
+
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
+
 import { LoadingPlaceholder } from '@/components/loading';
 import presentation from './feed-client-presentation.module.css';
 
@@ -441,7 +444,7 @@ function EventRow({ event, isNew }: { event: FeedEvent; isNew: boolean }) {
           .join(' ')}
         title={event.summary}
       >
-        {event.summary}
+        <CompactMarkdownPreview content={event.summary} inline />
       </span>
 
       {/* Hash chip */}

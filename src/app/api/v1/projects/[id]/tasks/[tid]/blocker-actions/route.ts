@@ -1,3 +1,4 @@
+import { validateAgentMarkdownFields } from '@/lib/markdown-policy';
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticateApiRequest } from '@/lib/middleware-auth';
 import { auditLog, getClientIp } from '@/lib/api-helpers';
@@ -44,6 +45,9 @@ export async function POST(
       { status: 400 }
     );
   }
+
+  const markdown = validateAgentMarkdownFields(parsed, ['next_action']);
+  if (!markdown.ok) return NextResponse.json(markdown.body, { status: markdown.status });
 
   const action = parsed.action;
   if (action !== 'follow-up' && action !== 'escalate') {

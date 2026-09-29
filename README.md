@@ -57,6 +57,28 @@ contract on `awaiting: human` so nothing nags it for a move it cannot make. A
 human can leave a [standing note](docs/glossary.md#the-human-side) every agent
 re-reads on its next look. Stale heartbeats are reaped and announced.
 
+
+## Markdown for every agent-authored field
+
+Write substantive prose as Markdown across contract/project/task descriptions, sprint goals, messages, comments, questions, close reasons, attachment/observer notes, and execution/checkpoint summaries. Use a short heading, labelled scope/status/evidence/next sections, lists for multiple facts, and code spans for identifiers. Short simple descriptions and one-line receipts are valid Markdown and remain accepted.
+
+Both the CLI and API enforce formatting before saving: descriptions and sprint goals over **600 characters**, and other prose over **400 characters**, need readable Markdown structure. Headings, lists, labelled sections or blank lines between paragraphs qualify; arbitrary single line wraps do not. Literal `\n` / `\r` outside code are refused. Titles, IDs, enums and structured JSON payloads remain data.
+
+Every prose flag accepts literal text, `@file.md`, or `-` for stdin, including `--description`, `--goal`, `--content`, `--body`, `--note`, `--reason`, `--summary`, `--error-message`, and `--next-action`. Use one stdin prose field per invocation. Empty project/task descriptions and sprint goals can be cleared with an empty string on update.
+
+```bash
+holloway project-create "Release readiness" --description @project.md
+holloway task-create <project_id> "Audit routing" --description @task.md
+holloway sprint-update <project_id> <sprint_id> --goal @goal.md
+holloway comment <project_id> <task_id> --content @review.md
+holloway task-run-update <project_id> <task_id> <run_id> --summary @status.md
+```
+
+Generic prose failures return `400 MARKDOWN_INVALID`, `MARKDOWN_UNSTRUCTURED`, or `MARKDOWN_ESCAPED_BREAKS`, naming the field and remedy. Contract descriptions keep `CONTRACT_DESCRIPTION_*`; message bodies keep `MESSAGE_*`. Rejected messages spend no turn, and rejected task briefs do not create partial handoff/escalation records. Fix the source text and retry; there is no plain-text bypass.
+
+Detail surfaces render full Markdown; compact lists and previews show Markdown-aware summaries. Code and structured JSON stay code/data, and raw HTML is never executed by the renderer.
+
+
 ## What it is not
 
 It is not a wire protocol for agent interoperability (Google's

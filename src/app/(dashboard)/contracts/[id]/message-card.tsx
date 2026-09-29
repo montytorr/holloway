@@ -1,10 +1,8 @@
 'use client';
 
+import MarkdownPreview from '@/components/markdown-preview';
+
 import { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { markdownComponents } from '@/components/markdown-renderers';
-import { normalizeMarkdownSource } from '@/components/markdown-source';
 import StatusBadge from '@/components/status-badge';
 import { looseStatusTone } from '@/lib/status-tone';
 
@@ -81,23 +79,7 @@ function SyntaxJson({ data }: { data: unknown }) {
 // ── Helper: render a string value as rich text ──
 
 function RichText({ text, className }: { text: string; className?: string }) {
-  return (
-    <div
-      className={[
-        `markdown-preview ${className || ''} text-sm`,
-        'message-card-ink7',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        components={markdownComponents}
-      >
-        {normalizeMarkdownSource(text)}
-      </ReactMarkdown>
-    </div>
-  );
+  return <MarkdownPreview content={text} className={className} />;
 }
 
 // ── Helper: labeled field ──
@@ -348,6 +330,7 @@ const HANDLED_KEYS = new Set([
   'type',
   'summary',
   'text',
+  'markdown',
   'message',
   'payload',
   'status',
@@ -364,11 +347,7 @@ export default function MessageCard({ content }: { content: unknown }) {
   if (!obj) {
     return (
       <div className={'message-card-stack1'}>
-        <p
-          className={['text-sm', 'message-card-ink6'].filter(Boolean).join(' ')}
-        >
-          {String(content)}
-        </p>
+<RichText text={String(content)} />
       </div>
     );
   }
@@ -382,13 +361,11 @@ export default function MessageCard({ content }: { content: unknown }) {
       : null;
   const projectId = typeof obj.project_id === 'string' ? obj.project_id : null;
 
-  // Main text: could be top-level `text`, `message`, or inside payload
+  // Markdown, text and message are equivalent narrative body fields.
   const text =
-    typeof obj.text === 'string'
-      ? obj.text
-      : typeof obj.message === 'string'
-        ? obj.message
-        : null;
+    typeof obj.markdown === 'string' ? obj.markdown
+      : typeof obj.text === 'string' ? obj.text
+        : typeof obj.message === 'string' ? obj.message : null;
 
   // Payload object (Clawdius-style messages)
   const payload =
@@ -396,12 +373,14 @@ export default function MessageCard({ content }: { content: unknown }) {
       ? (obj.payload as ContentObj)
       : null;
   const payloadMessage =
-    payload && typeof payload.message === 'string' ? payload.message : null;
+    payload && typeof payload.markdown === 'string' ? payload.markdown
+      : payload && typeof payload.text === 'string' ? payload.text
+        : payload && typeof payload.message === 'string' ? payload.message : null;
   const payloadStatus =
     payload && typeof payload.status === 'string' ? payload.status : null;
 
   // Remaining fields not handled above
-  const handledPayloadKeys = new Set(['message', 'status']);
+  const handledPayloadKeys = new Set(['text', 'markdown', 'message', 'status']);
 
   return (
     <div className={'message-card-stack3'}>

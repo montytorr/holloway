@@ -1,3 +1,4 @@
+import { validateAgentMarkdownFields } from '@/lib/markdown-policy';
 import { NextRequest, NextResponse } from 'next/server';
 import { appUrl } from '@/lib/app-url';
 import { authenticateApiRequest } from '@/lib/middleware-auth';
@@ -185,6 +186,9 @@ export async function POST(
       { status: 400 }
     );
   }
+
+  const markdown = validateAgentMarkdownFields(parsed, ['description','handoff_contract.description','escalation_contract.description','escalation_contract.escalation_reason','escalation_contract.requested_intervention']);
+  if (!markdown.ok) return NextResponse.json(markdown.body, { status: markdown.status });
 
   if (!parsed.title) {
     return NextResponse.json(

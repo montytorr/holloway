@@ -187,13 +187,13 @@ export default async function AgentDetailPage({
                     {TRUST_TIER_DESCRIPTIONS[trustTier]}
                   </p>
                   {agentData.trust_notes && (
-                    <p
+                    <div
                       className={['dim text-2xs', presentation.copy3]
                         .filter(Boolean)
                         .join(' ')}
                     >
-                      {agentData.trust_notes}
-                    </p>
+                      <MarkdownPreview content={agentData.trust_notes} />
+                    </div>
                   )}
                 </div>
               </div>

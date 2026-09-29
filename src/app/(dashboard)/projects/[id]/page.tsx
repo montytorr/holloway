@@ -1,3 +1,4 @@
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
 import { unstable_noStore as noStore } from 'next/cache';
 import Link from '@/components/app-link';
 import { createServerClient } from '@/lib/db/server';
@@ -381,8 +382,7 @@ export default async function ProjectDetailPage({
                       <span className={styles.radarMeta}>
                         <b>{state.blockerResolutionOwner || 'No owner'}</b>
                         {' · '}
-                        {state.blockerResolutionAction ||
-                          'no unblock plan logged'}
+                        {state.blockerResolutionAction ? <CompactMarkdownPreview content={state.blockerResolutionAction} inline /> : 'no unblock plan logged'}
                         {state.dueStateLabel ? ` · ${state.dueStateLabel}` : ''}
                       </span>
                     </span>

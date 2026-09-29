@@ -3,6 +3,7 @@ import { auditLog } from '@/lib/api-helpers';
 import { evaluateContractCollaboration, type TrustPolicyAgent } from '@/lib/trust-tiers';
 import { enrichContract } from '@/app/api/v1/contracts/_helpers';
 import { validateContractDescription } from '@/lib/contract-description';
+import { validateAgentMarkdownFields } from '@/lib/markdown-policy';
 import { validateExpiresInHours } from '@/lib/contract-expiry-window';
 import type { ApiError, ContractResponse, ProposeContractRequest } from '@/lib/types';
 
@@ -59,6 +60,8 @@ export async function createContractProposal(params: {
   if (!description.ok) {
     throw new ContractProposalError(description.status, description.body);
   }
+  const markdown = validateAgentMarkdownFields(parsed, ['unlinked_reason']);
+  if (!markdown.ok) throw new ContractProposalError(markdown.status, markdown.body);
 
   // A window that cannot be turned into a date threw RangeError out of the
   // route, which the catch below reported as DB_ERROR - a server fault for what

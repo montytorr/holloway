@@ -11,10 +11,10 @@ import { cn } from '@/lib/utils';
  */
 export type PageWidth = 'narrow' | 'prose' | 'default' | 'wide';
 
-// Workspace pages share the full canvas; forms and documents remain bounded.
+// Workspaces and resource documents share the full canvas; forms remain bounded.
 const widths: Record<PageWidth, string> = {
   narrow: 'max-w-[48rem]',
-  prose: 'max-w-[78rem]',
+  prose: 'max-w-none',
   default: 'max-w-none',
   wide: 'max-w-none',
 };

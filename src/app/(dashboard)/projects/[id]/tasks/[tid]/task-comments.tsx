@@ -6,6 +6,7 @@ import { useRenderTime } from '@/components/render-time';
 import Link from '@/components/app-link';
 import { useState, useRef, useTransition } from 'react';
 import MarkdownPreview from '@/components/markdown-preview';
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
 import { Avatar, EmptyState } from '@/components/atoms';
 import { addComment } from './actions';
 import { formatRelative } from '@/lib/format-date';
@@ -24,7 +25,7 @@ interface Comment {
   created_at: string;
 }
 
-type Detail = { label: string; value: string; href?: string; title?: string };
+type Detail = { label: string; value: string; href?: string; title?: string; prose?: boolean };
 
 const typeConfig: Record<string, { icon: LucideIcon; label: string }> = {
   comment: { icon: MessageSquare, label: 'Comment' },
@@ -69,7 +70,7 @@ function describeMetadata(metadata: Record<string, unknown>, content: string): D
     ['requested_intervention', 'Request'],
   ] as const) {
     const value = metadata[key];
-    if (typeof value === 'string' && value) details.push({ label, value });
+    if (typeof value === 'string' && value) details.push({ label, value, prose: key === 'escalation_reason' || key === 'requested_intervention' });
   }
   return details;
 }
@@ -106,7 +107,7 @@ function CommentItem({ comment }: { comment: Comment }) {
           <span className={styles.kind}>{config.label}</span>
           <time className={styles.time} dateTime={comment.created_at}>{formatRelative(comment.created_at, now)}</time>
         </div>
-        {isSystem ? (
+        {isSystem && !/[\n#*_]|\[[^\]]+\]\(/.test(comment.content) ? (
           <p className={styles.eventText}>{eventText(comment.content, contractId)}</p>
         ) : (
           <div className={styles.commentText}><MarkdownPreview content={comment.content} /></div>
@@ -119,9 +120,9 @@ function CommentItem({ comment }: { comment: Comment }) {
                   <span>{detail.label}</span><strong>{detail.value}</strong>
                 </Link>
               ) : (
-                <span key={`${detail.label}-${index}`} className={styles.reference} title={detail.title}>
-                  <span>{detail.label}</span><strong>{detail.value}</strong>
-                </span>
+                <div key={`${detail.label}-${index}`} className={styles.reference} title={detail.title}>
+                  <span>{detail.label}</span>{detail.prose ? <CompactMarkdownPreview content={detail.value} /> : <strong>{detail.value}</strong>}
+                </div>
               )
             ))}
           </div>

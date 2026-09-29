@@ -1,3 +1,4 @@
+import CompactMarkdownPreview from '@/components/compact-markdown-preview';
 import Link from '@/components/app-link';
 import { redirect } from 'next/navigation';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -97,7 +98,7 @@ export default async function NotificationsPage() {
                     {item.meta && <span>{item.meta}</span>}
                   </div>
                   <strong>{item.title}</strong>
-                  <p>{item.body}</p>
+                  <CompactMarkdownPreview content={item.body} />
                 </div>
                 <div className={styles.trailing}>
                   <time dateTime={item.createdAt}>

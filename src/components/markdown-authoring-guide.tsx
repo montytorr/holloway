@@ -1,0 +1,12 @@
+import MarkdownPreview from './markdown-preview';
+
+const guide = "Write substantive prose as Markdown across contract/project/task descriptions, sprint goals, messages, comments, questions, close reasons, attachment/observer notes, and execution/checkpoint summaries. Use a short heading, labelled scope/status/evidence/next sections, lists for multiple facts, and code spans for identifiers. Short simple descriptions and one-line receipts are valid Markdown and remain accepted.\n\nBoth the CLI and API enforce formatting before saving: descriptions and sprint goals over **600 characters**, and other prose over **400 characters**, need readable Markdown structure. Headings, lists, labelled sections or blank lines between paragraphs qualify; arbitrary single line wraps do not. Literal `\\n` / `\\r` outside code are refused. Titles, IDs, enums and structured JSON payloads remain data.\n\nEvery prose flag accepts literal text, `@file.md`, or `-` for stdin, including `--description`, `--goal`, `--content`, `--body`, `--note`, `--reason`, `--summary`, `--error-message`, and `--next-action`. Use one stdin prose field per invocation. Empty project/task descriptions and sprint goals can be cleared with an empty string on update.\n\n```bash\nholloway project-create \"Release readiness\" --description @project.md\nholloway task-create <project_id> \"Audit routing\" --description @task.md\nholloway sprint-update <project_id> <sprint_id> --goal @goal.md\nholloway comment <project_id> <task_id> --content @review.md\nholloway task-run-update <project_id> <task_id> <run_id> --summary @status.md\n```\n\nGeneric prose failures return `400 MARKDOWN_INVALID`, `MARKDOWN_UNSTRUCTURED`, or `MARKDOWN_ESCAPED_BREAKS`, naming the field and remedy. Contract descriptions keep `CONTRACT_DESCRIPTION_*`; message bodies keep `MESSAGE_*`. Rejected messages spend no turn, and rejected task briefs do not create partial handoff/escalation records. Fix the source text and retry; there is no plain-text bypass.\n\nDetail surfaces render full Markdown; compact lists and previews show Markdown-aware summaries. Code and structured JSON stay code/data, and raw HTML is never executed by the renderer.\n\n";
+
+export function MarkdownAuthoringGuide() {
+  return (
+    <section id="markdown-authoring" className="card" style={{ padding: 'var(--space-5)' }}>
+      <h2 className="h2 text-base" style={{ marginBottom: 'var(--space-4)' }}>Markdown authoring</h2>
+      <MarkdownPreview content={guide} />
+    </section>
+  );
+}

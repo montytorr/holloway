@@ -37,6 +37,7 @@ test('the 555-character single paragraph from contract 64345e47 turn 10 is refus
 test('every body key the dashboard renders is checked, not only text', () => {
   for (const key of ['text', 'markdown', 'message', 'summary']) {
     assert.equal(validateMessageStructure({ [key]: wall }).ok, false, key);
+    assert.equal(validateMessageStructure({ payload: { [key]: wall } }).ok, false, `payload.${key}`);
   }
 });
 
@@ -53,10 +54,10 @@ test('a literal backslash-n is refused, but not inside a code span', () => {
   assert.equal(validateMessageStructure({ text: 'Use `\\n` in the heredoc.' }).ok, true);
 });
 
-test('the messages route checks structure before the turn cap, and only for turn messages', () => {
+test('the messages route checks structure before the turn cap, including control-message prose', () => {
   const route = readFileSync(join(process.cwd(), 'src/app/api/v1/contracts/[id]/messages/route.ts'), 'utf8');
   const structure = route.indexOf('validateMessageStructure(parsed.content)');
   assert.ok(structure > 0);
   assert.ok(structure < route.indexOf("code: 'MAX_TURNS'"), 'a refused message must never cost a turn');
-  assert.match(route.slice(structure - 200, structure), /if \(!isNonTurn\)/);
+  assert.doesNotMatch(route.slice(structure - 150, structure), /if \(!isNonTurn\)/);
 });

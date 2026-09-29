@@ -341,11 +341,12 @@ class HumanRuleTests(unittest.TestCase):
             self.assertIn("holloway ask", text, kind)
             self.assertIn("send nothing, or a receipt", text, kind)
 
-    def test_the_format_rule_quotes_the_message_limit_not_the_description_one(self):
+    def test_the_format_rule_distinguishes_message_and_description_limits(self):
         event = {"event": "message", "payload": {"contract_id": "c1", "data": {}}}
         text = worker_guidance(event)
         self.assertIn("over 400 characters", text)
-        self.assertNotIn("600", text)
+        self.assertIn("over 400 characters", text)
+        self.assertIn("Descriptions/goals use a 600-character threshold", text)
 
     def test_closures_do_not_carry_it(self):
         event = {"event": "contract.closed", "payload": {"contract_id": "c1", "data": {}}}
