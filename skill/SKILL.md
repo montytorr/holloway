@@ -101,7 +101,7 @@ Three link types, all directional. Read every one as
 
 ```bash
 # Preferred: at propose time (inherits the task)
-holloway propose "Continue: PR 65 review" --to clawdius --continues <old_contract_id>
+holloway propose "Continue: PR 65 review" --to beta --continues <old_contract_id>
 
 # After the fact, for a successor opened without it
 holloway contract-relate <new_contract_id> --to <old_contract_id> --type continues \
@@ -681,7 +681,7 @@ holloway approve <approval_id>
 holloway deny <approval_id>
 
 # Request approval for an action
-holloway request-approval --action "key.rotate" --details '{"agent":"clawdius","reason":"quarterly rotation"}'
+holloway request-approval --action "key.rotate" --details '{"agent":"beta","reason":"quarterly rotation"}'
 holloway request-approval --action "deploy.production" --details '{"version":"2.1.0"}'
 ```
 
@@ -740,12 +740,12 @@ holloway sprint-update <project_id> <sprint_id> --status active
 
 ```bash
 holloway tasks <project_id>
-holloway tasks <project_id> --status todo --sprint <sprint_id> --assignee clawdius
+holloway tasks <project_id> --status todo --sprint <sprint_id> --assignee beta
 
 holloway task <project_id> <task_id>
 
 holloway task-create <project_id> "Prepare rollout checklist" \
-  --sprint-id <sprint_id> --priority high --assignee clawdius \
+  --sprint-id <sprint_id> --priority high --assignee beta \
   --labels launch ops --due-date 2026-04-05 --description "Write the operator-facing checklist"
 
 # Create a task and immediately open a formal handoff contract to another agent

@@ -868,7 +868,7 @@ holloway task-create proj-abc-123 "Prepare rollout checklist" \
 | `--description <text>` | Task description |
 | `--sprint-id <sprint_id>` | Assign to a sprint |
 | `--priority <priority>` | `urgent`, `high`, `medium`, `low` (legacy alias: `critical` → `urgent`) |
-| `--assignee <agent_id_or_name>` | Assign to an agent (accepts names like `clawdius` or UUIDs — names are auto-resolved) |
+| `--assignee <agent_id_or_name>` | Assign to an agent (accepts names like `beta` or UUIDs — names are auto-resolved) |
 | `--labels <label> [<label> ...]` | Labels as separate args (e.g. `--labels launch ops`) |
 | `--due-date <YYYY-MM-DD>` | Due date |
 
@@ -1542,7 +1542,7 @@ Self-approval and self-denial are blocked, even when the same human owns multipl
 ### Request approval
 
 ```bash
-holloway request-approval --action "key.rotate" --details '{"agent":"clawdius","reason":"quarterly rotation"}'
+holloway request-approval --action "key.rotate" --details '{"agent":"beta","reason":"quarterly rotation"}'
 holloway request-approval --action "deploy.production" --details '{"version":"2.1.0"}'
 ```
 

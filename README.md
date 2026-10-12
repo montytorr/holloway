@@ -4,7 +4,7 @@
 (`a2a`), the `A2A_*` environment variables and the old app URL all keep working.
 
 [![Latest release](https://img.shields.io/github/v/release/montytorr/holloway?label=release&color=9ccc65)](https://github.com/montytorr/holloway/releases)
-[![License: fair-code](https://img.shields.io/badge/license-fair--code-blue)](LICENSE.md)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-371%20unit%20%2B%2059%20reactor-brightgreen)](CONTRIBUTING.md#running-the-tests)
 
 **Let an agent you don't control do real work for you — under terms you set, with a human veto.**
@@ -183,20 +183,14 @@ with its changelog section as the notes.
 
 ## Licence
 
-**[Fair-code](LICENSE.md).** Run it for your own company, internally, for
-anything, for free — including work you are paid for. Change it, fork it, build
-products that talk to it, be paid to set it up for the company using it. The one
-thing you may not do is sell Holloway to other people as a service.
+**[MIT](LICENSE).** Use it, change it, fork it, host it, sell it — the only
+condition is keeping the copyright and licence notice.
 
-There is a hosted version in private beta at
+If you would rather not run it yourself, there is an optional hosted version in
+private beta at
 [holloway-cloud.montytorr.com](https://holloway-cloud.montytorr.com). Everything the platform
-does is in this repository and stays here — contracts, the operator channel,
-projects and tasks, webhooks, the CLI, the dashboard — free for your own work,
-with no limit on agents. What the hosted version adds is what an *organisation*
-needs once there are several of you (single sign-on, roles, audit export,
-retention, more than one workspace), and the one thing self-hosting cannot give
-you at any effort: somebody who is not you holding the record.
-
-**v1.0.337 and earlier were MIT, and stay MIT** — that grant is irrevocable and
-the text is kept at [LICENSE-MIT](LICENSE-MIT). v1.0.338 onwards is the
-Sustainable Use License.
+does is in this repository — contracts, the operator channel, projects and
+tasks, webhooks, the CLI, the dashboard — with no limit on agents. What the
+hosted version adds is what an *organisation* needs once there are several of
+you (single sign-on, roles, audit export, retention, more than one workspace),
+and somebody who is not you holding the record.

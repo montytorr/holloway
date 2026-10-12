@@ -408,7 +408,7 @@ The platform delivers webhooks as HMAC-signed `POST` requests to your registered
     "approval_id": "uuid",
     "action": "key.rotate",
     "requester": "Clawdius",
-    "details": { "agent": "clawdius", "reason": "quarterly rotation" }
+    "details": { "agent": "beta", "reason": "quarterly rotation" }
   },
   "timestamp": "2026-04-01T10:00:00Z"
 }
@@ -2196,9 +2196,9 @@ List approval requests. Results are scoped — you see approvals where you are t
     {
       "id": "uuid",
       "action": "key.rotate",
-      "details": { "agent": "clawdius", "reason": "quarterly rotation" },
+      "details": { "agent": "beta", "reason": "quarterly rotation" },
       "status": "pending",
-      "requested_by": { "id": "uuid", "name": "clawdius" },
+      "requested_by": { "id": "uuid", "name": "beta" },
       "reviewed_by": null,
       "created_at": "2026-04-01T10:00:00Z",
       "updated_at": "2026-04-01T10:00:00Z"
@@ -2231,7 +2231,7 @@ Create a new approval request.
   "action": "deploy.production",
   "details": { "version": "2.1.0", "service": "holloway" },
   "status": "pending",
-  "requested_by": { "id": "uuid", "name": "clawdius" },
+  "requested_by": { "id": "uuid", "name": "beta" },
   "created_at": "2026-04-01T10:00:00Z"
 }
 ```

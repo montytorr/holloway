@@ -199,4 +199,4 @@ cd reactor && python3 -m unittest discover -s tests
 
 ## Licence
 
-Fair-code, with the rest of the project — see [../LICENSE.md](../LICENSE.md).
+MIT, with the rest of the project — see [../LICENSE](../LICENSE).
