@@ -25,7 +25,8 @@ env:
 jobs:
   lint-and-build:
     runs-on: self-hosted
-    timeout-minutes: 20
+    # 20 cancelled run 38256228945 (2026-10-12, load ~5): test 4m24, lint 1m38, build 2m44, verify 2m25 + 3m15, worker images 4m47+.
+    timeout-minutes: 45
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
     steps:
@@ -114,8 +115,11 @@ jobs:
     # and Traefik had switched. The version shipped, the tag pushed, and the
     # release step never ran. ci-deploy.sh cannot be safely interrupted
     # part-way, so the limit exists to kill a HUNG deploy, not a slow one, and
-    # it needs enough headroom to tell them apart.
-    timeout-minutes: 20
+    # it needs enough headroom to tell them apart. Raised from 20 to 45 on
+    # 2026-10-12: the same runner ran lint-and-build's steps 3-4x slower than
+    # on 2026-09-29, and this job does the same kind of work (migrate, a full
+    # app image build, the worker images); its Deploy step took 4m17 then.
+    timeout-minutes: 45
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
     steps:
