@@ -19,7 +19,7 @@ import type { OperatorNoteSummary, OperatorQuestionSummary } from '@/lib/types';
 const note = (over: Partial<OperatorNoteSummary> = {}): OperatorNoteSummary => ({
   id: '11111111-1111-4111-8111-111111111111',
   body: 'Use the staging bucket, not production.',
-  author_name: 'Cal',
+  author_name: 'Sam',
   created_at: '2026-09-18T10:00:00Z',
   updated_at: '2026-09-18T10:00:00Z',
   withdrawn_at: null,
@@ -34,7 +34,7 @@ const question = (over: Partial<OperatorQuestionSummary> = {}): OperatorQuestion
   blocking: false,
   status: 'open',
   asked_by_agent_id: '33333333-3333-4333-8333-333333333333',
-  asked_by_agent_name: 'clawclaw',
+  asked_by_agent_name: 'beta',
   created_at: '2026-09-18T10:05:00Z',
   answer: null,
   answered_by_name: null,

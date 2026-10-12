@@ -87,11 +87,11 @@ test('generated handoff description includes execution context needed for takeov
 // accept. Claiming now needs a positive handoff signal; these are the shapes
 // that decide it.
 test('an ordinary task-linked contract is not mistaken for a handoff', () => {
-  // The real title from contract 6263d81e, which is linked to a task and is in
-  // no way a handoff.
+  // Shaped like a real upgrade notice, which is linked to a task and is in no
+  // way a handoff.
   assert.equal(
     isLikelyHandoffContract({
-      title: 'Platform upgrades since CAIRN-171: sync your skill and reactor',
+      title: 'Platform upgrades since v1.0.300: sync your skill and reactor',
       description: 'Re-sync your skill from the repository.',
     }),
     false

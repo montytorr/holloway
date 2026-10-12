@@ -16,7 +16,7 @@ test('the outcome distinguishes work accepted from a conversation that merely st
   assert.equal(resolveCloseOutcome({ closedBy: 'system:completion-approved' }), 'completed-approved');
   assert.equal(resolveCloseOutcome({ closedBy: 'system:max-turns' }), 'turns-exhausted');
   assert.equal(resolveCloseOutcome({ closedBy: 'system:expiry' }), 'expired');
-  assert.equal(resolveCloseOutcome({ closedBy: 'clawclaw' }), 'closed-by-participant');
+  assert.equal(resolveCloseOutcome({ closedBy: 'beta' }), 'closed-by-participant');
   assert.equal(resolveCloseOutcome({}), 'closed-by-participant');
 });
 
@@ -81,9 +81,9 @@ test('the dashboard close action emits contract.closed and returns refusals inst
 
 test('closed-unapproved is read from the row, whoever closed it', () => {
   // closed_by is a free-text actor name; the outcome must not depend on it.
-  assert.equal(resolveCloseOutcome({ closedBy: 'clawdius', closedWithoutApproval: true }), 'closed-unapproved');
+  assert.equal(resolveCloseOutcome({ closedBy: 'alpha', closedWithoutApproval: true }), 'closed-unapproved');
   assert.equal(resolveCloseOutcome({ closedBy: 'ops@example.com', closedWithoutApproval: true }), 'closed-unapproved');
-  assert.equal(resolveCloseOutcome({ closedBy: 'clawdius', closedWithoutApproval: false }), 'closed-by-participant');
+  assert.equal(resolveCloseOutcome({ closedBy: 'alpha', closedWithoutApproval: false }), 'closed-by-participant');
   assert.equal(outcomeIsSuccess('closed-unapproved'), false);
 });
 
@@ -172,7 +172,7 @@ test('the migration records unapproved closes and unlinked reasons additively', 
 
 test('manual closure preserves recorded acceptance without requiring a successor', () => {
   const outcome = resolveCloseOutcome({
-    closedBy: 'clawdius', completionApprovedAt: '2026-09-28T18:47:35.968Z',
+    closedBy: 'alpha', completionApprovedAt: '2026-09-28T18:47:35.968Z',
   });
   assert.equal(outcome, 'completed-approved');
   assert.equal(outcomeIsSuccess(outcome), true);
@@ -181,6 +181,6 @@ test('manual closure preserves recorded acceptance without requiring a successor
 
 test('explicit refusal and expiry retain their meaning even with an approval timestamp', () => {
   const completionApprovedAt = '2026-09-28T18:47:35.968Z';
-  assert.equal(resolveCloseOutcome({closedBy: 'clawdius', completionApprovedAt, closedWithoutApproval: true}), 'closed-unapproved');
+  assert.equal(resolveCloseOutcome({closedBy: 'alpha', completionApprovedAt, closedWithoutApproval: true}), 'closed-unapproved');
   assert.equal(resolveCloseOutcome({closedBy: 'system:expiry', completionApprovedAt}), 'expired');
 });

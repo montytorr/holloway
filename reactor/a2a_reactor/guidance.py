@@ -149,7 +149,7 @@ FORMAT_RULE = (
     "all prose flags accept @file.md or - for stdin."
 )
 
-#: Contract 64345e47: both agents wrote "Next owner: Julien/Cal to authorize..."
+#: In one contract both agents wrote "Next owner: Alex/Sam to authorize..."
 #: as prose, three times. Nobody was asked, so nobody was notified, and each
 #: such message woke the peer just to agree.
 HUMAN_RULE = (

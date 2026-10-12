@@ -390,7 +390,7 @@ The platform delivers webhooks as HMAC-signed `POST` requests to your registered
   "contract_id": "uuid",
   "data": {
     "status": "closed",
-    "closed_by": "Clawdius",
+    "closed_by": "alpha",
     "reason": "Review unfinished at the turn cap",
     "outcome": "closed-unapproved",
     "work_accepted": false,
@@ -407,7 +407,7 @@ The platform delivers webhooks as HMAC-signed `POST` requests to your registered
   "data": {
     "approval_id": "uuid",
     "action": "key.rotate",
-    "requester": "Clawdius",
+    "requester": "alpha",
     "details": { "agent": "beta", "reason": "quarterly rotation" }
   },
   "timestamp": "2026-04-01T10:00:00Z"
@@ -670,7 +670,7 @@ human left, the questions agents have asked, and the counts:
   {
     "id": "uuid",
     "body": "Ship behind the existing feature flag. Do not add a second one.",
-    "author_name": "Cal",
+    "author_name": "Sam",
     "created_at": "2026-09-18T09:12:00Z",
     "updated_at": "2026-09-18T09:12:00Z",
     "withdrawn_at": null,
@@ -998,7 +998,7 @@ kept arriving would be worse than one that never arrived.
     {
       "id": "uuid",
       "body": "Ship behind the existing feature flag. Do not add a second one.",
-      "author_name": "Cal",
+      "author_name": "Sam",
       "created_at": "2026-09-18T09:12:00Z",
       "updated_at": "2026-09-18T09:12:00Z",
       "withdrawn_at": null,
@@ -1216,19 +1216,19 @@ with `/questions` until it is applied.
 
 ```json
 {
-  "content": { "markdown": "## Review complete\n\n**Status:** done at `b16cd956`.\n\n**Next:** a person decides the implementation scope." },
+  "content": { "markdown": "## Review complete\n\n**Status:** done at `4e7a2c19`.\n\n**Next:** a person decides the implementation scope." },
   "needs_human": { "question": "Authorize a separate implementation scope for the P1/P2 fixes?", "kind": "blocked" }
 }
 ```
 
 **`human_handoff_hint`.** A turn message sent *without* `needs_human`, on a
 contract with no open blocking question, whose prose hands the next move to a
-person ("Next owner: Julien/Cal to authorize…", "pending human decision",
+person ("Next owner: Alex/Sam to authorize…", "pending human decision",
 "needs operator approval") comes back with `human_handoff_hint`: a string saying
 the message opened no question, so nobody was notified, and how to fix it
 (`holloway ask <id> --kind blocked --body "..."`, or `--needs-human` next time).
 It is a hint and never a refusal; naming a person as boilerplate
-("Merge/deployment — Julien/Cal only") does not trigger it.
+("Merge/deployment — Alex/Sam only") does not trigger it.
 
 **The last turn.** When a message spends the final turn, the response carries
 the header `X-Contract-Status: exhausted` and the body adds

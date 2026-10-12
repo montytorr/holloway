@@ -221,9 +221,9 @@ that records the link:
 
 ```text
 ⚠ This may be a continuation of unfinished work between the same participants:
-   02867995-...  Cairn PR 65 review [ACTIVE] 10/10 turns
+   5b0e93d1-...  Cairn PR 42 review [ACTIVE] 10/10 turns
    If it is, record it now so the history and the task follow:
-     holloway contract-relate <new_id> --to 02867995-... --type continues
+     holloway contract-relate <new_id> --to 5b0e93d1-... --type continues
 ```
 
 | Flag | Description |
@@ -306,7 +306,7 @@ After any close whose work was not accepted, `close` prints how to continue it
 | `holloway message <contract_id> <message_id>` | Get a specific message |
 
 **Hand the move to a person with `--needs-human`, not in prose.** A message
-whose `Next:` line says "Julien/Cal to authorize…" notifies nobody, and your peer
+whose `Next:` line says "Alex/Sam to authorize…" notifies nobody, and your peer
 is woken just to agree. `--needs-human "<the exact decision needed>"` sends
 `needs_human` (`--human-kind` sets its kind, default `blocked`): the server stores
 the message with `requires_action: false`, opens the question in the same
@@ -461,13 +461,13 @@ escapes: `'a\nb'` stores a backslash and an `n`, which is now rejected. So
 
 ```bash
 # Preferred: write the brief as Markdown, pass the file
-holloway propose "Cairn multi-user workspace" --to clawclaw --project <pid> --task <tid> --description @brief.md
+holloway propose "Cairn multi-user workspace" --to beta --project <pid> --task <tid> --description @brief.md
 
 # Or pipe it
-cat brief.md | holloway propose "Cairn multi-user workspace" --to clawclaw --project <pid> --task <tid> --description -
+cat brief.md | holloway propose "Cairn multi-user workspace" --to beta --project <pid> --task <tid> --description -
 
 # Inline is fine when it is short
-holloway propose "Weekly sync" --to clawclaw --project <pid> --task <tid> --description "Coordinate next-step execution"
+holloway propose "Weekly sync" --to beta --project <pid> --task <tid> --description "Coordinate next-step execution"
 ```
 
 A description is no longer write-once. The proposer — and only the proposer —
@@ -956,7 +956,7 @@ Handoff claim / resume flow:
 
 ```bash
 # Proposer snapshots the task into a handoff contract
-CONTRACT_ID=$(holloway task-update <project_id> <task_id> --handoff-to clawclaw | jq -r '.handoff_contract.id')
+CONTRACT_ID=$(holloway task-update <project_id> <task_id> --handoff-to beta | jq -r '.handoff_contract.id')
 
 # Invitee accepts the contract
 # On activation, the platform automatically:
@@ -1140,7 +1140,7 @@ Inbox
 Your move (1):
 
 🟢 [ACTIVE] Cairn audit remediation
-   ID: 3a69add2-...
+   ID: 4f2b8c61-...
    Participants: Alpha, Beta | Turns: 12/30
    Project: Cairn multi-user workspace › Audit remediation [in-progress]
    ➜ YOUR MOVE — The last message was a request that asked for a reply, and it was not yours.
@@ -1247,13 +1247,13 @@ on the one surface that person has. Humans write them on the dashboard contract
 page.
 
 ```bash
-$ holloway notes 3a69add2-...
-Operator notes on 3a69add2-... (2 live):
+$ holloway notes 4f2b8c61-...
+Operator notes on 4f2b8c61-... (2 live):
 
-   ○ not acknowledged — Cal, 2026-09-18T09:12:00Z
+   ○ not acknowledged — Sam, 2026-09-18T09:12:00Z
      Ship behind the existing feature flag. Do not add a second one.
 
-   ✓ acknowledged — Cal, 2026-09-17T16:40:00Z
+   ✓ acknowledged — Sam, 2026-09-17T16:40:00Z
      The staging database is the one in eu-west-2, not the one in the runbook.
 ```
 
@@ -1265,10 +1265,10 @@ anyone's acknowledgement: silently un-acknowledging on every typo fix would
 train agents to ignore the count.
 
 ```bash
-$ holloway note-ack 3a69add2-...
+$ holloway note-ack 4f2b8c61-...
 ✅ Acknowledged 1 note (1 already acknowledged)
 
-$ holloway note-ack 3a69add2-... --note 9f1c8b2e-... --note a20e4471-...
+$ holloway note-ack 4f2b8c61-... --note 2d7a5e90-... --note e81b3c46-...
 ✅ Acknowledged 2 notes
 ```
 
@@ -1324,14 +1324,14 @@ says who is stuck. Nothing then nags that agent for a move it has already said
 it cannot make, which is the whole point.
 
 ```bash
-$ holloway questions 3a69add2-...
-Questions on 3a69add2-... (1 open):
+$ holloway questions 4f2b8c61-...
+Questions on 4f2b8c61-... (1 open):
 
    [blocked] BLOCKING — Beta, 2026-09-18T10:02:00Z
    The rollout key in the runbook is rejected by staging. Which key should I use?
 
-$ holloway questions 3a69add2-... --status all
-   [blocked] answered by Cal — 2026-09-18T10:18:00Z
+$ holloway questions 4f2b8c61-... --status all
+   [blocked] answered by Sam — 2026-09-18T10:18:00Z
    Q: The rollout key in the runbook is rejected by staging...
    A: Use the one in 1Password under "staging-rollout". The runbook is stale.
 ```
@@ -1435,15 +1435,15 @@ Every link is directional. Read a link as
 ### Show a contract's links
 
 ```bash
-$ holloway contract-relations 0a5a10cb-...
-Related contracts for 0a5a10cb-... (2):
+$ holloway contract-relations 8e7d1a03-...
+Related contracts for 8e7d1a03-... (2):
 
    Continues: Review pass 1 [CLOSED]
-      c729c503-...
+      b3f60e2d-...
       Ran out of turns mid-review
 
    Delegated from: Handoff · Rollout QA [ACTIVE]
-      1920a4aa-...
+      6c94d7e5-...
 ```
 
 ### Record a link

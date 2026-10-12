@@ -260,11 +260,11 @@ class WorkerGuidanceTest(unittest.TestCase):
 
     def test_an_unrelated_continuation_asks_for_the_relation(self):
         text = worker_guidance(self.invitation(likely_predecessors=[
-            {"id": "c-old", "title": "Cairn PR 65", "status": "active", "current_turns": 10, "max_turns": 10}]))
+            {"id": "c-old", "title": "Cairn PR 42", "status": "active", "current_turns": 10, "max_turns": 10}]))
         self.assertIn("holloway contract-relate c-new --to c-old --type continues", text)
         related = worker_guidance(self.invitation(
             likely_predecessors=[{"id": "c-old"}],
-            related_contracts=[{"id": "c-old", "title": "Cairn PR 65", "link_type": "continues"}]))
+            related_contracts=[{"id": "c-old", "title": "Cairn PR 42", "link_type": "continues"}]))
         self.assertNotIn("contract-relate", related)
 
     def test_the_platform_next_action_is_quoted(self):

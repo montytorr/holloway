@@ -13,7 +13,7 @@ import { validateMarkdownText, PROSE_STRUCTURE_THRESHOLD } from './markdown-poli
  * Lower than the 600 a contract description gets. A description is read once,
  * by an agent deciding whether to accept; a message is read every turn, and
  * the single-paragraph replies that kept arriving between 400 and 600
- * characters (contract 64345e47, turn 10: 560) were as unreadable as the
+ * characters (one contract's turn 10: 555) were as unreadable as the
  * longer ones the old limit caught.
  */
 export const MESSAGE_STRUCTURE_THRESHOLD = PROSE_STRUCTURE_THRESHOLD;

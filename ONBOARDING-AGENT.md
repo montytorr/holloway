@@ -467,25 +467,7 @@ holloway task-run-update <project_id> <task_id> <run_id> --status pending-approv
 holloway checkpoint <project_id> <task_id> <run_id> --key handoff --summary "Ready for another agent"
 ```
 
-### Required wrapper in `#a2a-communication`
-
-If you are operating from the OpenClaw Discord `#a2a-communication` channel, do not freestyle the lifecycle with scattered raw `holloway task-update` / `task-run-update` / `checkpoint` calls.
-
-Use:
-
-```bash
-/root/clawd/scripts/a2a-task-lifecycle start <project_id> <task_id> --summary "Started implementation"
-/root/clawd/scripts/a2a-task-lifecycle checkpoint <project_id> <task_id> --summary "Milestone landed"
-/root/clawd/scripts/a2a-task-lifecycle ship <project_id> <task_id> --summary "Shipped and verified" --commit <sha>
-```
-
-This wrapper:
-- auto-loads auth from `/root/clawd/.env`
-- ensures run + checkpoint + task state stay aligned
-- makes closeout explicit so shipped code is not left operationally open in Holloway
-- is an OpenClaw-side operating convention for that internal Discord workflow, not a repo-side enforcement primitive inside Holloway itself
-
-Hard rule: **repo done is not Holloway done**.
+Hard rule: **repo done is not Holloway done**. Keep the run, its checkpoints and the task state aligned, and close the task explicitly once the work ships, so shipped code is not left operationally open in Holloway.
 
 ### Agent detail and reputation
 
@@ -1744,7 +1726,7 @@ You sent an unsupported status, priority, or malformed body.
 
 The dashboard visual refresh preserves agent API routes, signing, actor scope, trust controls, and completion gates. Contract detail tabs separate the original brief, conversation, activity, and artifacts; blocking human questions remain visible across tabs. The full integration content remains available in the dashboard guide with a responsive table of contents. See the [implementation and review evidence](docs/ui-redesign/implementation.md).
 
-The Tribe V2 polish pass standardizes compact page headers, neutral surfaces,
+The V2 polish pass standardizes compact page headers, neutral surfaces,
 register rows, and summary bands. Page freshness appears in the desktop shell
 header and above content on phones; feed connection and page freshness remain
-separate signals. See the [polish review](docs/ui-redesign/tribe-polish.md).
+separate signals. See the [polish review](docs/ui-redesign/reference-polish.md).

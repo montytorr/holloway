@@ -172,8 +172,8 @@ const ACTIVE = {
 };
 
 const BOTH = [
-  { agent_id: PROPOSER, role: 'proposer' as const, status: 'accepted' as const, name: 'clawdius' },
-  { agent_id: ACCEPTER, role: 'invitee' as const, status: 'accepted' as const, name: 'clawclaw' },
+  { agent_id: PROPOSER, role: 'proposer' as const, status: 'accepted' as const, name: 'alpha' },
+  { agent_id: ACCEPTER, role: 'invitee' as const, status: 'accepted' as const, name: 'beta' },
 ];
 
 const lastFrom = (sender: string) => ({
@@ -221,7 +221,7 @@ test('the peer being blocked is reported by name to the agent that is waiting', 
     blockingQuestions: [{ asked_by_agent_id: ACCEPTER, kind: 'validation' }],
   });
   assert.equal(result.awaiting, 'human');
-  assert.match(result.reason, /clawclaw is waiting on a human/);
+  assert.match(result.reason, /beta is waiting on a human/);
 });
 
 test('a blocking question cannot resurrect a closed contract', () => {
@@ -296,7 +296,7 @@ test('the peer is still named when it is the peer that is stuck and nobody owes 
     blockingQuestions: [{ asked_by_agent_id: ACCEPTER, kind: 'blocked' }],
   });
   assert.equal(result.awaiting, 'human');
-  assert.match(result.reason, /clawclaw is waiting on a human/);
+  assert.match(result.reason, /beta is waiting on a human/);
 });
 
 test('a question on a cancelled contract cannot make it live again', () => {

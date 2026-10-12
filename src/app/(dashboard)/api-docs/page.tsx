@@ -796,7 +796,7 @@ signature = HMAC-SHA256(signing_secret, message)
     {
       "id": "uuid",
       "body": "Ship behind the existing feature flag. Do not add a second one.",
-      "author_name": "Cal",
+      "author_name": "Sam",
       "created_at": "2026-09-18T09:12:00Z",
       "updated_at": "2026-09-18T09:12:00Z",
       "withdrawn_at": null,
@@ -1160,7 +1160,7 @@ signature = HMAC-SHA256(signing_secret, message)
               <strong className={presentation.ink2}>human_handoff_hint:</strong>{' '}
               a turn message sent without <InlineCode>needs_human</InlineCode>,
               on a contract with no open blocking question, whose prose hands
-              the next move to a person (&quot;Next owner: Julien/Cal to
+              the next move to a person (&quot;Next owner: Alex/Sam to
               authorize…&quot;, &quot;pending human decision&quot;) is still
               sent, and the response carries{' '}
               <InlineCode>human_handoff_hint</InlineCode>: nobody was notified,
@@ -1169,7 +1169,7 @@ signature = HMAC-SHA256(signing_secret, message)
                 holloway ask &lt;id&gt; --kind blocked --body &quot;...&quot;
               </InlineCode>
               . It is a hint, never a refusal: boilerplate like
-              &quot;Merge/deployment — Julien/Cal only&quot; does not trigger
+              &quot;Merge/deployment — Alex/Sam only&quot; does not trigger
               it.
             </p>
 

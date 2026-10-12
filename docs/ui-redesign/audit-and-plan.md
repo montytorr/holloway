@@ -4,7 +4,7 @@
 
 ## Recommendation
 
-Redesign Holloway as a precise, calm agent workspace. Keep its moss identity and the operational depth; adopt Marvin V2’s discipline in composition, surface hierarchy, controls, and context-preserving inspection.
+Redesign Holloway as a precise, calm agent workspace. Keep its moss identity and the operational depth; adopt the reference dashboard’s (V2) discipline in composition, surface hierarchy, controls, and context-preserving inspection.
 
 The central change is **what gets the space and emphasis**. A scope brief needs room to read. A blocking question needs an obvious answer action. A long contract thread needs a comfortable text measure. Metadata needs a compact inspector. Empty content needs a small, explanatory treatment. Each state deserves a deliberate composition.
 
@@ -13,8 +13,7 @@ Start with the shell and contract detail, then migrate the rest of the product t
 ## Review artifacts
 
 - [Interactive concept](concept.html): overview, contract register, and contract detail. Default detail matches the situation in the supplied screenshot.
-- [Contract preview](contract-waiting.png), [overview preview](overview-dark-1280.png), [register preview](contracts-dark-1280.png).
-- [Light preview](contract-light-1280.png) and [phone preview](contract-dark-390.png).
+- Static renders of the concept were retired; open the concept itself to see it.
 - [Source inventory](source-inventory.json): reproducible scope, source commit, metrics, and the 30 dashboard page templates.
 - [Preview verification](preview-verification.json): browser checks of the standalone concept.
 
@@ -22,7 +21,7 @@ Open the HTML directly in a browser. Switch pages with the sidebar or the comman
 
 ## Evidence and limits
 
-The audit covers the user-supplied Holloway screenshot; Holloway core `c42ba7e361fdc41ff3f89c5fbdee642b6727d88d`, version `1.0.377`; prior UI work HOL-121 and HOL-123; an inventory of all 30 dashboard `page.tsx` templates; deeper review of the shared shell, theme layer, dashboard, contracts, tasks, projects, agents, notifications, and representative operations/documentation components; and Marvin’s `frontendV2` design primitives introduced in `6bb93d8e`.
+The audit covers the user-supplied Holloway screenshot; Holloway core `c42ba7e361fdc41ff3f89c5fbdee642b6727d88d`, version `1.0.377`; prior UI work HOL-121 and HOL-123; an inventory of all 30 dashboard `page.tsx` templates; deeper review of the shared shell, theme layer, dashboard, contracts, tasks, projects, agents, notifications, and representative operations/documentation components; and the design primitives of a private reference dashboard (V2).
 
 **This is a screenshot and source audit, not an authenticated live-browser audit of either deployed product.** Some screenshot details differ from the current source, so findings below distinguish visible composition from implementation evidence. All browser checks in this report apply to the new standalone concept. Performance, live-data geometry, accessibility, and role behavior of the production application need baseline measurements before migration.
 
@@ -55,20 +54,20 @@ The design needs shared **page patterns and state patterns**, in addition to sha
 
 The metrics measure literal declaration variation with the same matcher used by the geometry ratchet. They include non-dashboard source and tests and are not counts of individual UI defects. Roughly 41% of the inline style objects sit in four documentation/guide pages; this is a concentrated migration opportunity, not a reason to rewrite every file at once. CSS-module values are outside the TSX ratchet’s scope; for example, several modules still use 550/650 font weights.
 
-## What to carry over from Marvin V2
+## What to carry over from the reference dashboard
 
-Marvin’s appeal is an authored system that holds up across lists, summaries, and detail panels. Its implementation provides concrete patterns worth adapting:
+The reference dashboard’s appeal is an authored system that holds up across lists, summaries, and detail panels. Its implementation provides concrete patterns worth adapting:
 
-| Marvin pattern | Source | Holloway adaptation |
+| Reference pattern | Source | Holloway adaptation |
 |---|---|---|
-| Restrained surface hierarchy | Theme (`Marvin: frontendV2/app/globals.css`), insight primitives (`Marvin: frontendV2/components/ui/insight.jsx`) | Page canvas → section surface → recessed data well, with a subtle moss summary surface where useful. |
-| Predictable title/actions layout and sticky-header measurements | PageHeader (`Marvin: frontendV2/components/shell/PageHeader.jsx`) | One page title/action pattern; sticky toolbars and table headers coordinated with the actual header height. |
-| Compact, aligned register controls | DataTable (`Marvin: frontendV2/components/data-table/DataTable.jsx`) | Shared row states, sort affordances, column alignment, loading/error behavior, and explicit mobile layouts. |
-| Record inspection without losing the list | Panel (`Marvin: frontendV2/components/ui/panel.jsx`) | Optional quick inspection for lists; full routes remain for deep contract/task work and sharing links. |
-| Useful numbers embedded in a clear hierarchy | HeroBand / SectionCard / Well (`Marvin: frontendV2/components/ui/insight.jsx`) | Small number of meaningful summary measures, then relevant work; no invented trends or decorative charts. |
-| Detail language consistent with page language | Panel insight system (`Marvin: frontendV2/components/panels/insight-panel.jsx`) | The same typography, section headers, and data-well treatment in full details and previews. |
+| Restrained surface hierarchy | Theme (`reference: app/globals.css`), insight primitives (`reference: components/ui/insight.jsx`) | Page canvas → section surface → recessed data well, with a subtle moss summary surface where useful. |
+| Predictable title/actions layout and sticky-header measurements | PageHeader (`reference: components/shell/PageHeader.jsx`) | One page title/action pattern; sticky toolbars and table headers coordinated with the actual header height. |
+| Compact, aligned register controls | DataTable (`reference: components/data-table/DataTable.jsx`) | Shared row states, sort affordances, column alignment, loading/error behavior, and explicit mobile layouts. |
+| Record inspection without losing the list | Panel (`reference: components/ui/panel.jsx`) | Optional quick inspection for lists; full routes remain for deep contract/task work and sharing links. |
+| Useful numbers embedded in a clear hierarchy | HeroBand / SectionCard / Well (`reference: components/ui/insight.jsx`) | Small number of meaningful summary measures, then relevant work; no invented trends or decorative charts. |
+| Detail language consistent with page language | Panel insight system (`reference: components/panels/insight-panel.jsx`) | The same typography, section headers, and data-well treatment in full details and previews. |
 
-Adapt the principles; keep Holloway’s identity and domain model. Marvin’s purple accent, trading categories, dependency stack, and 11px labels are not requirements for Holloway. Its panel is useful as an interaction reference; audit focus, Escape handling, and layer stacking rather than copying its implementation unexamined.
+Adapt the principles; keep Holloway’s identity and domain model. Its purple accent, domain categories, dependency stack, and 11px labels are not requirements for Holloway. Its panel is useful as an interaction reference; audit focus, Escape handling, and layer stacking rather than copying its implementation unexamined.
 
 ## Design specification
 
@@ -200,7 +199,7 @@ Theme tokens + status semantics
        └─ DocumentPage
 ```
 
-Build components from proven repeated uses, not a speculative component library. A generic table dependency is optional and should be justified by sorting/selection/virtualization needs. An accessible dialog/popover library may help reduce interaction risk; evaluate it for the layers actually required. Do not adopt Marvin’s entire dependency set.
+Build components from proven repeated uses, not a speculative component library. A generic table dependency is optional and should be justified by sorting/selection/virtualization needs. An accessible dialog/popover library may help reduce interaction risk; evaluate it for the layers actually required. Do not adopt the reference dashboard’s entire dependency set.
 
 Move reusable geometry from inline styles into component CSS modules or existing utilities as pages migrate. Keep colors through tokens and status mapping; keep chart positions, progress values, and truly dynamic dimensions inline where appropriate. Lower geometry ratchet ceilings when real counts drop. Extend geometry governance to CSS modules only with checks that measure meaningful policy; do not write tests that merely enforce an arbitrary aesthetic.
 

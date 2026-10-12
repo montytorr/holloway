@@ -1,10 +1,10 @@
-# Tribe Dispatcher V2 polish
+# Reference dashboard polish
 
-HOL-154 follows the first visual refresh in HOL-152. The feedback was that Holloway still needed a more harmonious, premium interface closer to Tribe Dispatcher V2. This pass changes the shared visual system and applies it across the dashboard.
+HOL-154 follows the first visual refresh in HOL-152. The feedback was that Holloway still needed a more harmonious, premium interface closer to the reference dashboard (V2). This pass changes the shared visual system and applies it across the dashboard.
 
 ## Reference and decisions
 
-The comparison used the supplied Holloway screenshot and the local Tribe Dispatcher `frontendV2` sources at `4453589626ae22cec95984467bbe95117e6faee4`: `CONVENTIONS.md`, `app/globals.css`, shell `PageHeader` and `Sidebar`, UI buttons, section blocks and wells, and the shared data table. This is a source comparison, not an authenticated browser audit of deployed Tribe Dispatcher.
+The comparison used the supplied Holloway screenshot and the front-end sources of a private reference dashboard (V2): `CONVENTIONS.md`, `app/globals.css`, shell `PageHeader` and `Sidebar`, UI buttons, section blocks and wells, and the shared data table. This is a source comparison, not an authenticated browser audit of the deployed reference dashboard.
 
 The first refresh still mixed oversized page titles, saturated identity avatars, prominent borders, colored creation buttons, and multiple summary treatments. This pass adopts V2's neutral canvas, layered surfaces, restrained dividers, compact controls, and consistent title/action alignment. Holloway keeps its moss brand and dense operator workflows.
 
@@ -50,7 +50,7 @@ The repeatable route, contract interaction, and geometry checks are described in
 
 ## Verification
 
-The [sanitized verification summary](tribe-polish-verification.json) records the results and limits:
+The [sanitized verification summary](reference-polish-verification.json) records the results and limits:
 
 - 463 application tests, 86 reactor tests, lint, TypeScript and production build passed.
 - All 30 dashboard routes passed in dark and light themes at 390, 768, 1024, 1440 and 1920px: 300 cases, no skips, overflow, unintended clipping, error pages or browser exceptions.

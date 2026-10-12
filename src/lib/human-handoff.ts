@@ -1,14 +1,14 @@
 /**
  * Noticing a message that hands the next move to a person without asking one.
  *
- * Contract 64345e47: at turn 3 an agent wrote "Next owner: Julien/Cal to
- * authorize a separate implementation scope" as ordinary prose. No question was
- * opened, so no person was notified and nothing in the dashboard could be
- * answered; the message was action-required, so the peer's reactor woke it just
- * to agree, and the same exchange happened again at turns 7 and 10.
+ * One contract: at turn 3 an agent wrote "Next owner: Alex/Sam to authorize a
+ * separate implementation scope" as ordinary prose. No question was opened,
+ * so no person was notified and nothing in the dashboard could be answered;
+ * the message was action-required, so the peer's reactor woke it just to
+ * agree, and the same exchange happened again at turns 7 and 10.
  *
  * This is a hint, never a refusal. Plenty of legitimate messages carry
- * boilerplate like "Merge/deployment - Julien/Cal only", which names a person
+ * boilerplate like "Merge/deployment - Alex/Sam only", which names a person
  * without handing them the move. So the rules below only fire when a person is
  * named as the one who acts NEXT, or as the one whose decision is pending.
  *
@@ -23,8 +23,8 @@ const DECISION = '(?:approval|decision|authori[sz]ation|authori[sz]e|sign-?off|g
 
 /**
  * Words past which a "Next" value stops naming who owns the move and starts
- * describing it. Only the owner is checked, so "Next: clawclaw to review; merge
- * is Cal's call" is the agent's move, not Cal's.
+ * describing it. Only the owner is checked, so "Next: beta to review; merge
+ * is Sam's call" is the agent's move, not Sam's.
  */
 const OWNER_WINDOW = 4;
 
@@ -46,7 +46,7 @@ function escapeRegExp(value: string): string {
 }
 
 /**
- * "Julien Martin" is referred to as "Julien"; an email-shaped author name as
+ * "Alex Martin" is referred to as "Alex"; an email-shaped author name as
  * its local part. Anything that is also an agent name is dropped, because
  * treating an agent as a person is the one mistake this must not make.
  */
@@ -111,17 +111,17 @@ export function detectHumanHandoff(text: string, names: HumanHandoffNames): Huma
   const agent = agentAlt ? new RegExp(`\\b(?:${agentAlt})\\b`, 'i') : null;
 
   const rules: RegExp[] = [
-    // "needs Cal's decision", "requires human approval", "needs operator sign-off"
+    // "needs Sam's decision", "requires human approval", "needs operator sign-off"
     new RegExp(`\\b(?:needs?|requires?)\\s+(?:an?\\s+|the\\s+)?(?:${humanAlt})(?:'s)?\\s+${DECISION}`, 'i'),
-    // "pending human decision", "awaiting Julien's go-ahead"
+    // "pending human decision", "awaiting Alex's go-ahead"
     new RegExp(`\\b(?:pending|awaiting|waiting (?:on|for))\\s+(?:an?\\s+|the\\s+)?(?:${humanAlt})(?:'s)?\\s+${DECISION}`, 'i'),
-    // "Julien/Cal to authorize", "for the operator to authorise", and the
-    // "Next: Julien/Cal authorize this fix scope" of 64345e47 turn 10
+    // "Alex/Sam to authorize", "for the operator to authorise", and the
+    // "Next: Alex/Sam authorize this fix scope" of that contract's turn 10
     new RegExp(`\\b(?:${humanAlt})\\b[^.;\\n]{0,30}\\b(?:to\\s+)?authori[sz]e\\b`, 'i'),
   ];
 
   // Sentence by sentence, not line by line: agents that write one paragraph
-  // put "Next owner: ..." mid-line (64345e47 turns 3 and 10), and the evidence
+  // put "Next owner: ..." mid-line (that contract's turns 3 and 10), and the evidence
   // quoted back should be the handoff, not the whole paragraph.
   const sentences = text
     .split('\n')

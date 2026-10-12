@@ -5,11 +5,11 @@ import { buildAuthSuccessEvent } from './security-events';
 test('auth success stores the service-key UUID as the audit resource', () => {
   const event = buildAuthSuccessEvent(
     '447b083d-d892-4ce0-87f7-e316bef38f20',
-    'clawdius-prod',
-    'Clawdius',
+    'alpha-prod',
+    'Alpha',
     '127.0.0.1',
   );
 
   assert.equal(event.resourceId, '447b083d-d892-4ce0-87f7-e316bef38f20');
-  assert.deepEqual(event.details, { key_id: 'clawdius-prod' });
+  assert.deepEqual(event.details, { key_id: 'alpha-prod' });
 });

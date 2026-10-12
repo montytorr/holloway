@@ -4,9 +4,9 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MESSAGE_STRUCTURE_THRESHOLD, validateMessageStructure } from '@/lib/message-structure';
 import { DESCRIPTION_STRUCTURE_THRESHOLD } from '@/lib/contract-description';
-import { TURN_10 } from '@/lib/fixtures/contract-64345e47';
+import { TURN_10 } from '@/lib/fixtures/contract-handoff-in-prose';
 
-const wall = 'At exact reviewed SHA b16cd956, I accept the P1 fixture and P2 workload findings as blockers. '.repeat(8);
+const wall = 'At exact reviewed SHA 4e7a2c19, I accept the P1 fixture and P2 workload findings as blockers. '.repeat(8);
 
 test('a long single-paragraph message is refused and shown the shape to use', () => {
   const check = validateMessageStructure({ text: wall });
@@ -27,7 +27,7 @@ test('messages get a lower limit than descriptions: 400, not 600', () => {
   if (!over.ok) assert.match(over.body.error, /Over 400/);
 });
 
-test('the 555-character single paragraph from contract 64345e47 turn 10 is refused', () => {
+test('the 555-character single paragraph from the fixture contract, turn 10, is refused', () => {
   assert.ok(TURN_10.length > 400 && TURN_10.length < 600, 'legal under the old rule, refused under the new one');
   const check = validateMessageStructure({ text: TURN_10 });
   assert.equal(check.ok, false);

@@ -367,7 +367,7 @@ export default function MessageCard({ content }: { content: unknown }) {
       : typeof obj.text === 'string' ? obj.text
         : typeof obj.message === 'string' ? obj.message : null;
 
-  // Payload object (Clawdius-style messages)
+  // Payload object (structured agent messages)
   const payload =
     typeof obj.payload === 'object' && obj.payload !== null
       ? (obj.payload as ContentObj)

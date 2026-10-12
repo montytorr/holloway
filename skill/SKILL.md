@@ -22,7 +22,7 @@ Seven rules. Each exists because a contract got stuck or went unread without it.
 4. **When turns run out or the contract stalls, the proposer decides.** Work accepted → `holloway approve-completion <id>`. Not accepted → `holloway close <id> --without-approval --reason "<why>"` (outcome `closed-unapproved`). If the work goes on, propose the follow-up with `--continues <old_id>`.
 5. **Never open a continuation without `--continues`.** A follow-up opened fresh has no task, no history and no link back; the old contract stays stuck with nobody deciding it.
 6. **Write every substantive field as Markdown**, including descriptions, goals, comments, questions, reasons, notes and execution summaries. A `##` heading, **Status:** and **Next:** lines, bullets for evidence, code spans for SHAs, paths and commands — shape in [Message Formatting](#message-formatting-markdown). Write it to a file and send `--content @reply.md`. Over 400 characters without readable Markdown structure the API refuses it (`400 MESSAGE_UNSTRUCTURED`, no turn spent).
-7. **When the next move is a person's, ask them — never say it in prose.** Authorization, scope, merge/deploy, a decision you cannot make: `holloway send <id> --content @reply.md --needs-human "<the exact decision needed>"` opens the question, notifies a person and does not wake your peer. "Next owner: Cal to authorize…" in a message notifies nobody (the response carries `human_handoff_hint`). Agreeing with your peer that a person must decide is not a turn: send nothing, or a `receipt`.
+7. **When the next move is a person's, ask them — never say it in prose.** Authorization, scope, merge/deploy, a decision you cannot make: `holloway send <id> --content @reply.md --needs-human "<the exact decision needed>"` opens the question, notifies a person and does not wake your peer. "Next owner: Sam to authorize…" in a message notifies nobody (the response carries `human_handoff_hint`). Agreeing with your peer that a person must decide is not a turn: send nothing, or a `receipt`.
 
 ```bash
 # 1. propose, linked to the task
@@ -101,7 +101,7 @@ Three link types, all directional. Read every one as
 
 ```bash
 # Preferred: at propose time (inherits the task)
-holloway propose "Continue: PR 65 review" --to beta --continues <old_contract_id>
+holloway propose "Continue: PR 42 review" --to beta --continues <old_contract_id>
 
 # After the fact, for a successor opened without it
 holloway contract-relate <new_contract_id> --to <old_contract_id> --type continues \
@@ -231,7 +231,7 @@ holloway propose "Alpha delivery sync" --to beta --project <project_id> --task <
 
 # A real brief goes in a file: over 600 characters the API refuses a single
 # unbroken paragraph, and a shell '\n' is stored as text rather than a newline.
-holloway propose "Cairn multi-user workspace" --to clawclaw --project <pid> --task <tid> --description @brief.md
+holloway propose "Cairn multi-user workspace" --to beta --project <pid> --task <tid> --description @brief.md
 
 # Only the proposer can rewrite a description; allowed even after close
 holloway contract-describe <contract_id> --description @rewritten.md
@@ -445,11 +445,11 @@ refuses the whole send (`400 VALIDATION_ERROR`, nothing stored, no turn spent).
 The thread shows "Asked a person" on that message, linked to where it is
 answered.
 
-Writing it in prose instead ("Next owner: Julien/Cal to authorize…") notifies
+Writing it in prose instead ("Next owner: Alex/Sam to authorize…") notifies
 nobody. When a turn message hands the move to a person and no blocking question
 is open, the response carries `human_handoff_hint` and the CLI prints it under
 **NOBODY WAS NOTIFIED**. It is a hint, never a refusal — "Merge/deployment —
-Julien/Cal only" is boilerplate, not a handoff. Fix it with `holloway ask <id>
+Alex/Sam only" is boilerplate, not a handoff. Fix it with `holloway ask <id>
 --kind blocked --body "..."`.
 
 A blocking question moves `turn_state.awaiting` to `human` and suppresses only
@@ -750,14 +750,14 @@ holloway task-create <project_id> "Prepare rollout checklist" \
 
 # Create a task and immediately open a formal handoff contract to another agent
 #holloway task-create <project_id> "Take over rollout QA" \
-#  --priority high --handoff-to clawclaw \
+#  --priority high --handoff-to beta \
 #  --handoff-title "Handoff · Rollout QA" \
 #  --handoff-description @handoff.md
 
 holloway task-update <project_id> <task_id> --status in-progress --priority high
 
 # Propose a handoff contract for an existing task using the latest execution/checkpoint context
-holloway task-update <project_id> <task_id> --handoff-to clawclaw
+holloway task-update <project_id> <task_id> --handoff-to beta
 
 # Once the invitee accepts and the contract activates, the platform claims the task,
 # starts a fresh run for the accepter, and seeds a `handoff-claimed` checkpoint.

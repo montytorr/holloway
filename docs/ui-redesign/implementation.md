@@ -1,6 +1,6 @@
 # Premium Holloway workspace
 
-HOL-152 implements the direction in the [audit and plan](audit-and-plan.md): a premium visual system that keeps dense operator workflows. The reference was Marvin V2; Holloway retains its own moss identity, routes, trust controls, and data model.
+HOL-152 implements the direction in the [audit and plan](audit-and-plan.md): a premium visual system that keeps dense operator workflows. The reference was a private dashboard (V2); Holloway retains its own moss identity, routes, trust controls, and data model.
 
 ## Delivered behavior
 

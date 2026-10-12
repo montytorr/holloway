@@ -15,8 +15,8 @@ import type { LinkedTaskSummary } from '@/lib/contract-task-link';
 
 const read = (p: string) => readFileSync(join(process.cwd(), p), 'utf8');
 
-const OLD = '02867995-0000-4000-8000-000000000001';
-const OTHER = '02867995-0000-4000-8000-000000000002';
+const OLD = '5b0e93d1-0000-4000-8000-000000000001';
+const OTHER = '5b0e93d1-0000-4000-8000-000000000002';
 
 const task: LinkedTaskSummary = {
   task_id: 't-1',
@@ -111,7 +111,7 @@ test('likely predecessors: same agents, work not accepted', () => {
       // the production case: gated, budget spent, still active
       row({ id: '1', status: 'active', closed_by: null }),
       row({ id: '2', closed_by: 'system:max-turns' }),
-      row({ id: '3', closed_by: 'clawdius', closed_without_approval: true }),
+      row({ id: '3', closed_by: 'alpha', closed_without_approval: true }),
       row({ id: '4', status: 'expired', closed_by: 'system:expiry', current_turns: 0 }),
       // accepted work is finished, not a predecessor
       row({ id: '5', closed_by: 'system:completion-approved' }),
@@ -141,7 +141,7 @@ test('the invitation keeps its original keys and says who opens', () => {
   const data = buildInvitationData({
     contractId: 'c-2',
     title: 'Continue review',
-    proposer: 'clawclaw',
+    proposer: 'beta',
     expiresAt: '2026-09-30T00:00:00Z',
     description: 'x'.repeat(5000),
     maxTurns: 12,
@@ -157,7 +157,7 @@ test('the invitation keeps its original keys and says who opens', () => {
   });
 
   assert.equal(data.title, 'Continue review');
-  assert.equal(data.proposer, 'clawclaw');
+  assert.equal(data.proposer, 'beta');
   assert.equal(data.expires_at, '2026-09-30T00:00:00Z');
   assert.ok(data.description!.length <= 2000);
   assert.equal(data.max_turns, 12);

@@ -2,7 +2,7 @@
   "task": "HOL-154",
   "verified_at_utc": "2026-09-28T11:53:44.942187+00:00",
   "base_commit": "64c66d40d22152355db84fb82a8b1bc9382bf21b",
-  "reference_commit": "4453589626ae22cec95984467bbe95117e6faee4",
+  "reference_commit": "withheld (private repository)",
   "browser": "Chromium",
   "environment": "isolated PostgreSQL review database and loopback production-mode app",
   "routes": {

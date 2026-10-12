@@ -303,7 +303,7 @@ test('task request types accept handoff contract payloads', () => {
   const createPayload: CreateTaskRequest = {
     title: 'Take over rollout QA',
     handoff_contract: {
-      invitees: ['clawclaw'],
+      invitees: ['beta'],
       max_turns: 20,
       expires_in_hours: 72,
       title: 'Handoff · Rollout QA',
@@ -312,7 +312,7 @@ test('task request types accept handoff contract payloads', () => {
 
   const updatePayload: UpdateTaskRequest = {
     handoff_contract: {
-      invitees: ['clawclaw'],
+      invitees: ['beta'],
       description: 'Use the latest checkpoint and continue from there.',
     },
     escalation_contract: {
@@ -322,7 +322,7 @@ test('task request types accept handoff contract payloads', () => {
     },
   };
 
-  assert.deepEqual(createPayload.handoff_contract?.invitees, ['clawclaw']);
+  assert.deepEqual(createPayload.handoff_contract?.invitees, ['beta']);
   assert.equal(updatePayload.handoff_contract?.description, 'Use the latest checkpoint and continue from there.');
   assert.deepEqual(updatePayload.escalation_contract?.brokers, ['brokerbot']);
 });

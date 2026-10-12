@@ -253,7 +253,7 @@ export async function POST(
   // does unless the sender says otherwise. Old clients omit the field and keep
   // today's behaviour. A message that asks a person is never the peer's to
   // answer, whatever its type: waking the peer to agree is what burned turns
-  // 4, 7 and 10 of contract 64345e47.
+  // 4, 7 and 10 of one contract.
   const requiresAction = needsHuman ? false : resolveRequiresAction(messageType, parsed.requires_action);
 
   // A control message that does not say what it controls is just a free way to
@@ -474,7 +474,7 @@ export async function POST(
   };
 
   // A hint, never a refusal: naming a person is often just boilerplate
-  // ("Merge/deployment - Julien/Cal only"). The name-free prefilter keeps the
+  // ("Merge/deployment - Alex/Sam only"). The name-free prefilter keeps the
   // lookups off every ordinary send, and an open blocking question means a
   // person has already been asked, so restating it in prose is harmless.
   if (!needsHuman && !isNonTurn) {

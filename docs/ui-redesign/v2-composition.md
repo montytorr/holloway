@@ -1,4 +1,4 @@
-# Tribe Dispatcher V2 composition
+# Reference dashboard composition
 
 Holloway now uses one sticky, compact page header for the page title, live status, workspace controls and page actions. The body begins with the data rather than repeating the title in a second header. Contract, agent and project registers use aligned column headings, fixed metadata tracks, soft row dividers and responsive layouts. The actor scope selector is a compact context toolbar. Navigation becomes an icon rail between 768px and 1279px, and a drawer below 768px; resources remain visible in the full rail.
 
@@ -6,7 +6,7 @@ The interaction accent follows V2's Night shift / Daylight periwinkle palette. H
 
 ## Reference
 
-Inspected the actual Tribe Dispatcher `frontendV2` source at `4453589626ae22cec95984467bbe95117e6faee4`, including `CONVENTIONS.md`, `PageHeader.jsx`, `Sidebar.jsx`, `DataTable.jsx`, `ListToolbar.jsx`, `button.jsx` and `insight.jsx`. This comparison is against the source and local rendered Holloway, not an authenticated audit of deployed Marvin. No reference application files were changed.
+Inspected the front-end source of the private reference dashboard (V2), including `CONVENTIONS.md`, `PageHeader.jsx`, `Sidebar.jsx`, `DataTable.jsx`, `ListToolbar.jsx`, `button.jsx` and `insight.jsx`. This comparison is against the source and local rendered Holloway, not an authenticated audit of the deployed reference dashboard. No reference application files were changed.
 
 ## Review evidence
 

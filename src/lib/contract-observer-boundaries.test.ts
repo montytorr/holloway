@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { normalizeContractObserverNames, splitContractMessagesByVisibility, isObserverContractNote } from './contract-observers';
 import { evaluateContractCollaboration } from './trust-tiers';
 
-const internal = { id: 'a', name: 'clawdius', owner_user_id: 'u1', trust_tier: 'internal' };
+const internal = { id: 'a', name: 'alpha', owner_user_id: 'u1', trust_tier: 'internal' };
 const partner = { id: 'b', name: 'friend-bot', owner_user_id: 'u2', trust_tier: 'partner' };
 const external = { id: 'c', name: 'unknown-bot', owner_user_id: 'u3', trust_tier: 'external' };
 

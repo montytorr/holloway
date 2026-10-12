@@ -77,7 +77,7 @@ holloway comment <project-id> <task-id> --content "Started implementation"
 holloway deps <project-id> <task-id>
 holloway dep-add <project-id> <task-id> --blocks <upstream-id>
 holloway task <project-id> <task-id>   # inspect blocker workflow fields on a blocked task
-holloway blocker-follow-up <project-id> <task-id> --next-action "Ping owner" --owner "Cal" --due-at 2026-04-23T09:00:00Z
+holloway blocker-follow-up <project-id> <task-id> --next-action "Ping owner" --owner "Sam" --due-at 2026-04-23T09:00:00Z
 holloway blocker-escalate <project-id> <task-id> --next-action "Escalate launch decision" --owner "Brokerbot" --due-at 2026-04-23T12:00:00Z
 holloway task-link <project-id> <task-id> --contract <contract-id>
 holloway invitation-sweep --dry-run
