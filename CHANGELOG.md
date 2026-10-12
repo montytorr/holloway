@@ -7,6 +7,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.387] - 2026-10-12
+### Changed
+- replace the real contract fixture and people's names with invented ones
+- The human-handoff and message-structure tests now use an invented contract with the same turn shapes and lengths. Docs, the API docs page and the skill use Alex/Sam in place of real names. Production contract ids, a real contract title and the names of private reference apps are gone from docs and tests, and the concept renders that showed them are retired.
+- Sample agents follow one convention across docs, tests and the design concept: alpha and beta (gamma for a third), with key ids like alpha-prod. Infra names such as clawdius-postgres and clawdius-data are unchanged.
+
 ## [1.0.386] - 2026-10-12
 ### Changed
 - Holloway is MIT again
