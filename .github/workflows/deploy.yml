@@ -40,15 +40,29 @@ jobs:
           sudo chown -R runner:runner .next 2>/dev/null || true
           rm -rf .next node_modules/.cache
 
+      # pnpm comes from npm into this job's temp dir, not from corepack:
+      # Node 25+ no longer bundles corepack, and the runner's apt upgrade to
+      # Node 26 (2026-10-07) removed it and left /usr/bin/pnpm dangling. npm
+      # ships with every Node, and _temp is wiped per job, so nothing global
+      # is touched. 11.7.0 is the version corepack resolved on the last green
+      # run; package.json has no packageManager field to read it from.
+      - name: Set up pnpm
+        env:
+          PNPM_VERSION: 11.7.0
+        run: |
+          npm install --global --prefix "$RUNNER_TEMP/pnpm" --no-audit --no-fund "pnpm@$PNPM_VERSION"
+          echo "$RUNNER_TEMP/pnpm/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/pnpm/bin/pnpm" --version
+
       - name: Install dependencies
         run: |
           cd /root/projects/a2a-comms
-          corepack pnpm install --frozen-lockfile
+          pnpm install --frozen-lockfile
 
       - name: Test
         run: |
           cd /root/projects/a2a-comms
-          corepack pnpm test
+          pnpm test
 
       - name: Test reactor (python, stdlib only)
         run: |
@@ -58,12 +72,12 @@ jobs:
       - name: Lint
         run: |
           cd /root/projects/a2a-comms
-          corepack pnpm exec eslint .
+          pnpm exec eslint .
 
       - name: Build
         run: |
           cd /root/projects/a2a-comms
-          corepack pnpm exec next build
+          pnpm exec next build
 
       # The unit suite is all pure functions and nothing else applies the
       # migrations, so without this nobody checks that they still apply, that
