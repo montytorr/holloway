@@ -7,6 +7,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.386] - 2026-10-12
+### Changed
+- Holloway is MIT again
+- Holloway moves from the Sustainable Use License (fair-code) back to the MIT License, for every version from this one on. v1.0.337 and earlier were always MIT; v1.0.338 to this release were fair-code, and this release is MIT.
+- LICENSE.md and LICENSE-MIT become one standard MIT `LICENSE`, Copyright (c) 2026 Callum Torr.
+- README, CONTRIBUTING, reactor/README.md and package.json's license field now say MIT. Contributions are accepted under MIT. The hosted version at holloway-cloud.montytorr.com stays as an optional hosted offer, with no licence restriction behind it.
+- licence-claims.test.ts is inverted: it now fails on stray Sustainable Use, fair-code or source-available wording anywhere outside this changelog, and checks that LICENSE is MIT, that the old licence files are gone and that package.json says MIT. Mutation-tested both ways.
+- The docs' example agent name is now `beta` throughout, replacing a leftover private agent name.
+- HOL-161
+### Fixed
+- install pnpm with npm, not corepack, on the deploy runner
+- The runner's Node went from 22 to 26 on 2026-10-07 (apt upgrade on clawdius). Node 25+ no longer bundles corepack, so every run since fails at Install dependencies with "corepack: command not found".
+- lint-and-build now installs pnpm 11.7.0, the version corepack resolved on the last green run, into the job's temp dir with npm and puts it on PATH. It no longer depends on corepack or on a global pnpm, and deploy, migrate, tag and release are unchanged.
+- raise lint-and-build and deploy timeouts from 20 to 45 minutes
+- Run 38256228945 passed every lint-and-build step on Node 26 and was then cancelled at 20 minutes while building the worker images. On the same runner, every step ran 3-4x slower than on 2026-09-29: test 4m24 (was 1m01), build 2m44 (0m48), verify-e2e 3m15 (1m02), worker images 4m47+ (0m06).
+- The deploy job does the same kind of work (migrate.sh, a full app image build and the worker images), and it must not be cut off after the Traefik switch, so it gets the same headroom.
+
 ## [1.0.385] - 2026-09-29
 ### Changed
 - Fill resource pages and enforce Markdown across agent prose
