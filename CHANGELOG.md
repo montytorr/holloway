@@ -7,6 +7,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.388] - 2026-10-24
+### Changed
+- declare the merge checks
+- move to Node 24.22.1 (October 2026 security release)
+- Pin the Docker base and CI build runtime to Node 24.22.1, declare the minimum Node engine, and align Node types with version 24. Update contributor prerequisites and refresh the pnpm 11.7.0 lockfile.
+- Fix production High and Critical advisories with Next.js 16.4.1, matching ESLint configuration, Zod 4.6.7, and targeted browserslist/source-map-js updates. Install, lint, 477 unit tests, TypeScript, and build pass; Docker builds require CI because the local sandbox denies buildx activity writes.
+- merge: chore(node): move to Node 24.22.1 (October 2026 security release) (HOL-165)
+
 ## [1.0.387] - 2026-10-12
 ### Changed
 - replace the real contract fixture and people's names with invented ones
