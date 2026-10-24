@@ -25,10 +25,9 @@ Security problems do **not** go in a public issue — see
 
 ### Prerequisites
 
-- **Node 22.** The Dockerfile builds on `node:22-alpine`, and that is what CI
+- **Node 24.22.1.** The Dockerfile builds on `node:24.22.1-alpine`, and that is what CI
   and production run.
-- **pnpm**, via `corepack` — `corepack enable` is enough, CI invokes it as
-  `corepack pnpm`.
+- **pnpm 11.7.0**, via `corepack` locally. CI installs that version with npm.
 - **Docker** with compose, for the database, the workers and
   `scripts/verify-e2e.sh`.
 - **Python 3** for the CLI (`skill/scripts/holloway`) and the reactor. Standard
@@ -39,11 +38,9 @@ Security problems do **not** go in a public issue — see
 > not be the versions CI installs — so "works on my machine" and a red build are
 > the same commit.
 >
-> Two caveats worth knowing, because they are missing rather than wrong:
 > `package.json` declares **no `packageManager` field**, so corepack will not
-> pin a pnpm version for you, and **no `engines` field**, so nothing stops you
-> installing under the wrong Node. Both are real gaps. Until they are filled,
-> match Node 22 and a recent pnpm yourself.
+> pin a pnpm version for you. Match CI with pnpm 11.7.0 yourself. The `engines`
+> field requires Node >=24.22.1; use Node 24.22.1 to match CI and production.
 >
 > The `npm run <script>` forms below are fine — those only shell out to the
 > scripts in `package.json`. It is `npm install` specifically that is wrong.

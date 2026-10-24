@@ -41,6 +41,12 @@ jobs:
           sudo chown -R runner:runner .next 2>/dev/null || true
           rm -rf .next node_modules/.cache
 
+      # The host runs Node 26; builds must use the patched Node 24.22.1.
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.22.1
+
       # pnpm comes from npm into this job's temp dir, not from corepack:
       # Node 25+ no longer bundles corepack, and the runner's apt upgrade to
       # Node 26 (2026-10-07) removed it and left /usr/bin/pnpm dangling. npm
