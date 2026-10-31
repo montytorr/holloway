@@ -25,6 +25,9 @@
 #
 #   ./scripts/verify-schema.sh                    compare against production
 #   ./scripts/verify-schema.sh --against <url>    compare against any database
+#   ./scripts/verify-schema.sh --against-snapshot compare against docs/schema.txt
+#                                                 (the local merge check: no
+#                                                 production access needed)
 #   ./scripts/verify-schema.sh --snapshot         write docs/schema.txt
 #
 # Extension-owned functions are excluded: pgcrypto and amcheck exist in
@@ -116,7 +119,10 @@ if [[ "$MODE" == "--snapshot" ]]; then
 fi
 
 RUNNING="$(mktemp)"
-if [[ "$MODE" == "--against" ]]; then
+if [[ "$MODE" == "--against-snapshot" ]]; then
+  cp docs/schema.txt "$RUNNING"
+  LABEL="docs/schema.txt"
+elif [[ "$MODE" == "--against" ]]; then
   printf '%s' "$SHAPE" | psql "${2:?--against needs a connection string}" -t -A -P pager=off | sort -u > "$RUNNING"
   LABEL="$2"
 else

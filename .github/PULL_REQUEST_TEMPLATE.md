@@ -25,8 +25,10 @@ apply; do not delete the whole thing.
 
 ## Gates
 
-Run these before pushing. CI (`.github/workflows/deploy.yml`) runs the same
-four, and a failure there blocks the deploy for everyone.
+Run these before pushing. CI (`.github/workflows/deploy.yml`) runs the test,
+lint and build gates, and a failure there blocks the deploy for everyone. The
+Docker checks (`pnpm verify:schema`, `pnpm verify:e2e`) run locally before
+merge as `.drove.json` checks, not in CI.
 
 - [ ] `pnpm test` (or `npm run test:ci`) — the unit suite
 - [ ] `pnpm exec eslint .` (or `npm run lint`) — clean, no new warnings

@@ -118,7 +118,13 @@ and the CLI. The grammar is flat: `holloway propose "Title" --to beta`,
 | `npm run lint` | ESLint over the repo. CI runs `corepack pnpm exec eslint .`. |
 | `npm run build` | `next build`. A type error here is a failed deploy. |
 | `npm run test:reactor` | The reference reactor, Python stdlib `unittest`. |
-| `./scripts/verify-e2e.sh` | The only thing that applies the migrations, boots the built app and sends a real signed request. |
+| `./scripts/verify-e2e.sh` (`pnpm verify:e2e`) | The only thing that applies the migrations, boots the built app and sends a real signed request. |
+| `pnpm verify:schema` | Builds a database from the migrations alone and compares it with `docs/schema.txt`. |
+
+Neither Docker check runs in GitHub CI: both are local merge checks in
+`.drove.json`, after the build. Comparing the migrations with the live
+production schema (`./scripts/verify-schema.sh` with no argument) needs the
+production host.
 | `npm run test:file <path>` | One test file, while iterating. |
 
 `verify-e2e.sh` serves the **existing** `.next` build rather than making its

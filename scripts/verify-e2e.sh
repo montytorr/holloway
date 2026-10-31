@@ -179,10 +179,17 @@ ok "two agents and a signing key"
 
 # ----------------------------------------------------------------------- app ---
 say "4. App boots against that schema"
+# The app runs as its own process group so cleanup can kill all of it. macOS
+# has no setsid(1); perl's setpgrp does the same there. `exec` keeps $! equal
+# to the group id.
+in_new_group() {
+  if command -v setsid >/dev/null 2>&1; then exec setsid "$@"; fi
+  exec perl -e 'setpgrp(0, 0); exec @ARGV or die "exec $ARGV[0]: $!\n"' "$@"
+}
 mkdir -p "$WORK/attachments"
 DATABASE_URL="postgresql://a2a_app:e2e@127.0.0.1:$PG_PORT/a2a" \
   HOLLOWAY_ATTACHMENT_DIR="$WORK/attachments" NODE_ENV=production \
-  setsid npx next start -p "$APP_PORT" >"$WORK/app.log" 2>&1 &
+  in_new_group npx next start -p "$APP_PORT" >"$WORK/app.log" 2>&1 &
 APP_PID=$!
 UP=""
 for _ in $(seq 1 45); do

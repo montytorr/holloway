@@ -25,7 +25,7 @@ env:
 jobs:
   lint-and-build:
     runs-on: self-hosted
-    # 20 cancelled run 38256228945 (2026-10-12, load ~5): test 4m24, lint 1m38, build 2m44, verify 2m25 + 3m15, worker images 4m47+.
+    # 20 cancelled run 38256228945 (2026-10-12, load ~5): test 4m24, lint 1m38, build 2m44, verify 2m25 + 3m15 (verify since moved to local merge checks), worker images 4m47+.
     timeout-minutes: 45
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
@@ -86,28 +86,12 @@ jobs:
           cd /root/projects/a2a-comms
           pnpm exec next build
 
-      # The unit suite is all pure functions and nothing else applies the
-      # migrations, so without this nobody checks that they still apply, that
-      # the app boots against the resulting schema, or that a signed request
-      # reaches a route. Runs after Build because it starts the built app.
-      # Self-contained: its own postgres container, its own ports, destroyed on
-      # exit, and it never touches production.
-      # The migrations must produce the schema that is actually running. They
-      # drifted three times in two days — a status the app wrote and the CHECK
-      # refused, and twice a constraint widened in production by hand that no
-      # migration reproduced. Reading either side alone cannot see any of it,
-      # and a schema_migrations ledger would not have either: the question is
-      # not which files ran, it is whether the result matches.
-      - name: Verify the migrations build the running schema
-        run: |
-          cd /root/projects/a2a-comms
-          ./scripts/verify-schema.sh
-
-      - name: Verify end-to-end (migrations, boot, signed request)
-        run: |
-          cd /root/projects/a2a-comms
-          ./scripts/verify-e2e.sh
-
+      # The Docker-based checks (scripts/verify-schema.sh and
+      # scripts/verify-e2e.sh: a throwaway Postgres, the migrations, an app boot
+      # and a signed request) run locally before merge as `.drove.json` checks,
+      # not here. CI keeps install, test, lint, build and the images the deploy
+      # needs. Comparing the migrations against the live production schema
+      # needs the production host: run `./scripts/verify-schema.sh` there.
       - name: Build worker images
         run: |
           cd /root/projects/a2a-comms

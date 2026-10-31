@@ -3,6 +3,8 @@
     "pnpm install --frozen-lockfile",
     "pnpm lint",
     "pnpm test",
-    "pnpm build"
+    "pnpm build",
+    "pnpm verify:schema",
+    "pnpm verify:e2e"
   ]
 }
