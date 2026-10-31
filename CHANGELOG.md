@@ -7,6 +7,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.389] - 2026-10-31
+### Changed
+- run the schema and end-to-end Docker checks locally, not in GitHub CI
+- verify-schema and verify-e2e leave lint-and-build and become .drove.json merge checks after the build (pnpm verify:schema, pnpm verify:e2e). CI keeps install, unit tests, reactor tests, lint, build and the worker images, and deploy still needs lint-and-build.
+- verify-schema gains --against-snapshot (compare with docs/schema.txt), since the production comparison needs the production host. verify-e2e starts the app in its own process group without setsid(1), which macOS lacks.
+
 ## [1.0.388] - 2026-10-24
 ### Changed
 - declare the merge checks
